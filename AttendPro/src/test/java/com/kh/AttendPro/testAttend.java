@@ -8,6 +8,7 @@ public class testAttend {
 
 	@RequestMapping("/")
 	public String Test() {
-		return "테스트1";
+		return "테스트 정리완료";
+		
 	}
 }
