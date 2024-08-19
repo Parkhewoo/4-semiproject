@@ -8,7 +8,7 @@ import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.mapper.AdminMapper;
 
 @Repository
-public class RegistDao {
+public class AdminDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
@@ -18,10 +18,10 @@ public class RegistDao {
 	//회원등록
 	public void regist(AdminDto adminDto) {
 		String sql = "insert into admin("
-				+ "admin_id, admin_pw) "
-				+ "values(?,?)";
+				+ "admin_id, admin_pw, admin_no) "
+				+ "values(?, ?, ?)";
 		Object[] data = {
-				adminDto.getAdminId(),adminDto.getAdminPw()
+				adminDto.getAdminId(), adminDto.getAdminPw() //차후 dto에 adminNo추가후 수정예정
 		};
 		jdbcTemplate.update(sql,data);
 	}

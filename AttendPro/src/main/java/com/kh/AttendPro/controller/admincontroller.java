@@ -7,29 +7,29 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.kh.AttendPro.dao.RegistDao;
+import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dto.AdminDto;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/")
 public class admincontroller {
+	
 	@Autowired
-	private RegistDao registDao;
+	private AdminDao adminDao;
 	
-	@GetMapping("/regist")
+	@GetMapping("/join")
 	public String regist() {
-		return "/WEB-INF/views/admin/regist.jsp";
+		return "/WEB-INF/views/join.jsp";
 	}
 	
-	
-	@PostMapping("/regist")
+	@PostMapping("/join")
 	public String regist(@ModelAttribute AdminDto adminDto){
-		registDao.regist(adminDto);
-		return "redirect:registComplete";
+		adminDao.regist(adminDto);
+		return "redirect:joinComplete";
 	}
 	
-	@RequestMapping("registComplete")
+	@RequestMapping("/joinFinish")
 	public String registComplete() {
-		return"/WEB-INF/views/admin/regist2.jsp";
+		return"/WEB-INF/views/joinFinish.jsp";
 	}
 }
