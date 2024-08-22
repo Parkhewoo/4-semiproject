@@ -91,6 +91,6 @@ public class admincontroller {
 				else {
 					model.addAttribute("list",adminDao.selectList());
 				}
-				return"/WEB-INF/views/list.jsp"; 
+				return"/WEB-INF/views/admin/list.jsp"; 
 			}
 }
