@@ -18,7 +18,7 @@ public class AdminDao {
 	private AdminMapper adminMapper;
 	
 	//회원등록
-	public void regist(AdminDto adminDto) {
+	public void join(AdminDto adminDto) {
 		String sql = "insert into admin("
 				+ "admin_id, admin_pw, admin_no) "
 				+ "values(?, ?, ?)";
