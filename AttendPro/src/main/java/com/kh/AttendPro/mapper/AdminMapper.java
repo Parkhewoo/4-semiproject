@@ -16,6 +16,7 @@ public class AdminMapper implements RowMapper<AdminDto> {
 		AdminDto adminDto = new AdminDto();
 		adminDto.setAdminId(rs.getString("admin_id"));
 		adminDto.setAdminPw(rs.getString("admin_password"));
+		adminDto.setAdminNo(rs.getString("admin_no"));
 		return adminDto; // null로 작성한 부분 adminDto로 수정
 	}
 	
