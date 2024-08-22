@@ -13,10 +13,8 @@
     <!--<link rel="stylesheet" type="text/css" href="./test.css">-->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="/css/commons.css">
-    
+
     <style>
- 
-    
     </style>
 </head>
 <body>
@@ -46,7 +44,6 @@
 		</label>
 		</div>
 		
-
 		<div class="row mt-30">
 			<button class="btn btn-positive w-100">로그인</button>
 		</div>
