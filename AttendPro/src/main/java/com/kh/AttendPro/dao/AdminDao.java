@@ -32,19 +32,15 @@ public class AdminDao {
 	
 	// 목록 
 	public List<AdminDto> selectList(){
-		String sql = "select "
-						+ "admin_id, admin_pw, admin_no "
-						+ "from admin order by admin_id desc";
-		
+		String sql = "select * from admin order by admin_id desc";
 		return jdbcTemplate.query(sql, adminMapper);					
 	}
 	
 	//검색
 	public List<AdminDto> selectList(String column, String keyword){
-		String sql = "select "
-						+ "admin_id, admin_pw, admin_no "
-						+ "from admin where instr(#1, ?) > 0 "
-						+ "order by admin_id desc";
+		String sql = "select * from admin "
+						+ "where instr(#1, ?) > 0 "
+						+ "order by #1 asc, admin_id desc";
 		
 		sql = sql.replace("#1", column);
 		Object[] data = {keyword};
