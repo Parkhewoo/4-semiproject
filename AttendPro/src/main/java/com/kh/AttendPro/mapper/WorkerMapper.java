@@ -20,7 +20,13 @@ public class WorkerMapper implements RowMapper<WorkerDto> {
 		workerDto.setWorkerAbsent(rs.getInt("worker_absent"));
 		workerDto.setWorkerLate(rs.getInt("worker_late"));
 		workerDto.setWorkerLeave(rs.getInt("worker_leave"));
-		workerDto.setWorkerJoinDate(rs.getString("worker_join_date"));
+		workerDto.setWorkerJoin(rs.getString("worker_join_date"));
+		workerDto.setWorkerRank(rs.getString("worker-rank"));
+		workerDto.setWorkerBirthday(rs.getString("worker_birthday"));
+		workerDto.setWorkerContact(rs.getString("worker_contact"));
+		workerDto.setWorkerEmail(rs.getString("worker_Post"));
+		workerDto.setWorkerAddress1(rs.getString("worker_address1"));
+		workerDto.setWorkerAddress2(rs.getString("worker_address2"));
 		return workerDto;
 	}
 
