@@ -9,9 +9,5 @@ public class AdminDto {
 	private String adminNo;
 	private String adminRank;
 	private String adminEmail;
-	//private String adminRank;
-
-}
-
 }
 
