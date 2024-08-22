@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.mapper.AdminMapper;
 
+
 @Repository
 public class AdminDao {
 	@Autowired
@@ -20,10 +21,11 @@ public class AdminDao {
 	//회원등록
 	public void join(AdminDto adminDto) {
 		String sql = "insert into admin("
-				+ "admin_id, admin_pw, admin_no) "
-				+ "values(?, ?, ?)";
+			    + "admin_id, admin_pw, admin_no, admin_rank, admin_email) "
+			    + "values(?, ?, ?, ?, ?)";
 		Object[] data = {
-				adminDto.getAdminId(), adminDto.getAdminPw() //차후 dto에 adminNo추가후 수정예정
+				adminDto.getAdminId(), adminDto.getAdminPw(), adminDto.getAdminNo(), adminDto.getAdminRank(),
+				adminDto.getAdminEmail()//차후 dto에 adminNo추가후 수정예정
 		};
 		jdbcTemplate.update(sql,data);
 	}
@@ -48,4 +50,14 @@ public class AdminDao {
 		Object[] data = {keyword};
 		return jdbcTemplate.query(sql, adminMapper, data);
 	}
+
+	//회원조회
+	public AdminDto selectOne(String adminId) {
+		String sql = "select * from admin where admin_id = ?";
+		Object[] data = { adminId };
+		List<AdminDto> list = jdbcTemplate.query(sql, adminMapper, data);
+		return list.isEmpty() ? null : list.get(0);
+	}
+
+	
 }

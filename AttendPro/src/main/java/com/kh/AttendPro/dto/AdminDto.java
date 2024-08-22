@@ -7,4 +7,7 @@ public class AdminDto {
 	private String adminId;
 	private String adminPw;
 	private String adminNo;
+	private String adminRank;
+	private String adminEmail;
+	//private String adminRank;
 }

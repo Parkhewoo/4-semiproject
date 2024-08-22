@@ -18,6 +18,18 @@
 		<label>사업자 번호</label>
 		<input name="adminNo" type="text">
 		</div>
+		
+		<!-- 임시 등급설정 -->
+		<div class="row">
+		<label>등급</label>
+		<input name="adminRank" type="text">
+		</select>
+		</div>
+		
+		<div class="row">
+		<label>이메일</label>
+		<input name="adminEmail" type="text">
+		</div>
 		<div class="row">
 			<button type="submit">등록하기</button>
 		</div>
