@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    <%-- header.jsp에 존재하는 내용을 불러오도록 설정 --%>
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+    
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -8,38 +12,49 @@
     <link rel="stylesheet" type="text/css" href="./commons.css">
     <!--<link rel="stylesheet" type="text/css" href="./test.css">-->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    
     <style>
-         a, input, button {
-            font-size: 30px; /* 원하는 글자 크기로 변경 */
-        }
-        a, input {
-            text-decoration: none;
-        }
  
     
     </style>
 </head>
 <body>
-    <div class="container w-1000 my-50">
-        <div class="row center">
-            <h1>메인화면</h1>
-        </div>
-        
-        <div class="row mt-40 rigth flex-box">
-            <a href="/admin/login" style="font-size: 16px">관리자로그인</a>
-        </div>
-        <div class="flex-box rigth">
-            <a href="/admin/join" style="font-size: 16px;">회원가입</a>
-        </div>
-        <div class="row center mt-40">
-            <input type="text" placeholder="사원번호 입력"><button btn><i class="fa-solid fa-circle-up"></i></button>
-        </div>
-        <div class="row center">
-            <button type="button" class="btn btn-positive">출근</button>
-            <button type="button" class="btn btn-positive">퇴근</button>
-        </div>
+<form action="login" method="post" autocomplete="off">
+	<div class="container w-350 my-50">
+		<div class="row center">
+			<h1>로그인</h1>
+		</div>
+		<div class="row">
+			<label>아이디</label>
+			<input type="text"class="field w-100">
+		</div>
+		
+		<div class="row">
+			<label>비밀번호</label>
+			<input type="password" class="field w-100">
+		</div>
+		
+		<div class="row flex-box">
+		<label>
+		<input type="checkbox" >
+		관리자 로그인
+		</label>
+		<label>
+		<input type="checkbox" >
+		일반회원 로그인
+		</label>
+		</div>
+		
 
-    </div>
-
+		<div class="row mt-30">
+			<button class="btn btn-positive w-100">로그인</button>
+		</div>
+		
+</div>
+</form>
 </body>
 </html>
+
+<%-- footer.jsp에 존재하는 내용을 불러오도록 설정 --%>		
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
