@@ -26,10 +26,10 @@
         </div>
         
         <div class="row mt-40 rigth flex-box">
-            <a href="#" style="font-size: 16px">관리자로그인</a>
+            <a href="login" style="font-size: 16px">관리자로그인</a>
         </div>
         <div class="flex-box rigth">
-            <a href="#" style="font-size: 16px;">회원가입</a>
+            <a href="join" style="font-size: 16px;">회원가입</a>
         </div>
         <div class="row center mt-40">
             <input type="text" placeholder="사원번호 입력"><button btn><i class="fa-solid fa-circle-up"></i></button>
