@@ -13,7 +13,7 @@ import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dto.AdminDto;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/admin")
 public class admincontroller {
 	
 	@Autowired
@@ -21,18 +21,17 @@ public class admincontroller {
 	
 	@GetMapping("/join")
 	public String regist() {
-		return "/WEB-INF/views/join.jsp";
+		return "/WEB-INF/views/admin/join.jsp";
 	}
 	
 	@PostMapping("/join")
 	public String regist(@ModelAttribute AdminDto adminDto){
-		adminDao.join(adminDto);
-		return "redirect:joinComplete";
+		return "redirect:joinFinish";
 	}
 	
 	@RequestMapping("/joinFinish")
 	public String registComplete() {
-		return"/WEB-INF/views/joinFinish.jsp";
+		return"/WEB-INF/views/admin/joinFinish.jsp";
 	}
 	
 	//목록+검색
