@@ -13,7 +13,7 @@ import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dto.AdminDto;
 
 @Controller
-@RequestMapping("/join")
+@RequestMapping("/")
 public class admincontroller {
 	
 	@Autowired
