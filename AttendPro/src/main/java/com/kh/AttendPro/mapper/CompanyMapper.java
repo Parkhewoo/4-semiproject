@@ -15,8 +15,8 @@ public class CompanyMapper implements RowMapper<CompanyDto> {
 	public CompanyDto mapRow(ResultSet rs, int rowNum) throws SQLException {
 		CompanyDto companyDto = new CompanyDto();
 		companyDto.setCompanyName(rs.getString("company_name"));
-		companyDto.setCompanyInTime(rs.getString("company_in_time"));
-		companyDto.setCompanyOutTime(rs.getString("company_out_time"));
+		companyDto.setCompanyInTime(rs.getDate("company_in_time"));
+		companyDto.setCompanyOutTime(rs.getDate("company_out_time"));
 		companyDto.setCompanyHolidayDate(rs.getDate("company_holiday_date"));
 		return companyDto;//null 로 작성한 부분 companyDto로 수정
 	}
