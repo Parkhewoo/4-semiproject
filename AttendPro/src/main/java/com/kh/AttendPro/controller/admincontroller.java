@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.AttendPro.dao.AdminDao;
+import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.AdminDto;
-
+import com.kh.AttendPro.dto.WorkerDto;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -22,6 +23,9 @@ public class admincontroller {
 	
 	@Autowired
 	private AdminDao adminDao;
+	
+	@Autowired
+	private WorkerDao workerDao;
 	
 	@GetMapping("/join")
 	public String join() {
@@ -40,14 +44,17 @@ public class admincontroller {
 		return "redirect:joinFinish";
 	}
 	
+	
 	@RequestMapping("/joinFinish")
 	public String registComplete() {
 		return"/WEB-INF/views/admin/joinFinish.jsp";
 	}
+	
 	@GetMapping("/login")
 	public String login() {
 		return "/WEB-INF/views/admin/login.jsp";
 	}
+	
 	@PostMapping("/login")
 	public String login(@RequestParam String adminId,
 						@RequestParam String adminPw,
@@ -93,4 +100,5 @@ public class admincontroller {
 				}
 				return"/WEB-INF/views/admin/list.jsp"; 
 			}
+	
 }
