@@ -305,6 +305,11 @@ textarea.field {
     text-align: center;
     padding: 0.25em;
 }
+.center-table {
+        margin: 0 auto;
+        width: 100%; /* 필요에 따라 조정 가능 */
+        max-width: 600px; /* 필요에 따라 조정 가능 */
+        }
 
 /* 확장스타일 - 테두리가 있는 테이블 */
 .table.table-border,
