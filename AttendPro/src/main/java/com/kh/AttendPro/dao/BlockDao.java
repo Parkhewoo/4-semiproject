@@ -1,5 +1,7 @@
 package com.kh.AttendPro.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,12 +26,24 @@ public class BlockDao {
 							+ "values(block_seq.nextval, '차단', ?, ?)";
 		Object[] data = {blockDto.getBlockMemo(), blockDto.getBlockTarget()};
 		jdbcTemplate.update(sql, data);
+	}
 		
-		//block 정보 상세조회 기능(서브쿼리 사용)
-//		public BlockDto selectLastOne(String blockTarget) {
-//			
-//		}
-				
+	//block 정보 상세조회 기능(서브쿼리 사용)
+	public BlockDto selectLastOne(String blockTarget) { 
+		String sql = "select * from block where block_no = ("
+						+ "select max(block_no) from block where block_target = ?"
+						+ ")";
+		Object[] data = {blockTarget};
+		List<BlockDto> list = jdbcTemplate.query(sql, blockmapper, data);
+		return list.isEmpty() ? null : list.get(0);						
+	}
+	
+	//admin의 차단 히스토리 조회
+	public List<BlockDto> selectList(String blockTarget){
+		String sql = "select * from block where block_target=? "
+						+ "order by block_no desc";
+		Object[] data = {blockTarget};
+		return jdbcTemplate.query(sql, blockmapper, data);
 	}
 
 }
