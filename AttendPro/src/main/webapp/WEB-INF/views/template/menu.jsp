@@ -35,6 +35,8 @@
                         	<a href="#">회원 로그인</a>
                            <a href="/admin/join">회원가입</a>
                            <a href="/admin/login">관리자 로그인</a>
+                           <a href="/member/logout">로그아웃</a>
+                           
                         </li>
                     </ul>
                 </li>
