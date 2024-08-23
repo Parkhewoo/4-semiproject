@@ -54,6 +54,14 @@ public class AdminDao {
 		List<AdminDto> list = jdbcTemplate.query(sql, adminMapper, data);
 		return list.isEmpty() ? null : list.get(0);
 	}
+	
+	//최종 로그인 시각 갱신
+	public boolean updateAdminLogin(String adminId) {
+		String sql = "update admin set admin_login=sysdate "
+						+ "where admin_id = ?";
+		Object[] data = {adminId};
+		return jdbcTemplate.update(sql, data ) > 0;
+	}
 
 	
 }

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.AdminDto;
-import com.kh.AttendPro.dto.WorkerDto;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -50,6 +49,7 @@ public class admincontroller {
 		return"/WEB-INF/views/admin/joinFinish.jsp";
 	}
 	
+	//Admin 로그인 기능
 	@GetMapping("/login")
 	public String login() {
 		return "/WEB-INF/views/admin/login.jsp";
@@ -59,15 +59,25 @@ public class admincontroller {
 	public String login(@RequestParam String adminId,
 						@RequestParam String adminPw,
 						HttpSession session) {
+		
+		//[1]Admin 아이디를 AdminDto에서 불러온다		
 		AdminDto adminDto = adminDao.selectOne(adminId);
 		if (adminDto == null)
 			return "redirect:login?error";
 
-		
+		//[2] 1에서 불러온 정보(AdminDto)와 비밀번호를 비교
 		boolean isValid = adminPw.equals(adminDto.getAdminPw());
 		if (isValid == false)
 			return "redirect:login?error";
-
+		
+		
+		//[3] 1,2번에서 쫓겨나지 않았다면 차단 여부를 검사
+		//blocDto 생성해야함
+		
+		//[4] 1,2,3에서 쫓겨나지 않았다면 성공으로 간주
+		session.setAttribute("createdUser", adminId);
+		session.setAttribute("createdRank", adminDto.getAdminRank());
+		adminDao.updateAdminLogin(adminId);
 
 //		session.setAttribute("이름", "값");
 		
@@ -100,5 +110,6 @@ public class admincontroller {
 				}
 				return"/WEB-INF/views/admin/list.jsp"; 
 			}
+	
 	
 }

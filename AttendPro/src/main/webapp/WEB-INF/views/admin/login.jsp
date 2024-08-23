@@ -19,6 +19,9 @@
 
     </style>
 
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+
+
 <form action="login" method="post" autocomplete="off">
 	<div class="container w-350 my-50">
 		<div class="row center">
