@@ -18,6 +18,16 @@
             <li>
             <a href="/">홈으로</a>
             </li>
+
+				<li>
+                    <a href="#">데이터</a>
+                    <ul>
+                        <li>
+                           <a href="admin/worker/list">사원목록</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="right-menu">
                     <a href="#">메뉴</a>
                     <ul>
