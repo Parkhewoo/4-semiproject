@@ -104,10 +104,18 @@ public class WorkerDao {
 		    return jdbcTemplate.update(sql, data) > 0;
 		}
 		
-	//회원삭제
+	//worker 삭제
 		public boolean delete(int workerNo) {
 		    String sql = "DELETE FROM worker WHERE worker_no = ?";
 		    Object[] data = {workerNo};
 		    return jdbcTemplate.update(sql, data) > 0;
+		}
+		
+	//worker 상세
+		public WorkerDto selectOne(String workerNo) {
+			String sql = "select * from worker where worker_no = ?";
+			Object[] data = {workerNo};
+			List<WorkerDto> list = jdbcTemplate.query(sql, workerMapper, data);
+			return list.isEmpty() ? null : list.get(0);
 		}
 }
