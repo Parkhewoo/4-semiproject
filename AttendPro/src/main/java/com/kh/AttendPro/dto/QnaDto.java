@@ -20,14 +20,14 @@ public class QnaDto {
 	
 	
 	//메소드 추가
-	public String getQnAWriterString() {
+	public String getQnaWriterString() {
 		if(qnaWriter ==null) return "탈퇴한 사용자";
 		return qnaWriter;
 	}
 	
 	//java.sql.date는 LocalDate로 쉽게 변환 가능
 	//java.sql.Timestamp는 LocalDateTime으로 쉽게 변환가능
-	public String getQnAWTimeString() {
+	public String getQnaWTimeString() {
 		Timestamp stamp = new Timestamp(qnaWTime.getTime());
 		LocalDateTime time = stamp.toLocalDateTime();
 		LocalDate today = LocalDate.now();
