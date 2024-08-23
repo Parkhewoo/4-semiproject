@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -42,14 +45,26 @@ public class SysAdminController {
 	    }
 	
 	@RequestMapping("/detail")
-	public String detail() {
-		
+	public String detail(@RequestParam String adminId, Model model) {
+		AdminDto dto = adminDao.selectOne(adminId);
+		model.addAttribute("dto", dto);
 		
 		return "/WEB-INF/views/sysadmin/detail.jsp";
 	}
 	
+	@GetMapping("/edit")
+	public String edit(Model model, @RequestParam String adminId) {		
+		return "/WEB-INF/views/sysadmin/edit.jsp";
+	}
+	
+//	@PostMapping("/edit")
+//	public String edit(@ModelAttribute AdminDto adminDto) {
+//		boolean result = adminDao.update(adminDto);
+//		return "redirect:detail?adminId="+admonDto.getAdminId();
+//	}
+//	
 //	@RequestMapping("/delete")
-//	public String delete(@RequestParam String adminId) {
+//	public String delete () {
 //		
 //	}
 }

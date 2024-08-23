@@ -39,8 +39,8 @@
                     <td>${dto.adminNo}</td>
                     <td>${dto.adminEmail}</td>
                     <td>
-                        <a href="detail?adminId=${dto.adminId}" class="link link-animation">상세</a>
-                    </td>
+                     <a href="detail?adminId=${dto.adminId}" class="link link-animation">상세</a>
+                       </td>
                 </tr> 
                 </c:forEach>
             </tbody>
