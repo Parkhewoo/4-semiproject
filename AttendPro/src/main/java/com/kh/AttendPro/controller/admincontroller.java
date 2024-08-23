@@ -83,10 +83,12 @@ public class admincontroller {
 		
 		return "redirect:/";
 	}
+	
+	//로그아웃(회원 전용 기능)
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("createdUser");
-		
+		session.removeAttribute("createdRank");
 		return "redirect:/";
 	}
 	
@@ -110,6 +112,8 @@ public class admincontroller {
 				}
 				return"/WEB-INF/views/admin/list.jsp"; 
 			}
+	
+	
 	
 	
 }

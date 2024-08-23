@@ -47,4 +47,12 @@ public class WorkerController {
 		
 		return "redirect:/";//메인으로 이동
 	}
+	
+	//로그아웃(회원 전용 기능)
+		@RequestMapping("/logout")
+		public String logout(HttpSession session) {
+			session.removeAttribute("createdUser");
+			session.removeAttribute("createdRank");
+			return "redirect:/";
+		}
 }
