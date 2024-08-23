@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="./commons.css">
     <!--<link rel="stylesheet" type="text/css" href="./test.css">-->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="/css/commons.css">
@@ -18,8 +17,6 @@
     
 
     </style>
-
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 
 <form action="login" method="post" autocomplete="off">
