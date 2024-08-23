@@ -38,7 +38,7 @@
 <!-- 다른 페이지로 이동할 수 있는 링크 -->
 <div class="center">
 <c:if test="${CompanyDto != null}">
-    <h2><a href="edit?companyId=${companyDto.adminNo}">업장 정보 수정</a></h2>
+    <h2><a href="edit?companyId=${companyDto.adminNo}">업장정보 수정</a></h2>
 </c:if>
 </div>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
