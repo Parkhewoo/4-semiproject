@@ -34,7 +34,7 @@ public class adminCompanyController {
 		CompanyDto companyDto = companyDao.selectOne(companyId);
 		if(companyDto == null) throw new TargetNotFoundException();
 		model.addAttribute("companyDto",companyDto);
-		return "/WEB-INF/views/book/set.jsp";
+		return "/WEB-INF/views/company/set.jsp";
 		}
 	
 	@PostMapping("/set")
