@@ -19,7 +19,7 @@ public class BlockMapper implements RowMapper<BlockDto>{
 		blockDto.setBlockMemo(rs.getString("block_memo"));
 		blockDto.setBlockTime(rs.getDate("block_time"));
 		blockDto.setBlockTarget(rs.getString("block_target"));
-		return blockDto;
+		return blockDto; 
 	}
 	
 }
