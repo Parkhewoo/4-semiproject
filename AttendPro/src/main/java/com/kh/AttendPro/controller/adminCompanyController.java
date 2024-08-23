@@ -14,33 +14,39 @@ import com.kh.AttendPro.dto.CompanyDto;
 import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
 
-@Controller("/admin/company")
+@Controller
+@RequestMapping("/admin/company")
 public class adminCompanyController {
 
-	@Autowired
-	private CompanyDao companyDao;
-	
-	//상세
-	@RequestMapping("/info")
-	   public String detail(@RequestParam String companyName, Model model) {
-	       CompanyDto compnayDto = companyDao.selectOne(companyName);
-	       model.addAttribute("companyDto", compnayDto);
-	       return "/WEB-INF/views/company/detail.jsp";
-	   }
-	
-	//수정
-	@GetMapping("/set")
-	public String set(Model model,@RequestParam String companyId) {
-		CompanyDto companyDto = companyDao.selectOne(companyId);
-		if(companyDto == null) throw new TargetNotFoundException();
-		model.addAttribute("companyDto",companyDto);
-		return "/WEB-INF/views/company/set.jsp";
-		}
-	
-	@PostMapping("/set")
-	public String set(@ModelAttribute CompanyDto companyDto) {
-		boolean result = companyDao.update(companyDto);
-		if(result == false) throw new TargetNotFoundException();
-		return "redirect:list";
-	}
+    @Autowired
+    private CompanyDao companyDao;
+
+    // 상세
+    @RequestMapping("/info")
+    public String detail(@RequestParam String companyId, Model model) {
+        CompanyDto companyDto = companyDao.selectOne(companyId);
+        if (companyDto == null) {
+            // 데이터가 없을 경우 처리
+            throw new TargetNotFoundException(); // 또는 적절한 예외 처리
+        }
+        model.addAttribute("companyDto", companyDto);
+        return "/WEB-INF/views/company/detail.jsp";
+    }
+
+    // 수정 (GET)
+    @GetMapping("/set")
+    public String set(Model model, @RequestParam String companyId) {
+        CompanyDto companyDto = companyDao.selectOne(companyId);
+        if (companyDto == null) throw new TargetNotFoundException();
+        model.addAttribute("companyDto", companyDto);
+        return "/WEB-INF/views/company/set.jsp";
+    }
+
+    // 수정 (POST)
+    @PostMapping("/set")
+    public String set(@ModelAttribute CompanyDto companyDto) {
+        boolean result = companyDao.update(companyDto);
+        if (!result) throw new TargetNotFoundException();
+        return "redirect:info?companyId=" + companyDto.getCompanyId(); // 수정 후 리다이렉트
+    }
 }

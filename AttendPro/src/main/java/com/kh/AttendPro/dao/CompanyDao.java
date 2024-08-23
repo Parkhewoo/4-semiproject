@@ -24,18 +24,19 @@ public class CompanyDao {
 					+ ") values(?,?,?,?,?)";
 			Object[] data = {
 					companyDto.getCompanyId(),companyDto.getCompanyName(),companyDto.getCompanyInTime(),
-					companyDto.getCompanyOutTime(),companyDto.getCompanyHolidayDate()
+					companyDto.getCompanyOutTime(),companyDto.getCompanyHoliday()
 			};
 			jdbcTemplate.update(sql,data);
 	}
 
 	//상세
 	public CompanyDto selectOne(String companyId) {
-		String sql = "select * from compnay where company_id = ?";
-		Object[] data = {companyId};
-		List<CompanyDto> list = jdbcTemplate.query(sql,companyMapper,data);
-		return list.isEmpty() ? null:list.get(0);
+	    String sql = "select * from company where company_id = ?";
+	    Object[] data = {companyId};
+	    List<CompanyDto> list = jdbcTemplate.query(sql, companyMapper, data);
+	    return list.isEmpty() ? null : list.get(0);
 	}
+
 	//수정
 	public boolean update(CompanyDto companyDto) {
 		String sql = "update company set"
@@ -44,7 +45,7 @@ public class CompanyDao {
 				+ "where company_id=?";
 		Object[] data = {
 				companyDto.getCompanyName(),companyDto.getCompanyInTime(),
-				companyDto.getCompanyOutTime(),companyDto.getCompanyHolidayDate()
+				companyDto.getCompanyOutTime(),companyDto.getCompanyHoliday()
 		};
 		return jdbcTemplate.update(sql,data)>0;
 	}
