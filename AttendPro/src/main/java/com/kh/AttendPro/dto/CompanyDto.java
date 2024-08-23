@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class CompanyDto {
+	private String companyId;
 	private String companyName;
 	private Date companyInTime;
 	private Date companyOutTime;
