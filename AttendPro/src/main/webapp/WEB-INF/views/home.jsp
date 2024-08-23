@@ -15,11 +15,10 @@
 		</div>
 		
 		<div class="row mt-30">
-			<button class="btn btn-positive w-100">일반 로그인</button>
+			<button class="btn btn-positive w-100" onclick="window.location.href='/worker/login'">일반 로그인</button>
 		</div>
 		
 </div>
-</form>
 </body>
 </html>
 
