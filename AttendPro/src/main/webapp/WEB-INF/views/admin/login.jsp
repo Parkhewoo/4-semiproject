@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-	    <%-- header.jsp에 존재하는 내용을 불러오도록 설정 --%>
+<%-- header.jsp에 존재하는 내용을 불러오도록 설정 --%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
     
 
@@ -18,8 +18,6 @@
     
 
     </style>
-    
-    
 
 <form action="login" method="post" autocomplete="off">
 	<div class="container w-350 my-50">
