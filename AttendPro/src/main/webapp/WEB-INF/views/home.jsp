@@ -7,42 +7,15 @@
     
 </head>
 <body>
-<form action="admin/login" method="post" autocomplete="off">
 	<div class="container w-350 my-50">
-		<div class="row center">
-			<h1>로그인</h1>
-		</div>
-		<div class="row">
-			<label>아이디</label>
-		<input type="text" name="adminId" value="${cookie.saveId.value}">
-		</div>
 		
-		<div class="row">
-			<label>비밀번호</label>
-		<input type="password" name="adminPw">
-		</div>
-		
-		<div class="row flex-box">
-		<label>
-		<input type="checkbox" >
-		관리자 로그인
-		</label>
-		<label>
-		<input type="checkbox" >
-		일반회원 로그인
-		</label>
-		</div>
-		
-		<div class="row">
-		<label>
-		<input type="checkbox" name="remember"
-		<c:if test="${cookie.saveId != null}">checked</c:if>>
-		<span>아이디 저장하기</span>
-		</label>
+		<div class="row mt-30">
+			<button class="btn btn-positive w-100" onclick="window.location.href='/admin/login'">관리자 로그인</button>
+			
 		</div>
 		
 		<div class="row mt-30">
-			<button class="btn btn-positive w-100">로그인</button>
+			<button class="btn btn-positive w-100">일반 로그인</button>
 		</div>
 		
 </div>

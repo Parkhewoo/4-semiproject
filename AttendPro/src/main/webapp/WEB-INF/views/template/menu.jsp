@@ -15,6 +15,9 @@
 <div class="container w-1000 my-50">
         <div class="row">
             <ul class="menu">
+            <li>
+            <a href="/">홈으로</a>
+            </li>
                 <li class="right-menu">
                     <a href="#">메뉴</a>
                     <ul>
