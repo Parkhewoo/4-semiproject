@@ -1,5 +1,7 @@
 package com.kh.AttendPro.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.AdminDto;
+import com.kh.AttendPro.service.EmailService;
 
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -25,6 +29,9 @@ public class admincontroller {
 	
 	@Autowired
 	private WorkerDao workerDao;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@GetMapping("/join")
 	public String join() {
@@ -112,8 +119,32 @@ public class admincontroller {
 				}
 				return"/WEB-INF/views/admin/list.jsp"; 
 			}
-	
-	
+	@GetMapping("/findPw")
+	public String findPw() {
+		return "/WEB-INF/views/admin/findPw.jsp";
+	}
+	@PostMapping("/findPw")
+	public String findPw(@RequestParam String adminId, @RequestParam String adminEmail) throws IOException, MessagingException {
+		//아이디로 회원 정보를 조회
+		 AdminDto adminDto = adminDao.selectOne(adminId);
+		 if(adminDto == null) {
+			 return "redirect:findPw?error";
+		 }
+		 
+		 //이메일 비교
+		 if(!adminEmail.equals(adminDto.getAdminEmail())) {//이메일 불일치
+			 return "redirefct:findPw?error";
+		 }
+		 //이메일 발송
+		 emailService.sendTempPw(adminId, adminEmail);
+		 
+		 //완료페이지로 리다이렉트
+		 return "redirect:findPwFinish";
+	}
+	@RequestMapping("/findPwFinish")
+	public String findPwFinish() {
+		return "/WEB-INF/views/admin/findPwFinish.jsp";
+	}
 	
 	
 }

@@ -18,7 +18,6 @@
 
     </style>
 
-
 <form action="login" method="post" autocomplete="off">
 	<div class="container w-350 my-50">
 		<div class="row center">
@@ -34,6 +33,9 @@
 		</div>
 		<div class="row">
 			<button type="submit" class="btn btn-positive w-100">로그인</button>
+		</div>
+		<div class="row center">
+			<a href="findPw">비밀번호가 기억나지 않습니다</a>
 		</div>
 	</div>
 </form>
