@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.AttendPro.dto.QnaDto;
 import com.kh.AttendPro.mapper.QnaDetailMapper;
 import com.kh.AttendPro.mapper.QnaListMapper;
+import com.kh.AttendPro.vo.PageVO;
 
 @Repository
 public class QnaDao {
@@ -22,23 +23,85 @@ public class QnaDao {
 	@Autowired
 	private QnaDetailMapper qnaDetailMapper;
 	
-		//목록
-		public List<QnaDto> selectList(){
-			String sql = "select"
-					+ " qna_no, qna_title, qna_writer,"
-					+ " qna_wtime, qna_utime, qna_replies"
-					+" from qna order by qna_no desc";
-			return jdbcTemplate.query(sql, qnaListMapper);
+		
+		//페이징의 마지막 블록 번호를 위해 게시글 수를 구하는 메소드
+		public int countByPaging () {
+			String sql = "select count(*) from qna";
+			return jdbcTemplate.queryForObject(sql, int.class);
 		}
-		//검색
-		public List<QnaDto> selectList(String column, String keyword) {
-			String sql = "select"
-					+" qna_no, qna_title, qna_writer,"
-					+" qna_wtime, qna_utime, qna_replies"
-					+" from qna where instr(#1, ?) > 0 "
-					+" order by #1 asc, qna_no desc";
-			sql = sql.replace("#1", column);
-			Object[] data = {keyword};
-			return jdbcTemplate.query(sql, qnaListMapper, data);
+		
+		public int countByPaging(PageVO pageVO) {
+			if(pageVO.isSearch()) {//검색카운트
+				String sql = "select count(*) from qna where instr(#1, ?) > 0";
+				sql = sql.replace("#1", pageVO.getColumn());
+				Object[] data = {pageVO.getKeyword()};
+				return jdbcTemplate.queryForObject(sql, int.class, data);
+			}
+			else {//목록카운트
+				String sql = "select count(*) from qna";
+				return jdbcTemplate.queryForObject(sql, int.class);
+			}
+		}
+		
+		//페이징 적용 검색, 목록
+		public Object selectListByPaging(PageVO pageVO) {
+			if(pageVO.isSearch()) {//검색이라면
+				String sql = "select * from ("
+									+ "select rownum rn, TMP.* from ("
+										+ "select "
+											+ "qna_no, qna_title, qna_writer, qna_wtime, "
+											+ "qna_utime, qna_replies "
+										+ "from qna "
+										+ " where instr(#1, ?) > 0 "
+									+ ")TMP"
+							+ ") where rn between ? and ?";
+				sql = sql.replace("#1", pageVO.getColumn());
+				Object[] data = {
+						pageVO.getKeyword(), 
+						pageVO.getBeginRow(), 
+						pageVO.getEndRow() 
+				};
+				return jdbcTemplate.query(sql, qnaListMapper, data);
+			}
+			else {//목록이라면
+				String sql = "select * from ("
+									+ "select rownum rn, TMP.* from ("
+										+ "select "
+											+ "qna_no, qna_title, qna_writer, qna_wtime, "
+											+ "qna_utime, qna_replies "
+										+ "from qna"
+									+ ")TMP"
+							+ ") where rn between ? and ?";
+				Object[] data = {pageVO.getBeginRow(), pageVO.getEndRow()};
+				return jdbcTemplate.query(sql, qnaListMapper, data);
+			}
+		}
+		
+		public QnaDto selectOne(int qnaNo) {
+			String sql = "select * from qna where qna_no=?";
+			Object[] data = {qnaNo};
+			List<QnaDto> list = jdbcTemplate.query(sql, qnaDetailMapper, data);
+			return list.isEmpty() ? null:list.get(0);
+		}
+
+		public int sequence() {
+			String sql = "select qna_seq.nextval from dual";
+			
+			return jdbcTemplate.queryForObject(sql, int.class);
+		}
+
+		public void insert(QnaDto qnaDto) {
+			String sql = "insert into qna("
+					+"qna_no, qna_title, qna_content, qna_writer"
+					+") values(?, ?, ?, ?,?,?,?)"
+					;
+			Object[] data = {
+					qnaDto.getQnaNo(),
+					qnaDto.getQnaTitle(), 
+					qnaDto.getQnaContent(), 
+					qnaDto.getQnaWriter()
+					};
+			
+			jdbcTemplate.update(sql, data);
 		}
 }
