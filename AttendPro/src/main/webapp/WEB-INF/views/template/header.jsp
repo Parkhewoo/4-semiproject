@@ -42,6 +42,7 @@
 					<c:when test="${sessionScope.createdUser != null}">
 					 <div class="row center">
 		                	${sessionScope.createdUser}
+		                	(${sessionScope.createdRank})
 		                </div>
 		                 <div class="row center">
 		                	<a href="/admin/worker/list" class="link link-animation">
