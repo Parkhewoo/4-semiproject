@@ -50,7 +50,7 @@ public class AdminDao {
 	//회원조회
 	public AdminDto selectOne(String adminId) {
 		String sql = "select * from admin where admin_id = ?";
-		Object[] data = { adminId };
+		Object[] data = {adminId};
 		List<AdminDto> list = jdbcTemplate.query(sql, adminMapper, data);
 		return list.isEmpty() ? null : list.get(0);
 	}
@@ -60,7 +60,7 @@ public class AdminDao {
 		String sql = "update admin set admin_login=sysdate "
 						+ "where admin_id = ?";
 		Object[] data = {adminId};
-		return jdbcTemplate.update(sql, data ) > 0;
+		return jdbcTemplate.update(sql, data) > 0;
 	}
 	//비밀번호 변경
 	public boolean updateAdminPw(String adminId, String adminPw) {
