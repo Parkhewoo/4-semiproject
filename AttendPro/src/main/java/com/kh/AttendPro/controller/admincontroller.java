@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.AttendPro.dao.AdminDao;
+import com.kh.AttendPro.dao.BlockDao;
 import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.AdminDto;
+import com.kh.AttendPro.dto.BlockDto;
 import com.kh.AttendPro.service.EmailService;
 
 import jakarta.mail.MessagingException;
@@ -32,6 +34,9 @@ public class admincontroller {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private BlockDao blockDao;
 	
 	@GetMapping("/join")
 	public String join() {
@@ -64,7 +69,7 @@ public class admincontroller {
 	
 	@PostMapping("/login")
 	public String login(@RequestParam String adminId,
-						@RequestParam String adminPw,
+						@RequestParam String adminPw,						
 						HttpSession session) {
 		
 		//[1]Admin 아이디를 AdminDto에서 불러온다		
@@ -79,7 +84,9 @@ public class admincontroller {
 		
 		
 		//[3] 1,2번에서 쫓겨나지 않았다면 차단 여부를 검사
-		//blocDto 생성해야함
+		BlockDto blockDto = blockDao.selectLastOne(adminId);
+		boolean isBlock = blockDto != null && blockDto.getBlockType().equals("차단");
+		if(isBlock) return "redirect:block";
 		
 		//[4] 1,2,3에서 쫓겨나지 않았다면 성공으로 간주
 		session.setAttribute("createdUser", adminId);
