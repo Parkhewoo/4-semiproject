@@ -50,9 +50,14 @@ public class QnaDao {
 									+ "select rownum rn, TMP.* from ("
 										+ "select "
 											+ "qna_no, qna_title, qna_writer, qna_wtime, "
-											+ "qna_utime, qna_replies "
+											+ "qna_utime, qna_replies, "
+											+ "qna_group, qna_target, qna_depth "
 										+ "from qna "
 										+ " where instr(#1, ?) > 0 "
+										//트리정렬
+										+ "connect by prior qna_no=qna_target "
+										+ "start with qna_target is null "
+										+ "order siblings by qna_group desc, qna_no asc"
 									+ ")TMP"
 							+ ") where rn between ? and ?";
 				sql = sql.replace("#1", pageVO.getColumn());
@@ -65,23 +70,28 @@ public class QnaDao {
 			}
 			else {//목록이라면
 				String sql = "select * from ("
-									+ "select rownum rn, TMP.* from ("
-										+ "select "
-											+ "qna_no, qna_title, qna_writer, qna_wtime, "
-											+ "qna_utime, qna_replies "
-										+ "from qna"
-									+ ")TMP"
-							+ ") where rn between ? and ?";
+						+ "select rownum rn, TMP.* from ("
+						+ "select "
+							+ "qna_no, qna_title, qna_writer, qna_wtime, "
+							+ "qna_utime, qna_replies, "
+							+ "qna_group, qna_target, qna_depth "
+						+ "from qna "
+						//트리정렬
+						+ "connect by prior qna_no=qna_target "
+						+ "start with qna_target is null "
+						+ "order siblings by qna_group desc, qna_no asc"
+					+ ")TMP"
+			+ ") where rn between ? and ?";
 				Object[] data = {pageVO.getBeginRow(), pageVO.getEndRow()};
 				return jdbcTemplate.query(sql, qnaListMapper, data);
 			}
 		}
 		
 		public QnaDto selectOne(int qnaNo) {
-			String sql = "select * from qna where qna_no=?";
-			Object[] data = {qnaNo};
-			List<QnaDto> list = jdbcTemplate.query(sql, qnaDetailMapper, data);
-			return list.isEmpty() ? null:list.get(0);
+		    String sql = "select * from qna where qna_no=?";
+		    Object[] data = {qnaNo};
+		    List<QnaDto> list = jdbcTemplate.query(sql, qnaDetailMapper, data);
+		    return list.isEmpty() ? null : list.get(0);
 		}
 
 		public int sequence() {
@@ -92,14 +102,18 @@ public class QnaDao {
 
 		public void insert(QnaDto qnaDto) {
 			String sql = "insert into qna("
-					+"qna_no, qna_title, qna_content, qna_writer"
-					+") values(?, ?, ?, ?,?,?,?)"
+					+"qna_no, qna_title, qna_content, qna_writer, "
+					+ "qna_group, qna_target, qna_depth"
+					+") values(?, ?, ?, ?, ?, ?, ?)"
 					;
 			Object[] data = {
 					qnaDto.getQnaNo(),
 					qnaDto.getQnaTitle(), 
 					qnaDto.getQnaContent(), 
-					qnaDto.getQnaWriter()
+					qnaDto.getQnaWriter(),
+					qnaDto.getQnaGroup(),
+					qnaDto.getQnaTarget(),
+					qnaDto.getQnaDepth()
 					};
 			
 			jdbcTemplate.update(sql, data);

@@ -59,6 +59,20 @@ public class QnaController {
 			//등록할 정보에 번호를 첨부한다
 			qnaDto.setQnaNo(seq);
 			
+			//새글+답글 여부에 따라 그룹 상위글 차수를 설정해야한다
+			if(qnaDto.isNew()) {
+				qnaDto.setQnaGroup(seq);//그룹 번호는 글 번호와 동
+				qnaDto.setQnaTarget(null);//상위글 번호는 null로 설정
+				qnaDto.setQnaDepth(0);//차수는 0으로 설정
+			}
+			else {
+				//타겟글의 정보 조회
+				QnaDto targetDto = qnaDao.selectOne(qnaDto.getQnaTarget());
+				qnaDto.setQnaGroup(targetDto.getQnaGroup());
+				qnaDto.setQnaDepth(targetDto.getQnaDepth()+1);
+			}
+			
+			
 			//등록을 지시한다
 			qnaDao.insert(qnaDto);
 			
