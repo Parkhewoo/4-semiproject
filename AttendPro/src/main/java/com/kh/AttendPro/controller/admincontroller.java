@@ -45,14 +45,27 @@ public class admincontroller {
 	
 	@Transactional
 	@PostMapping("/join")
-	public String join(@ModelAttribute AdminDto adminDto, Model model){
-		if (adminDto.getAdminRank() == null || adminDto.getAdminRank().isEmpty()) {
-	        model.addAttribute("error", "등급을 선택해 주세요.");
-	        return "/WEB-INF/views/admin/join.jsp";
-	    }
+	public String join(@RequestParam String adminId,
+            @RequestParam String adminPw,
+            @RequestParam String adminNo,
+            @RequestParam String adminEmail){
 		
-	    adminDao.join(adminDto);
-		return "redirect:joinFinish";
+		   // AdminDto 객체 생성
+        AdminDto adminDto = new AdminDto();
+        adminDto.setAdminId(adminId);
+        adminDto.setAdminPw(adminPw);
+        adminDto.setAdminNo(adminNo);
+        adminDto.setAdminEmail(adminEmail);
+		
+        // 회원가입 처리
+        boolean success = adminDao.join(adminDto);
+
+        // 성공 여부에 따라 리다이렉트 또는 오류 페이지 표시
+        if (success) {
+            return "redirect:/admin/joinFinish"; // 가입 성공 페이지로 리다이렉트
+        } else {
+            return "redirect:/join"; // 실패 시 회원가입 페이지로 리다이렉트
+        }
 	}
 	
 	

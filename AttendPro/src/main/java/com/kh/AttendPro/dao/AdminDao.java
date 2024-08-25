@@ -19,16 +19,21 @@ public class AdminDao {
 	private AdminMapper adminMapper;
 	
 	//회원등록
-	public void join(AdminDto adminDto) {
-		String sql = "insert into admin("
-			    + "admin_id, admin_pw, admin_no, admin_rank, admin_email) "
-			    + "values(?, ?, ?, ?, ?)";
-		Object[] data = {
-				adminDto.getAdminId(), adminDto.getAdminPw(), adminDto.getAdminNo(), adminDto.getAdminRank(),
-				adminDto.getAdminEmail()//차후 dto에 adminNo추가후 수정예정
-		};
-		jdbcTemplate.update(sql,data);
-	}
+	   public boolean join(AdminDto adminDto) {
+	        String sql = "INSERT INTO admin (admin_id, admin_pw, admin_no, admin_rank, admin_email) "
+	                   + "VALUES (?, ?, ?, '일반사원', ?)"; // '일반사원'으로 기본값 설정
+
+	        Object[] data = {
+	            adminDto.getAdminId(),
+	            adminDto.getAdminPw(),
+	            adminDto.getAdminNo(),
+	            adminDto.getAdminEmail()
+	        };
+
+	        // 쿼리 실행 후 성공 여부 반환
+	        return jdbcTemplate.update(sql, data) > 0;
+	    }
+
 	
 	// 목록 
 	public List<AdminDto> selectList(){
