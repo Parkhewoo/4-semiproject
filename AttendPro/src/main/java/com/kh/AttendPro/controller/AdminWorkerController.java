@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
+import com.kh.AttendPro.vo.PageVO;
 
 
 
@@ -43,27 +44,34 @@ public class AdminWorkerController {
 	       model.addAttribute("workerDto", workerDto);
 	       return "/WEB-INF/views/worker/detail.jsp";
 	   }
-	
+	   
+	   @RequestMapping("/list")
+	   public String list(@ModelAttribute("pageVO") PageVO pageVO,
+			   Model model) {
+			   model.addAttribute("list",workerDao.selectListBypaging(pageVO));
+			   pageVO.setCount(workerDao.countByPaging(pageVO));
+			   return "/WEB-INF/views/worker/list2.jsp";
+	   }
 	   //목록+검색
-		@RequestMapping("/list")
-		public String list(Model model,
-				@RequestParam(required = false) String column,
-				@RequestParam(required = false) String keyword) {
-					
-			boolean isSearch = column !=null && keyword != null;
-			model.addAttribute("isSearch",isSearch);
-				
-			model.addAttribute("column",column);
-			model.addAttribute("keyword",keyword);
-					
-			if(isSearch) {
-				model.addAttribute("list",workerDao.selectList(column, keyword));
-			}
-			else {
-				model.addAttribute("list",workerDao.selectList());
-			}
-			return"/WEB-INF/views/worker/list.jsp"; 
-		}
+//		@RequestMapping("/list")
+//		public String list(Model model,
+//				@RequestParam(required = false) String column,
+//				@RequestParam(required = false) String keyword) {
+//					
+//			boolean isSearch = column !=null && keyword != null;
+//			model.addAttribute("isSearch",isSearch);
+//				
+//			model.addAttribute("column",column);
+//			model.addAttribute("keyword",keyword);
+//					
+//			if(isSearch) {
+//				model.addAttribute("list",workerDao.selectList(column, keyword));
+//			}
+//			else {
+//				model.addAttribute("list",workerDao.selectListBypaging(null));
+//			}
+//			return"/WEB-INF/views/worker/list.jsp"; 
+//		}
 		
 		@GetMapping("/edit")
 		public String change(Model model, @RequestParam int workerNo) {

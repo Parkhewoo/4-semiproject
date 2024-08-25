@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.mapper.WorkerMapper;
+import com.kh.AttendPro.vo.PageVO;
 
 @Repository
 public class WorkerDao {
@@ -118,4 +119,44 @@ public class WorkerDao {
 			List<WorkerDto> list = jdbcTemplate.query(sql, workerMapper, data);
 			return list.isEmpty() ? null : list.get(0);
 		}
+		
+		//페이징
+		public List<WorkerDto> selectListBypaging(PageVO pageVO) {
+		    if (pageVO.isSearch()) {
+		        String sql = "SELECT * FROM ("
+		                + "SELECT TMP.*, ROWNUM rn FROM ("
+		                + "SELECT * FROM worker "
+		                + "WHERE instr(" + pageVO.getColumn() + ", ?) > 0 "
+		                + "ORDER BY " + pageVO.getColumn() + " ASC, worker_no ASC"
+		                + ") TMP "
+		                + ") WHERE rn BETWEEN ? AND ?";
+		        Object[] data = {
+		            pageVO.getKeyword(),
+		            pageVO.getBeginRow(),
+		            pageVO.getEndRow()
+		        };
+		        return jdbcTemplate.query(sql, workerMapper, data);
+		    } else { // 목록
+		        String sql = "SELECT * FROM ("
+		                + "SELECT TMP.*, ROWNUM rn FROM ("
+		                + "SELECT * FROM worker ORDER BY worker_no ASC"
+		                + ") TMP "
+		                + ") WHERE rn BETWEEN ? AND ?";
+		        Object[] data = { pageVO.getBeginRow(), pageVO.getEndRow() };
+		        return jdbcTemplate.query(sql, workerMapper, data);
+		    }
+		}
+
+		public int countByPaging(PageVO pageVO) {
+		    if (pageVO.isSearch()) {
+		        String sql = "SELECT count(*) FROM worker WHERE instr(" + pageVO.getColumn() + ", ?) > 0";
+		        Object[] data = { pageVO.getKeyword() };
+		        return jdbcTemplate.queryForObject(sql, Integer.class, data);
+		    } else {
+		        String sql = "SELECT count(*) FROM worker";
+		        return jdbcTemplate.queryForObject(sql, Integer.class);
+		    }
+		}
+
+		
 }
