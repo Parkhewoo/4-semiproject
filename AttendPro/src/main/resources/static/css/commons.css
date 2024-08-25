@@ -595,3 +595,15 @@ textarea.field {
 .menu li:hover {
     background-color: #636e72;
 }
+
+.form-group label {
+    width: 150px; /* 레이블의 너비를 설정합니다. 필요에 따라 조정하세요. */
+    margin-right: 10px;
+    text-align: right;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}

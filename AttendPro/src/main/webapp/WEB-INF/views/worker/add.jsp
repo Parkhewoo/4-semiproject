@@ -2,30 +2,95 @@
     pageEncoding="UTF-8"%>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-<div class="row center">
-	<h1>회원 가입 정보 입력</h1>
-</div>
-<form action="add" method="post">
-<div class="container w-600 my-50">
 
-    사원번호* <input type="text" name="workerNo" required> <br><br>
-    비밀번호* <input type="password" name="workerPw" required> <br><br>
-    사원이름* <input type="text" name="workerName" required> <br><br>
-    출석 <input type="number" name="workerAttend" value="0"> <br><br>
-    결석 <input type="number" name="workerAbsent" value="0"> <br><br>
-    지각 <input type="number" name="workerLate" value="0"> <br><br>
-    조퇴 <input type="number" name="workerLeave" value="0"> <br><br>
-    입사일 <input type="date" name="workerJoin" required> <br><br>
-    등급 <input type="text" name="workerRank" required> <br><br>
-    생일 <input type="date" name="workerBirthday"> <br><br>
-    연락처 <input type="text" name="workerContact"> <br><br>
-    이메일 <input type="email" name="workerEmail" required> <br><br>
-    우편번호 <input type="text" name="workerPost"> <br><br>
-    도로명주소 <input type="text" name="workerAddress1"> <br><br>
-    상세주소 <input type="text" name="workerAddress2"> <br><br>
-    
-    <button type="submit">가입하기</button>
+
+
+
+
+
+<div class="row center">
+    <h1>회원 가입 정보 입력</h1>
 </div>
+
+<form action="add" method="post">
+    <div class="container w-600 my-50">
+        <div class="form-group">
+            <label for="workerNo">사원번호*</label>
+            <input type="text" id="workerNo" name="workerNo" required>
+        </div>
+
+        <div class="form-group">
+            <label for="workerPw">비밀번호*</label>
+            <input type="password" id="workerPw" name="workerPw" required>
+        </div>
+
+        <div class="form-group">
+            <label for="workerName">사원이름*</label>
+            <input type="text" id="workerName" name="workerName" required>
+        </div>
+
+        <div class="form-group">
+            <label for="workerAttend">출석</label>
+            <input type="number" id="workerAttend" name="workerAttend" value="0">
+        </div>
+
+        <div class="form-group">
+            <label for="workerAbsent">결석</label>
+            <input type="number" id="workerAbsent" name="workerAbsent" value="0">
+        </div>
+
+        <div class="form-group">
+            <label for="workerLate">지각</label>
+            <input type="number" id="workerLate" name="workerLate" value="0">
+        </div>
+
+        <div class="form-group">
+            <label for="workerLeave">조퇴</label>
+            <input type="number" id="workerLeave" name="workerLeave" value="0">
+        </div>
+
+        <div class="form-group">
+            <label for="workerJoin">입사일</label>
+            <input type="date" id="workerJoin" name="workerJoin" required>
+        </div>
+
+        <div class="form-group">
+            <label for="workerRank">등급</label>
+            <input type="text" id="workerRank" name="workerRank" required>
+        </div>
+
+        <div class="form-group">
+            <label for="workerBirthday">생일</label>
+            <input type="date" id="workerBirthday" name="workerBirthday">
+        </div>
+
+        <div class="form-group">
+            <label for="workerContact">연락처</label>
+            <input type="text" id="workerContact" name="workerContact">
+        </div>
+
+        <div class="form-group">
+            <label for="workerEmail">이메일</label>
+            <input type="email" id="workerEmail" name="workerEmail" required>
+        </div>
+
+        <div class="form-group">
+            <label for="workerPost">우편번호</label>
+            <input type="text" id="workerPost" name="workerPost">
+        </div>
+
+        <div class="form-group">
+            <label for="workerAddress1">도로명주소</label>
+            <input type="text" id="workerAddress1" name="workerAddress1">
+        </div>
+
+        <div class="form-group">
+            <label for="workerAddress2">상세주소</label>
+            <input type="text" id="workerAddress2" name="workerAddress2">
+        </div>
+
+        <button type="submit" class="btn btn-positive w-100">가입하기</button>
+    </div>
 </form>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

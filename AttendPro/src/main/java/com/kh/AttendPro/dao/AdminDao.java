@@ -7,7 +7,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.AttendPro.dto.AdminDto;
+import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.mapper.AdminMapper;
+import com.kh.AttendPro.vo.PageVO;
 
 
 @Repository
@@ -72,6 +74,44 @@ public class AdminDao {
 		String sql = "update admin set admin_pw=? where admin_id=?";
 		Object[] data = {adminPw, adminId};
 		return jdbcTemplate.update(sql, data) > 0;
+	}
+
+
+	public List<AdminDto> selectListBypaging(PageVO pageVO) {
+	    if (pageVO.isSearch()) {
+	        String sql = "SELECT * FROM ("
+	                + "SELECT TMP.*, ROWNUM rn FROM ("
+	                + "SELECT * FROM admin "
+	                + "WHERE instr(" + pageVO.getColumn() + ", ?) > 0 "
+	                + "ORDER BY " + pageVO.getColumn() + " ASC"
+	                + ") TMP "
+	                + ") WHERE rn BETWEEN ? AND ?";
+	        Object[] data = {
+	            pageVO.getKeyword(),
+	            pageVO.getBeginRow(),
+	            pageVO.getEndRow()
+	        };
+	        return jdbcTemplate.query(sql, adminMapper, data);
+	    } else { // 목록
+	        String sql = "SELECT * FROM ("
+	                + "SELECT TMP.*, ROWNUM rn FROM ("
+	                + "SELECT * FROM admin"
+	                + ") TMP "
+	                + ") WHERE rn BETWEEN ? AND ?";
+	        Object[] data = { pageVO.getBeginRow(), pageVO.getEndRow() };
+	        return jdbcTemplate.query(sql, adminMapper, data);
+	    }
+	}
+
+	public int countByPaging(PageVO pageVO) {
+	    if (pageVO.isSearch()) {
+	        String sql = "SELECT count(*) FROM admin WHERE instr(" + pageVO.getColumn() + ", ?) > 0";
+	        Object[] data = { pageVO.getKeyword() };
+	        return jdbcTemplate.queryForObject(sql, Integer.class, data);
+	    } else {
+	        String sql = "SELECT count(*) FROM admin";
+	        return jdbcTemplate.queryForObject(sql, Integer.class);
+	    }
 	}
 
 	

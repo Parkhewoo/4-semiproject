@@ -48,4 +48,9 @@
     </div>
 </div>
 
+<div class="row">
+		<!-- 네비게이터 불러오는 코드 -->
+		<jsp:include page="/WEB-INF/views/template/navigator.jsp"/>
+</div>
+	
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
