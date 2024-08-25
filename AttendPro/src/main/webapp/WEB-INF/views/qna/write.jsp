@@ -22,6 +22,11 @@
 
 <form action="write" method="post" autocomplete="off">
 
+<!-- (추가) 파라미터에 qnaTarget이 있으면 답글이 되도록 정보 첨부 -->
+	<c:if test="${param.qnaTarget != null}">
+		<input type="hidden" name="qnaTarget" value="${param.qnaTarget}">
+	</c:if>
+
 	<div class="container w-800">
 		<div class="row">
 			<h1>문의글 작성</h1>

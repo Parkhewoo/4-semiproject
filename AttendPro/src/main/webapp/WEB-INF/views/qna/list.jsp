@@ -41,16 +41,24 @@
 					<th width="40%">제목</th>
 					<th>작성자</th>
 					<th>작성일</th>
-					<th>답변</th>
+					<th>번호</th>
+					<th>그룹</th>
+					<th>상위</th>
+					<th>차수</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="qnaDto" items="${qnaList}">
 				<tr>
 					<td>${qnaDto.qnaNo}</td>
-					<td>
+					<td class="left" style="padding-left:${qnaDto.qnaDepth*15 + 20}px">
+						<c:if test="${qnaDto.qnaDepth > 0}">
+							<img src="/images/reply.png" width="16" height="16">
+						</c:if>
 					<!-- 제목에 링크를 부여해서 상세 페이지로 이동하도록 구현 -->
 					<a class="link link-animation" href="detail?qnaNo=${qnaDto.qnaNo}">${qnaDto.qnaTitle}</a>
+					
+				
 					</td>
 					<td>
 						<%--
@@ -64,12 +72,18 @@
 						 ${qnaDto.qnaWriterString}
 					</td>
 					<td>${qnaDto.qnaWTimeString}</td>
+			
+					<td>${qnaDto.qnaNo}</td>
+					<td>${qnaDto.qnaGroup}</td>
+					<td>${qnaDto.qnaTarget}</td>
+					<td>${qnaDto.qnaDepth}</td>
 					<td>
+					
 						<c:choose>
-							<c:when test="${qnaDto.qnaReplies < 1}">
+							<c:when test="${qnaDto.qnaDepth < 1}">
 								미응답
 							</c:when>
-							<c:otherwise>답변완료(${qnaDto.qnaReplies})</c:otherwise>
+							<c:otherwise>답변완료(${qnaDto.qnaDepth})</c:otherwise>
 						</c:choose>
 					</td>
 				</tr>
@@ -78,13 +92,12 @@
 		</table>
 	</div>
 	
-	<%-- 
+	
 	<div class="row">
 		<!-- 네비게이터 불러오는 코드 -->
 		<jsp:include page="/WEB-INF/views/template/navigator.jsp"/>
 	</div>
-	**김찬희씨 네비게이터 빠른 추가 부탁드립니다*********
-	 --%>
+
 	<br>
 	<!-- 검색창 -->
 	<div class="row center">

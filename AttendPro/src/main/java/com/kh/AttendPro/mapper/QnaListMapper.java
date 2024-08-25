@@ -22,6 +22,11 @@ import com.kh.AttendPro.dto.QnaDto;
 			qnaDto.setQnaUTime(rs.getDate("qna_utime"));
 			qnaDto.setQnaReplies(rs.getInt("qna_replies"));
 			
+			//3개 항목 추가
+			 qnaDto.setQnaGroup(rs.getInt("qna_group"));
+	         qnaDto.setQnaTarget(rs.getObject("qna_target", Integer.class));
+	         qnaDto.setQnaDepth(rs.getInt("qna_depth"));
+			
 			return qnaDto;
 		}
 		
