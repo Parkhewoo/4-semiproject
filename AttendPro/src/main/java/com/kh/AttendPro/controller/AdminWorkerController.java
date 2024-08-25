@@ -46,32 +46,20 @@ public class AdminWorkerController {
 	   }
 	   
 	   @RequestMapping("/list")
-	   public String list(@ModelAttribute("pageVO") PageVO pageVO,
-			   Model model) {
-			   model.addAttribute("list",workerDao.selectListBypaging(pageVO));
-			   pageVO.setCount(workerDao.countByPaging(pageVO));
-			   return "/WEB-INF/views/worker/list2.jsp";
+	   public String list(@ModelAttribute("pageVO") PageVO pageVO, Model model) {
+	       // 빈 문자열을 null로 변환
+	       if (pageVO.getColumn() != null && pageVO.getColumn().trim().isEmpty()) {
+	           pageVO.setColumn(null);
+	       }
+	       if (pageVO.getKeyword() != null && pageVO.getKeyword().trim().isEmpty()) {
+	           pageVO.setKeyword(null);
+	       }
+	       model.addAttribute("list", workerDao.selectListBypaging(pageVO));
+	       pageVO.setCount(workerDao.countByPaging(pageVO));
+	       model.addAttribute("pageVO", pageVO);
+
+	       return "/WEB-INF/views/worker/list2.jsp";
 	   }
-	   //목록+검색
-//		@RequestMapping("/list")
-//		public String list(Model model,
-//				@RequestParam(required = false) String column,
-//				@RequestParam(required = false) String keyword) {
-//					
-//			boolean isSearch = column !=null && keyword != null;
-//			model.addAttribute("isSearch",isSearch);
-//				
-//			model.addAttribute("column",column);
-//			model.addAttribute("keyword",keyword);
-//					
-//			if(isSearch) {
-//				model.addAttribute("list",workerDao.selectList(column, keyword));
-//			}
-//			else {
-//				model.addAttribute("list",workerDao.selectListBypaging(null));
-//			}
-//			return"/WEB-INF/views/worker/list.jsp"; 
-//		}
 		
 		@GetMapping("/edit")
 		public String change(Model model, @RequestParam int workerNo) {
