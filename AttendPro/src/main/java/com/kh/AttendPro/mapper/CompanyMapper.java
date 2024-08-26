@@ -14,8 +14,8 @@ public class CompanyMapper implements RowMapper<CompanyDto> {
         CompanyDto companyDto = new CompanyDto();
         companyDto.setCompanyId(rs.getString("company_id"));
         companyDto.setCompanyName(rs.getString("company_name"));
-        companyDto.setCompanyInTime(rs.getDate("company_in_time"));
-        companyDto.setCompanyOutTime(rs.getDate("company_out_time"));
+        companyDto.setCompanyIn(rs.getDate("company_in"));
+        companyDto.setCompanyOut(rs.getDate("company_out"));
         companyDto.setCompanyHoliday(rs.getDate("company_holiday")); // 수정된 부분
         return companyDto;
     }

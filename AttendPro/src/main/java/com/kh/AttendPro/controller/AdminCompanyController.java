@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.AttendPro.dao.CompanyDao;
 import com.kh.AttendPro.dto.CompanyDto;
-import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
+
+import java.sql.Timestamp;
 
 @Controller
 @RequestMapping("/admin/company")
-public class adminCompanyController {
+public class AdminCompanyController {
 
     @Autowired
     private CompanyDao companyDao;
@@ -26,8 +27,7 @@ public class adminCompanyController {
     public String detail(@RequestParam String companyId, Model model) {
         CompanyDto companyDto = companyDao.selectOne(companyId);
         if (companyDto == null) {
-            // 데이터가 없을 경우 처리
-            throw new TargetNotFoundException(); // 또는 적절한 예외 처리
+            throw new TargetNotFoundException();
         }
         model.addAttribute("companyDto", companyDto);
         return "/WEB-INF/views/company/detail.jsp";

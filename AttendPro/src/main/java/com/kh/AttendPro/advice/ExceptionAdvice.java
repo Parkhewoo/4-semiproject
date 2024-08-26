@@ -11,6 +11,6 @@ import com.kh.AttendPro.error.TargetNotFoundException;
 public class ExceptionAdvice {
 	@ExceptionHandler(TargetNotFoundException.class)
 	public String notFound() {
-		return "/WEB-INF/views/error/notFound/jsp";
+		return "/WEB-INF/views/error/notFound.jsp";
 	}
 }

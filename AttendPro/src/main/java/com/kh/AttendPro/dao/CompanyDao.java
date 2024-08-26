@@ -20,11 +20,11 @@ public class CompanyDao {
 	//
 	public void insert(CompanyDto companyDto) {
 			String sql = "insert into company("
-					+ "company_id,company_name,company_in_time,company_out_time,company_holiday"
+					+ "company_id,company_name,company_in,company_out,company_holiday"
 					+ ") values(?,?,?,?,?)";
 			Object[] data = {
-					companyDto.getCompanyId(),companyDto.getCompanyName(),companyDto.getCompanyInTime(),
-					companyDto.getCompanyOutTime(),companyDto.getCompanyHoliday()
+					companyDto.getCompanyId(),companyDto.getCompanyName(),companyDto.getCompanyIn(),
+					companyDto.getCompanyOut(),companyDto.getCompanyHoliday()
 			};
 			jdbcTemplate.update(sql,data);
 	}
@@ -39,15 +39,16 @@ public class CompanyDao {
 
 	//수정
 	public boolean update(CompanyDto companyDto) {
-		String sql = "update company set"
-				+ "company_name=?,company_in_time=?,"
-				+ "company_out_time=?,company_holiday=?"
-				+ "where company_id=?";
-		Object[] data = {
-				companyDto.getCompanyName(),companyDto.getCompanyInTime(),
-				companyDto.getCompanyOutTime(),companyDto.getCompanyHoliday()
-		};
-		return jdbcTemplate.update(sql,data)>0;
+	    String sql = "UPDATE company SET company_name=?, company_in=?, company_out=?, company_holiday=? WHERE company_id=?";
+	    Object[] data = {
+	        companyDto.getCompanyName(),
+	        companyDto.getCompanyIn(),
+	        companyDto.getCompanyOut(),
+	        companyDto.getCompanyHoliday(),
+	        companyDto.getCompanyId()
+	    };
+	    return jdbcTemplate.update(sql, data) > 0;
 	}
+
 	
 }
