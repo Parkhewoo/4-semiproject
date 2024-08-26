@@ -12,6 +12,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dao.CertDao;
@@ -25,59 +26,82 @@ public class EmailService {
 
 	@Autowired
 	private JavaMailSender sender;
-	
+
 	@Autowired
 	private RandomService randomService;
-	
+
 	@Autowired
 	private CertDao certDao;
-	
+
 	@Autowired
 	private AdminDao adminDao;
-	
-	//인증번호 발송 서비스
-	public void sendCert(String certEmail) {
-		//인증번호 생성
+
+	// 인증번호 발송 서비스
+	public void sendCert(String email) throws MessagingException, IOException {
+
 		String value = randomService.generateNumber(6);
-		
-		//메세지 생성
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(certEmail);
-		message.setSubject("비밀번호 찾기 인증번호");
-		message.setTo("인증번호는 [" + value + "]입니다");
-		
-		//메세지 전송
+
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
+		helper.setTo(email);
+		helper.setSubject("인증번호 안내");
+
+		ClassPathResource resource = new ClassPathResource("templates/cert.html");
+		File target = resource.getFile();
+		Document document = Jsoup.parse(target, "UTF-8");
+		Element number = document.getElementById("cert-number");
+		number.text(value);
+
+		helper.setText(document.toString(), true);
+
 		sender.send(message);
-		
-		//DB기록 남기기
-		certDao.delete(certEmail);
+
+		certDao.delete(email);
 		CertDto certDto = new CertDto();
-		certDto.setCertEmail(certEmail);
+		certDto.setCertEmail(email);
 		certDto.setCertNumber(value);
 		certDao.insert(certDto);
 	}
-	
-	//임시 비밀번호 발급 및 메일 전송
-	public void sendTempPw(String adminId, String adminEmail) throws IOException, MessagingException {
-		//임시 비밀번호 발급
-		String tempPassword = randomService.generateString(12);
-		adminDao.updateAdminPw(adminId, tempPassword);
-		
-		//이메일 템플릿 불러와 정보 설정 후 발송
-		ClassPathResource resource = new ClassPathResource("templates/temp-pw.html");
+
+	// 비밀번호 재설정 메일 발송 기능
+	public void sendResetPw(String adminId, String adminEmail) throws IOException, MessagingException {
+		// 이메일 템플릿 불러와 정보 설정 후 발송
+		ClassPathResource resource = new ClassPathResource("templates/reset-pw.html");
 		File target = resource.getFile();
 		Document document = Jsoup.parse(target);
-		Element element = document.getElementById("temp-password");
-		element.text(tempPassword);
-		
-		//메세지 생성
+
+		Element adminIdWrapper = document.getElementById("admin-id");
+		adminIdWrapper.text(adminId);
+
+		// 돌아올 링크 주소를 생성하는 코드
+		// -인증번호 생성
+		String certNumber = randomService.generateNumber(6);
+		certDao.delete(adminEmail);
+		CertDto certDto = new CertDto();
+		certDto.setCertEmail(adminEmail);
+		certDto.setCertNumber(certNumber);
+		certDao.insert(certDto);
+
+		// 접속주소 생성
+		String url = ServletUriComponentsBuilder.fromCurrentContextPath()// htpp://localhost:8080
+				.path("/admin/resetPw")// 나머지 경로
+				.queryParam("certNumber", certNumber)// 파라미터
+				.queryParam("certEmail", adminEmail)// 파라미터
+				.queryParam("adminId", adminId)// 파라미터
+				.build().toUriString();// 문자열 변환
+
+		Element resetUrlWrapper = document.getElementById("reset-url");
+		resetUrlWrapper.attr("href", url);
+
+		// 메세지 생성
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
 		helper.setTo(adminEmail);
-		helper.setSubject("임시 비밀번호 안내");
+		helper.setSubject("비밀번호 재설정 안내");
 		helper.setText(document.toString(), true);
-		
-		//메세지 발송
+
+		// 전송
 		sender.send(message);
 	}
+
 }
