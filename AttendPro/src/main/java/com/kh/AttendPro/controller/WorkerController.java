@@ -45,7 +45,7 @@ public class WorkerController {
 		session.setAttribute("createdUser", workerNo);
 		session.setAttribute("createdRank", workerNo);
 		
-		return "redirect:/";//메인으로 이동
+		return "/WEB-INF/views/worker/course.jsp";//출퇴근 버튼 페이지로 이동
 	}
 	
 	//로그아웃(회원 전용 기능)
