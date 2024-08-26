@@ -12,7 +12,7 @@
     <h1>회원 가입 정보 입력</h1>
 </div>
 
-<form action="add" method="post">
+<form action="add" method="post" enctype="multipart/form-data">
     <div class="container w-600 my-50">
         <div class="form-group">
             <label for="workerNo">사원번호*</label>

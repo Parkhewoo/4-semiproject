@@ -107,7 +107,7 @@ public class AdminWorkerController {
 			return "redirect:list";//상대
 		}
 		
-		//이미지 찾기
+		//이미지 찾기(회원가입 시 첨부한 이미지를 찾는다)
 		@RequestMapping("/myImage")
 		public String myImage(HttpSession session) {
 			try {
