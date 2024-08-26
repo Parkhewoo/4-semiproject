@@ -20,18 +20,12 @@
 		            <li><a href="#">나의 출석률보기</a></li>
 		        </ul>
 		    </li>
-		    <li>
-		    	<a href="#">출퇴근 기록</a>
-		    	<ul>
-		    		<li><a href="/worker/attend">출근하기</a></li>
-		    		<li><a href="/worker/leave">퇴근하기</a></li>		    	
-		    	</ul>		    	
-		    </li>
+		    
 		    
 		 	<c:choose>
 		 		<c:when test="${sessionScope.createdRank == '관리자'}">
 		 		 <li>
-		        <a href="qna/write">문의하기</a>
+		        <a href="/qna/write">문의하기</a>
 		    </li>
 		 		<li class="right-menu">
 			    	<a href="/admin/home">관리자메뉴</a>
