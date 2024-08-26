@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.AttendPro.configuration.CustomCertProperties;
 import com.kh.AttendPro.dao.CertDao;
 import com.kh.AttendPro.dao.WorkerDao;
-import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.dto.CertDto;
 import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
-import com.kh.AttendPro.service.EmailService;
+import com.kh.AttendPro.service.EmailService2;
 
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
@@ -31,7 +30,7 @@ public class WorkerController {
 	private WorkerDao workerDao;
 	
 	@Autowired
-	private EmailService emailService;
+	private EmailService2 emailService;
 	
 	//Worker 로그인
 	@GetMapping("/login")
