@@ -17,14 +17,23 @@
     
 
     </style>
-    
- <div class="row center">
- 	<div class="flex-box">
-		<button type="button" class="btn btn-positive center w-40  mt-10">출근하기</button>
- 		<a href="/worker/attend"></a>
- 	</div>
- 	
- 	<div class="flex-box">
- 		<button type="button" class="btn btn-positive center w-40 mt-10">퇴근하기</button>
- 	</div> 
- </div>
+
+
+ <div class="container w-350 my-50">    
+ 
+		<div class="row mt-30">
+			<button class="btn btn-positive w-100" onclick="window.location.href='/worker/attend'">출근하기</button>
+		</div>
+		
+		<div class="row mt-30">
+			<button class="btn btn-positive w-100" onclick="window.location.href='/worker/leave'">퇴근하기</button>
+		</div> 
+</div>
+
+
+ 
+ <%-- footer.jsp에 존재하는 내용을 불러오도록 설정 --%>		
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+ 
+ 
+ 
