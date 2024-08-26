@@ -42,6 +42,7 @@
         <a href="list">사업주 목록</a>
         <a href="delete?adminId=${dto.adminId}">사업주 삭제</a>
         <a href="edit?adminId=${dto.adminId}">정보 변경</a>
+        <a href="block?adminId=${dto.adminId}">사업주 차단</a>
     </div>
 </div>
 

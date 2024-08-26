@@ -15,6 +15,9 @@
 		<h2><a href="detail?adminId=${dto.adminId}" class="link link-animation">상세</a></h2>
 		</div>
 		
+		<div class="row center">
+		<h2><a href="/sysadmin/status">데이터베이스 현황</a></h2>
+		</div>
 </div>
 
 <%-- footer.jsp에 존재하는 내용을 불러오도록 설정 --%>		

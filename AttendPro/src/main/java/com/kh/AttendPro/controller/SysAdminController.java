@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dto.AdminDto;
+import com.kh.AttendPro.error.TargetNotFoundException;
 import com.kh.AttendPro.vo.PageVO;
 
 
@@ -58,7 +59,7 @@ public class SysAdminController {
 	       pageVO.setCount(adminDao.countByPaging(pageVO));
 	       model.addAttribute("pageVO", pageVO);
 
-	       return "/WEB-INF/views/sysadmin/list.jsp";
+	       return "/WEB-INF/views/sysadmin/admin/list.jsp";
 	   }
 	
 	@RequestMapping("/detail")
@@ -66,22 +67,52 @@ public class SysAdminController {
 		AdminDto dto = adminDao.selectOne(adminId);
 		model.addAttribute("dto", dto);
 		
-		return "/WEB-INF/views/sysadmin/detail.jsp";
+		return "/WEB-INF/views/sysadmin/admin/detail.jsp";
 	}
 	
 	@GetMapping("/edit")
 	public String edit(Model model, @RequestParam String adminId) {		
-		return "/WEB-INF/views/sysadmin/edit.jsp";
+		AdminDto adminDto = adminDao.selectOne(adminId);
+		if(adminDto == null)
+			throw new TargetNotFoundException("존재하지 않는 아이디입니다");
+		model.addAttribute("adminDto", adminDto);
+			return "/WEB-INF/views/sysadmin/admin/edit.jsp";
 	}
 	
-//	@PostMapping("/edit")
-//	public String edit(@ModelAttribute AdminDto adminDto) {
-//		boolean result = adminDao.update(adminDto);
-//		return "redirect:detail?adminId="+admonDto.getAdminId();
-//	}
-//	
-//	@RequestMapping("/delete")
-//	public String delete () {
-//		
-//	}
+	@PostMapping("/edit")
+	public String edit(@ModelAttribute AdminDto adminDto) {
+		boolean result = adminDao.updateAdminBySysadmin(adminDto);
+		if(result == false)
+			throw new TargetNotFoundException("존재하지 않는 아이디입니다");
+		return "redirect:detail?adminId="+adminDto.getAdminId();
+	}
+	
+	@RequestMapping("/delete")
+	public String delete(@RequestParam String adminId) {
+		boolean result = adminDao.delete(adminId);
+		if(result == false)
+			throw new TargetNotFoundException("존재하지 않는 아이디입니다");
+		return "redirect:list";
+	}
+	
+	@GetMapping("/block")
+	public String block(@RequestParam String blockAdmin) {
+		AdminDto adminDto = adminDao.selectOne(blockAdmin);
+		if(adminDto == null)
+			throw new TargetNotFoundException("존재하지 않는 아이디입니다");
+		return "/WEB-INF/views/sysadmin/admin/block.jsp";
+	}
+	
+//	@PostMapping("/block")
+//	public String block(@ModelAttribute Block)
+//}
+	
+	//데이터 현황 페이지
+	@RequestMapping("/status")
+	public String status(Model model) {
+		model.addAttribute("adminStatusList", adminDao.statusByAdminRank());
+		return "/WEB-INF/views/sysadmin/status.jsp";
+	}
+		
 }
+ 
