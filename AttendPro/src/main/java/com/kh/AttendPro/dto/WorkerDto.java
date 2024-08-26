@@ -21,13 +21,4 @@ public class WorkerDto {
     private String workerPost;
     private String workerAddress1;
     private String workerAddress2;
-    
-    @Override
-    public String toString() {
-        return "WorkerDto{" +
-               "workerNo=" + workerNo +
-               ", name='" + name + '\'' +
-               // Append other fields here
-               '}';
-    }
 }

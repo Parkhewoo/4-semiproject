@@ -1,18 +1,26 @@
 package com.kh.AttendPro.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
+import com.kh.AttendPro.service.AttachmentService;
 import com.kh.AttendPro.vo.PageVO;
+
+import jakarta.servlet.http.HttpSession;
 
 
 
@@ -21,17 +29,33 @@ import com.kh.AttendPro.vo.PageVO;
 public class AdminWorkerController {
 	@Autowired
 	private WorkerDao workerDao;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private AttachmentService attachmentService;
 	
 	//회원가입
 	   @GetMapping("/add")
 	   public String add() {
 	      return "/WEB-INF/views/worker/add.jsp";
 	   }
+	//(+추가) 이미지 파일 첨부 기능
+	   @Transactional
 	   @PostMapping("/add")
-	   public String add(@ModelAttribute WorkerDto workerDto) {
+	   public String add(@ModelAttribute WorkerDto workerDto,
+			   					 MultipartFile attach) throws IllegalStateException, IOException {		   	   
+		 //[1] 회원가입
 	      workerDao.insert(workerDto);
+	      
+	      if(attach.isEmpty() == false) {
+	    	  //[2] 첨부파일이 있다면 등록 및 저장
+	    	  int attachmentNo = attachmentService.save(attach);
+	    	  //[3] 회원 이미지에 연결정보 저장
+	    	  workerDao.connect(workerDto.getWorkerNo(), attachmentNo);
+	      }
 	      return "redirect:addFinish";
 	   }
+	   
 	   @RequestMapping("/addFinish")
 	   public String addFinish() {
 	      return "/WEB-INF/views/worker/addFinish.jsp";
@@ -103,5 +127,32 @@ public class AdminWorkerController {
 			if(result == false) throw new TargetNotFoundException();
 			return "redirect:list";//상대
 		}
+		
+		//이미지 찾기(회원가입 시 첨부한 이미지를 찾는다)
+		@RequestMapping("/myImage")
+		public String myImage(HttpSession session) {
+			try {
+				int workerNo = (int)session.getAttribute("createdUser");
+				int attachmentNo = workerDao.findImage(workerNo);
+				return "redirect:/attach/download?attachmentNo="+attachmentNo;
+			}
+			catch(Exception e) {
+				return "redirect:/images/user.jpg";
+			}			
+		}
+		
+		@RequestMapping("/image")
+		public String image(@RequestParam int workerNo) {
+			try {
+				int attachmentNo = workerDao.findImage(workerNo);
+				return "redirect:/attach/download?attachmentNo="+attachmentNo;
+			}
+			catch(Exception e){
+				return "redirect:/images/user.jpg";
+			}
+		}
+		
+		
+		
 	
 }

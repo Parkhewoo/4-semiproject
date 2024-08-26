@@ -180,6 +180,27 @@ public class WorkerDao {
 		        return jdbcTemplate.queryForObject(sql, Integer.class);
 		    }
 		}
+		//사원 비밀번호 변경
+		public boolean updateWorkerPw(int workerNo, String workerPw) {
+			String sql = "update worker set worker_pw=? where worker_no=?";
+			Object[] data = {workerPw, workerNo};
+			return jdbcTemplate.update(sql, data) > 0;
+			
+		}
+
+		// 사원 이미지 연결
+				public void connect(int workerNo, int attachmentNo) {
+					String sql = "insert into worker_image(worker, attachment) values(?, ?)"; 
+					Object[] data = {workerNo, attachmentNo};
+					jdbcTemplate.update(sql, data);
+				}
+				
+				public int findImage(int workerNo) {
+					String sql = "select attachment from worker_image where worker=?";
+					Object[] data = {workerNo};
+					return jdbcTemplate.queryForObject(sql, int.class, data);
+				}
+			
 
 		
 }

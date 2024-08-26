@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.mapper.AdminMapper;
+import com.kh.AttendPro.mapper.StatusMapper;
 import com.kh.AttendPro.vo.PageVO;
+import com.kh.AttendPro.vo.StatusVO;
 
 
 @Repository
@@ -23,7 +25,7 @@ public class AdminDao {
 	//회원등록
 	   public boolean join(AdminDto adminDto) {
 	        String sql = "INSERT INTO admin (admin_id, admin_pw, admin_no, admin_rank, admin_email) "
-	                   + "VALUES (?, ?, ?, '일반사원', ?)"; // '일반사원'으로 기본값 설정
+	                   + "VALUES (?, ?, ?, '일반 관리자', ?)"; // '일반사원'으로 기본값 설정
 
 	        Object[] data = {
 	            adminDto.getAdminId(),
@@ -71,9 +73,9 @@ public class AdminDao {
 	}
 	//비밀번호 변경
 	public boolean updateAdminPw(String adminId, String adminPw) {
-		String sql = "update admin set admin_pw=? where admin_id=?";
-		Object[] data = {adminPw, adminId};
-		return jdbcTemplate.update(sql, data) > 0;
+	    String sql = "update admin set admin_pw=? where admin_id=?";
+	    Object[] data = {adminPw, adminId};
+	    return jdbcTemplate.update(sql, data) > 0;
 	}
 
 
@@ -113,6 +115,45 @@ public class AdminDao {
 	        return jdbcTemplate.queryForObject(sql, Integer.class);
 	    }
 	}
+	
+
+	public boolean updateAdminBySysadmin(AdminDto adminDto) {
+		String sql = "update admin set"
+				+ "admin_no=?"
+				+ "admin_rank=?"
+				+ "admin_email=?"
+				+ "admin_login=?";
+		Object[] data = {
+				adminDto.getAdminNo(),
+				adminDto.getAdminRank(),
+				adminDto.getAdminEmail(),
+				adminDto.getAdminLogin()
+		};
+		return jdbcTemplate.update(sql, data) > 0;
+	}
+
+
+
+	public boolean delete(String adminId) {
+		String sql = "delete admin where admin_id = ?";
+		Object[] data = {adminId};
+		return jdbcTemplate.update(sql, data)>0;
+	}
 
 	
+	
+	@Autowired
+	private StatusMapper statusMapper;
+	
+	//시스템관리자 데이터베이스현황 조회 status
+	public List<StatusVO> statusByAdminRank() {
+	    // 쿼리 문자열에 각 절 사이에 공백 추가
+	    String sql = "SELECT admin_rank title, COUNT(*) cnt "
+	               + "FROM admin "
+	               + "GROUP BY admin_rank "
+	               + "ORDER BY cnt DESC, title ASC";
+
+	    // 쿼리 실행 및 결과 반환
+	    return jdbcTemplate.query(sql, statusMapper);
+	}
 }

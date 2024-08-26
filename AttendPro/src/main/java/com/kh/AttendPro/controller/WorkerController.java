@@ -1,15 +1,25 @@
 package com.kh.AttendPro.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.AttendPro.configuration.CustomCertProperties;
+import com.kh.AttendPro.dao.CertDao;
 import com.kh.AttendPro.dao.WorkerDao;
+import com.kh.AttendPro.dto.CertDto;
 import com.kh.AttendPro.dto.WorkerDto;
+import com.kh.AttendPro.error.TargetNotFoundException;
+import com.kh.AttendPro.service.EmailService2;
 
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -18,6 +28,9 @@ public class WorkerController {
 
 	@Autowired
 	private WorkerDao workerDao;
+	
+	@Autowired
+	private EmailService2 emailService;
 	
 	//Worker 로그인
 	@GetMapping("/login")
@@ -77,4 +90,75 @@ public class WorkerController {
 		public String leave(@RequestParam String workerNo) {
 			return "";
 		}
+		
+		//비밀번호 재설정 페이지
+		@GetMapping("/findPw")
+		public String findPw() {
+			return "/WEB-INF/views/worker/findPw.jsp";
+		}
+
+		@PostMapping("/findPw")
+		public String findPw(@RequestParam String workerNo, @RequestParam String workerEmail) throws IOException, MessagingException {
+			
+			WorkerDto workerDto = workerDao.selectOne(workerNo);
+			if (workerDto == null) {					
+				return "redirect:findPw?error";
+			}
+
+			// 이메일 비교
+			if (!workerEmail.equals(workerDto.getWorkerEmail())) {// 이메일 불일치
+				return "redirect:findPw?error";
+			}
+
+			// 템플릿을 불러와서 재설정 메일 발송
+			emailService.sendResetPw(workerNo, workerEmail);
+
+			return "redirect:findPwFinish";
+		}
+
+		@RequestMapping("/findPwFinish")
+		public String findPwFinish() {
+			return "/WEB-INF/views/worker/findPwFinish.jsp";
+		}
+		@Autowired
+		private CertDao certDao;
+		
+		@Autowired
+		private CustomCertProperties customCertProperties;
+		
+		//비밀번호 재설정 페이지
+		@GetMapping("/resetPw")
+		public String resetPw(@ModelAttribute CertDto certDto,
+								@RequestParam String workerNo,
+								Model model) {
+			boolean isValid = certDao.check(certDto, customCertProperties.getExpire());
+
+			if(isValid) {
+				model.addAttribute("certDto", certDto);
+				model.addAttribute("workerNo",workerNo);
+			return "/WEB-INF/views/worker/resetPw.jsp";
+			}
+			else {
+				throw new TargetNotFoundException("올바르지 않은 접근");
+			}
+		}
+		@PostMapping("/resetPw")
+		public String resetPw(@ModelAttribute CertDto certDto,
+								@ModelAttribute WorkerDto workerDto) {
+			//인증번호 확인
+			boolean isValid = certDao.check(certDto, customCertProperties.getExpire());
+			if(!isValid) {
+				throw new TargetNotFoundException("올바르지 않은 접근");
+			}
+			
+			//비밀번호 변경처리
+			workerDao.updateWorkerPw(
+					workerDto.getWorkerNo(), workerDto.getWorkerPw());
+			return "redirect:resetPwComplete";
+		}
+		@RequestMapping("/resetPwComplete")
+		public String resetPwFinish() {
+			return "/WEB-INF/views/worker/resetPwComplete.jsp";
+		}
+		
 }

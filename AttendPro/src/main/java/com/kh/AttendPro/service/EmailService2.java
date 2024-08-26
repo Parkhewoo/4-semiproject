@@ -20,7 +20,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
-public class EmailService {
+public class EmailService2 {
 
 	@Autowired
 	private JavaMailSender sender;
@@ -60,21 +60,21 @@ public class EmailService {
 	}
 
 	// 비밀번호 재설정 메일 발송 기능
-	public void sendResetPw(String adminId, String adminEmail) throws IOException, MessagingException {
+	public void sendResetPw(String workerNo, String workerEmail) throws IOException, MessagingException {
 		// 이메일 템플릿 불러와 정보 설정 후 발송
 		ClassPathResource resource = new ClassPathResource("templates/reset-pw.html");
 		File target = resource.getFile();
 		Document document = Jsoup.parse(target);
 
-		Element adminIdWrapper = document.getElementById("admin-id");
-		adminIdWrapper.text(adminId);
+		Element adminIdWrapper = document.getElementById("worker-no");
+		adminIdWrapper.text(workerNo);
 
 		// 돌아올 링크 주소를 생성하는 코드
 		// -인증번호 생성
 		String certNumber = randomService.generateNumber(6);
-		certDao.delete(adminEmail);
+		certDao.delete(workerEmail);
 		CertDto certDto = new CertDto();
-		certDto.setCertEmail(adminEmail);
+		certDto.setCertEmail(workerEmail);
 		certDto.setCertNumber(certNumber);
 		certDao.insert(certDto);
 
@@ -82,8 +82,8 @@ public class EmailService {
 		String url = ServletUriComponentsBuilder.fromCurrentContextPath()// htpp://localhost:8080
 				.path("/admin/resetPw")// 나머지 경로
 				.queryParam("certNumber", certNumber)// 파라미터
-				.queryParam("certEmail", adminEmail)// 파라미터
-				.queryParam("adminId", adminId)// 파라미터
+				.queryParam("certEmail", workerEmail)// 파라미터
+				.queryParam("workerNo", workerNo)// 파라미터
 				.build().toUriString();// 문자열 변환
 
 		Element resetUrlWrapper = document.getElementById("reset-url");
@@ -92,7 +92,7 @@ public class EmailService {
 		// 메세지 생성
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
-		helper.setTo(adminEmail);
+		helper.setTo(workerEmail);
 		helper.setSubject("비밀번호 재설정 안내");
 		helper.setText(document.toString(), true);
 
