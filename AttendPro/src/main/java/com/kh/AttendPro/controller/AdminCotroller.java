@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.AttendPro.configuration.CustomCertProperties;
 import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dao.BlockDao;
+import com.kh.AttendPro.dao.CertDao;
 import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.dto.BlockDto;
+import com.kh.AttendPro.dto.CertDto;
+import com.kh.AttendPro.error.TargetNotFoundException;
 import com.kh.AttendPro.service.EmailService;
+
 
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
@@ -143,28 +148,69 @@ public class AdminCotroller {
 	public String findPw() {
 		return "/WEB-INF/views/admin/findPw.jsp";
 	}
+
 	@PostMapping("/findPw")
 	public String findPw(@RequestParam String adminId, @RequestParam String adminEmail) throws IOException, MessagingException {
-		//아이디로 회원 정보를 조회
-		 AdminDto adminDto = adminDao.selectOne(adminId);
-		 if(adminDto == null) {
-			 return "redirect:findPw?error";
-		 }
-		 
-		 //이메일 비교
-		 if(!adminEmail.equals(adminDto.getAdminEmail())) {//이메일 불일치
-			 return "redirefct:findPw?error";
-		 }
-		 //이메일 발송
-		 emailService.sendResetPw(adminId, adminEmail);
-		 
-		 //완료페이지로 리다이렉트
-		 return "redirect:findPwFinish";
+		// 아이디로 회원 정보를 조회
+		AdminDto adminDto = adminDao.selectOne(adminId);
+		if (adminDto == null) {
+			return "redirect:findPw?error";
+		}
+
+		// 이메일 비교
+		if (!adminEmail.equals(adminDto.getAdminEmail())) {// 이메일 불일치
+			return "redirect:findPw?error";
+		}
+
+		// 템플릿을 불러와서 재설정 메일 발송
+		emailService.sendResetPw(adminId, adminEmail);
+
+		return "redirect:findPwFinish";
 	}
+
 	@RequestMapping("/findPwFinish")
 	public String findPwFinish() {
 		return "/WEB-INF/views/admin/findPwFinish.jsp";
 	}
+	@Autowired
+	private CertDao certDao;
 	
+	@Autowired
+	private CustomCertProperties customCertProperties;
+	
+	//비밀번호 재설정 페이지
+	@GetMapping("/resetPw")
+	public String resetPw(@ModelAttribute CertDto certDto,
+							@RequestParam String adminId,
+							Model model) {
+		boolean isValid = certDao.check(certDto, customCertProperties.getExpire());
+
+		if(isValid) {
+			model.addAttribute("certDto", certDto);
+			model.addAttribute("adminId",adminId);
+		return "/WEB-INF/views/admin/resetPw.jsp";
+		}
+		else {
+			throw new TargetNotFoundException("올바르지 않은 접근");
+		}
+	}
+	@PostMapping("/resetPw")
+	public String resetPw(@ModelAttribute CertDto certDto,
+							@ModelAttribute AdminDto adminDto) {
+		//인증번호 확인
+		boolean isValid = certDao.check(certDto, customCertProperties.getExpire());
+		if(!isValid) {
+			throw new TargetNotFoundException("올바르지 않은 접근");
+		}
+		
+		//비밀번호 변경처리
+		adminDao.updateAdminPw(
+				adminDto.getAdminId(), adminDto.getAdminPw());
+		return "redirect:resetPwComplete";
+	}
+	@RequestMapping("/resetPwComplete")
+	public String resetPwFinish() {
+		return "/WEB-INF/views/admin/resetPwComplete.jsp";
+	}
 	
 }

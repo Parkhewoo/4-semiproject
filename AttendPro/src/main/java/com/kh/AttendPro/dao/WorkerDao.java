@@ -157,6 +157,13 @@ public class WorkerDao {
 		        return jdbcTemplate.queryForObject(sql, Integer.class);
 		    }
 		}
+		//사원 비밀번호 변경
+		public boolean updateWorkerPw(int workerNo, String workerPw) {
+			String sql = "update worker set worker_pw=? where worker_no=?";
+			Object[] data = {workerPw, workerNo};
+			return jdbcTemplate.update(sql, data) > 0;
+			
+		}
 
 		
 }
