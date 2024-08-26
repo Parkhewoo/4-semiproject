@@ -2,8 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<link rel="stylesheet" type="text/css" href="/css/commons.css">
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
+<style>
+	a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+    }
+    
+</style>
 <!-- 제목 -->
 <div class="row center">
 <c:choose>
@@ -56,7 +64,7 @@
 		<h2>데이터가 존재하지 않습니다</h2>
 	</c:when>
 	<c:otherwise>
-		<table class="center-table" border="1" width="500">
+		<table class="table table-border table-stripe table-hover">
 			<thead>
 				<tr>
 					<th>사원명</th>

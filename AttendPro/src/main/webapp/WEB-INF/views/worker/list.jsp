@@ -3,6 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<style>
+a {
+        text-decoration: none; /* 링크의 밑줄 제거 */
+        color: #3498db; /* 링크 색상 설정 */
+        font-weight: bold; /* 링크 텍스트를 굵게 */
+    }
+</style>
 
 <!-- 제목 -->
 <div class="row center">

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dto.AdminDto;
+import com.kh.AttendPro.vo.PageVO;
 
 
 @Controller
@@ -30,19 +31,35 @@ public class SysAdminController {
 	
 	
 	// "/sysadmin/list" 페이지 기능구현 - 08/23 박관일
-	 @RequestMapping("/list")
-	    public String list(Model model,
-	                       @RequestParam(required = false) String column,
-	                       @RequestParam(required = false) String keyword) {
+//	 @RequestMapping("/list")
+//	    public String list(Model model,
+//	                       @RequestParam(required = false) String column,
+//	                       @RequestParam(required = false) String keyword) {
+//
+//	        boolean isSearch = column != null && keyword != null;
+//	        List<AdminDto> list = isSearch ? adminDao.selectList(column, keyword) : adminDao.selectList();
+//
+//	        model.addAttribute("list", list);
+//	        model.addAttribute("keyword", keyword);
+//
+//	        return "/WEB-INF/views/sysadmin/list.jsp";
+//	    }
+	
+	@RequestMapping("/list")
+	   public String list(@ModelAttribute("pageVO") PageVO pageVO, Model model) {
+	       // 빈 문자열을 null로 변환
+	       if (pageVO.getColumn() != null && pageVO.getColumn().trim().isEmpty()) {
+	           pageVO.setColumn(null);
+	       }
+	       if (pageVO.getKeyword() != null && pageVO.getKeyword().trim().isEmpty()) {
+	           pageVO.setKeyword(null);
+	       }
+	       model.addAttribute("list", adminDao.selectListBypaging(pageVO));
+	       pageVO.setCount(adminDao.countByPaging(pageVO));
+	       model.addAttribute("pageVO", pageVO);
 
-	        boolean isSearch = column != null && keyword != null;
-	        List<AdminDto> list = isSearch ? adminDao.selectList(column, keyword) : adminDao.selectList();
-
-	        model.addAttribute("list", list);
-	        model.addAttribute("keyword", keyword);
-
-	        return "/WEB-INF/views/sysadmin/list.jsp";
-	    }
+	       return "/WEB-INF/views/sysadmin/list.jsp";
+	   }
 	
 	@RequestMapping("/detail")
 	public String detail(@RequestParam String adminId, Model model) {
