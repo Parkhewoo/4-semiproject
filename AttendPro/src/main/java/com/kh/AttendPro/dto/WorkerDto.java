@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class WorkerDto {
     private int workerNo;
+    private String name;
     private String workerPw;
     private String workerName;
     private int workerAttend;
@@ -19,4 +20,6 @@ public class WorkerDto {
     private String workerPost;
     private String workerAddress1;
     private String workerAddress2;
+
+  
 }

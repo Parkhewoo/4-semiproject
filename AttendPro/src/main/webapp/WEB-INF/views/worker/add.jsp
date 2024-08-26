@@ -88,6 +88,15 @@
             <label for="workerAddress2">상세주소</label>
             <input type="text" id="workerAddress2" name="workerAddress2">
         </div> 
+        
+        <div class="form-group">
+        	<label>프로필 이미지</label>
+        	<input type="file" name="attach" accept="image/*" class="field w-100">
+        </div>
+        
+        <div class="row center">
+            <img src="https://placehold.co/150?text=NO" width="150" height="150">
+        </div>
 
         <button type="submit" class="btn btn-positive w-100">가입하기</button>
     </div>
