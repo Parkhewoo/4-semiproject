@@ -1,5 +1,5 @@
 
-<%@ page language="java" contentType="text/html; charsetf=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
@@ -11,7 +11,7 @@
 				adminPwValid : false,
 			adminPwCheckValid : false,
 			ok : function(){
-				return this.adminPwValid && this.adminPwChcekValid;
+				return this.adminPwValid && this.adminPwCheckValid;
 			}
 		};
 		
@@ -24,14 +24,14 @@
 		});
 		//비밀번호 확인 검사
 		$("#password-check").blur(function(){
-			var admin = $("[name=adminPw]").val();
-			var adminPwCheck = $(this).val();
-			status.adminPwCheckValid = adminPw.length > 0 && adminPw == adminPwCheck;
-			$(this).removeClass("success fail").addClass(status.adminPwCheckValid ? "success" : "fail");
-		});
+    var adminPw = $("[name=adminPw]").val();
+    var adminPwCheck = $(this).val();
+    status.adminPwCheckValid = adminPw.length > 0 && adminPw == adminPwCheck;
+    $(this).removeClass("success fail").addClass(status.adminPwCheckValid ? "success" : "fail");
+});
 		//form 검사
 		$(".check-form").submit(function(){
-			$("[name=memberPw]").trigger("blur");
+			$("[name=adminPw]").trigger("blur");
 			$("#password-check").trigger("blur");
 			return status.ok();
 		});
@@ -46,11 +46,11 @@
 	<form action="resetPw" method="post" autocomplete="off" class="check-form">
 		<input type="hidden" name="certEmail" value="${certDto.certEmail}">
 		<input type="hidden" name="certNumber" value="${certDto.certNumber}">
-		<input type="hidden" name="memberId" value="${admin}">
+		<input type="hidden" name="adminId" value="${adminId}">
 	
 		<div class="row">
 			<label>변경할 비밀번호</label>
-			<input type="password" name="admin" class="field w-100">
+			<input type="password" name="adminPw" class="field w-100">
 		</div>
 		<div class="row">
 			<label>비밀번호 확인</label>

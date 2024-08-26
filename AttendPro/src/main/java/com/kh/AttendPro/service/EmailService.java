@@ -8,13 +8,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dao.CertDao;
 import com.kh.AttendPro.dto.CertDto;
 
@@ -33,9 +31,7 @@ public class EmailService {
 	@Autowired
 	private CertDao certDao;
 
-	@Autowired
-	private AdminDao adminDao;
-
+	
 	// 인증번호 발송 서비스
 	public void sendCert(String email) throws MessagingException, IOException {
 

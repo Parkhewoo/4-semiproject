@@ -73,9 +73,9 @@ public class AdminDao {
 	}
 	//비밀번호 변경
 	public boolean updateAdminPw(String adminId, String adminPw) {
-		String sql = "update admin set admin_pw=? where admin_id=?";
-		Object[] data = {adminPw, adminId};
-		return jdbcTemplate.update(sql, data) > 0;
+	    String sql = "update admin set admin_pw=? where admin_id=?";
+	    Object[] data = {adminPw, adminId};
+	    return jdbcTemplate.update(sql, data) > 0;
 	}
 
 
