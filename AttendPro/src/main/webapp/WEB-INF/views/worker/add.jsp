@@ -87,7 +87,7 @@
         <div class="form-group">
             <label for="workerAddress2">상세주소</label>
             <input type="text" id="workerAddress2" name="workerAddress2">
-        </div>
+        </div> 
 
         <button type="submit" class="btn btn-positive w-100">가입하기</button>
     </div>
