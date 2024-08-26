@@ -13,34 +13,32 @@ import com.kh.AttendPro.mapper.CertMapper;
 public class CertDao {
 
 	@Autowired
-	private JdbcTemplate jdbTemplate;
+	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
 	private CertMapper certMapper;
 	
-	
 	public void insert(CertDto certDto) {
 		String sql = "insert into cert(cert_email, cert_number) values(?, ?)";
 		Object[] data = {certDto.getCertEmail(), certDto.getCertNumber()};
-		jdbTemplate.update(sql, data);
+		jdbcTemplate.update(sql, data);
 	}
-	//
 	public boolean delete(String certEmail) {
 		String sql = "delete cert where cert_email = ?";
 		Object[] data = {certEmail};
-		return jdbTemplate.update(sql, data) > 0;
+		return jdbcTemplate.update(sql, data) > 0;
 	}
 	
 	//이메일과 인증번호가 유효한지 검사하는 기능
 	public boolean check(CertDto certDto, int duration) {
 		String sql = "select * from cert "
-				+ "where cert_email=? "
-				+ "and cert_number=? "
-				+ "and cert_time between sysdate-?/60/24/ and sysdate";
+						+ "where cert_email=? "
+									+ "and cert_number=? "
+									+ "and cert_time between sysdate-?/60/24 and sysdate";
 		Object[] data = {
 				certDto.getCertEmail(), certDto.getCertNumber(), duration
 		};
-		List<CertDto> list = jdbTemplate.query(sql, certMapper, data);
+		List<CertDto> list = jdbcTemplate.query(sql, certMapper, data);
 		return list.size() > 0;
 	}
 	
@@ -48,6 +46,7 @@ public class CertDao {
 	public boolean clean(int minute) {
 		String sql = "delete cert where cert_time < sysdate-?/24/60";
 		Object[] data = {minute};
-		return jdbTemplate.update(sql, data) > 0;
+		return jdbcTemplate.update(sql, data) > 0;
 	}
+	
 }

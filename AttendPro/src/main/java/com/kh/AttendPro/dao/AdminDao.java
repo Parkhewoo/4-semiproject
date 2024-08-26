@@ -23,7 +23,7 @@ public class AdminDao {
 	//회원등록
 	   public boolean join(AdminDto adminDto) {
 	        String sql = "INSERT INTO admin (admin_id, admin_pw, admin_no, admin_rank, admin_email) "
-	                   + "VALUES (?, ?, ?, '일반사원', ?)"; // '일반사원'으로 기본값 설정
+	                   + "VALUES (?, ?, ?, '일반 관리자', ?)"; // '일반사원'으로 기본값 설정
 
 	        Object[] data = {
 	            adminDto.getAdminId(),

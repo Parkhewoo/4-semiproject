@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
     
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
@@ -8,11 +9,12 @@
 $(function(){
 	$(".check-form").submit(function(){
 		var btn = $(this).find("button[type=submit]");
-		btn.find("i").addClass("fa-shake");
+		btn.find("i").addClass("fa-bounce");
 		return true;
 	});
 });
 </script>
+
 <div class="container w-500 my-50">
 	<div class="row center">
 		<h1>비밀번호 찾기</h1>
@@ -30,7 +32,7 @@ $(function(){
 	<div class="row mt-30">
 		<button type="submit" class="btn btn-positive w-100">
 			<i class="fa-regular fa-envelope"></i>
-			<span>임시 비밀번호 발행</span>
+			<span>비밀번호 재설정 메일 발송</span>
 		</button>
 	</div>
 	</form>
@@ -42,8 +44,5 @@ $(function(){
 	</c:if>
 	
 </div>
-
-
-
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

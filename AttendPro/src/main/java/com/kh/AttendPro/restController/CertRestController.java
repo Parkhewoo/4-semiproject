@@ -1,5 +1,7 @@
 package com.kh.AttendPro.restController;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,8 @@ import com.kh.AttendPro.configuration.CustomCertProperties;
 import com.kh.AttendPro.dao.CertDao;
 import com.kh.AttendPro.dto.CertDto;
 import com.kh.AttendPro.service.EmailService;
+
+import jakarta.mail.MessagingException;
 
 @RestController
 @RequestMapping("/rest/cert")
@@ -27,7 +31,7 @@ public class CertRestController {
 	
 	//사용자가 요구하는 이메일로 인증메일을 발송하는 기능
 	@PostMapping("/send")
-	public void send(@RequestParam String certEmail) {
+	public void send(@RequestParam String certEmail) throws MessagingException, IOException {
 	emailService.sendCert(certEmail);
 	}
 	
