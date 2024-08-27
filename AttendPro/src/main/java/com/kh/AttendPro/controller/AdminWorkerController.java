@@ -54,6 +54,7 @@ public class AdminWorkerController {
 	    	  int attachmentNo = attachmentService.save(attach);
 	    	  //[3] 회원 이미지에 연결정보 저장
 	    	  workerDao.connect(workerDto.getWorkerNo(), attachmentNo);
+	    	  
 	      }
 	      return "redirect:addFinish";
 	   }
@@ -88,7 +89,6 @@ public class AdminWorkerController {
 			else {
 				model.addAttribute("list", workerDao.selectList());
 			}
-			
 			return "/WEB-INF/views/worker/list.jsp";
 		}
 	   

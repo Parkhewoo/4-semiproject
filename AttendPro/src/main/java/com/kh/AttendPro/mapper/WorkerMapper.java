@@ -12,6 +12,7 @@ public class WorkerMapper implements RowMapper<WorkerDto> {
     @Override
     public WorkerDto mapRow(ResultSet rs, int rowNum) throws SQLException {
         WorkerDto workerDto = new WorkerDto();
+        
         workerDto.setAdminId(rs.getString("admin_id"));
         workerDto.setWorkerNo(rs.getInt("worker_no"));
         workerDto.setWorkerPw(rs.getString("worker_pw"));
