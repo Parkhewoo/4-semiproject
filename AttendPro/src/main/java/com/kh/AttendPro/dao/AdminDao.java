@@ -31,12 +31,13 @@ public class AdminDao {
 		String rawPw = adminDto.getAdminPw();
 		String encPw = encoder.encode(rawPw);
 		adminDto.setAdminPw(encPw);
-
+		
+	    
 		// JDBC
 		String sql = "insert into admin(" + "admin_id, admin_pw, admin_no, admin_rank, admin_email"
-				+ ") values(?, ?, ?, '일반관리자', ?)";
+				+ ") values(?, ?, ?, '일반 관리자', ?)";
 		Object[] data = { adminDto.getAdminId(), adminDto.getAdminPw(), adminDto.getAdminNo(),
-				adminDto.getAdminEmail() };
+			adminDto.getAdminEmail() };
 		 int rowsAffected = jdbcTemplate.update(sql, data);
 		    return rowsAffected > 0;
 	}
@@ -73,7 +74,9 @@ public class AdminDao {
 			return null;
 
 		AdminDto adminDto = list.get(0);
-		boolean isValid = encoder.matches(adminPw, adminDto.getAdminPw());
+		String storedEncPw = adminDto.getAdminPw();
+		
+		boolean isValid = encoder.matches(adminPw, /*adminDto.getAdminPw()*/storedEncPw);
 		return isValid ? adminDto : null;
 	}
 

@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminCotroller {
+public class AdminController {
 	
 	@Autowired
 	private AdminDao adminDao;
@@ -72,8 +72,8 @@ public class AdminCotroller {
             return "redirect:/join"; // 실패 시 회원가입 페이지로 리다이렉트
         }
 	}
-	
-	
+	  
+	  
 	@RequestMapping("/joinFinish")
 	public String registComplete() {
 		return"/WEB-INF/views/admin/joinFinish.jsp";
