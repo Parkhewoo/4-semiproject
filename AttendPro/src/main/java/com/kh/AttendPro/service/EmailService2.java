@@ -60,14 +60,14 @@ public class EmailService2 {
 	}
 
 	// 비밀번호 재설정 메일 발송 기능
-	public void sendResetPw(String workerNo, String workerEmail) throws IOException, MessagingException {
+	public void sendResetPw(int workerNo, String workerEmail) throws IOException, MessagingException {
 		// 이메일 템플릿 불러와 정보 설정 후 발송
 		ClassPathResource resource = new ClassPathResource("templates/reset-pw.html");
 		File target = resource.getFile();
 		Document document = Jsoup.parse(target);
 
 		Element adminIdWrapper = document.getElementById("worker-no");
-		adminIdWrapper.text(workerNo);
+		adminIdWrapper.text(String.valueOf(workerNo));
 
 		// 돌아올 링크 주소를 생성하는 코드
 		// -인증번호 생성
@@ -99,5 +99,7 @@ public class EmailService2 {
 		// 전송
 		sender.send(message);
 	}
+
+	
 
 }

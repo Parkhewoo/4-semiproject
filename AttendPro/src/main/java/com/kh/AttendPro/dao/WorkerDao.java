@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.kh.AttendPro.dto.AdminDto;
@@ -20,8 +21,16 @@ public class WorkerDao {
 	@Autowired
 	private WorkerMapper workerMapper;
 	
+	@Autowired
+	private PasswordEncoder encoder;
 	
+	//사원 등록 (암호화 추가)
 	public void insert(WorkerDto workerDto) {
+		//암호화
+		String rawPw = workerDto.getWorkerPw();
+		String encPw = encoder.encode(rawPw);
+		workerDto.setWorkerPw(encPw);
+		
         // SQL 쿼리 정의
         String sql = "INSERT INTO worker ("
                 + "worker_no, worker_pw, worker_name, worker_attend, worker_absent, "
@@ -77,6 +86,13 @@ public class WorkerDao {
 		    List<WorkerDto> list = jdbcTemplate.query(sql, workerMapper, data);
 		    return list.isEmpty() ? null : list.get(0);
 		}
+	//로그인 전용 상세조회
+	public WorkerDto selectOneWithPassword(int workerNo, String workerPw) {
+		String sql = "select * from worker where worker_no = ?";
+		Object[] data = {workerNo};
+		List<WorkerDto> list = jdbcTemplate.query(sql, workerMapper, data);
+		return list.isEmpty() ? null : list.get(0);
+	}
 		
 	//회원정보 수정
 		public boolean update(WorkerDto dto) {
@@ -113,13 +129,7 @@ public class WorkerDao {
 		    return jdbcTemplate.update(sql, data) > 0;
 		}
 		
-	//worker 상세
-		public WorkerDto selectOne(String workerNo) {
-			String sql = "select * from worker where worker_no = ?";
-			Object[] data = {workerNo};
-			List<WorkerDto> list = jdbcTemplate.query(sql, workerMapper, data);
-			return list.isEmpty() ? null : list.get(0);
-		}
+	
 		
 		//페이징
 //		public List<WorkerDto> selectListByPaging(PageVO pageVO) {
