@@ -9,7 +9,7 @@
 		<div class="row center" >
 			<h1>사업주 정보 수정페이지</h1>
 		</div>
-
+<form action="edit" method="post">
 	<div class="row">
 	<label>사업자 번호* </label>
 	<input type="text" name="adminNo" value="${adminDto.adminNo}" class="field w-100" required> 
@@ -22,19 +22,19 @@
 	
 	<div class="row">
 	<label>등급</label> 
-	<select name="memberLevel" class="field w-100">
+	<select name="adminRank" class="field w-100">
 		<option value="일반 관리자" <c:if test="${adminDto.adminRank == '일반 관리자'}">selected</c:if>>일반 관리자</option>
 		<option value="시스템 관리자" <c:if test="${adminDto.adminRank == '시스템 관리자'}">selected</c:if>>시스템 관리자</option>
 	</select>
 	</div><br>
 	
-	<div class="row">
+	<div class="field w-100">
 	<label>최종로그인</label>
-		<fmt:formatDate value="${adminDto.adminLogin}" class="field w-100" pattern="y년 M월 d일 E H시 m분 s초"/>
+		<fmt:formatDate value="${adminDto.adminLogin}" pattern="y년 M월 d일 E H시 m분 s초"/>
 	</div><br>
 	
-	<div class="btn btn-positive w-100 ">변경하기</div>			
-		
+	<button type="submit" class="btn btn-positive w-100">변경하기</button>	
+</form>		
 </div>
 
 <%-- footer.jsp에 존재하는 내용을 불러오도록 설정 --%>		

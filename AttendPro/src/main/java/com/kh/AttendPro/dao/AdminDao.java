@@ -121,12 +121,26 @@ public class AdminDao {
 		}
 	}
 
+//	public boolean updateAdminBySysadmin(AdminDto adminDto) {
+//		String sql = "update admin set" + "admin_no=?" + "admin_rank=?" + "admin_email=?" + "admin_login=?";
+//		Object[] data = { adminDto.getAdminNo(), adminDto.getAdminRank(), adminDto.getAdminEmail(),
+//				adminDto.getAdminLogin() };
+//		return jdbcTemplate.update(sql, data) > 0;
+//	}
+	//(시스템관리자용) 관리자 정보수정
 	public boolean updateAdminBySysadmin(AdminDto adminDto) {
-		String sql = "update admin set" + "admin_no=?" + "admin_rank=?" + "admin_email=?" + "admin_login=?";
-		Object[] data = { adminDto.getAdminNo(), adminDto.getAdminRank(), adminDto.getAdminEmail(),
-				adminDto.getAdminLogin() };
-		return jdbcTemplate.update(sql, data) > 0;
+	    String sql = "UPDATE admin SET "
+	    		+ "admin_no=?, admin_rank=?, "
+	    		+ "admin_email=?, admin_login=?";
+	    Object[] data = {
+	        adminDto.getAdminNo(), 
+	        adminDto.getAdminRank(), 
+	        adminDto.getAdminEmail(),
+	        adminDto.getAdminLogin()// WHERE 절에 사용할 admin_id 추가
+	    };
+	    return jdbcTemplate.update(sql, data) > 0;
 	}
+
 
 	public boolean delete(String adminId) {
 		String sql = "delete admin where admin_id = ?";
