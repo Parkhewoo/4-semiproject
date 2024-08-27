@@ -132,8 +132,8 @@ public class AdminDao {
 		return jdbcTemplate.update(sql, data) > 0;
 	}
 
-
-
+	
+	
 	public boolean delete(String adminId) {
 		String sql = "delete admin where admin_id = ?";
 		Object[] data = {adminId};
