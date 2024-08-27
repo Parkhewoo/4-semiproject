@@ -100,12 +100,12 @@ $(function() {
                         </tr>
                     </thead>
                     <tbody align="center">
-                        <c:forEach var="statusVO" items="${adminRankStatusList}">
-                            <tr>
-                                <td>${statusVO.title}</td>
-                                <td>${statusVO.cnt}</td>
-                            </tr>
-                        </c:forEach>
+                        <c:forEach var="statusVO" items="${adminStatusList}">
+						    <tr>
+						        <td>${statusVO.title}</td>
+						        <td>${statusVO.cnt}</td>
+						    </tr>
+						</c:forEach>
                     </tbody>
                 </table>
             </div>
