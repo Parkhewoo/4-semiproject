@@ -29,7 +29,7 @@ public class BlockDao {
 	}
 	
 	//해제 등록
-		public void insertCancel(BlockDto blockDto) {
+		public void insertCancle(BlockDto blockDto) {
 			String sql = "insert into block("
 								+ "block_no, block_type, "
 								+ "block_memo, block_target"
