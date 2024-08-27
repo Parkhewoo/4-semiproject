@@ -132,7 +132,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>1단계 : 사원번호 입력</h2>
+                        <h2>2단계 : 사원번호 입력</h2>
                     </div>
                     <div class="row">
                         <label>사원번호</label>
@@ -151,7 +151,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>2단계 : 비밀번호 입력</h2>
+                        <h2>3단계 : 비밀번호 입력</h2>
                     </div>
                     <div class="row">
                         <label>
@@ -191,7 +191,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>3단계 : 사원 이름 입력</h2>
+                        <h2>4단계 : 사원 이름 입력</h2>
                     </div>
                     <div class="row">
                         <label>사원 이름</label>
@@ -216,7 +216,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>4단계 : 직급 입력</h2>
+                        <h2>5단계 : 직급 입력</h2>
                     </div>
                     <div class="row">
                         <label>직급</label>
@@ -240,7 +240,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>4단계 : 이메일 입력</h2>
+                        <h2>6단계 : 이메일 입력</h2>
                     </div>
                     <div class="row">
                         <label>이메일</label>
@@ -264,7 +264,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>5단계 : 선택정보 입력</h2>
+                        <h2>7단계 : 선택정보 입력</h2>
                     </div>
                     <div class="row">
                         <label>연락처(휴대전화번호, - 제외)</label>
@@ -292,7 +292,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>6단계 : 주소 입력</h2>
+                        <h2>8단계 : 주소 입력</h2>
                     </div>
                     <div class="row">
                         <input type="text" name="workerPost" class="field" placeholder="우편번호" readonly>
@@ -327,7 +327,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>7단계 : 프로필 이미지 선택</h2>
+                        <h2>9단계 : 프로필 이미지 선택</h2>
                     </div>
                     <div class="row">
                         <input type="file" name="attach" accept="image/*" class="field w-100">

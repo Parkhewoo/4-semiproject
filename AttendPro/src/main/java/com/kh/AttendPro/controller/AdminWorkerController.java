@@ -89,7 +89,6 @@ public class AdminWorkerController {
 			else {
 				model.addAttribute("list", workerDao.selectList());
 			}
-			
 			return "/WEB-INF/views/worker/list.jsp";
 		}
 	   

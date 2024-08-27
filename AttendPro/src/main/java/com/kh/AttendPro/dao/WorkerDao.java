@@ -97,7 +97,6 @@ public class WorkerDao {
 		WorkerDto workerDto = list.get(0);
 		boolean isValid = encoder.matches(workerPw, workerDto.getWorkerPw());
 		return isValid ? workerDto : null;
-		
 	}
 		
 	//회원정보 수정
