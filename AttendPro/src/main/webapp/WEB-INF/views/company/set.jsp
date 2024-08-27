@@ -3,7 +3,7 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<form action="edit" method="post" autocomplete="off">
+<form action="set" method="post" autocomplete="off">
     <!-- 수정에 필요하지만 보여지면 안되는 번호를 숨김 첨부 -->
     <input type="hidden" name="workerNo" value="${workerDto.workerNo}">
     
@@ -17,11 +17,11 @@
         </div>
         <div class="row">
             <label>출근시간</label>
-            <input name="companyInTime" type="time" class="field w-100" value="${companyDto.companyInTime}">
+            <input name="companyIn" type="date" class="field w-100" value="${companyDto.companyIn}">
         </div>
         <div class="row">
             <label>퇴근시간</label>
-            <input name="companyOutTime" type="time" class="field w-100" value="${companyDto.companyOutTime}">
+            <input name="companyOut" type="date" class="field w-100" value="${companyDto.companyOut}">
         </div>
         <div class="row">
             <label>휴일</label>

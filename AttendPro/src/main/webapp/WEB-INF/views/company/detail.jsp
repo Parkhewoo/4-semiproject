@@ -23,11 +23,11 @@
             </tr>
             <tr>
                 <th>출근시간</th>
-                <td>${companyDto.companyInTime}</td>
+                <td>${companyDto.companyIn}</td>
             </tr>
             <tr>
                 <th>퇴근시간</th>
-                <td>${companyDto.companyOutTime}</td>
+                <td>${companyDto.companyOut}</td>
             </tr>
             <tr>
                 <th>휴일</th>

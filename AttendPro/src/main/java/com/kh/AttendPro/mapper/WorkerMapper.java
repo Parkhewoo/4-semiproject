@@ -12,6 +12,7 @@ public class WorkerMapper implements RowMapper<WorkerDto> {
     @Override
     public WorkerDto mapRow(ResultSet rs, int rowNum) throws SQLException {
         WorkerDto workerDto = new WorkerDto();
+        workerDto.setAdminId(rs.getString("admin_id"));
         workerDto.setWorkerNo(rs.getInt("worker_no"));
         workerDto.setWorkerPw(rs.getString("worker_pw"));
         workerDto.setWorkerName(rs.getString("worker_name"));
@@ -21,7 +22,7 @@ public class WorkerMapper implements RowMapper<WorkerDto> {
         workerDto.setWorkerLeave(rs.getInt("worker_leave"));
         workerDto.setWorkerJoin(rs.getDate("worker_join"));  // DATE 타입
         workerDto.setWorkerRank(rs.getString("worker_rank"));
-        workerDto.setWorkerBirthday(rs.getDate("worker_birthday"));  // DATE 타입
+        workerDto.setWorkerBirthday(rs.getString("worker_birthday"));  // DATE 타입
         workerDto.setWorkerContact(rs.getString("worker_contact"));
         workerDto.setWorkerEmail(rs.getString("worker_email"));
         workerDto.setWorkerPost(rs.getString("worker_post"));

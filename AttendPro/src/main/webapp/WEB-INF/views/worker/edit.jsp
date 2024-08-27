@@ -16,6 +16,10 @@
             <input name="workerName" type="text" required placeholder="(ex) 홍길동" class="field w-100" value="${workerDto.workerName}">
         </div>
         <div class="row">
+            <label>비번</label>
+            <input name="workerPw" type="password" required" class="field w-100" value="${workerDto.workerPw}">
+        </div>
+        <div class="row">
             <label>입사일</label>
             <input name="workerJoin" type="date" required placeholder="(ex) 2024-01-01" class="field w-100" value="${workerDto.workerJoin}">
         </div>
