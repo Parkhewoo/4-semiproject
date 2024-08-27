@@ -46,6 +46,8 @@ public class AdminWorkerController {
 			   					 MultipartFile attach) throws IllegalStateException, IOException {		   	   
 		 //[1] 회원가입
 	      workerDao.insert(workerDto);
+	      System.out.println("workerDto"+workerDto);
+	      System.out.println(attach);
 	      
 	      if(attach.isEmpty() == false) {
 	    	  //[2] 첨부파일이 있다면 등록 및 저장
