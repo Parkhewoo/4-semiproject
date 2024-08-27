@@ -54,6 +54,7 @@ public class AttachmentService {
 		attachmentDto.setAttachmentName(attach.getOriginalFilename());
 		attachmentDto.setAttachmentType(attach.getContentType());
 		attachmentDto.setAttachmentSize(attach.getSize());
+		attachmentDao.insert(attachmentDto);//수정
 		return attachmentNo;		
 	}
 	
