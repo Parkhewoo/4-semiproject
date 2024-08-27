@@ -79,7 +79,7 @@
     			$.ajax({
     				processData:false,
     				contentType:false,
-    				url:"/rest/worker/profile"
+    				url:"/rest/worker/profile",
     				method:"post",
     				data:form,
     				success:function(response){
@@ -90,7 +90,7 @@
     					console.log("uuid", uuid);
     					
     					$(".user-image")
-    						.attr("src", "/worker/mypage?uuid="+uuid);//재설정    					
+    						.attr("src", "/admin/worker/mypage?uuid="+uuid);//재설정    					
     				},
     			});
     			
@@ -122,7 +122,7 @@
 					
 					<div class="row center flex-core">
 						<div class="profile-wrapper">
-							<img src="/worker/myImage" width="50%"
+							<img src="/admin/worker/myImage" width="50%"
 									class="image image-circle image-left user-image">
 							<label for="change-image">변경하기</label>
 							<input type="file" id="change-image" accept="image/*" 
