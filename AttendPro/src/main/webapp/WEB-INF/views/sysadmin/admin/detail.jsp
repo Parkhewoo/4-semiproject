@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
-
 .table-info {
     width: 100%;
     border-collapse: collapse;
@@ -66,13 +66,12 @@
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.3s; /* 배경색 변경 시 부드러운 효과 */
+    transition: background-color 0.3s;
 }
 
 .btn:hover {
     background-color: lightgray;
 }
-
 </style>
 
 <div class="container w-500 my-50">
@@ -88,10 +87,9 @@
             </div>
         </c:when>
         <c:otherwise>
-        
             <h2>사업주 정보</h2>
             <table class="table-info">
-                 <tr>
+                <tr>
                     <th>사업주 아이디</th>
                     <td>${dto.adminId}</td>
                 </tr>
@@ -110,12 +108,33 @@
             </table>
         </c:otherwise>
     </c:choose>
+    
+    <!-- 회원의 차단이력을 출력 -->
+    <c:choose>
+        <c:when test="${blockList.isEmpty()}">
+            <p>차단이력이 존재하지 않습니다</p>
+        </c:when>
+        <c:otherwise>
+            <table border="1" width="700">
+                <thead>
+                    <tr>
+                        <th>일시</th>
+                        <th>구분</th>
+                        <th>사유</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 여기에 차단 이력 데이터를 추가하세요 -->
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
 
     <div class="links">
         <a href="list">사업주 목록</a>
         <a href="delete?adminId=${dto.adminId}">사업주 삭제</a>
         <a href="edit?adminId=${dto.adminId}">정보 변경</a>
-	    <a href="block?blockTarget=${dto.adminId}">차단</a>
+        <a href="block?blockTarget=${dto.adminId}">차단</a>
         <a href="cancle?blockTarget=${dto.adminId}">해제</a>
     </div>
 </div>

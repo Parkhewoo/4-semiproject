@@ -76,6 +76,8 @@ public class SysAdminController {
 		return "/WEB-INF/views/sysadmin/admin/detail.jsp";
 	}
 	
+	
+	
 	//관리자 정보수정
 	@GetMapping("/edit")
 	public String edit(Model model, @RequestParam String adminId) {		
