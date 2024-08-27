@@ -33,13 +33,14 @@ public class WorkerDao {
 		
         // SQL 쿼리 정의
         String sql = "INSERT INTO worker ("
-                + "worker_no, worker_pw, worker_name, worker_attend, worker_absent, "
+                + "admin_id,worker_no, worker_pw, worker_name, worker_attend, worker_absent, "
                 + "worker_late, worker_leave, worker_join, worker_rank, worker_birthday, "
                 + "worker_contact, worker_email, worker_post, worker_address1, worker_address2"
-                + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
         // 데이터 설정
         Object[] data = {
+        	workerDto.getAdminId(),
             workerDto.getWorkerNo(),
             workerDto.getWorkerPw(),
             workerDto.getWorkerName(),
