@@ -86,7 +86,7 @@
         		status.adminPwCheckValid = isValid;
         	});
         	//사업자 번호 형식검사
-        	$("name=adminNo").blur(function(){
+        	$("[name=adminNo]").blur(function(){
         		var regex = /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/;
         		var isValid = $(this).val().length == 0 || regex.test($(this).val());
         		$(this).removeClass("success fail")
@@ -97,7 +97,7 @@
         	var certEmail;
         	
         	$(".btn-cert-send").click(function(){
-        		var email = $("[name=adminEmali]").val();
+        		var email = $("[name=adminEmail]").val();
         		
         		if(email.length == 0){
         			status.adminEmailValid = false;
@@ -119,7 +119,7 @@
         			},
         			complete:function(){
         				$(".btn-cert-send").prop("disabled", false);
-        				$("btn-cert-send").find(".fa-solid")
+        				$(".btn-cert-send").find(".fa-solid")
         								  .removeClass("fa-spinner fa-spin")
         								  .addClass("fa-paper-plane");
         				$(".btn-cert-send").find("span").text("보내기");
