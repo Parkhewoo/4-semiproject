@@ -7,16 +7,8 @@ import lombok.Data;
 
 @Data
 public class RecordDto {
-	private String companyId;
-	private String companyName;
-	private LocalTime companyIn;
-	private LocalTime companyOut;
-	private Date companyHoliday;
 	private int workerNo; //primary key
-	private int workerAttend;
-	private int workerAbsent;
-	private int workerLate;
-	private int workerLeave;
+	private String adminId;
 	private Date workerIn;
 	private Date workerOut;
 }

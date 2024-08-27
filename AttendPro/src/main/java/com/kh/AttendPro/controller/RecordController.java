@@ -17,6 +17,7 @@ public class RecordController {
 	@Autowired
 	RecordDao recordDao;
 	
+	//출퇴근 버튼이 있는 테스트용 임시 페이지
 	@RequestMapping("/test")
 	public String main() {
 		return "/WEB-INF/views/worker/test.jsp";
@@ -29,19 +30,28 @@ public class RecordController {
 		return "/";
 	}
 	 
-	//테스트용으로 삭제 예정
-	//@PostMapping("/checkIn")
-	public String checkIn(@RequestParam int no) {
-		recordDao.checkIn(no);
-		return "/";
-	}
+//	테스트용으로 삭제 예정
+//	@PostMapping("/checkIn")
+//	public String checkIn(@RequestParam int no) {
+//		recordDao.checkIn(no);
+//		return "/";
+//	}
 	
-	//당일 출근 기록이 없을 경우 접근 불가 
+//	당일 출근 기록이 없을 경우 접근 불가 
 	@PostMapping("/checkOut")
 	public String checkOut(HttpSession session) {
 		String createdUser = (String) session.getAttribute("createdUser");
 		recordDao.checkIn(Integer.parseInt(createdUser));
 		return "/";
 	}
+	
+////	테스트용으로 삭제예정
+//		@PostMapping("/checkOut")
+//		public String checkOut(@RequestParam int no) {
+//			recordDao.checkOut(no);
+//			return "/";
+//		}
+	
+	
 	
 }
