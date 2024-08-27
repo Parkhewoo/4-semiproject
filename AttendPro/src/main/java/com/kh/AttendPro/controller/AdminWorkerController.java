@@ -144,7 +144,8 @@ public class AdminWorkerController {
 		}
 		
 		@RequestMapping("/image")
-		public String image(@RequestParam int workerNo) {
+		public String image(@RequestParam int  workerNo) {
+
 			try {
 				int attachmentNo = workerDao.findImage(workerNo);
 				return "redirect:/attach/download?attachmentNo="+attachmentNo;
