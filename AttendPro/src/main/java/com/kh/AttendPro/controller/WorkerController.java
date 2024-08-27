@@ -56,7 +56,7 @@ public class WorkerController {
 		//[3] 1,2번에서 쫓겨나지 않았다면 성공으로 간주
 		//session.setAttribute("이름", 값);
 		session.setAttribute("createdUser", workerNo);
-		session.setAttribute("createdRank", workerNo);
+		session.setAttribute("createdRank", workerDto.getWorkerRank());
 		
 		return "/WEB-INF/views/worker/course.jsp";//출퇴근 버튼 페이지로 이동
 	}
