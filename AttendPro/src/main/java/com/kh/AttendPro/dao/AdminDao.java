@@ -65,6 +65,7 @@ public class AdminDao {
 		return list.isEmpty() ? null : list.get(0);
 	}
 
+	
 	// 로그인 전용 상세조회
 	public AdminDto selectOneWithPassword(String adminId, String adminPw) {
 		String sql = "select * from admin where admin_id = ?";
@@ -127,21 +128,24 @@ public class AdminDao {
 //				adminDto.getAdminLogin() };
 //		return jdbcTemplate.update(sql, data) > 0;
 //	}
+	
 	//(시스템관리자용) 관리자 정보수정
 	public boolean updateAdminBySysadmin(AdminDto adminDto) {
 	    String sql = "UPDATE admin SET "
-	    		+ "admin_no=?, admin_rank=?, "
-	    		+ "admin_email=?, admin_login=?";
+	            + "admin_no=?, admin_rank=?, "
+	            + "admin_email=?, admin_login=? "
+	            + "WHERE admin_id=?";
 	    Object[] data = {
 	        adminDto.getAdminNo(), 
 	        adminDto.getAdminRank(), 
 	        adminDto.getAdminEmail(),
-	        adminDto.getAdminLogin()// WHERE 절에 사용할 admin_id 추가
+	        adminDto.getAdminLogin(), 
+	        adminDto.getAdminId()
 	    };
 	    return jdbcTemplate.update(sql, data) > 0;
 	}
 
-
+	//(시스템관리자 전용) 관리자 정보삭제
 	public boolean delete(String adminId) {
 		String sql = "delete admin where admin_id = ?";
 		Object[] data = { adminId };
