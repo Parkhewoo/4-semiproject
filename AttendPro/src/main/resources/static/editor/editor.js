@@ -1,6 +1,6 @@
 $(function(){
     //$(선택자).summernote(옵션객체);
-    $("[name=boardContent]").summernote({
+    $("[name=qnaContent]").summernote({
         height: 250,//높이(px)
         minHeight: 250,//최소높이(px)
         maxHeight: 400,//최대높이(px)
@@ -44,17 +44,17 @@ $(function(){
                 $.ajax({
                     processData: false, /*파일업로드에 꼭 필요한 설정*/
                     contentType: false, /*파일업로드에 꼭 필요한 설정*/
-                    url:"/rest/board/uploads",
+                    url:"/rest/qna/uploads",
                     method:"post",
                     data: form,
                     success:function(response){
                         //response에는 파일번호 목록이 있어야 한다
 						for(var i=0; i < response.length; i++) {
 							//태그를 만들 때에는 선택자에 온전한 태그를 넣는다
-	                        var tag = $("<img>").addClass("board-attach")
+	                        var tag = $("<img>").addClass("qna-attach")
 	                        			.attr("data-key", response[i])
 	                        			.attr("src", "/attach/download?attachmentNo="+response[i]);
-	                        $("[name=boardContent]").summernote("insertNode", tag[0]);
+	                        $("[name=qnaContent]").summernote("insertNode", tag[0]);
 						}
                         
                     }
@@ -64,9 +64,9 @@ $(function(){
     });
 
     //if(에디터가 비어있으면) {
-    if($("[name=boardContent]").summernote("isEmpty")) {
+    if($("[name=qnaContent]").summernote("isEmpty")) {
         //에디터의 값을 빈 문자열로 재설정하세요
-        $("[name=boardContent]").summernote("code", "");
+        $("[name=qnaContent]").summernote("code", "");
     }
     
 });
