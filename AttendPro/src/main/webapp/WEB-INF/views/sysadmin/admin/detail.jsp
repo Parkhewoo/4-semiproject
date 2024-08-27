@@ -4,45 +4,54 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-
 <style>
+
 .table-info {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .table-info th, .table-info td {
     padding: 12px;
     text-align: left;
 }
+
 .table-info th {
     background-color: #f4f4f4;
     border-bottom: 2px solid #ddd;
 }
+
 .table-info td {
     border-bottom: 1px solid #ddd;
 }
+
 .table-info tr:last-child td {
     border-bottom: none;
 }
+
 .links {
     text-align: center;
 }
+
 .links a {
     text-decoration: none;
     color: black;
     font-weight: bold;
     margin: 0 15px;
 }
+
 .links a:hover {
     text-decoration: underline;
 }
+
 .info-message {
     text-align: center;
     font-size: 18px;
     color: #e74c3c;
 }
+
 .btn {
     display: flex;
     align-items: center;
@@ -59,9 +68,11 @@
     cursor: pointer;
     transition: background-color 0.3s; /* 배경색 변경 시 부드러운 효과 */
 }
+
 .btn:hover {
     background-color: lightgray;
 }
+
 </style>
 
 <div class="container w-500 my-50">
@@ -77,8 +88,9 @@
             </div>
         </c:when>
         <c:otherwise>
-        <table class="table-info">
-                <h2>사업주 정보</h2>
+        
+            <h2>사업주 정보</h2>
+            <table class="table-info">
                  <tr>
                     <th>사업주 아이디</th>
                     <td>${dto.adminId}</td>
@@ -103,7 +115,7 @@
         <a href="list">사업주 목록</a>
         <a href="delete?adminId=${dto.adminId}">사업주 삭제</a>
         <a href="edit?adminId=${dto.adminId}">정보 변경</a>
-           <a href="block?blockTarget=${dto.adminId}">차단</a>
+	    <a href="block?blockTarget=${dto.adminId}">차단</a>
         <a href="cancle?blockTarget=${dto.adminId}">해제</a>
     </div>
 </div>

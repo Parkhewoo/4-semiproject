@@ -9,7 +9,6 @@
 			<h1>사업주 정보 수정페이지</h1>
 		</div>
 
-        <table class="table-info">
 
 	<div class="row">
 	<label>사업자 번호* </label>
@@ -21,6 +20,16 @@
 	<input type="email" name="adminEmail" value="${adminDto.adminEmail}" class="field w-100" required> 
 	</div>
 
+	<div class="row">
+	<label>사업자 번호* </label>
+	<input type="text" name="adminNo" value="${adminDto.adminNo}" class="field w-100" required> 
+	</div>
+	
+	<div class="row">
+	<label>이메일* </label>
+	<input type="email" name="adminEmail" value="${adminDto.adminEmail}" class="field w-100" required> 
+	</div>
+	
 	<div class="row">
 	<label>등급</label> 
 	<select name="memberLevel" class="field w-100">
@@ -34,6 +43,8 @@
 		<fmt:formatDate value="${memberDto.memberLogin}" class="field w-100" pattern="y년 M월 d일 E H시 m분 s초"/>
 	</div><br>
 	<button>변경하기</button>	<div class="btn btn-positive w-100 ">변경하기</div>			
+	
+	<div class="btn btn-positive w-100 ">변경하기</div>			
 		
 </div>
 

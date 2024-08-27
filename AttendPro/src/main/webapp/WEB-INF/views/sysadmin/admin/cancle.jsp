@@ -5,7 +5,6 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <form action="cancle" method="post" autocomplete="off">
 	<input type="hidden" name="blockTarget" value="${param.blockTarget}">
-
 <div class="container w-600 my-50">
 	<div class="row center">
 		<h1>${param.blockTarget} 차단 해제페이지</h1>

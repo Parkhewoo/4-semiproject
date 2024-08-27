@@ -28,9 +28,8 @@ public class BlockDao {
 		jdbcTemplate.update(sql, data);
 	}
 	
-
 	//해제 등록
-		public void insertCancle(BlockDto blockDto) {
+		public void insertCancel(BlockDto blockDto) {
 			String sql = "insert into block("
 								+ "block_no, block_type, "
 								+ "block_memo, block_target"

@@ -19,6 +19,7 @@ public class SysAdminInterceptor implements HandlerInterceptor{
 		String createdLevel = (String)session.getAttribute("createdLevel");
 		boolean isAdmin = "시스템 관리자".equals(createdLevel);
 
+		
 		if(isAdmin) {//시스템 관리자라면
 			return true;//통과
 		}

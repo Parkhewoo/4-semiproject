@@ -100,7 +100,7 @@ $(function() {
                         </tr>
                     </thead>
                     <tbody align="center">
-                         <c:forEach var="statusVO" items="${adminStatusList}">
+                        <c:forEach var="statusVO" items="${adminStatusList}">
 						    <tr>
 						        <td>${statusVO.title}</td>
 						        <td>${statusVO.cnt}</td>
