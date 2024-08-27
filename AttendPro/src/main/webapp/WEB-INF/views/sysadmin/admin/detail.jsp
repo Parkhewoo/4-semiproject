@@ -6,79 +6,122 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
-.table-info {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    .container {	
+        width: 100%;
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-.table-info th, .table-info td {
-    padding: 12px;
-    text-align: left;
-}
+    .row {
+        margin-bottom: 15px;
+    }
 
-.table-info th {
-    background-color: #f4f4f4;
-    border-bottom: 2px solid #ddd;
-}
+    .field {
+        width: 100%;
+        padding: 12px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        box-sizing: border-box;
+    }
 
-.table-info td {
-    border-bottom: 1px solid #ddd;
-}
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        margin: 5px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
 
-.table-info tr:last-child td {
-    border-bottom: none;
-}
+    .btn:hover {
+        background-color: #2980b9;
+    }
 
-.links {
-    text-align: center;
-}
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
 
-.links a {
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-    margin: 0 15px;
-}
+    .table-info {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
 
-.links a:hover {
-    text-decoration: underline;
-}
+    .table-info th, .table-info td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
 
-.info-message {
-    text-align: center;
-    font-size: 18px;
-    color: #e74c3c;
-}
+    .table-info th {
+        background-color: #f4f4f4;
+        border-bottom: 2px solid #ddd;
+    }
 
-.btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 16px;
-    color: #fff;
-    background-color: none;
-    border: none;
-    border-radius: 4px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+    .table-info tr:last-child td {
+        border-bottom: none;
+    }
 
-.btn:hover {
-    background-color: lightgray;
-}
+    .info-message {
+        text-align: center;
+        font-size: 18px;
+        color: #e74c3c;
+    }
+
+    .links {
+        text-align: center;
+    }
+
+    .links a {
+        text-decoration: none;
+        color: #3498db;
+        font-weight: bold;
+        margin: 0 15px;
+    }
+
+    .links a:hover {
+        text-decoration: underline;
+    }
+
+    .block-list-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .block-list-table th, .block-list-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .block-list-table th {
+        background-color: #f4f4f4;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .block-list-table tr:last-child td {
+        border-bottom: none;
+    }
 </style>
 
-<div class="container w-500 my-50">
-     <div class="row center">
-        <h1>사업주 상세페이지</h1>
-    </div>
-
+<div class="container">
+    <h1>사업주 상세페이지</h1>
+    
     <c:choose>
         <c:when test="${dto == null}">
             <!-- 없을 때 화면 -->
@@ -98,13 +141,26 @@
                     <td>${dto.adminNo}</td>
                 </tr>
                 <tr>
+                    <th>관리등급</th>
+                    <td>${dto.adminRank}</td>
+                </tr>
+                <tr>
                     <th>사업주 이메일</th>
                     <td>${dto.adminEmail}</td>
                 </tr>
-                <tr>
-                    <th>최종 로그인일시</th>
-                    <td>${dto.adminLogin}</td>
-                </tr>
+				<tr>
+			    <th>최종 로그인</th>
+			    <td>
+			        <c:choose>
+			            <c:when test="${dto.adminLogin != null}">
+			                <fmt:formatDate value="${dto.adminLogin}" pattern="yyyy년 MM월 dd일 E요일 HH시 mm분 ss초"/>
+			            </c:when>
+			            <c:otherwise>
+			                데이터가 없습니다
+			            </c:otherwise>
+			     	  </c:choose>
+			   		</td>
+				</tr>
             </table>
         </c:otherwise>
     </c:choose>
@@ -112,28 +168,26 @@
     <!-- 회원의 차단이력을 출력 -->
     <c:choose>
         <c:when test="${blockList.isEmpty()}">
-            <p>차단이력이 존재하지 않습니다</p>
+            <p class="info-message">차단이력이 존재하지 않습니다</p>
         </c:when>
         <c:otherwise>
-            <table border="1" width="700">
+            <table class="block-list-table">
                 <thead>
                     <tr>
-                        <th width="35%">일시</th>
-                        <th width="15%">구분</th>
+                        <th>일시</th>
+                        <th>구분</th>
                         <th>사유</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- 여기에 차단 이력 데이터를 추가하세요 -->
                     <c:forEach var="blockDto" items="${blockList}">
-                    <tr>
-                    	<td>
-                    		<fmt:formatDate value="${blockDto.blockTime}"
-													pattern="yyyy-MM-dd HH:mm:ss"/>
-							</td>
-							<td>${blockDto.blockType}</td>
-							<td>${blockDto.blockMemo}</td>
-						</tr>
+                        <tr>
+                            <td>
+                                <fmt:formatDate value="${blockDto.blockTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                            </td>
+                            <td>${blockDto.blockType}</td>
+                            <td>${blockDto.blockMemo}</td>
+                        </tr>
                     </c:forEach>
                 </tbody>
             </table>
