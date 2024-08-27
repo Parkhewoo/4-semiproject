@@ -91,7 +91,12 @@ public class WorkerDao {
 		String sql = "select * from worker where worker_no = ?";
 		Object[] data = {workerNo};
 		List<WorkerDto> list = jdbcTemplate.query(sql, workerMapper, data);
-		return list.isEmpty() ? null : list.get(0);
+		if(list.isEmpty()) return null;
+		
+		WorkerDto workerDto = list.get(0);
+		boolean isValid = encoder.matches(workerPw, workerDto.getWorkerPw());
+		return isValid ? workerDto : null;
+		
 	}
 		
 	//회원정보 수정
@@ -190,8 +195,9 @@ public class WorkerDao {
 		}
 		//사원 비밀번호 변경
 		public boolean updateWorkerPw(int workerNo, String workerPw) {
+			String encPw = encoder.encode(workerPw);
 			String sql = "update worker set worker_pw=? where worker_no=?";
-			Object[] data = {workerPw, workerNo};
+			Object[] data = {encPw, workerNo};
 			return jdbcTemplate.update(sql, data) > 0;
 			
 		}
