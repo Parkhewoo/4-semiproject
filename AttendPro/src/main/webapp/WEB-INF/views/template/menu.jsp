@@ -20,6 +20,9 @@
 		            <li><a href="#">나의 출석률보기</a></li>
 		        </ul>
 		    </li>
+		    <li>
+		        <a href="/sysadmin/home">시스템관리자</a>
+		    </li>
 		    
 		    
 		 	<c:choose>

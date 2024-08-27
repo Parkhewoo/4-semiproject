@@ -27,6 +27,18 @@ public class BlockDao {
 		Object[] data = {blockDto.getBlockMemo(), blockDto.getBlockTarget()};
 		jdbcTemplate.update(sql, data);
 	}
+	
+
+	//해제 등록
+		public void insertCancle(BlockDto blockDto) {
+			String sql = "insert into block("
+								+ "block_no, block_type, "
+								+ "block_memo, block_target"
+							+ ") "
+							+ "values(block_seq.nextval, '해제', ?, ?)";
+			Object[] data = {blockDto.getBlockMemo(), blockDto.getBlockTarget()};
+			jdbcTemplate.update(sql, data);
+		}
 		
 	//block 정보 상세조회 기능(서브쿼리 사용)
 	public BlockDto selectLastOne(String blockTarget) { 
