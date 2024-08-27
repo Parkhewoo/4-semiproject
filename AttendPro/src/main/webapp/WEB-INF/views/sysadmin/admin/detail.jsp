@@ -118,13 +118,23 @@
             <table border="1" width="700">
                 <thead>
                     <tr>
-                        <th>일시</th>
-                        <th>구분</th>
+                        <th width="35%">일시</th>
+                        <th width="15%">구분</th>
                         <th>사유</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- 여기에 차단 이력 데이터를 추가하세요 -->
+                    <c:forEach var="blockDto" items="${blockList}">
+                    <tr>
+                    	<td>
+                    		<fmt:formatDate value="${blockDto.blockTime}"
+													pattern="yyyy-MM-dd HH:mm:ss"/>
+							</td>
+							<td>${blockDto.blockType}</td>
+							<td>${blockDto.blockMemo}</td>
+						</tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </c:otherwise>
