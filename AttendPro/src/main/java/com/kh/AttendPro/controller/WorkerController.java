@@ -39,7 +39,7 @@ public class WorkerController {
 	}
 	
 	@PostMapping("/login")
-	public String login(@RequestParam String workerNo,
+	public String login(@RequestParam int workerNo,
 								@RequestParam String workerPw,
 								HttpSession session) {
 		
@@ -98,7 +98,7 @@ public class WorkerController {
 		}
 
 		@PostMapping("/findPw")
-		public String findPw(@RequestParam String workerNo, @RequestParam String workerEmail) throws IOException, MessagingException {
+		public String findPw(@RequestParam int workerNo, @RequestParam String workerEmail) throws IOException, MessagingException {
 			
 			WorkerDto workerDto = workerDao.selectOne(workerNo);
 			if (workerDto == null) {					
