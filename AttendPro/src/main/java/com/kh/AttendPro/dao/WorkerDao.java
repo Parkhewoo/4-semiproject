@@ -129,8 +129,6 @@ public class WorkerDao {
 		    return jdbcTemplate.update(sql, data) > 0;
 		}
 		
-	
-		
 		//페이징
 //		public List<WorkerDto> selectListByPaging(PageVO pageVO) {
 //		    String sql;

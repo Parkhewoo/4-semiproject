@@ -44,7 +44,7 @@ public class WorkerController {
 								HttpSession session) {
 		
 		//[1]아이디에 해당하는 정보(WorkerDto)를 불러온다
-		WorkerDto workerDto = workerDao.selectOne(workerNo);
+ 		WorkerDto workerDto = workerDao.selectOne(workerNo);
 		if(workerDto == null)
 			return "redirect:login?error";
 		
@@ -79,7 +79,6 @@ public class WorkerController {
 		public String attend(@RequestParam String workerNo) {
 			return "";			
 		}
-	
 	//근로자 퇴근
 		@GetMapping("/leave")
 		public String leave() {
