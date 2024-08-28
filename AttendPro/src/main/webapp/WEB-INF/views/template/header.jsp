@@ -120,16 +120,15 @@
     <div class="container w-1200">
 
         <!-- 헤더 영역 -->
-        <div class="row my-0">
-            <div class="w-50">
-                <h2 class="center">KH 정보교육원 4조 세미프로젝트</h2>
-            </div>
-        </div>
-
+        <div class="row my-30 flex-box">
+        <a href="/">
+            <img src="/images/mainLogo.png" style="width:100px">
+        </a>
         <!-- 메뉴 영역 -->
-        <div class="row my-0">
+        <div class="my-0 w-100">
 			<jsp:include page="/WEB-INF/views/template/menu.jsp"></jsp:include>
 		</div>
+        </div>
 		
 		<!-- 컨텐츠 영역 -->
         <div class="row my-0 flex-box" style="min-height: 400px;">
