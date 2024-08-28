@@ -6,13 +6,17 @@
 
 <script>
 	$(function(){
-		var stauts = {
-				currentPwValid: false,
+		var status = {
+				currentPwValid: false,				
 				currentPwCheckValid: false,
 				changePwValid: false,
-				changePwCheckValid: false;
+				changePwCheckValid: false,
 				ok: function(){
-					return this.workerPwCheckValid && this.workerPwValid;					
+					
+// 					console.log("Checking status.ok():", this.currentPwValid, this.currentPwCheckValid, this.changePwValid, this.changePwCheckValid);
+					
+					return this.currentPwValid && this.currentPwCheckValid
+					&& this.changePwValid && this.changePwCheckValid;					
 					}
 				};
 		$("[name=currentPw]").blur(function(){
@@ -20,14 +24,16 @@
 	        var isValid = regex.test($(this).val());
 	        $(this).removeClass("success fail")
 	               .addClass(isValid ? "success" : "fail");
-	        status.workerPwValid = isValid;
+	        status.currentPwValid = isValid;
+// 	        console.log("currentPwValid:", status.currentPwValid);
 		});
 		$("#currentPw-check").blur(function(){
-	        var isValid = $("[name=workerPw]").val().length
-	                      && $(this).val() === $("[name=workerPw]").val();
+	        var isValid = $("[name=currentPw]").val().length
+	                      && $(this).val() === $("[name=currentPw]").val();
 	        $(this).removeClass("success fail")
 	               .addClass(isValid ? "success" : "fail");
-	        status.workerPwCheckValid = isValid;
+	        status.currentPwCheckValid = isValid;
+// 	        console.log("currentPwCheckValid:", status.currentPwCheckValid);
 	    });
 		
 		$("[name=changePw]").blur(function(){
@@ -35,18 +41,21 @@
 	        var isValid = regex.test($(this).val());
 	        $(this).removeClass("success fail")
 	               .addClass(isValid ? "success" : "fail");
-	        status.workerPwValid = isValid;
+	        status.changePwValid = isValid;
+// 	        console.log("changePwValid:", status.changePwValid);
 		});
 		$("#changePw-check").blur(function(){
-	        var isValid = $("[name=workerPw]").val().length
-	                      && $(this).val() === $("[name=workerPw]").val();
+	        var isValid = $("[name=changePw]").val().length
+	                      && $(this).val() === $("[name=changePw]").val();
 	        $(this).removeClass("success fail")
 	               .addClass(isValid ? "success" : "fail");
-	        status.workerPwCheckValid = isValid;
+	        status.changePwCheckValid = isValid;
+// 	        console.log("changePwCheckValid:", status.changePwCheckValid);
 	    });
 		
 		$(".check-form").submit(function(){
 			 $("[name], #password-check").trigger("input").trigger("blur");
+// 			 console.log("Form submission status:", result);
 		        return status.ok();
 		});
 	});
@@ -63,11 +72,11 @@
 			
 			<div class="page">
                     <div class="row">
-                        <h2>1단계 : 현재 비밀번호 입력</h2>
+                        <h2>1단계 : 비밀번호 입력</h2>
                     </div>
                     <div class="row">
                         <label>
-                           현재 비밀번호
+                            비밀번호
                             <label class="ms-20">
                                 <input type="checkbox" class="field-show">
                                 <span>표시하기</span>
@@ -87,7 +96,9 @@
                         <div class="fail-feedback">비밀번호가 일치하지 않습니다</div>
                     </div>
                     <div class="row mt-50">
-                        <div class="flex-box">                           
+                        <div class="flex-box">
+                            <div class="w-50 left">                                
+                            </div>
                             <div class="w-50 right">
                                 <button type="button" class="btn btn-neutral btn-next">
                                     다음<i class="fa-solid fa-chevron-right"></i>
@@ -143,8 +154,8 @@
 		</div>
 	</form>
 	
-	<c:if test="${param.error != null}">
-		<h3 style="color:red;">비밀번호가 일치하지 않습니다</h3>
-	</c:if>
+<%-- 	<c:if test="${param.error != null}"> --%>
+<!-- 		<h3 style="color:red;">비밀번호가 일치하지 않습니다</h3> -->
+<%-- 	</c:if> --%>
 </div>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
