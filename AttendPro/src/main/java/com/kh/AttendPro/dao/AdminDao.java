@@ -133,13 +133,12 @@ public class AdminDao {
 	public boolean updateAdminBySysadmin(AdminDto adminDto) {
 	    String sql = "UPDATE admin SET "
 	            + "admin_no=?, admin_rank=?, "
-	            + "admin_email=?, admin_login=? "
+	            + "admin_email=? "
 	            + "WHERE admin_id=?";
 	    Object[] data = {
 	        adminDto.getAdminNo(), 
 	        adminDto.getAdminRank(), 
-	        adminDto.getAdminEmail(),
-	        adminDto.getAdminLogin(), 
+	        adminDto.getAdminEmail(), 
 	        adminDto.getAdminId()
 	    };
 	    return jdbcTemplate.update(sql, data) > 0;

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dao.BlockDao;
+import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.dto.BlockDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
@@ -152,13 +153,16 @@ public class SysAdminController {
 		return "redirect:list";
 	}
 	
+	@Autowired
+	private WorkerDao workerdao;
 	//데이터 현황 페이지
-	
 	@RequestMapping("/status")
 	public String status(Model model) {
 		model.addAttribute("adminStatusList", adminDao.statusByAdminRank());
+		model.addAttribute("workerStatusList", workerdao.statusByWorkerRank());
 		return "/WEB-INF/views/sysadmin/status.jsp";
 	}
+	
 		
 }
  

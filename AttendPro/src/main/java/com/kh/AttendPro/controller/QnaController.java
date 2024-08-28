@@ -49,34 +49,27 @@ public class QnaController {
 		
 		@PostMapping("/write")
 		public String write(@ModelAttribute QnaDto qnaDto, HttpSession session) {
-			//세션에서 아이디 추출 후 qnaDto에 첨부
-			String createdUser = (String)session.getAttribute("createdUser");
-			qnaDto.setQnaWriter(createdUser);
+		    String createdUser = (String)session.getAttribute("createdUser");
+		    qnaDto.setQnaWriter(createdUser);
 
-			//시퀀스 번호를 먼저 생성하도록 지시한다
-			int seq = qnaDao.sequence();
-			
-			//등록할 정보에 번호를 첨부한다
-			qnaDto.setQnaNo(seq);
-			
-			//새글+답글 여부에 따라 그룹 상위글 차수를 설정해야한다
-			if(qnaDto.isNew()) {
-				qnaDto.setQnaGroup(seq);//그룹 번호는 글 번호와 동
-				qnaDto.setQnaTarget(null);//상위글 번호는 null로 설정
-				qnaDto.setQnaDepth(0);//차수는 0으로 설정
-			}
-			else {
-				//타겟글의 정보 조회
-				QnaDto targetDto = qnaDao.selectOne(qnaDto.getQnaTarget());
-				qnaDto.setQnaGroup(targetDto.getQnaGroup());
-				qnaDto.setQnaDepth(targetDto.getQnaDepth()+1);
-			}
-			
-			
-			//등록을 지시한다
-			qnaDao.insert(qnaDto);
-			
-			//생성한 번호에 맞는 상세페이지로 리다이렉트(추방)
-			return "redirect:detail?qnaNo="+seq;
+		    int seq = qnaDao.sequence();
+		    qnaDto.setQnaNo(seq);
+
+		    if(qnaDto.isNew()) {
+		        qnaDto.setQnaGroup(seq);
+		        qnaDto.setQnaTarget(null);
+		        qnaDto.setQnaDepth(0);
+		    } else {
+		        QnaDto targetDto = qnaDao.selectOne(qnaDto.getQnaTarget());
+		        qnaDto.setQnaGroup(targetDto.getQnaGroup());
+		        qnaDto.setQnaDepth(targetDto.getQnaDepth() + 1);
+		        
+		        // 자식 글의 내용을 부모 글의 qna_reply에 업데이트
+		        qnaDao.updateReply(qnaDto.getQnaTarget(), qnaDto.getQnaContent());
+		    }
+
+		    qnaDao.insert(qnaDto);
+
+		    return "redirect:list";
 		}
 }
