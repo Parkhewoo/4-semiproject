@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- header.jsp에 존재하는 내용을 불러오도록 설정 --%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
     
@@ -37,6 +38,11 @@
 			<!-- worker 비밀번호 찾기도 a태그 이동위치가  findPw가 맞는지 확인 필요 -->
 			<a href="findPw">비밀번호가 기억나지 않습니다</a>
 		</div>
+		<c:if test="${param.error != null}">
+			<div class="row center">
+				<b class="red">아이디 또는 비밀번호가 일치하지 않습니다</b>
+			</div>
+		</c:if>
 	</div>
 </form>
 
