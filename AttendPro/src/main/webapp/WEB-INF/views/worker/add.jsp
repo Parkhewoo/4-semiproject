@@ -9,8 +9,27 @@
     .success { border: 2px solid green; }
     .fail { border: 2px solid red; }
 </style>
-
+ <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+function Find() {
+    new daum.Postcode({
+        oncomplete: function (data) {
+            var addr = ''; // 주소 변수
+
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+
+            document.querySelector("[name=workerPost]").value = data.zonecode;
+            document.querySelector("[name=workerAddress1]").value = addr;
+            // 커서를 상세주소 필드로 이동한다.
+            document.querySelector("[name=workerAddress2]").focus();
+        }
+    }).open();
+}
+
 $(function(){
     var status = {
         workerNameValid : true,
@@ -119,6 +138,11 @@ $(function(){
         return status.ok();
     });
 });
+function clearAddress() {
+    document.querySelector("[name=workerPost]").value = '';
+    document.querySelector("[name=workerAddress1]").value = '';
+    document.querySelector("[name=workerAddress2]").value = '';
+}
 </script>
 
 <div class="container w-600 my-50">
@@ -303,10 +327,10 @@ $(function(){
                     </div>
                     <div class="row">
                         <input type="text" name="workerPost" class="field" placeholder="우편번호" readonly>
-                        <button class="btn btn-neutral btn-find-address">
+                        <button class="btn btn-neutral btn-find-address" onclick="Find()">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
-                        <button class="btn btn-negative btn-clear-address">
+                        <button class="btn btn-negative btn-clear-address" onclick="clearAddress()">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>

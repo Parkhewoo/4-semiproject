@@ -193,9 +193,11 @@ public class WorkerController {
 			WorkerDto workerDto = workerDao.selectOne(workerNo);
 			
 			//비밀번호 비교
-			boolean isValid = workerDto.getWorkerPw().equals(currentPw);
-			if(isValid == false)
-				return "redirect:password?error";
+			   boolean isValid = encoder.matches(currentPw, workerDto.getWorkerPw());
+		        if (!isValid) {
+		            return "redirect:password?error";
+		        }
+
 			
 			//비밀번호 변경
 			workerDao.updateWorkerPw(workerNo, changePw);
