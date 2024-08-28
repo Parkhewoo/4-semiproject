@@ -203,9 +203,9 @@
                 </c:otherwise>
             </c:choose> 
 
-            <div class="links"> 
+           <div class="links"> 
                 <a href="list">사업주 목록</a>
-                <a href="delete?adminId=${dto.adminId}">사업주 삭제</a>
+                <a href="delete?adminId=${dto.adminId}" onclick="return confirmDelete();">사업주 삭제</a>
                 <a href="edit?adminId=${dto.adminId}">정보 변경</a>
                 <c:if test="${not isBlocked}">
                     <a href="block?blockTarget=${dto.adminId}">차단</a>
@@ -217,5 +217,11 @@
         </c:otherwise>
     </c:choose>
 </div>
+
+<script>
+    function confirmDelete() {
+        return confirm('정말 삭제하시겠습니까?');
+    }
+</script>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

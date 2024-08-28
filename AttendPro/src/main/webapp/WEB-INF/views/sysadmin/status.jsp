@@ -11,6 +11,92 @@
 	<!-- chart js 라이브러리 -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	
+	
+<style>
+    /* 기존 스타일 */
+    .container {    
+        width: 100%;
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .row {
+        margin-bottom: 15px;
+    }
+
+    .table-info, .block-list-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    .table-info th, .table-info td,
+    .block-list-table th, .block-list-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table-info th, .block-list-table th {
+        background-color: #f4f4f4;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .table-info tr:last-child td,
+    .block-list-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .info-message, .status-message-negative, .status-message-positive {
+        text-align: center;
+        font-size: 18px;
+        margin: 0;
+        padding: 10px;
+    }
+
+    .table-info td.status-admin {
+        text-align: center;
+    }
+
+    .status-admin {
+        text-align: center;
+        font-size: 18px;
+        margin: 0;
+        padding: 10px;
+    }
+
+    .info-message {
+        color: #e74c3c;
+    }
+
+    .status-message-negative {
+        color: #e74c3c;
+    }
+
+    .status-message-positive {
+        color: #3498db;
+    }
+
+    .links {
+        text-align: center;
+    }
+
+    .links a {
+        text-decoration: none;
+        color: #3498db;
+        font-weight: bold;
+        margin: 0 15px;
+    }
+
+    .links a:hover {
+        text-decoration: underline;
+    }
+</style>
+	
 	<script type="text/javascript">
 	// 차트 생성 함수
 	function createChart(url, selector, legend='', type='bar') {
