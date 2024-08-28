@@ -3,8 +3,29 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<style>
+.field.field-underline, 
+        .btn.btn-underline
+        { 
+            border-color: #0984e3;
+        }
+        
+      .custom-btn {
+            border:1px #33CC66 solid;
+            color: #33CC66;
+            background-color: transparent;
+            border-radius: 0.25em;
+            vertical-align: top;
+            cursor: pointer;
+        }
+        .custom-btn:hover {
+            color: white;
+            background-color: #33CC66;
+        }
+</style>
 <div class="container w-1000 my-50">
 	<div class="row">
 		<h1>문의글</h1>
@@ -24,7 +45,7 @@
 	</div>
   -->
   <div class="row right">
- <a href="write" class="btn btn-neutral">글쓰기</a>
+ <a href="write" class="btn btn-neutral bounce">글쓰기</a>
   </div>
 	<!-- 글목록 -->
 	<!-- 1 / 9페이지 (?개 중 ?~?번째) -->
@@ -42,9 +63,6 @@
 					<th>작성자</th>
 					<th>작성일</th>
 					<th>번호</th>
-					<th>그룹</th>
-					<th>상위</th>
-					<th>차수</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -74,16 +92,18 @@
 					<td>${qnaDto.qnaWTimeString}</td>
 			
 					<td>${qnaDto.qnaNo}</td>
-					<td>${qnaDto.qnaGroup}</td>
-					<td>${qnaDto.qnaTarget}</td>
-					<td>${qnaDto.qnaDepth}</td>
 					<td>
 					
 						<c:choose>
-							<c:when test="${qnaDto.qnaDepth < 1}">
-								미응답
+							<c:when test="${qnaDto.qnaDepth == 1}">
+								답변 입니다
+							</c:when>		
+							<c:when test="${qnaDto.qnaReply == null}">
+								답변 대기중 입니다!
 							</c:when>
-							<c:otherwise>답변완료(${qnaDto.qnaDepth})</c:otherwise>
+							<c:when test="${qnaDto.qnaReply != null}">
+							답변 완료
+							</c:when>		
 						</c:choose>
 					</td>
 				</tr>
@@ -106,8 +126,8 @@
 				<option value="qna_title" <c:if test="${param.column == 'qna_title'}">selected</c:if>>제목</option>
 				<option value="qna_writer" <c:if test="${param.column == 'qna_writer'}">selected</c:if>>작성자</option>
 			</select>
-			<input class="field" type="text" name="keyword" placeholder="검색어" value="${param.keyword}">
-			<button class="btn btn-positive" type="submit">검색</button>
+			<input class="field field-underline" type="text" name="keyword" placeholder="검색어" value="${param.keyword}">
+			<button class="btn custom-btn"  type="submit">검색</button>
 		</form>
 	</div>
 	

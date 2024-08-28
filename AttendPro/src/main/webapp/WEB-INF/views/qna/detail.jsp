@@ -73,6 +73,10 @@
 	</div>
 	
 	<hr>
+	<c:if test="${qnaDto.qnaReply == null}">
+	<h1>QNA 답변 대기중 입니다!</h1>
+	</c:if>
+	
 	<c:if test="${qnaDto.qnaReply != null}">
 	<!-- 답글내용 -->
 	<div class="row">
@@ -82,17 +86,14 @@
     ${qnaDto.qnaReply}
 </div>
 	</c:if>
-
-
 	
 	<!-- 답글 작성 -->
-	
 	<form action="write" method="post" autocomplete="off">
-	<c:if test="${sessionScope.createdRank == '시스템관리자'}">
-	<!-- qnaNo를 hidden input으로 폼에 포함 -->
-	  <input type="hidden" name="qnaTarget" value="${qnaDto.qnaNo}">
-	  
-	<div class="row">
+    <c:if test="${qnaDto.qnaReply == null && sessionScope.createdRank == '시스템 관리자'}">
+        <!-- qnaNo를 hidden input으로 폼에 포함 -->
+        <input type="hidden" name="qnaTarget" value="${qnaDto.qnaNo}">
+        
+        <div class="row">
             <label>내용</label>
             <input type="text" name="qnaTitle" class="field w-100" placeholder="제목">
             <textarea name="qnaContent" class="field w-100 reply-input" placeholder="내용"></textarea>
@@ -100,8 +101,8 @@
         <div class="row right">
             <button type="submit" class="btn btn-positive w-100 reply-add-btn">답글 작성</button>
         </div>
-	</c:if>
-    </form>
+    </c:if>
+</form>
 	
 	
 	<!-- 각종 이동버튼들 -->
@@ -113,7 +114,7 @@
 		<c:set var="isOwner" value="${sessionScope.createdUser == qnaDto.qnaWriter}"/>
 		
 		<c:if test="${isLogin}">
-			<c:if test="${isOwner}">
+			<c:if test="${isOwner && qnaDto.qnaReply == null}">
 				<a class="btn btn-negative" href="edit?qnaNo=${qnaDto.qnaNo}">수정</a>
 			</c:if>
 			<c:if test="${isOwner || isAdmin}">

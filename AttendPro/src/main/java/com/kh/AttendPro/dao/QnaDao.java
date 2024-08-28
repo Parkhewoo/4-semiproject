@@ -127,4 +127,23 @@ public class QnaDao {
 			Object[] data = { reply, qnaTarget };
 			jdbcTemplate.update(sql, data);
 		}
+		
+		//삭제
+		public boolean delete(int qnaNo) {
+			String sql = "delete qna where qna_no = ?";
+			Object[] data = {qnaNo};
+			return jdbcTemplate.update(sql, data) > 0;
+		}
+		
+		//수정
+				public boolean update(QnaDto qnaDto) {
+					String sql = "update qna set "
+									+ "qna_title=?, qna_content=?, qna_utime=sysdate "
+									+ "where qna_no=?";
+					Object[] data = {
+						qnaDto.getQnaTitle(), qnaDto.getQnaContent(),
+						qnaDto.getQnaNo()
+					};
+					return jdbcTemplate.update(sql, data) > 0;
+				}
 	}
