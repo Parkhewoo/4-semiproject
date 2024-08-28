@@ -111,6 +111,10 @@ public class SysAdminController {
 	    BlockDto lastBlock = blockDao.selectLastOne(adminId);
 	    model.addAttribute("lastBlock", lastBlock);
 	    
+	    // 현재 차단 상태를 boolean으로 모델에 추가
+	    boolean isBlocked = lastBlock != null && "차단".equals(lastBlock.getBlockType());
+	    model.addAttribute("isBlocked", isBlocked);
+	    
 	    return "/WEB-INF/views/sysadmin/admin/detail.jsp";
 	}
 	
@@ -170,10 +174,22 @@ public class SysAdminController {
 	
 	  @PostMapping("/block")
 	    public String block(@ModelAttribute BlockDto blockDto, Model model) {
+		  //차단사유가 비어있는지 확인
+		  if(blockDto.getBlockMemo() ==null || blockDto.getBlockMemo().trim().isEmpty()) {
+			  //에러메세지를 모델에 추가
+			  model.addAttribute("error", "차단사유를 입력하세요.");
+			  //차단페이지로 되돌아감
+			  return "/WEB-INF/views/sysadmin/admin/block.jsp";
+		  }
+		  
 	        try {
+	        	//차단 등록처리
 	            blockDao.insertBlock(blockDto);
-	        } catch (TargetNotFoundException e) {
-	            model.addAttribute("error", e.getMessage());
+	        } 
+	        catch (TargetNotFoundException e) {
+	        	//예외발생시 에러메세지를 모델에 추가
+	            model.addAttribute("error", "차단처리중 오류가 발생했습니다");
+	            return "/WEB-INF/views/sysadmin/block.jsp";
 	        }
 	        return "redirect:detail?adminId=" + blockDto.getBlockTarget();
 	    }
@@ -188,13 +204,39 @@ public class SysAdminController {
 	}
 	
 	@PostMapping("/cancle")
-	public String cancle(@ModelAttribute BlockDto blockDto) {
-		BlockDto lastDto = blockDao.selectLastOne(blockDto.getBlockTarget());
-		if(lastDto != null && lastDto.getBlockType().equals("차단")) {
-			blockDao.insertCancle(blockDto);
+	public String cancle(@ModelAttribute BlockDto blockDto, Model model) {
+		//차단해제사유가 비어있는지 확인함
+		if(blockDto.getBlockMemo() == null || blockDto.getBlockMemo().trim().isEmpty()) {
+			//에러메세지를 모델에 추가
+			model.addAttribute("error", "차단 해제 사유를 입력하세요");
+			//차단 해제페이지로 되돌아감
+			return "/WEB-INF/views/sysadmin/admin/cancle.jsp";
 		}
-		return "redirect:detail?adminId=" + blockDto.getBlockTarget();
-	}
+			
+		//현재 차단상태를 조회함
+		BlockDto lastDto = blockDao.selectLastOne(blockDto.getBlockTarget());
+		
+		 if (lastDto != null && "차단".equals(lastDto.getBlockType())) {
+		        try {
+		            // 차단 해제 등록 처리
+		            blockDao.insertCancle(blockDto);
+		        } 
+		        catch (Exception e) {
+		            // 예외 발생 시 에러 메시지를 모델에 추가
+		            model.addAttribute("error", "차단 해제 처리 중 오류가 발생했습니다.");
+		            return "/WEB-INF/views/sysadmin/admin/cancle.jsp";
+		        }
+		    } 
+		 
+		 else {
+		        // 마지막 차단 상태가 "차단"이 아닌 경우
+		        model.addAttribute("error", "차단 상태가 아닙니다.");
+		        return "/WEB-INF/views/sysadmin/admin/cancle.jsp";
+		    }
+		    
+		    // 차단 해제 처리 성공 시 관리자 상세 페이지로 리다이렉트
+		    return "redirect:detail?adminId=" + blockDto.getBlockTarget();
+		}
 	
 	@Autowired
 	private WorkerDao workerdao;
