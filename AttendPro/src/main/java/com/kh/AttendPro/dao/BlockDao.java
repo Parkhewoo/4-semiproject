@@ -58,6 +58,8 @@ public class BlockDao {
 	      Object[] data = {blockDto.getBlockMemo(), blockDto.getBlockTarget()};
 	      jdbcTemplate.update(sql, data);
 	  }
+	
+	
 	//해제 등록
 		public void insertCancle(BlockDto blockDto) {
 			String sql = "insert into block("
@@ -86,26 +88,47 @@ public class BlockDao {
 		Object[] data = {blockTarget};
 		return jdbcTemplate.query(sql, blockmapper, data);
 	}
-	public int countByAdmin(String blockTarget) {
+	
+//	public int countByAdmin(String blockTarget) {
+//        String sql = "SELECT COUNT(*) FROM block WHERE block_target = ?";
+//        return jdbcTemplate.queryForObject(sql, Integer.class, blockTarget);
+//    }
+//	
+//
+//    // 특정 관리자의 차단 기록을 페이징하여 조회하는 메서드
+//    public List<BlockDto> selectListByAdmin(String blockTarget, PageVO pageVO) {
+//        String sql = "SELECT * FROM ("
+//                   + "    SELECT TMP.*, ROWNUM rn FROM ("
+//                   + "        SELECT * FROM block"
+//                   + "        WHERE block_target = ?"
+//                   + "        ORDER BY block_date DESC"
+//                   + "    ) TMP"
+//                   + ") WHERE rn BETWEEN ? AND ?";
+//        
+//        Object[] data = {blockTarget, pageVO.getBeginRow(), pageVO.getEndRow()};
+//        return jdbcTemplate.query(sql, blockmapper, data);
+//    }
+//    
+    
+
+    public int countByAdmin(String blockTarget) {
         String sql = "SELECT COUNT(*) FROM block WHERE block_target = ?";
         return jdbcTemplate.queryForObject(sql, Integer.class, blockTarget);
     }
-	
 
-    // 특정 관리자의 차단 기록을 페이징하여 조회하는 메서드
     public List<BlockDto> selectListByAdmin(String blockTarget, PageVO pageVO) {
         String sql = "SELECT * FROM ("
-                   + "    SELECT TMP.*, ROWNUM rn FROM ("
+                   + "    SELECT b.*, ROWNUM rn FROM ("
                    + "        SELECT * FROM block"
                    + "        WHERE block_target = ?"
-                   + "        ORDER BY block_date DESC"
-                   + "    ) TMP"
+                   + "        ORDER BY block_no DESC"  // block_date 대신 block_no 사용
+                   + "    ) b"
                    + ") WHERE rn BETWEEN ? AND ?";
         
         Object[] data = {blockTarget, pageVO.getBeginRow(), pageVO.getEndRow()};
         return jdbcTemplate.query(sql, blockmapper, data);
     }
-    
+	    
     public List<BlockDto> selectListByPaging(PageVO pageVO) {
 	    String sql;
 	    Object[] data;

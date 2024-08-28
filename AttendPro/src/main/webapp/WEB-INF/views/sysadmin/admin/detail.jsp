@@ -158,9 +158,9 @@
         </c:otherwise>
     </c:choose>
 
-    <!-- 회원의 차단이력을 출력 -->
+     <h2>차단 이력</h2>
     <c:choose>
-        <c:when test="${blockList.isEmpty()}">
+        <c:when test="${empty blockList}">
             <p class="info-message">차단이력이 존재하지 않습니다</p>
         </c:when>
         <c:otherwise>
@@ -184,30 +184,30 @@
                     </c:forEach>
                 </tbody>
             </table>
+
+            <!-- 페이지 네비게이터 -->
+            <div class="pagination">
+                <c:if test="${pageVO.hasPrev()}">
+                    <a href="?adminId=${dto.adminId}&page=${pageVO.getPrevBlock()}">&laquo; 이전</a>
+                </c:if>
+
+                <c:forEach var="i" begin="${pageVO.getStartBlock()}" end="${pageVO.getFinishBlock()}">
+                    <c:choose>
+                        <c:when test="${i == pageVO.getPage()}">
+                            <strong>${i}</strong>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="?adminId=${dto.adminId}&page=${i}">${i}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+                <c:if test="${pageVO.hasNext()}">
+                    <a href="?adminId=${dto.adminId}&page=${pageVO.getNextBlock()}">다음 &raquo;</a>
+                </c:if>
+            </div>
         </c:otherwise>
-    </c:choose>
-
-<!-- 페이지 네비게이터 -->
-    <div class="pagination">
-        <c:if test="${pageVO.hasPrev()}">
-            <a href="?adminId=${dto.adminId}&page=${pageVO.getPrevBlock()}">이전</a>
-        </c:if>
-
-        <c:forEach var="i" begin="${pageVO.getStartBlock()}" end="${pageVO.getFinishBlock()}">
-            <c:choose>
-                <c:when test="${i == pageVO.getPage()}">
-                    <span>${i}</span>
-                </c:when>
-                <c:otherwise>
-                    <a href="?adminId=${dto.adminId}&page=${i}">${i}</a>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
-
-        <c:if test="${pageVO.hasNext()}">
-            <a href="?adminId=${dto.adminId}&page=${pageVO.getNextBlock()}">다음</a>
-        </c:if>
-    </div>
+    </c:choose> 
 
 
     <div class="links"> 
