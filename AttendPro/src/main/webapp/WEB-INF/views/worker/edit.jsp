@@ -131,15 +131,16 @@ $(function(){
         <input type="hidden" name="adminId" value="${sessionScope.createdUser}">
         
         <div class="row">
-            <div class="multipage">
-            	
+            <div class="multipage">           	
+              
                 <div class="page">
                     <div class="row">
                         <h2>1단계 : 사원번호 입력</h2>
                     </div>
                     <div class="row">
                         <label>사원번호</label>
-                        <input type="text" name="workerNo" class="field w-100" required>
+                        <input type="text" name="workerNo" class="field w-100" required
+                        			value="${workerDto.workerNo}">
                     </div>
                     <div class="row mt-50">
                         <div class="flex-box">
@@ -152,6 +153,7 @@ $(function(){
                         </div>
                     </div>
                 </div>
+               
                 <div class="page">
                     <div class="row">
                         <h2>2단계 : 비밀번호 입력</h2>

@@ -58,7 +58,7 @@ public class WorkerController {
 		session.setAttribute("createdUser", workerNo);
 		session.setAttribute("createdRank", workerDto.getWorkerRank());
 		
-		return "/WEB-INF/views/worker/course.jsp";//출퇴근 버튼 페이지로 이동
+		return "redirect:/";//출퇴근 버튼 페이지로 이동
 	}
 	
 	//로그아웃(회원 전용 기능)
@@ -76,7 +76,7 @@ public class WorkerController {
 		}
 		
 		@PostMapping("/attend")
-		public String attend(@RequestParam String workerNo) {
+		public String attend(@RequestParam int workerNo) {
 			return "";			
 		}
 	//근로자 퇴근
@@ -86,7 +86,7 @@ public class WorkerController {
 		}
 		
 		@PostMapping("/leave")
-		public String leave(@RequestParam String workerNo) {
+		public String leave(@RequestParam int workerNo) {
 			return "";
 		}
 		
@@ -160,4 +160,46 @@ public class WorkerController {
 			return "/WEB-INF/views/worker/resetPwComplete.jsp";
 		}
 		
+		//사원 마이페이지
+		@RequestMapping("/mypage")
+		public String mypage(HttpSession session, Model model
+										) {
+			int workerNo = (int) session.getAttribute("createdUser");
+			WorkerDto workerDto = workerDao.selectOne(workerNo);
+			
+			model.addAttribute("workerDto", workerDto);
+			
+			return "/WEB-INF/views/worker/mypage.jsp";			
+		}
+		
+		//사원 비밀번호 변경
+		@GetMapping("/password")
+		public String password() {
+			return "/WEB-INF/views/worker/password.jsp";
+		}
+		
+		@PostMapping("/password")
+		public String password(@RequestParam String currentPw,
+										@RequestParam String changePw,
+										HttpSession session) {
+			//사원 번호 추출
+			int workerNo = (int)session.getAttribute("createdUser");
+			
+			//현재 사용자의 정보를 추출
+			WorkerDto workerDto = workerDao.selectOne(workerNo);
+			
+			//비밀번호 비교
+			boolean isValid = workerDto.getWorkerPw().equals(currentPw);
+			if(isValid == false)
+				return "redirect:password?error";
+			
+			//비밀번호 변경
+			workerDao.updateWorkerPw(workerNo, changePw);
+			return "redirect:passwordFinish";
+		}
+		
+		@RequestMapping("/passwordFinish")
+		public String passwordFinish() {
+			return "/WEB-INF/views/worker/passwordFinish.jsp";
+		}
 }
