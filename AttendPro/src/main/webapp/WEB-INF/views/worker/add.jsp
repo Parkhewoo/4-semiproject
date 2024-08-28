@@ -17,6 +17,7 @@ $(function(){
         workerPwValid : false,
         workerPwCheckValid : false,
         workerEmailValid : false,
+        workerNoCheckValid : false,
         //workerEmailCheckValid : false,
         workerRankValid : false,
         workerContactValid : true,
@@ -25,10 +26,30 @@ $(function(){
             return this.workerNameValid && this.workerPwValid
             && this.workerPwCheckValid && this.workerRankValid
             && this.workerEmailValid && this.workerEmailCheckValid
-            && this.workerContactValid && this.workerAddressValid;
+            && this.workerContactValid && this.workerAddressValid
+            && this.workerNoCheckValid;
         }
     };
-
+    
+    $("[name=workerNo]").blur(function() {
+        var workerNo = $(this).val();
+        $.ajax({
+            url: "http://localhost:8080/rest/worker/checkNo",
+            method : "post",
+            data: { workerNo: workerNo },
+            success: function(response) {
+                if (response === true) {
+                    status.workerNoCheckValid = true;
+                    $("[name=workerNo]").removeClass("fail").addClass("success");
+                } 
+                else {
+                    status.workerNoCheckValid = false;
+                    $("[name=workerNo]").removeClass("success").addClass("fail");
+                }
+            }
+        });
+    });
+    
     $("[name=workerName]").blur(function(){
         var regex = /^[가-힣a-zA-Z0-9]{1,21}$/;
         var isValid = regex.test($(this).val());
@@ -109,34 +130,20 @@ $(function(){
     </div>
 
     <form class="check-form" action="add" method="post" autocomplete="off" enctype="multipart/form-data">
+        <input type="hidden" name="adminId" value="${sessionScope.createdUser}">
+        
         <div class="row">
             <div class="multipage">
-            	<div class="page">
-                    <div class="row">
-                        <h2>1단계 : 관리자아이디 입력</h2>
-                    </div>
-                    <div class="row">
-                        <label>관리자아이디</label>
-                        <input type="text" name="adminId" class="field w-100" required>
-                    </div>
-                    <div class="row mt-50">
-                        <div class="flex-box">
-                            <div class="w-50 left"></div>
-                            <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
-                                    다음<i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            	
                 <div class="page">
                     <div class="row">
-                        <h2>2단계 : 사원번호 입력</h2>
+                        <h2>1단계 : 사원번호 입력</h2>
                     </div>
                     <div class="row">
                         <label>사원번호</label>
                         <input type="text" name="workerNo" class="field w-100" required>
+                        <div class="success-feedback">사용가능한 번호입니다!</div>
+                        <div class="fail-feedback">중복된 사원번호입니다</div>
                     </div>
                     <div class="row mt-50">
                         <div class="flex-box">
@@ -151,7 +158,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>3단계 : 비밀번호 입력</h2>
+                        <h2>2단계 : 비밀번호 입력</h2>
                     </div>
                     <div class="row">
                         <label>
@@ -191,7 +198,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>4단계 : 사원 이름 입력</h2>
+                        <h2>3단계 : 사원 이름 입력</h2>
                     </div>
                     <div class="row">
                         <label>사원 이름</label>
@@ -216,7 +223,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>5단계 : 직급 입력</h2>
+                        <h2>4단계 : 직급 입력</h2>
                     </div>
                     <div class="row">
                         <label>직급</label>
@@ -240,7 +247,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>6단계 : 이메일 입력</h2>
+                        <h2>5단계 : 이메일 입력</h2>
                     </div>
                     <div class="row">
                         <label>이메일</label>
@@ -264,7 +271,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>7단계 : 선택정보 입력</h2>
+                        <h2>6단계 : 선택정보 입력</h2>
                     </div>
                     <div class="row">
                         <label>연락처(휴대전화번호, - 제외)</label>
@@ -292,7 +299,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>8단계 : 주소 입력</h2>
+                        <h2>7단계 : 주소 입력</h2>
                     </div>
                     <div class="row">
                         <input type="text" name="workerPost" class="field" placeholder="우편번호" readonly>
@@ -327,7 +334,7 @@ $(function(){
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>9단계 : 프로필 이미지 선택</h2>
+                        <h2>8단계 : 프로필 이미지 선택</h2>
                     </div>
                     <div class="row">
                         <input type="file" name="attach" accept="image/*" class="field w-100">

@@ -76,6 +76,21 @@
      			var form = new FormData();
    			form.append("attach", this.files[0]);
     			
+
+    			//ajax를 통한 파일 업로드
+    			$.ajax({
+    				processData:false,
+    				contentType:false,
+    				url:"/rest/worker/profile",
+    				method:"post",
+    				data:form,
+    				success:function(response){
+    					//프로필 이미지 주소를 재설정한다
+    					
+    					//자바스크립트에서 겹치지 않는 시리얼 번호를 생성하는 코드
+    					var uuid = crypto.randomUUID();
+    					console.log("uuid", uuid);
+
      			//ajax를 통한 파일 업로드
      			$.ajax({
      				processData:false,
@@ -89,6 +104,7 @@
      					//자바스크립트에서 겹치지 않는 시리얼 번호를 생성하는 코드
      					var uuid = crypto.randomUUID();
      					console.log("uuid", uuid);
+
     					
      					$(".user-image")
      						.attr("src", "/admin/worker/mypage?uuid="+uuid);//재설정    					

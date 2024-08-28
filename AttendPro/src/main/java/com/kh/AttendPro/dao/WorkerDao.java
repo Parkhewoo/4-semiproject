@@ -62,25 +62,25 @@ public class WorkerDao {
         jdbcTemplate.update(sql, data);
 	}
 	
-	// 목록 
-		public List<WorkerDto> selectList(){
-			String sql = "SELECT admin_id,worker_no, worker_pw, worker_name, worker_attend, worker_absent, "
-	                + "worker_late, worker_leave, worker_join, worker_rank, worker_birthday, "
-	                + "worker_contact, worker_email, worker_post, worker_address1, worker_address2 "
-	                + "FROM worker order by worker_no desc";
-			return jdbcTemplate.query(sql, workerMapper);					
-		}
-		
-		//검색
-		public List<WorkerDto> selectList(String column, String keyword){
-			String sql = "select * from worker "
-							+ "where instr(#1, ?) > 0 "
-							+ "order by #1 asc, worker_no desc";
-			
-			sql = sql.replace("#1", column);
-			Object[] data = {keyword};
-			return jdbcTemplate.query(sql, workerMapper, data);
-		}
+//	// 목록 
+//		public List<WorkerDto> selectList(){
+//			String sql = "SELECT admin_id,worker_no, worker_pw, worker_name, worker_attend, worker_absent, "
+//	                + "worker_late, worker_leave, worker_join, worker_rank, worker_birthday, "
+//	                + "worker_contact, worker_email, worker_post, worker_address1, worker_address2 "
+//	                + "FROM worker order by worker_no desc";
+//			return jdbcTemplate.query(sql, workerMapper);					
+//		}
+//		
+//		//검색
+//		public List<WorkerDto> selectList(String column, String keyword){
+//			String sql = "select * from worker "
+//							+ "where instr(#1, ?) > 0 "
+//							+ "order by #1 asc, worker_no desc";
+//			
+//			sql = sql.replace("#1", column);
+//			Object[] data = {keyword};
+//			return jdbcTemplate.query(sql, workerMapper, data);
+//		}
 	
 	//회원 상세
 		public WorkerDto selectOne(int workerNo) {
@@ -137,52 +137,52 @@ public class WorkerDao {
 		}
 		
 		//페이징
-//		public List<WorkerDto> selectListByPaging(PageVO pageVO) {
-//		    String sql;
-//		    Object[] data;
-//
-//		    if (pageVO.isSearch()) {
-//		        // 검색 쿼리
-//		    	sql = "SELECT * FROM ("
-//		    		      + "SELECT TMP.*, ROWNUM rn FROM ("
-//		    		      + "SELECT * FROM worker "
-//		    		      + "WHERE INSTR(worker_name, ?) > 0 "
-//		    		      + "ORDER BY " + pageVO.getColumn() + " ASC, worker_no ASC"
-//		    		      + ") TMP "
-//		    		      + ") WHERE rn BETWEEN ? AND ?";
-//		    
-//		        data = new Object[]{
-//		            pageVO.getKeyword(),
-//		            pageVO.getEndRow(),
-//		            pageVO.getBeginRow()
-//		        };
-//		        return jdbcTemplate.query(sql, workerMapper, data);
-//		    } 
-//		    else {
-//		        // 목록 쿼리
-//		        sql = "SELECT * FROM ("
-//		                + "SELECT TMP.*, ROWNUM rn FROM ("
-//		                + "SELECT * FROM worker "
-//		                + "ORDER BY worker_no desc"
-//		                + ") TMP "
-//		                + ") where rn between ? and ?";
-//
-//		        data = new Object[]{
-//		            pageVO.getBeginRow(),
-//		            pageVO.getEndRow()
-//		        };
-//		        System.out.println(Arrays.toString(data));
-//		    }
-//		    List<WorkerDto> result = jdbcTemplate.query(sql, workerMapper, data);
-//		    System.out.println("결과 수 : " + result.size());
-//	        // Print the result to the console
-//	        System.out.println("Query Result:");
-//	        for (WorkerDto worker : result) {
-//	            System.out.println(worker);
-//	        }
-//
-//	        return result;
-//	    }
+		public List<WorkerDto> selectListByPaging(PageVO pageVO) {
+		    String sql;
+		    Object[] data;
+
+		    if (pageVO.isSearch()) {
+		        // 검색 쿼리
+		    	sql = "SELECT * FROM ("
+		    		      + "SELECT TMP.*, ROWNUM rn FROM ("
+		    		      + "SELECT * FROM worker "
+		    		      + "WHERE INSTR(worker_name, ?) > 0 "
+		    		      + "ORDER BY " + pageVO.getColumn() + " ASC, worker_no ASC"
+		    		      + ") TMP "
+		    		      + ") WHERE rn BETWEEN ? AND ?";
+		    
+		        data = new Object[]{
+		            pageVO.getKeyword(),
+		            pageVO.getEndRow(),
+		            pageVO.getBeginRow()
+		        };
+		        return jdbcTemplate.query(sql, workerMapper, data);
+		    } 
+		    else {
+		        // 목록 쿼리
+		        sql = "SELECT * FROM ("
+		                + "SELECT TMP.*, ROWNUM rn FROM ("
+		                + "SELECT * FROM worker "
+		                + "ORDER BY worker_no desc"
+		                + ") TMP "
+		                + ") where rn between ? and ?";
+
+		        data = new Object[]{
+		            pageVO.getBeginRow(),
+		            pageVO.getEndRow()
+		        };
+		        System.out.println(Arrays.toString(data));
+		    }
+		    List<WorkerDto> result = jdbcTemplate.query(sql, workerMapper, data);
+		    System.out.println("결과 수 : " + result.size());
+	        // Print the result to the console
+	        System.out.println("Query Result:");
+	        for (WorkerDto worker : result) {
+	            System.out.println(worker);
+	        }
+
+	        return result;
+	    }
 	
 
 		public int countByPaging(PageVO pageVO) {

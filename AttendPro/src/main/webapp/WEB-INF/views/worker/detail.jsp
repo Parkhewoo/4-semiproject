@@ -103,10 +103,6 @@
                     <td>${workerDto.workerNo}</td>
                 </tr>
                 <tr>
-                    <th>비밀번호</th>
-                    <td>${workerDto.workerPw}</td>
-                </tr>
-                <tr>
                     <th>이름</th>
                     <td>${workerDto.workerName}</td>
                 </tr>

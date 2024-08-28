@@ -20,6 +20,8 @@
 		        <a href="#">데이터</a>
 		        <ul>
 		            <li><a href="#">나의 출석률보기</a></li>
+		            <li><a href="/admin/worker/list">사원 관리</a></li>
+
 		        </ul>
 		    </li>
 		    <li>
@@ -28,7 +30,7 @@
 		    
 		    
 		 	<c:choose>
-		 		<c:when test="${sessionScope.createdRank == '관리자'}">
+		 		<c:when test="${sessionScope.createdRank == '일반 관리자'}">
 		 		 <li>
 		        <a href="/qna/write">문의하기</a>
 		    </li>

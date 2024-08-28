@@ -23,6 +23,10 @@ import com.kh.AttendPro.dto.CertDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
 import com.kh.AttendPro.service.EmailService;
 
+import com.kh.AttendPro.vo.PageVO;
+
+
+
 
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
@@ -72,8 +76,8 @@ public class AdminController {
             return "redirect:/join"; // 실패 시 회원가입 페이지로 리다이렉트
         }
 	}
-	  
-	  
+
+	
 	@RequestMapping("/joinFinish")
 	public String registComplete() {
 		return"/WEB-INF/views/admin/joinFinish.jsp";
