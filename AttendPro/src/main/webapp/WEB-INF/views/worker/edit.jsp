@@ -47,6 +47,7 @@ $(function(){
             && this.workerContactValid && this.workerAddressValid;
         }
     };
+
     $("[name=workerNo]").blur(function() {
         var workerNo = $(this).val();
         $.ajax({
@@ -66,7 +67,7 @@ $(function(){
         });
     });
     
-    
+
     $("[name=workerName]").blur(function(){
         var regex = /^[가-힣a-zA-Z0-9]{1,21}$/;
         var isValid = regex.test($(this).val());
@@ -131,10 +132,41 @@ $(function(){
             .addClass(isValid ? "success" : "fail");
         status.workerAddressValid = isValid;
     });
+
+
+//     $(".check-form").submit(function(){
+//         $("[name], #password-check").trigger("input").trigger("blur");
+//         return status.ok();
+//     });
+
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        var file = event.target.files[0]; // 선택한 파일
+        var image = document.getElementById('profileImage');
+        
+        if (file) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                // 이미지의 data URL을 얻어 이미지 태그의 src 속성에 적용
+                image.src = e.target.result;
+            }
+            
+            reader.readAsDataURL(file); // 파일을 data URL로 읽기
+        } else {
+            // 파일이 선택되지 않았을 때 기본 이미지로 되돌리기
+            image.src = "https://placehold.co/150?text=NO";
+        }
+    });
+
+    // 페이지 로드 시 기본 이미지 설정
+    var image = document.getElementById('profileImage');
+    image.src = "https://placehold.co/150?text=NO";
+
     $(".check-form").submit(function(){
         $("[name], #password-check").trigger("input").trigger("blur");
         return status.ok();
     });
+
 });
 function clearAddress() {
     document.querySelector("[name=workerPost]").value = '';
@@ -271,7 +303,7 @@ function clearAddress() {
                     </div>
                     <div class="row">
                         <label>이메일</label>
-                        <input type="email" name="workerEmail" class="field w-100" placeholder="test@kh.com" required>
+                        <input type="email" name="workerEmail" class="field w-100" value="${workerDto.workerEmail }"placeholder="test@kh.com" required>
                         <div class="fail-feedback">이메일은 반드시 입력해야 합니다</div>
                     </div>
                     <div class="row mt-50">
@@ -352,9 +384,29 @@ function clearAddress() {
                         </div>
                     </div>
                 </div>
+
+
+               <div class="page">
+            <div class="row">
+                <h2>6단계 : 프로필 이미지 선택</h2>
+            </div>
+           <div class="row">
+        <input type="file" id="fileInput" name="attach" accept="image/*" class="field w-100">
+    </div>
+    <div class="row">
+        <img id="profileImage" src="https://placehold.co/150?text=NO" width="150" height="150" alt="Profile Image">
+    </div>
+            <div class="row mt-50">
+                <div class="flex-box">
+                    <div class="w-50 left">
+                        <button type="button" class="btn btn-neutral btn-prev">
+                            <i class="fa-solid fa-chevron-left"></i>이전
+                        </button>
+
                 <div class="page">
                     <div class="row">
                         <h2>8단계 : 프로필 이미지 선택</h2>
+
                     </div>
                     <div class="row">
                         <input type="file" name="attach" accept="image/*" class="field w-100">

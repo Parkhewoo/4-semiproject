@@ -116,10 +116,25 @@ public class AdminWorkerController {
 			return "/WEB-INF/views/worker/edit.jsp";
 		}
 		@PostMapping("/edit")
-		public String change(@ModelAttribute WorkerDto workerDto) {
-			boolean result = workerDao.update(workerDto);
-			if(result == false) throw new TargetNotFoundException();
-			return "redirect:detail?workerNo="+workerDto.getWorkerNo();//상대
+		public String change(@ModelAttribute WorkerDto workerDto, @RequestParam("attach") MultipartFile attach) throws IllegalStateException, IOException {
+		    boolean result = workerDao.update(workerDto);
+		    if (!result) {
+		        throw new TargetNotFoundException();
+		    }
+		    
+		    // 기존 이미지 삭제
+		    workerDao.deleteImage(workerDto.getWorkerNo());
+
+		    // 새로운 이미지가 있는 경우
+		    if (attach != null && !attach.isEmpty()) {
+		        // 새로운 첨부파일 등록 및 저장
+		        int attachmentNo = attachmentService.save(attach);
+		        
+		        // 새로운 이미지와 회원 정보 연결
+		        workerDao.connect(workerDto.getWorkerNo(), attachmentNo);
+		    }
+
+		    return "redirect:detail?workerNo=" + workerDto.getWorkerNo();
 		}
 		
 		//삭제
@@ -145,17 +160,16 @@ public class AdminWorkerController {
 		
 		@RequestMapping("/image")
 		public String image(@RequestParam int  workerNo) {
-
+			
 			try {
 				int attachmentNo = workerDao.findImage(workerNo);
+				System.out.println("attachmentNo = " + attachmentNo);
 				return "redirect:/attach/download?attachmentNo="+attachmentNo;
 			}
 			catch(Exception e){
+				e.printStackTrace();
 				return "redirect:/images/user.jpg";
 			}
 		}
 		
-		
-		
-	
 }
