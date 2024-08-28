@@ -104,9 +104,9 @@ public class AdminController {
 			return "redirect:login?error";
 
 //		//[2] 1에서 불러온 정보(AdminDto)와 비밀번호를 비교
-//		boolean isValid = encoder.matches(adminPw, adminDto.getAdminPw());
-//		if (isValid == false)
-//			return "redirect:login?error";
+		boolean isValid = encoder.matches(adminPw, adminDto.getAdminPw());
+		if (isValid == false)
+			return "redirect:login?error";
 		
 		
 		//[3] 1,2번에서 쫓겨나지 않았다면 차단 여부를 검사

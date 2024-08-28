@@ -218,14 +218,7 @@ public class WorkerDao {
 					//String sql = "select max(attachment) from worker_image where worker=?";
 					Object[] data = {workerNo};
 					return jdbcTemplate.queryForObject(sql, int.class, data);
-				}
-			public int findImage(int workerNo) {
-				String sql = "select attachment from worker_image where worker=?";
-				Object[] data = {workerNo};
-				return jdbcTemplate.queryForObject(sql, int.class, data);
-			}
-			
-				
+				}	
 				public boolean deleteImage(int workerNo) {
 				    String sql = "DELETE FROM worker_image WHERE worker = ?";
 				    return jdbcTemplate.update(sql, workerNo) > 0;
