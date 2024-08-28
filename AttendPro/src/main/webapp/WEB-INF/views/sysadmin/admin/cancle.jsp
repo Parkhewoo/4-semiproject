@@ -18,9 +18,11 @@
     .row {
         margin-bottom: 15px;
     }
+    
     .center {
         text-align: center;
     }
+    
     .field {
         width: 100%;
         padding: 8px;
@@ -28,19 +30,27 @@
         border: 1px solid #ddd;
         box-sizing: border-box;
     }
+    
     .btn {
         display: block;
         width: 100%;
         padding: 10px;
         font-size: 16px;
-        color:  white;
-        background-color:  #3498db;
+        color: white;
+        background-color: #3498db;
         border: none;
         border-radius: 4px;
         cursor: pointer;
     }
+    
     .btn:hover {
-        background-color: #c0392b;
+        background-color: #2980b9;
+    }
+    
+    .error-message {
+        color: red;
+        text-align: center; /* Ensure text is centered */
+        margin-bottom: 15px; /* Space between error message and other elements */
     }
 </style>
 
@@ -51,14 +61,18 @@
 	<div class="row center">
 		<h1>${param.blockTarget} 차단 해제페이지</h1>
 	</div>
-		<div class="row">
+	<c:if test="${not empty error}">
+		<div class="row center">
+			<p style="color: red;">${error}</p>
+		</div>
+	</c:if>
+		<div class="row">	
 			<textarea name="blockMemo" placeholder="차단 해제사유" rows="10" class="field w-100"></textarea>
 		</div>
 		<div class="row">
 			<button class="btn w-100">차단해제</button>
 		</div>
-</div>
-
+	</div>
 </form>
 
 
