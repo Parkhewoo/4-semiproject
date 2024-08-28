@@ -48,7 +48,7 @@
 		 		</c:when>
 		 		<c:otherwise>
 		 		<li class="right-menu">
-			        <a href="/member/mypage">
+			        <a href="/worker/mypage">
 			        	${sessionScope.createdUser} 님
 					</a>
 			        <ul>

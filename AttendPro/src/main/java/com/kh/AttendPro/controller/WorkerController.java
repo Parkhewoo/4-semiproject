@@ -3,6 +3,7 @@ package com.kh.AttendPro.controller;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,9 @@ public class WorkerController {
 	@Autowired
 	private EmailService2 emailService;
 	
+	@Autowired
+	private PasswordEncoder encoder;
+	
 	//Worker 로그인
 	@GetMapping("/login")
 	public String login() {
@@ -49,7 +53,7 @@ public class WorkerController {
 			return "redirect:login?error";
 		
 		//[2] 1번에서 불러온 정보(WorkerDto)와 비밀번호를 비교
-		boolean isValid =workerPw.equals(workerDto.getWorkerPw());
+		boolean isValid =encoder.matches(workerPw,workerDto.getWorkerPw());
 		if(isValid == false)
 			return "redirect:login?error";		
 		
@@ -58,7 +62,7 @@ public class WorkerController {
 		session.setAttribute("createdUser", workerNo);
 		session.setAttribute("createdRank", workerDto.getWorkerRank());
 		
-		return "/WEB-INF/views/worker/course.jsp";//출퇴근 버튼 페이지로 이동
+		return "redirect:/";//출퇴근 버튼 페이지로 이동
 	}
 	
 	//로그아웃(회원 전용 기능)
@@ -76,17 +80,17 @@ public class WorkerController {
 		}
 		
 		@PostMapping("/attend")
-		public String attend(@RequestParam String workerNo) {
+		public String attend(@RequestParam int workerNo) {
 			return "";			
 		}
 	//근로자 퇴근
 		@GetMapping("/leave")
 		public String leave() {
-			return "/WEB-INF/views/worker/leave.jsp";			
+			return "/WEB-INF/views/worker/leave.jsp";	
 		}
 		
 		@PostMapping("/leave")
-		public String leave(@RequestParam String workerNo) {
+		public String leave(@RequestParam int workerNo) {
 			return "";
 		}
 		
@@ -160,4 +164,48 @@ public class WorkerController {
 			return "/WEB-INF/views/worker/resetPwComplete.jsp";
 		}
 		
+		//사원 마이페이지
+		@RequestMapping("/mypage")
+		public String mypage(HttpSession session, Model model
+										) {
+			int workerNo = (int) session.getAttribute("createdUser");
+			WorkerDto workerDto = workerDao.selectOne(workerNo);
+			
+			model.addAttribute("workerDto", workerDto);
+			
+			return "/WEB-INF/views/worker/mypage.jsp";			
+		}
+		
+		//사원 비밀번호 변경
+		@GetMapping("/password")
+		public String password() {
+			return "/WEB-INF/views/worker/password.jsp";
+		}
+		
+		@PostMapping("/password")
+		public String password(@RequestParam String currentPw,
+										@RequestParam String changePw,
+										HttpSession session) {
+			//사원 번호 추출
+			int workerNo = (int)session.getAttribute("createdUser");
+			
+			//현재 사용자의 정보를 추출
+			WorkerDto workerDto = workerDao.selectOne(workerNo);
+			
+			//비밀번호 비교
+			   boolean isValid = encoder.matches(currentPw, workerDto.getWorkerPw());
+		        if (!isValid) {
+		            return "redirect:password?error";
+		        }
+
+			
+			//비밀번호 변경
+			workerDao.updateWorkerPw(workerNo, changePw);
+			return "redirect:passwordFinish";
+		}
+		
+		@RequestMapping("/passwordFinish")
+		public String passwordFinish() {
+			return "/WEB-INF/views/worker/passwordFinish.jsp";
+		}
 }

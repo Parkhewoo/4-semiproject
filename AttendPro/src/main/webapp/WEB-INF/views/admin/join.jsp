@@ -3,15 +3,6 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
-	rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="./commons.css">
-<link rel="stylesheet" type="text/css"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
 <style>
 .row {
 	margin-bottom: 15px;
@@ -60,33 +51,32 @@
 	background-color: #218838;
 }
 
-h1 {
+h1{
 	font-size: 24px;
 	margin-bottom: 20px;
 	color: #333;
 }
 
-.feedback {
+.feedback{
 	display: none;
 	margin-top: 5px;
 	font-size: 14px;
 }
 
-.success-feedback {
+.success-feedback{
 	color: #28a745;
 }
 
-.fail-feedback {
+.fail-feedback{
 	color: #dc3545;
 }
 
-.fail2-feedback {
+.fail2-feedback{
 	color: #dc3545;
 }
 </style>
 
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <script>
 	$(function() {
 		var status = {
@@ -96,17 +86,14 @@ h1 {
 			adminPwCheckValid : false,
 			adminNoValid : false,
 			adminEmailValid : false,
-			adminEmailCheckValid : false,
 			ok : function() {
-				return this.adminIdValid && this.adminIdCheckValid
-						&& this.adminPwValid && this.adminPwCheckValid
-						&& this.adminNoValid && this.adminEmailValid
-						&& this.adminEmailCheckValid;
-			},
+			    return this.adminIdValid && this.adminIdCheckValid
+			        && this.adminPwValid && this.adminPwCheckValid
+			        && this.adminNoValid && this.adminEmailValid;
+			}
 		};
 		// 아이디 형식 검사
-		$("[name=adminId]").blur(
-				function() {
+		$("[name=adminId]").blur(function() {
 					var regex = /^[a-z][a-z0-9]{7,19}$/;
 					var adminId = $(this).val();
 					var isValid = regex.test(adminId);
@@ -115,26 +102,23 @@ h1 {
 						$.ajax({
 							url : "/rest/admin/checkId",
 							method : "post",
-							data : {
-								adminId : adminId
-							},
+							data : { adminId : adminId },
 							success : function(response) {
 								if (response) {
 									status.adminIdCheckValid = true;
-									$("[name=adminId]").removeClass(
-											"success fail fail2").addClass(
-											"success");
+									$("[name=adminId]").removeClass("success fail fail2")
+									.addClass("success");
 								} else {
 									status.adminIdCheckValid = false;
-									$("[name=adminId]").removeClass(
-											"success fail fail2").addClass(
-											"fail2");
+									$("[name=adminId]").removeClass("success fail fail2")
+														.addClass("fail2");
 								}
 							},
 						});
-					} else {
+					} 
+					else {
 						$("[name=adminId]").removeClass("success fail fail2")
-								.failClass("fail");
+								.addClass("fail");
 					}
 					status.adminIdValid = isValid;
 				});
@@ -144,7 +128,7 @@ h1 {
 						function() {
 							var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
 							var isValid = regex.test($(this).val());
-							$(this).removeClass("succes fail").addClass(
+							$(this).removeClass("success fail").addClass(
 									isValid ? "success" : "fail");
 							status.adminPwValid = isValid;
 						});
@@ -163,107 +147,31 @@ h1 {
 		$("[name=adminNo]").blur(
 				function() {
 					var regex = /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/;
-					var isValid = $(this).val().length == 0
-							|| regex.test($(this).val());
+					var isValid = regex.test($(this).val());
 					$(this).removeClass("success fail").addClass(
 							isValid ? "success" : "fail");
 					status.adminNoValid = isValid;
 				});
 
-		// 이메일 형식 검사 및 인증
-		var certEmail;
-
-		$(".btn-cert-send").blur(
-				function() {
-					var email = $("[name=adminEmail]").val();
-					if (email.length === 0) {
-						status.adminEmailValid = false;
-						return;
-					}
-
-					status.adminEmailValid = true;
-
-					$.ajax({
-						url : "/rest/cert/send",
-						method : "post",
-						data : {
-							certEmail : email
-						},
-						beforeSend : function() {
-							$(".email-wrapper").nextAll(".cert-wrapper")
-									.remove();
-							$(".btn-cert-send").prop("disabled", true);
-							$(".btn-cert-send").find(".fa-solid").removeClass(
-									"fa-paper-plane").addClass(
-									"fa-spinner fa-spin");
-							$(".btn-cert-send").find("span").text("발송중");
-						},
-						complete : function() {
-							$(".btn-cert-send").prop("disabled", false);
-							$(".btn-cert-send").find(".fa-solid").removeClass(
-									"fa-spinner fa-spin").addClass(
-									"fa-paper-plane");
-							$(".btn-cert-send").find("span").text("보내기");
-						},
-						success : function(response) {
-							certEmail = email;
-
-							var template = $("#cert-template").text();
-							var html = $.parseHTML(template);
-
-							$(".email-wrapper").after(html);
-						}
-					});
-				});
-
-		$(document).on(
-				"click",
-				".btn-cert-check",
-				function() {
-					var currentEmail = $("[name=adminEmail]").val();
-					if (certEmail !== currentEmail) {
-						window.alert("이메일을 수정하여 다시 인증해야 합니다");
-						$(".cert-wrapper").remove();
-						return;
-					}
-
-					var certNumber = $(".cert-input").val();
-					var regex = /^[0-9]{6}$/;
-					if (!regex.test(certNumber)) {
-						return;
-					}
-					$.ajax({
-						url : "/rest/cert/check",
-						method : "post",
-						data : {
-							certEmail : certEmail,
-							certNumber : certNumber
-						},
-						success : function(response) {
-							if (response == true) {
-								$(".cert-wrapper").remove();
-								$("[name=adminEmail]").prop("readonly", true);
-								$(".btn-cert-send").remove();
-
-								status.adminEmailCheckValid = true;
-							} else {
-								$(".cert-input").removeClass("success fail")
-										.addClass("fail");
-								status.adminEmailCheckValid = false;
-							}
-						}
-					});
-				});
+		// 이메일 형식 검사 
+		$("[name=adminEmail]").blur(function(){
+			var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+			var isValid = regex.test($(this).val());
+			 $(this).removeClass("success fail")
+             .addClass(isValid ? "success" : "fail");
+			 status.adminEmailValid = isValid;
+		});
 
 		// 폼 제출 검사
 		$(".check-form").submit(function() {
-			$("[name], #password-check").trigger("input").trigger("blur");
+			$("[name], #password-check").trigger("blur");
 			return status.ok();
 		});
 	});
 </script>
 
- 
+
+
 
 <div class="container w-500 my-50">
 	<div class="row center">
@@ -299,7 +207,7 @@ h1 {
 		<div class="row">
 			<label>이메일</label> <input name="adminEmail" type="text"
 				class="field w-100" placeholder="sample@kh.com">
-			<div class="fail-feedback">이메일은 반드시 입력해야 합니다</div>
+			<div class="fail-feedback">형식에 맞춰 작성하십시오</div>
 		</div>
 		<div class="row">
 			<button type="submit" class="btn btn-positive w-100">등록하기</button>
