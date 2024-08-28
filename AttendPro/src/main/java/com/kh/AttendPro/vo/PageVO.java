@@ -56,7 +56,13 @@ public class PageVO {
 	public int getNextBlock() {
 		return this.getFinishBlock()+1;
 	}
-
+    // 총 페이지 수 계산 메소드
+    public int getTotalPages() {
+        return (int) Math.ceil((double) this.count / this.size);
+    }
 }
+
+
+
 
 

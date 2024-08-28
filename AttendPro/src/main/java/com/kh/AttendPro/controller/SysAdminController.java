@@ -77,10 +77,13 @@ public class SysAdminController {
 		  // 차단 이력 조회 추가
 	    List<BlockDto> blockList = blockDao.selectList(adminId);
 	    model.addAttribute("blockList", blockList);
+	    
+	      // 현재 차단상태를 조회
+	    BlockDto lastBlock = blockDao.selectLastOne(adminId);
+	    model.addAttribute("lastBlock",lastBlock);
 		
 		return "/WEB-INF/views/sysadmin/admin/detail.jsp";
 	}
-	
 	
 	
 	//관리자 정보수정
@@ -115,25 +118,36 @@ public class SysAdminController {
 	//관리자 차단
 	@GetMapping("/block")
 	public String block(@RequestParam String blockTarget) {
+		
+		
 		AdminDto adminDto = adminDao.selectOne(blockTarget);
 		if(adminDto == null)
 			throw new TargetNotFoundException("존재하지 않는 아이디입니다");
 		return "/WEB-INF/views/sysadmin/admin/block.jsp";
 	}
-	
-	//관리자 차단
-	@PostMapping("/block")
-	public String block(@ModelAttribute BlockDto blockDto) {
-		//마지막 차단이력조회
-		BlockDto lastDto = blockDao.selectLastOne(blockDto.getBlockTarget());
-		//last는 null이거나(차단) 아니거나(해제)
-		//if(!lastDto.getBlockType().equals("차단")) {//lastDto가 null이면 차단
-		if(lastDto == null || lastDto.getBlockType().equals("해제")) {
-			blockDao.insertBlock(blockDto);//차단등록
-		}
-		return "redirect:list";//상대경로
-		//return "redirect:/sysadmin/admin/list"; <절대경로
-	}
+//	
+//	//관리자 차단
+//	@PostMapping("/block")
+//	public String block(@ModelAttribute BlockDto blockDto) {
+//		//마지막 차단이력조회
+//		BlockDto lastDto = blockDao.selectLastOne(blockDto.getBlockTarget());
+//		//last는 null이거나(차단) 아니거나(해제)
+//		//if(!lastDto.getBlockType().equals("차단")) {//lastDto가 null이면 차단
+//		if(lastDto == null || lastDto.getBlockType().equals("해제")) {
+//			blockDao.insertBlock(blockDto);//차단등록
+//		}
+//		return "redirect:list";//상대경로
+//		//return "redirect:/sysadmin/admin/list"; <절대경로
+//	}
+	  @PostMapping("/block")
+	    public String block(@ModelAttribute BlockDto blockDto, Model model) {
+	        try {
+	            blockDao.insertBlock(blockDto);
+	        } catch (TargetNotFoundException e) {
+	            model.addAttribute("error", e.getMessage());
+	        }
+	        return "redirect:detail?adminId=" + blockDto.getBlockTarget();
+	    }
 	
 	//차단 해제기능
 	@GetMapping("/cancle")
