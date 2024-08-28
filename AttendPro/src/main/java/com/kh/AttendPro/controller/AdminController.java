@@ -22,14 +22,14 @@ import com.kh.AttendPro.dto.BlockDto;
 import com.kh.AttendPro.dto.CertDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
 import com.kh.AttendPro.service.EmailService;
-
+import com.kh.AttendPro.vo.PageVO;
 
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminCotroller {
+public class AdminController {
 	
 	@Autowired
 	private AdminDao adminDao;
@@ -212,5 +212,21 @@ public class AdminCotroller {
 	public String resetPwFinish() {
 		return "/WEB-INF/views/admin/resetPwComplete.jsp";
 	}
+	
+//	 @RequestMapping("/list")
+//	   public String list(@ModelAttribute("pageVO") PageVO pageVO, Model model) {
+//	       // 빈 문자열을 null로 변환
+//	       if (pageVO.getColumn() != null && pageVO.getColumn().trim().isEmpty()) {
+//	           pageVO.setColumn(null);
+//	       }
+//	       if (pageVO.getKeyword() != null && pageVO.getKeyword().trim().isEmpty()) {
+//	           pageVO.setKeyword(null);
+//	       }
+//	       model.addAttribute("list", adminDao.selectListBypaging(pageVO));
+//	       pageVO.setCount(adminDao.countByPaging(pageVO));
+//	       model.addAttribute("pageVO", pageVO);
+//
+//	       return "/WEB-INF/views/admin/list.jsp";
+//	   }
 	
 }

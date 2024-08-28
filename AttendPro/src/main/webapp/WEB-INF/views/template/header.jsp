@@ -79,7 +79,7 @@
     			$.ajax({
     				processData:false,
     				contentType:false,
-    				url:"/rest/worker/profile"
+    				url:"/rest/worker/profile",
     				method:"post",
     				data:form,
     				success:function(response){
