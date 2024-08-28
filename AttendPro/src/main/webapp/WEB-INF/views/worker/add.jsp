@@ -51,17 +51,18 @@ $(function(){
     };
     
     $("[name=workerNo]").blur(function() {
-        var workerNo = $(this).val();
+        var workerNo = $(this).val(); // 입력값 가져오기
         $.ajax({
-            url: "http://localhost:8080/rest/worker/checkNo",
-            method : "post",
+            url: "/rest/worker/checkNo",
+            method: "post",
             data: { workerNo: workerNo },
             success: function(response) {
                 if (response === true) {
+                    // 성공 상태 처리
                     status.workerNoCheckValid = true;
                     $("[name=workerNo]").removeClass("fail").addClass("success");
-                } 
-                else {
+                } else {
+                    // 실패 상태 처리
                     status.workerNoCheckValid = false;
                     $("[name=workerNo]").removeClass("success").addClass("fail");
                 }
@@ -245,30 +246,37 @@ function clearAddress() {
                         </div>
                     </div>
                 </div>
-                <div class="page">
-                    <div class="row">
-                        <h2>4단계 : 직급 입력</h2>
-                    </div>
-                    <div class="row">
-                        <label>직급</label>
-                        <input type="text" name="workerRank" class="field w-100" placeholder="인턴,사원,과장,팀장,사장" required>
-                        <div class="fail-feedback">직급은 반드시 입력해야 합니다</div>
-                    </div>
-                    <div class="row mt-50">
-                        <div class="flex-box">
-                            <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
-                                    <i class="fa-solid fa-chevron-left"></i>이전
-                                </button>
-                            </div>
-                            <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
-                                    다음<i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                   <div class="page">
+    	<div class="row">
+  	      <h2>4단계 : 직급 입력</h2>
+  	  </div>
+ 	   <div class="row">
+  	      <label for="workerRank">직급</label>
+  	      <select name="workerRank" id="workerRank" class="field w-100" required>
+   	      	   <option value="" disabled selected>선택하세요</option>
+    	       <option value="인턴">인턴</option>
+         	   <option value="사원">사원</option>
+           		<option value="과장">과장</option>
+          		<option value="팀장">팀장</option>
+          	  <option value="사장">사장</option>
+       	 </select>
+        <div class="fail-feedback">직급은 반드시 선택해야 합니다</div>
+    </div>
+    <div class="row mt-50">
+        <div class="flex-box">
+            <div class="w-50 left">
+                <button type="button" class="btn btn-neutral btn-prev">
+                    <i class="fa-solid fa-chevron-left"></i>이전
+                </button>
+            </div>
+            <div class="w-50 right">
+                <button type="button" class="btn btn-neutral btn-next">
+                    다음<i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
                 <div class="page">
                     <div class="row">
                         <h2>5단계 : 이메일 입력</h2>

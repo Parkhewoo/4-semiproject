@@ -40,7 +40,7 @@ public class FileDownloadController {
 		
 		//[2] 정보가 있으므로 실제 파일을 불러오는 작업
 		// apache commons io 라이브러리 사용
-		File dir = new File("D:/upload");
+		File dir = new File("C:/upload");
 		File target = new File(dir, String.valueOf(attachmentNo));
 		byte[] data = FileUtils.readFileToByteArray(target);
 		
