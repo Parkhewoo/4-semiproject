@@ -73,8 +73,14 @@ public class SysAdminController {
 		AdminDto dto = adminDao.selectOne(adminId);
 		model.addAttribute("dto", dto);
 		
+		  // 차단 이력 조회 추가
+	    List<BlockDto> blockList = blockDao.selectList(adminId);
+	    model.addAttribute("blockList", blockList);
+		
 		return "/WEB-INF/views/sysadmin/admin/detail.jsp";
 	}
+	
+	
 	
 	//관리자 정보수정
 	@GetMapping("/edit")
@@ -92,7 +98,8 @@ public class SysAdminController {
 		boolean result = adminDao.updateAdminBySysadmin(adminDto);
 		if(result == false)
 			throw new TargetNotFoundException("존재하지 않는 아이디입니다");
-		return "redirect:detail?adminId="+adminDto.getAdminId();
+		return "redirect:/sysadmin/detail?adminId=" + adminDto.getAdminId();
+
 	}
 	
 	//관리자 정보삭제

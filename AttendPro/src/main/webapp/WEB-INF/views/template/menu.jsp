@@ -1,3 +1,4 @@
+<%@page import="java.util.Enumeration"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -8,6 +9,7 @@
 	- 로그인 상태일 때와 비로그인 상태일 때 다르게 표시
 	- 로그인 상태 : sessionScope.createdUser != null
 -->
+
 <c:choose>
 	<c:when test="${sessionScope.createdUser != null}">
 		<ul class="menu">

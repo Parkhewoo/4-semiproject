@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <!-- 제목 -->
 <c:choose>
 	<c:when test="${isSearch}">
@@ -68,3 +69,6 @@
 		</table>
 	</c:otherwise>
 </c:choose>
+
+
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

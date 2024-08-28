@@ -31,12 +31,13 @@ public class AdminDao {
 		String rawPw = adminDto.getAdminPw();
 		String encPw = encoder.encode(rawPw);
 		adminDto.setAdminPw(encPw);
-
+		
+	    
 		// JDBC
 		String sql = "insert into admin(" + "admin_id, admin_pw, admin_no, admin_rank, admin_email"
-				+ ") values(?, ?, ?, '일반관리자', ?)";
+				+ ") values(?, ?, ?, '일반 관리자', ?)";
 		Object[] data = { adminDto.getAdminId(), adminDto.getAdminPw(), adminDto.getAdminNo(),
-				adminDto.getAdminEmail() };
+			adminDto.getAdminEmail() };
 		 int rowsAffected = jdbcTemplate.update(sql, data);
 		    return rowsAffected > 0;
 	}
@@ -64,6 +65,7 @@ public class AdminDao {
 		return list.isEmpty() ? null : list.get(0);
 	}
 
+	
 	// 로그인 전용 상세조회
 	public AdminDto selectOneWithPassword(String adminId, String adminPw) {
 		String sql = "select * from admin where admin_id = ?";
@@ -73,7 +75,9 @@ public class AdminDao {
 			return null;
 
 		AdminDto adminDto = list.get(0);
-		boolean isValid = encoder.matches(adminPw, adminDto.getAdminPw());
+		String storedEncPw = adminDto.getAdminPw();
+		
+		boolean isValid = encoder.matches(adminPw, /*adminDto.getAdminPw()*/storedEncPw);
 		return isValid ? adminDto : null;
 	}
 
@@ -118,13 +122,30 @@ public class AdminDao {
 		}
 	}
 
+//	public boolean updateAdminBySysadmin(AdminDto adminDto) {
+//		String sql = "update admin set" + "admin_no=?" + "admin_rank=?" + "admin_email=?" + "admin_login=?";
+//		Object[] data = { adminDto.getAdminNo(), adminDto.getAdminRank(), adminDto.getAdminEmail(),
+//				adminDto.getAdminLogin() };
+//		return jdbcTemplate.update(sql, data) > 0;
+//	}
+	
+	//(시스템관리자용) 관리자 정보수정
 	public boolean updateAdminBySysadmin(AdminDto adminDto) {
-		String sql = "update admin set" + "admin_no=?" + "admin_rank=?" + "admin_email=?" + "admin_login=?";
-		Object[] data = { adminDto.getAdminNo(), adminDto.getAdminRank(), adminDto.getAdminEmail(),
-				adminDto.getAdminLogin() };
-		return jdbcTemplate.update(sql, data) > 0;
+	    String sql = "UPDATE admin SET "
+	            + "admin_no=?, admin_rank=?, "
+	            + "admin_email=?, admin_login=? "
+	            + "WHERE admin_id=?";
+	    Object[] data = {
+	        adminDto.getAdminNo(), 
+	        adminDto.getAdminRank(), 
+	        adminDto.getAdminEmail(),
+	        adminDto.getAdminLogin(), 
+	        adminDto.getAdminId()
+	    };
+	    return jdbcTemplate.update(sql, data) > 0;
 	}
 
+	//(시스템관리자 전용) 관리자 정보삭제
 	public boolean delete(String adminId) {
 		String sql = "delete admin where admin_id = ?";
 		Object[] data = { adminId };

@@ -29,6 +29,7 @@ public class WorkerRestController {
 	@PostMapping("/profile")
 	public void profile(HttpSession session,
 							@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+		
 		if(attach.isEmpty()) return;
 		//아이디 추출
 		int workerNo = (int)session.getAttribute("createdUser");
@@ -54,3 +55,5 @@ public class WorkerRestController {
 		return workerDto == null;
 	}
 }
+
+

@@ -1,6 +1,7 @@
 package com.kh.AttendPro.dao;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -21,7 +22,6 @@ public class RecordDao {
 	@Autowired
 	RecordMapper recordMapper;
 	
-	
 	//workerNo를 통해서 RecordDto를 반환
 	public RecordDto selectOne(int workerNo) {
 		String sql = "select * from record where worker_no = ?";
@@ -32,64 +32,69 @@ public class RecordDao {
 	
 	//출근
 	public void checkIn(int workerNo) {
-		RecordDto recordDto = selectOne(workerNo);
-		LocalTime companyIn = recordDto.getCompanyIn();
-		//현재시각, db 이동을 최소화 하기 위해 workerIn 데이터 사용 x
-		LocalTime now = LocalDateTime.now().toLocalTime(); 
-		
-		//지각
-		if(now.isAfter(companyIn)) {
-			String sql = "update record set "
-					+"worker_late = worker_late+1, "
-					+"worker_in = sysdate "
-					+ "where worker_no = ?";
-			Object[] data = {workerNo};
-			jdbcTemplate.update(sql, data);
-		}
-		//정시
-		else if(now.isBefore(companyIn)) {
-			String sql = "update record set"
-					+"record_in = sysdate "
-					+"where record_no = ?";
-			Object[] data = {workerNo};
-		}
-		else return;
+		String sql = "insert into record("
+				+"worker_no, worker_in, admin_id"
+				+") values"
+				+"(?, sysdate, "
+				+ "(SELECT admin_id FROM worker WHERE WORKER_NO = ?))";
+		Object[] data = {workerNo, workerNo};
+		jdbcTemplate.update(sql, data);
 	}
 	
 	//퇴근
-	public void checkOut(int workerNo) {
-		
+		public void checkOut(int workerNo) {
+			//당일 출근기록이 있을때만 시행 - > update 
+			boolean isCome = getIsCome(workerNo);
+			if(isCome) {
+				String sql = "update record "
+						+ "set worker_out = sysdate "
+						+"where worker_no = ? "
+						+"and worker_in = 오늘날짜"; 
+				Object[] data = {workerNo};
+				jdbcTemplate.update(sql, data);
+			}
+			else return;
+		}
+	
+	//당일 출근 기록 검사 메소드
+	public boolean getIsCome(int workerNo) {
 		RecordDto recordDto = selectOne(workerNo);
-		LocalTime companyOut = recordDto.getCompanyOut();
-        
-		LocalTime now = LocalDateTime.now().toLocalTime();
-        
 		Date workerIn = recordDto.getWorkerIn();
-		boolean isCome = false;
+		Date today = new Date(System.currentTimeMillis());
 		
-        //당일에 찍힌 record_in기록이 있을경우 구문 시행
-		//퇴근시간 보다 이를 경우 조퇴, 퇴근시간 이후일 경우 정시퇴근
-		//결근 검사는 11시 59분마다 이루어져야 함 
-		
-//        if(){
-//        	
-//        }
-//        else if(){
-//        	
-//        }
-		String sql="update record set"
-				+ "record_out = sysdate "
-				+ "where record_no = ?";
-		Object[] data = {1};
-		jdbcTemplate.update(sql, data);
+		// LocalDate로 변환하여 년-월-일만 비교
+	    LocalDate workerInDate = workerIn.toLocalDate();
+	    LocalDate todayDate = today.toLocalDate();
+	    boolean isCome = workerInDate.equals(todayDate);
+
+	    return isCome;
 	}
+	
+	public void getStatus(int workerNo) {
+		//vo로 세팅
+		String sqlForLate = "SELECT "
+				+ "COUNT(*) AS late_count "
+				+ "FROM "
+				+ "record_company_view "
+				+ "WHERE "
+				+ "r.worker_no = ? "
+				+ "AND r.company_in < r.worker_in";
 		
-//		public RecordDto selectRecordIn(String workerId) {
-//			String sql = "select record_in from record "
-//					+ " where worker_id = ?";
-//			Object[] data = {workerId};
-//			jdbcTemplate.update(sql, data);
-//			return ;
-//		}
+		String sqlForLeave = "SELECT "
+				+ "COUNT(*) AS leave_count "
+				+ "FROM "
+				+ "record_company_view "
+				+ "WHERE "
+				+ "r.worker_no = ? "
+				+ "AND r.company_out > r.worker_out";
+		
+		Object[] data = {workerNo};
+		
+		int late = jdbcTemplate.queryForObject(sqlForLate, int.class,data);
+		int leave = jdbcTemplate.update(sqlForLeave, int.class, data);
+	}
+	
+	
+
 	
 }

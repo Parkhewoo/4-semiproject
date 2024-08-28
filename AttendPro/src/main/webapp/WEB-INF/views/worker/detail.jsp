@@ -93,6 +93,10 @@
             <div class="info-message">존재하지 않는 사원번호</div>
         </c:when>
         <c:otherwise>
+        
+        <!-- 이미지가 존재한다면 이미지를 출력 -->
+        <img src="image?workerNo=${workerDto.workerNo}" width="150" height="150">
+        
             <table class="table-info">
                 <tr>
                     <th>번호</th>

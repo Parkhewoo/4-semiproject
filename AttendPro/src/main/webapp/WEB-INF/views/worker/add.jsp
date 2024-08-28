@@ -228,7 +228,7 @@ $(function(){
                     <div class="row">
                         <label>직급</label>
                         <input type="text" name="workerRank" class="field w-100" placeholder="인턴,사원,과장,팀장,사장" required>
-                        <div class="fail-feedback">이메일은 반드시 입력해야 합니다</div>
+                        <div class="fail-feedback">직급은 반드시 입력해야 합니다</div>
                     </div>
                     <div class="row mt-50">
                         <div class="flex-box">
