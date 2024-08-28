@@ -10,8 +10,10 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.dto.WorkerDto;
+import com.kh.AttendPro.mapper.StatusMapper;
 import com.kh.AttendPro.mapper.WorkerMapper;
 import com.kh.AttendPro.vo.PageVO;
+import com.kh.AttendPro.vo.StatusVO;
 
 @Repository
 public class WorkerDao {
@@ -214,7 +216,15 @@ public class WorkerDao {
 					Object[] data = {workerNo};
 					return jdbcTemplate.queryForObject(sql, int.class, data);
 				}
-			
-
+				
+		@Autowired
+		private StatusMapper statusMapper;
 		
+		//(시스템관리자용) 직급별 사원 수 스테이터스
+		public List<StatusVO> statusByWorkerRank() {
+		    String sql = "select worker_rank title, count(*) cnt" + " from worker " + "group by worker_rank "
+		            + "order by cnt desc, title asc";
+		    return jdbcTemplate.query(sql, statusMapper);
+		}
+				
 }

@@ -130,12 +130,6 @@ label {
                         <option value="시스템 관리자" <c:if test="${adminDto.adminRank == '시스템 관리자'}">selected</c:if>>시스템 관리자</option>
                     </select>
                 </div>
-
-                <div class="row">
-                    <label>최종 로그인</label>
-                    <p><fmt:formatDate value="${adminDto.adminLogin}" pattern="y년 M월 d일 E H시 m분 s초"/></p>
-                </div>
-
                 <button type="submit" class="btn">변경하기</button>
             </form>
         </c:otherwise>
