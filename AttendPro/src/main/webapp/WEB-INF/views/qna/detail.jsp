@@ -5,6 +5,13 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<!-- summernote cdn -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/editor/editor.css">
+<script src="/editor/editor.js"></script>
+
 <!-- 댓글 스타일 -->
 <style>
 	.reply-wrapper {
@@ -65,45 +72,23 @@
 		${qnaDto.qnaContent}
 	</div>
 	
-	
-	
-	<!-- 정보 -->
-	<!--  <div class="row">
-		답변 
-		<fmt:formatNumber value="${qnaDto.qnaReplies}"
-										pattern="#,##0"/>
-	</div> -->
-	
-	<!-- 댓글 목록 	<div class="row reply-list-wrapper"></div> -->
+	<hr>
+	<c:if test="${qnaDto.qnaReply != null}">
+	<!-- 답글내용 -->
+	<div class="row">
+	<h2>QNA답변 입니다.</h2>
+	</div>
+<div class="row" style="min-height:200px">
+    ${qnaDto.qnaReply}
+</div>
+	</c:if>
 
 
-<!-- 댓글 목록 -->
-<c:choose>
- 
-    <c:when test="${qnaDto.qnaDepth == 0}">
-        <div class="row">
-            답변 대기중입니다
-        </div>
-    </c:when>
-    
-
-    <c:when test="${qnaDto.qnaDepth == 1}">
-        <div class="row">
-            ${qnaDto.qnaContent} 
-        </div>
-    </c:when>
-    
-</c:choose>
 	
-	<!-- 댓글 작성 -->
-	<!--<c:choose>
-	<c:when test="${sessionScope.createdRank == '시스템관리자'}">
-
-	</c:when>
-	</c:choose>-->
+	<!-- 답글 작성 -->
 	
 	<form action="write" method="post" autocomplete="off">
-	<c:if test="${qnaDto.qnaTarget == null}">
+	<c:if test="${sessionScope.createdRank == '시스템관리자'}">
 	<!-- qnaNo를 hidden input으로 폼에 포함 -->
 	  <input type="hidden" name="qnaTarget" value="${qnaDto.qnaNo}">
 	  

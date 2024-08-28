@@ -16,7 +16,7 @@ public class QnaDto {
 	private String qnaWriter;
 	private Date qnaWTime;
 	private Date qnaUTime;
-	private int qnaReplies;	
+	private String qnaReply;	
 	
 	//답글 추가
 	private int qnaGroup;

@@ -20,7 +20,7 @@ import com.kh.AttendPro.dto.QnaDto;
 			qnaDto.setQnaWriter(rs.getString("qna_writer"));
 			qnaDto.setQnaWTime(rs.getDate("qna_wtime"));
 			qnaDto.setQnaUTime(rs.getDate("qna_utime"));
-			qnaDto.setQnaReplies(rs.getInt("qna_replies"));
+			qnaDto.setQnaReply(rs.getString("qna_reply"));
 			
 			//3개 항목 추가
 			 qnaDto.setQnaGroup(rs.getInt("qna_group"));
