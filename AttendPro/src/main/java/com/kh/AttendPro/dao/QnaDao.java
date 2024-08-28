@@ -50,7 +50,7 @@ public class QnaDao {
 									+ "select rownum rn, TMP.* from ("
 										+ "select "
 											+ "qna_no, qna_title, qna_writer, qna_wtime, "
-											+ "qna_utime, qna_replies, "
+											+ "qna_utime, qna_reply, "
 											+ "qna_group, qna_target, qna_depth "
 										+ "from qna "
 										+ " where instr(#1, ?) > 0 "
@@ -73,7 +73,7 @@ public class QnaDao {
 						+ "select rownum rn, TMP.* from ("
 						+ "select "
 							+ "qna_no, qna_title, qna_writer, qna_wtime, "
-							+ "qna_utime, qna_replies, "
+							+ "qna_utime, qna_reply, "
 							+ "qna_group, qna_target, qna_depth "
 						+ "from qna "
 						//트리정렬
@@ -103,19 +103,28 @@ public class QnaDao {
 		public void insert(QnaDto qnaDto) {
 			String sql = "insert into qna("
 					+"qna_no, qna_title, qna_content, qna_writer, "
-					+ "qna_group, qna_target, qna_depth"
-					+") values(?, ?, ?, ?, ?, ?, ?)"
+					+ "qna_reply, qna_group, qna_target, qna_depth"
+					+") values(?, ?, ?, ?, ?, ?, ?, ?)"
 					;
 			Object[] data = {
 					qnaDto.getQnaNo(),
 					qnaDto.getQnaTitle(), 
 					qnaDto.getQnaContent(), 
 					qnaDto.getQnaWriter(),
+					qnaDto.getQnaReply(),
 					qnaDto.getQnaGroup(),
 					qnaDto.getQnaTarget(),
 					qnaDto.getQnaDepth()
 					};
 			
 			jdbcTemplate.update(sql, data);
+			
 		}
-}
+
+		// 부모 글의 reply 필드를 업데이트하는 메서드
+		public void updateReply(int qnaTarget, String reply) {
+			String sql = "update qna set qna_reply = ? where qna_no = ?";
+			Object[] data = { reply, qnaTarget };
+			jdbcTemplate.update(sql, data);
+		}
+	}

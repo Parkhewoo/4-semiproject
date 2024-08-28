@@ -67,7 +67,7 @@ public class AttachmentService {
 		}
 		
 		//실물 파일 삭제
-		File dir = new File("D:/upload");
+//		File dir = new File("c:/upload");
 		File target = new File(dir, String.valueOf(attachmentNo));
 		target.delete();
 		
