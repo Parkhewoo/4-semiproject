@@ -1,103 +1,113 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
-.container {
-    width: 100%;
-    max-width: 1200px; /* Adjust this value to match the design width of your detail page */
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.row {
-    margin-bottom: 15px;
-}
-
-.field {
-    width: 50%;
-    padding: 8px; /* Increased padding */
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    height: 1px;
-    box-sizing: border-box; /* Ensure padding is included in height */
-}
-
-.btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #3498db;
-    border: none;
-    border-radius: 4px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn:hover {
-    background-color: #2980b9;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.table-info {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-.table-info th, .table-info td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.table-info th {
-    background-color: #f4f4f4;
-    border-bottom: 2px solid #ddd;
-}
-
-.table-info tr:last-child td {
-    border-bottom: none;
-}
-
-.info-message {
-    text-align: center;
-    font-size: 18px;
-    color: #e74c3c;
-}
-
-.links {
-    text-align: center;
-}
-
-.links a {
-    text-decoration: none;
-    color: #3498db;
-    font-weight: bold;
-    margin: 0 15px;
-}
-
-.links a:hover {
-    text-decoration: underline;
-}
+    /* 위의 CSS 스타일을 여기에 포함시키세요 */
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .row {
+        margin-bottom: 15px;
+    }
+    .field {
+        width: 50%;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        height: 1px;
+        box-sizing: border-box;
+    }
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        margin: 5px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .btn:hover {
+        background-color: #2980b9;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .info-message {
+        text-align: center;
+        font-size: 18px;
+        color: #e74c3c;
+    }
+    .success-feedback, .fail-feedback {
+        display: none;
+        font-size: 12px;
+        color: #e74c3c;
+    }
+    .success-feedback {
+        color: #2ecc71;
+    }
+    .success-feedback.show, .fail-feedback.show {
+        display: block;
+    }
 </style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(function() {
+        var status = {
+            currentAdminNoValid: false,
+            currentAdminEmailValid: false,
+            ok: function() {
+                return this.currentAdminNoValid && this.currentAdminEmailValid;
+            }
+        };
+
+        function validateAdminNo() {
+            var regex = /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/;
+            var isValid = regex.test($("[name=adminNo]").val());
+            $("[name=adminNo]").removeClass("success fail")
+                               .addClass(isValid ? "success" : "fail");
+            $("[name=adminNo]").siblings(".success-feedback").toggle(isValid);
+            $("[name=adminNo]").siblings(".fail-feedback").toggle(!isValid);
+            status.currentAdminNoValid = isValid;
+        }
+
+        function validateAdminEmail() {
+            var regex = /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/;
+            var isValid = regex.test($("[name=adminEmail]").val());
+            $("[name=adminEmail]").removeClass("success fail")
+                                  .addClass(isValid ? "success" : "fail");
+            $("[name=adminEmail]").siblings(".success-feedback").toggle(isValid);
+            $("[name=adminEmail]").siblings(".fail-feedback").toggle(!isValid);
+            status.currentAdminEmailValid = isValid;
+        }
+
+        $("[name=adminNo]").blur(validateAdminNo);
+        $("[name=adminEmail]").blur(validateAdminEmail);
+
+        $("form").submit(function() {
+            $("[name]").trigger("blur");
+            return status.ok();
+        });
+    });
+</script>
 
 <div class="container">
     <h1>사업주 정보 수정 페이지</h1>
@@ -110,17 +120,21 @@ label {
         </c:when>
         <c:otherwise>
             <form action="edit" method="post">
-                <!-- adminId를 숨겨진 필드로 추가 -->
                 <input type="hidden" name="adminId" value="${adminDto.adminId}">
-
+                
                 <div class="row">
                     <label>사업자 번호*</label>
-                    <input type="text" name="adminNo" value="${adminDto.adminNo}" class="field" required>
+                    <input type="text" name="adminNo" value="${adminDto.adminNo}" class="field"
+                           placeholder="xxx-xx-xxxxx 형식의 10자리 숫자" required>
+                    <div class="success-feedback">올바른 형식입니다!</div>
+                    <div class="fail-feedback">형식에 맞춰서 작성하세요</div>
                 </div>
 
                 <div class="row">
                     <label>이메일*</label>
                     <input type="email" name="adminEmail" value="${adminDto.adminEmail}" class="field" required>
+                    <div class="success-feedback">올바른 이메일 형식입니다!</div>
+                    <div class="fail-feedback">유효한 이메일 주소를 입력하세요</div>
                 </div>
 
                 <div class="row">

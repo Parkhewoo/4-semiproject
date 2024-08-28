@@ -51,10 +51,14 @@
 		<div class="row">
 			<label>변경할 비밀번호</label>
 			<input type="password" name="workerPw" class="field w-100">
+			<div class="success-feedback">형식에 맞는 비밀번호입니다</div>
+			<div class="fail-feedback">영문 대소문자, 숫자, 특수문자를 포함한 8~16자로 작성하세요</div>
 		</div>
 		<div class="row">
 			<label>비밀번호 확인</label>
 			<input type="password" id="password-check" class="field w-100">
+			<div class="success-feedback">비밀번호가 일치합니다</div>
+			<div class="fail-feedback">비밀번호가 일치하지않습니다</div>
 		</div>
 		<div class="row mt-30">
 			<button type="submit" class="btn btn-positive w-100">

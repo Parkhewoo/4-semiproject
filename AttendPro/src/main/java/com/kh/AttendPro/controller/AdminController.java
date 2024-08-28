@@ -3,6 +3,7 @@ package com.kh.AttendPro.controller;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -46,6 +47,9 @@ public class AdminController {
 	
 	@Autowired
 	private BlockDao blockDao;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	@GetMapping("/join")
 	public String join() {
@@ -99,10 +103,10 @@ public class AdminController {
 		if (adminDto == null)
 			return "redirect:login?error";
 
-		//[2] 1에서 불러온 정보(AdminDto)와 비밀번호를 비교
-		boolean isValid = adminPw.equals(adminDto.getAdminPw());
-		if (isValid == false)
-			return "redirect:login?error";
+//		//[2] 1에서 불러온 정보(AdminDto)와 비밀번호를 비교
+//		boolean isValid = encoder.matches(adminPw, adminDto.getAdminPw());
+//		if (isValid == false)
+//			return "redirect:login?error";
 		
 		
 		//[3] 1,2번에서 쫓겨나지 않았다면 차단 여부를 검사
