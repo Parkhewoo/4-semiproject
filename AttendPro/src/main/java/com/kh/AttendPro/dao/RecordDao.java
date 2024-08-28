@@ -44,13 +44,15 @@ public class RecordDao {
 	//퇴근
 		public void checkOut(int workerNo) {
 			//당일 출근기록이 있을때만 시행 - > update 
-			boolean isCome = getIsCome(workerNo);
-			if(isCome) {
-				String sql = "update record "
-						+ "set worker_out = sysdate "
-						+"where worker_no = ? "
-						+"and worker_in = 오늘날짜"; 
-				Object[] data = {workerNo};
+			if(getIsCome(workerNo)) {
+				String sql ="UPDATE record "
+						+"SET worker_out = SYSDATE "
+						+"WHERE worker_no = ? "
+						+"AND worker_in = ( "
+						+"SELECT MAX(worker_in) "
+						+"FROM record "
+						+"WHERE worker_no = ?)";
+				Object[] data = {workerNo, workerNo};
 				jdbcTemplate.update(sql, data);
 			}
 			else return;
@@ -58,15 +60,14 @@ public class RecordDao {
 	
 	//당일 출근 기록 검사 메소드
 	public boolean getIsCome(int workerNo) {
-		RecordDto recordDto = selectOne(workerNo);
-		Date workerIn = recordDto.getWorkerIn();
-		Date today = new Date(System.currentTimeMillis());
-		
-		// LocalDate로 변환하여 년-월-일만 비교
-	    LocalDate workerInDate = workerIn.toLocalDate();
-	    LocalDate todayDate = today.toLocalDate();
-	    boolean isCome = workerInDate.equals(todayDate);
-
+		//sql 구문과 jdbc를 통해 당일 출근 기록이 있는지 검사 후 값을 반환
+		//int값을 반환 후 그 값을 통해 판단
+		String sql = "select count(*) from record "
+				+ "where worker_no= ? and "
+				+ "TRUNC(worker_in) = TRUNC(SYSDATE)";
+	
+		Object[] data = {workerNo};
+	    boolean isCome = jdbcTemplate.queryForObject(sql, int.class, data) > 0;
 	    return isCome;
 	}
 	
