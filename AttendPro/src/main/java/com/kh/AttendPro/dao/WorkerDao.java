@@ -174,9 +174,9 @@ public class WorkerDao {
 		        System.out.println(Arrays.toString(data));
 		    }
 		    List<WorkerDto> result = jdbcTemplate.query(sql, workerMapper, data);
-		    System.out.println("결과 수 : " + result.size());
+//		    System.out.println("결과 수 : " + result.size());
 	        // Print the result to the console
-	        System.out.println("Query Result:");
+//	        System.out.println("Query Result:");
 	        for (WorkerDto worker : result) {
 	            System.out.println(worker);
 	        }
@@ -195,6 +195,7 @@ public class WorkerDao {
 		        return jdbcTemplate.queryForObject(sql, Integer.class);
 		    }
 		}
+		
 		//사원 비밀번호 변경
 		public boolean updateWorkerPw(int workerNo, String workerPw) {
 			String encPw = encoder.encode(workerPw);
@@ -205,17 +206,19 @@ public class WorkerDao {
 		}
 
 		// 사원 이미지 연결
-				public void connect(int workerNo, int attachmentNo) {
-					String sql = "insert into worker_image(worker, attachment) values(?, ?)"; 
-					Object[] data = {workerNo, attachmentNo};
-					jdbcTemplate.update(sql, data);
-				}
+			public void connect(int workerNo, int attachmentNo) {
+				String sql = "insert into worker_image(worker, attachment) values(?, ?)"; 
+				Object[] data = {workerNo, attachmentNo};
+				jdbcTemplate.update(sql, data);
+			}
 				
-				public int findImage(int workerNo) {
-					String sql = "select attachment from worker_image where worker=?";
-					Object[] data = {workerNo};
-					return jdbcTemplate.queryForObject(sql, int.class, data);
-				}
+			public int findImage(int workerNo) {
+				String sql = "select attachment from worker_image where worker=?";
+				Object[] data = {workerNo};
+				return jdbcTemplate.queryForObject(sql, int.class, data);
+			}
+			
+			
 				
 		@Autowired
 		private StatusMapper statusMapper;

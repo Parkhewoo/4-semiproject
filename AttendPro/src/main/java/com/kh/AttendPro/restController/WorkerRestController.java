@@ -32,6 +32,7 @@ public class WorkerRestController {
 	public void profile(HttpSession session,
 							@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
 		if(attach.isEmpty()) return;
+		
 		//아이디 추출
 		int workerNo = (int)session.getAttribute("createdUser");
 		
@@ -58,14 +59,12 @@ public class WorkerRestController {
 	}
 
 
-
-
 	//(시스템관리자용) 데이터베이스현황 조회 status
 		@RequestMapping("/status")
 		public List<StatusVO> statusByWorkerRank(){
 			return workerDao.statusByWorkerRank();
 		}
-	
+		
 	
 }
 
