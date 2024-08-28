@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import jakarta.servlet.http.HttpSession;
 
 //회원에 대한 비동기 통신을 처리하기 위한 컨트롤러
 @RestController
+//@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/rest/worker")
 public class WorkerRestController {
 	@Autowired
@@ -53,8 +55,8 @@ public class WorkerRestController {
 	//사원번호 중복 검사
 	@PostMapping("/checkNo")
 	public boolean checkNo(@RequestParam int workerNo) {
-		WorkerDto workerDto = workerDao.selectOne(workerNo);
-		return workerDto == null;
+	    WorkerDto workerDto = workerDao.selectOne(workerNo);
+	    return workerDto == null;
 	}
 
 

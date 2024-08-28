@@ -84,7 +84,7 @@ public class AttachmentService {
 		
 		//[2] 정보가 있으면 실제 파일을 불러온다
 		// - 파일을 불러오는 라이브러리 사용(apache commons io)
-		File dir = new File("D:/upload");
+		File dir = new File("C:/upload");
 		File target = new File(dir, String.valueOf(attachmentNo));
 		byte[] data = FileUtils.readFileToByteArray(target);
 		ByteArrayResource resource = new ByteArrayResource(data);//포장 하는 방식
