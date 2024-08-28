@@ -3,6 +3,7 @@ package com.kh.AttendPro.controller;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,9 @@ public class WorkerController {
 	@Autowired
 	private EmailService2 emailService;
 	
+	@Autowired
+	private PasswordEncoder encoder;
+	
 	//Worker 로그인
 	@GetMapping("/login")
 	public String login() {
@@ -49,7 +53,7 @@ public class WorkerController {
 			return "redirect:login?error";
 		
 		//[2] 1번에서 불러온 정보(WorkerDto)와 비밀번호를 비교
-		boolean isValid =workerPw.equals(workerDto.getWorkerPw());
+		boolean isValid =encoder.matches(workerPw,workerDto.getWorkerPw());
 		if(isValid == false)
 			return "redirect:login?error";		
 		
@@ -82,7 +86,7 @@ public class WorkerController {
 	//근로자 퇴근
 		@GetMapping("/leave")
 		public String leave() {
-			return "/WEB-INF/views/worker/leave.jsp";			
+			return "/WEB-INF/views/worker/leave.jsp";	
 		}
 		
 		@PostMapping("/leave")
