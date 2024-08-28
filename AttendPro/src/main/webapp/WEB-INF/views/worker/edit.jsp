@@ -27,24 +27,24 @@ $(function(){
         }
     };
 
-    $("[name=workerNo]").blur(function() {
-        var workerNo = $(this).val();
-        $.ajax({
-            url: "http://localhost:8080/rest/worker/checkNo",
-            method : "post",
-            data: { workerNo: workerNo },
-            success: function(response) {
-                if (response === true) {
-                    status.workerNoCheckValid = true;
-                    $("[name=workerNo]").removeClass("fail").addClass("success");
-                } 
-                else {
-                    status.workerNoCheckValid = false;
-                    $("[name=workerNo]").removeClass("success").addClass("fail");
-                }
-            }
-        });
-    });
+//     $("[name=workerNo]").blur(function() {
+//         var workerNo = $(this).val();
+//         $.ajax({
+//             url: "http://localhost:8080/rest/worker/checkNo",
+//             method : "post",
+//             data: { workerNo: workerNo },
+//             success: function(response) {
+//                 if (response === true) {
+//                     status.workerNoCheckValid = true;
+//                     $("[name=workerNo]").removeClass("fail").addClass("success");
+//                 } 
+//                 else {
+//                     status.workerNoCheckValid = false;
+//                     $("[name=workerNo]").removeClass("success").addClass("fail");
+//                 }
+//             }
+//         });
+//     });
 
     $("[name=workerName]").blur(function(){
         var regex = /^[가-힣a-zA-Z0-9]{1,21}$/;
@@ -111,10 +111,10 @@ $(function(){
         status.workerAddressValid = isValid;
     });
 
-    $(".check-form").submit(function(){
-        $("[name], #password-check").trigger("input").trigger("blur");
-        return status.ok();
-    });
+//     $(".check-form").submit(function(){
+//         $("[name], #password-check").trigger("input").trigger("blur");
+//         return status.ok();
+//     });
 
     document.getElementById('fileInput').addEventListener('change', function(event) {
         var file = event.target.files[0]; // 선택한 파일
@@ -231,7 +231,7 @@ $(function(){
                     </div>
                     <div class="row">
                         <label>이메일</label>
-                        <input type="email" name="workerEmail" class="field w-100" placeholder="test@kh.com" required>
+                        <input type="email" name="workerEmail" class="field w-100" value="${workerDto.workerEmail }"placeholder="test@kh.com" required>
                         <div class="fail-feedback">이메일은 반드시 입력해야 합니다</div>
                     </div>
                     <div class="row mt-50">
@@ -319,12 +319,12 @@ $(function(){
             <div class="row">
                 <h2>6단계 : 프로필 이미지 선택</h2>
             </div>
-            <div class="row">
-                <input type="file" id="fileInput" name="attach" accept="image/*" class="field w-100">
-            </div>
-            <div class="row">
-                <img id="profileImage" src="https://placehold.co/150?text=NO" width="150" height="150" alt="Profile Image">
-            </div>
+           <div class="row">
+        <input type="file" id="fileInput" name="attach" accept="image/*" class="field w-100">
+    </div>
+    <div class="row">
+        <img id="profileImage" src="https://placehold.co/150?text=NO" width="150" height="150" alt="Profile Image">
+    </div>
             <div class="row mt-50">
                 <div class="flex-box">
                     <div class="w-50 left">
