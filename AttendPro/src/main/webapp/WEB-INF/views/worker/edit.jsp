@@ -10,7 +10,9 @@
     .fail { border: 2px solid red; }
 </style>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  
 <script>
+<%--
 function Find() {
     new daum.Postcode({
         oncomplete: function (data) {
@@ -34,7 +36,7 @@ $(function(){
     var status = {
         workerNameValid : true,
         workerPwValid : false,
-        workerPwCheckValid : false,
+//         workerPwCheckValid : false,
         workerEmailValid : false,
         //workerEmailCheckValid : false,
         workerRankValid : false,
@@ -42,7 +44,7 @@ $(function(){
         workerAddressValid : true,
         ok : function(){
             return this.workerNameValid && this.workerPwValid
-            && this.workerPwCheckValid && this.workerRankValid
+            && this.workerPwCheckValid  && this.workerRankValid
             && this.workerEmailValid && this.workerEmailCheckValid
             && this.workerContactValid && this.workerAddressValid;
         }
@@ -50,21 +52,23 @@ $(function(){
 
     $("[name=workerNo]").blur(function() {
         var workerNo = $(this).val();
-        $.ajax({
-            url: "http://localhost:8080/rest/worker/checkNo",
-            method : "post",
-            data: { workerNo: workerNo },
-            success: function(response) {
-                if (response === true) {
-                    status.workerNoCheckValid = true;
-                    $("[name=workerNo]").removeClass("fail").addClass("success");
-                } 
-                else {
-                    status.workerNoCheckValid = false;
-                    $("[name=workerNo]").removeClass("success").addClass("fail");
+        if (workerNo) {  // 값이 있을 때만 Ajax 요청
+            $.ajax({
+                url: "http://localhost:8080/rest/worker/checkNo",
+                method: "post",
+                data: { workerNo: workerNo },
+                success: function(response) {
+                    if (response === true) {
+                        status.workerNoCheckValid = true;
+                        $("[name=workerNo]").removeClass("fail").addClass("success");
+                    } 
+                    else {
+                        status.workerNoCheckValid = false;
+                        $("[name=workerNo]").removeClass("success").addClass("fail");
+                    }
                 }
-            }
-        });
+            });
+        }
     });
     
 
@@ -129,43 +133,17 @@ $(function(){
         var isValid = isEmpty || isFill;
         $("[name=workerPost], [name=workerAddress1], [name=workerAddress2]")
             .removeClass("success fail")
-            .addClass(isValid ? "success" : "fail");
+            .addClass(isValid ? "success" : "fail");  
         status.workerAddressValid = isValid;
-    });
+      });
 
-
-//     $(".check-form").submit(function(){
-//         $("[name], #password-check").trigger("input").trigger("blur");
-//         return status.ok();
-//     });
-
-    document.getElementById('fileInput').addEventListener('change', function(event) {
-        var file = event.target.files[0]; // 선택한 파일
-        var image = document.getElementById('profileImage');
-        
-        if (file) {
-            var reader = new FileReader();
-            
-            reader.onload = function(e) {
-                // 이미지의 data URL을 얻어 이미지 태그의 src 속성에 적용
-                image.src = e.target.result;
-            }
-            
-            reader.readAsDataURL(file); // 파일을 data URL로 읽기
-        } else {
-            // 파일이 선택되지 않았을 때 기본 이미지로 되돌리기
-            image.src = "https://placehold.co/150?text=NO";
-        }
-    });
-
-    // 페이지 로드 시 기본 이미지 설정
-    var image = document.getElementById('profileImage');
-    image.src = "https://placehold.co/150?text=NO";
 
     $(".check-form").submit(function(){
         $("[name], #password-check").trigger("input").trigger("blur");
+        console.log(status);
         return status.ok();
     });
+
 
 });
 function clearAddress() {
@@ -173,69 +151,85 @@ function clearAddress() {
     document.querySelector("[name=workerAddress1]").value = '';
     document.querySelector("[name=workerAddress2]").value = '';
 }
+--%>
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    var file = event.target.files[0]; // 선택한 파일
+    var image = document.getElementById('profileImage');
+    
+    if (file) {
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+            // 이미지의 data URL을 얻어 이미지 태그의 src 속성에 적용
+            image.src = e.target.result;
+        }
+        
+        reader.readAsDataURL(file); // 파일을 data URL로 읽기
+    } else {
+        // 파일이 선택되지 않았을 때 기본 이미지로 되돌리기
+        image.src = "https://placehold.co/150?text=NO";
+    }
+});
+
+	//페이지 로드 시 기본 이미지 설정
+	var image = document.getElementById('profileImage');
+	image.src = "https://placehold.co/150?text=NO";
+	
+	$(".check-form").submit(function(){
+	    $("[name], #password-check").trigger("input").trigger("blur");
+	    
+	    return status.ok();
+	});
 </script>
+
 
 <div class="container w-600 my-50">
     <div class="row center">
-        <h1>사원 수정 페이지</h1>
+        <h1>사원정보 수정 페이지</h1>
     </div>
-    <div class="row">
-        <div class="progressbar"><div class="guage"></div></div>
-    </div>
-
+    
+ 
     <form class="check-form" action="edit" method="post" autocomplete="off" enctype="multipart/form-data">
-        <input type="hidden" name="adminId" value="${sessionScope.createdUser}"> 
-       <input type="hidden" name="workerNo" class="field w-100"  value="${workerDto.workerNo}" required>       
-        <input type="hidden" name="workerPw" class="field w-100" value="${workerDto.workerPw}"
-                                placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
-                        
-              
-                    
-                    
-                
+        <input type="hidden" name="adminId" value="${sessionScope.createdUser}">
+        
+        		 <input type="hidden" name="workerNo" class="field w-100" value="${workerDto.workerNo}" required>
+                             
+					 <input type="hidden" name="workerPw" class="field w-100" value="${workerDto.workerPw}"
+                     			 placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
+             
                     <div class="row">
-                        <h2>3단계 : 사원 이름 입력</h2>
+                        <h2>필수 정보 변경</h2>
                     </div>
                     <div class="row">
-                        <label>사원 이름</label>
-                        <input type="text" name="workerName" class="field w-100" value="${workerDto.workerName}" required >
+                        <label>사원 이름 </label>
+                        <input type="text" name="workerName" class="field w-100" value="${workerDto.workerName}" required>
                         <div class="success-feedback">멋진 이름입니다!</div>
                         <div class="fail-feedback">잘못된 형식의 이름입니다</div>
                     </div>
+                   
                     
-                
-               
-    	<div class="row">
-  	      <h2>4단계 : 직급 입력</h2>
-  	  </div>
- 	   <div class="row">
-  	      <label for="workerRank">직급</label>
-  	      <select name="workerRank" id="workerRank" class="field w-100" required>
-   	      	   <option value="" disabled selected>선택하세요</option>
-    	       <option value="인턴">인턴</option>
-         	   <option value="사원">사원</option>
-           		<option value="과장">과장</option>
-          		<option value="팀장">팀장</option>
-          	  <option value="사장">사장</option>
-       	 </select>
-        <div class="fail-feedback">직급은 반드시 선택해야 합니다</div>
-    </div>
-    
-
-                
                     <div class="row">
-                        <h2>5단계 : 이메일 입력</h2>
+                        <label for="workerRank">직급 </label>
+				  	      <select name="workerRank"  class="field w-100" required>
+				   	      	   <option value="" disabled selected>선택하세요</option>
+				    	       <option value="인턴">인턴</option>
+				         	   <option value="사원">사원</option>
+				           		<option value="과장">과장</option>
+				          		<option value="팀장">팀장</option>
+				          	  <option value="사장">사장</option>
+				       	 </select>
+      				  <div class="fail-feedback">직급은 반드시 선택해야 합니다</div>
                     </div>
+                   
+              
                     <div class="row">
                         <label>이메일</label>
                         <input type="email" name="workerEmail" class="field w-100" value="${workerDto.workerEmail}" placeholder="test@kh.com" required>
                         <div class="fail-feedback">이메일은 반드시 입력해야 합니다</div>
-                    </div>
-                    
-                
-                
+                    </div>         
+              
                     <div class="row">
-                        <h2>6단계 : 선택정보 입력</h2>
+                        <h2>선택 정보 변경</h2>
                     </div>
                     <div class="row">
                         <label>연락처(휴대전화번호, - 제외)</label>
@@ -246,11 +240,10 @@ function clearAddress() {
                         <label>생년월일</label>
                         <input type="date" name="workerBirth" class="field w-100">
                     </div>
-                    
-         
-               
+                                  
+                
                     <div class="row">
-                        <h2>7단계 : 주소 입력</h2>
+                        <h2>주소 변경</h2>
                     </div>
                     <div class="row">
                         <input type="text" name="workerPost" class="field" placeholder="우편번호" readonly>
@@ -268,30 +261,26 @@ function clearAddress() {
                         <input type="text" name="workerAddress2" class="field w-100" placeholder="상세주소">
                         <div class="fail-feedback">주소는 비워두거나 모두 입력해야 합니다</div>
                     </div>
-                    
-   
-           
+                  
+
+                
                     <div class="row">
-                		<h2>6단계 : 프로필 이미지 선택</h2>
+                		<h2>프로필 이미지 변경</h2>
             		</div>
            			<div class="row">
         				<input type="file" id="fileInput" name="attach" accept="image/*" class="field w-100">
     				</div>
-    				<div class="row">
-       		 			<img id="profileImage" src="https://placehold.co/150?text=NO" width="150" height="150" alt="Profile Image">
-    				</div>
+    				
                     <div class="row mt-50">
-                        <div class="flex-box">
-                            
+                        <div class="flex-box">                            
                             <div class="w-50 right">
                                 <button type="submit" class="btn btn-positive">
                                     <i class="fa-solid fa-right-to-bracket"></i>
-                                    사원등록
+                                    사원 정보 수정
                                 </button>
                             </div>
                         </div>
                     </div>
-                
+               </form>
             </div>
-        </div>
-    </form>
+   
