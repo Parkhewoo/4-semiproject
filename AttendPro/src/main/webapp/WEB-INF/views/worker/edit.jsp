@@ -177,21 +177,15 @@ function clearAddress() {
 
 <div class="container w-600 my-50">
     <div class="row center">
-        <h1>사원 등록 페이지</h1>
+        <h1>사원 수정 페이지</h1>
     </div>
     <div class="row">
         <div class="progressbar"><div class="guage"></div></div>
     </div>
 
-    <form class="check-form" action="add" method="post" autocomplete="off" enctype="multipart/form-data">
-        <input type="hidden" name="adminId" value="${sessionScope.createdUser}">
-        
-       
-            	
-               
-       <input type="hidden" name="workerNo" class="field w-100" "${workerDto.workerNo}" required>
-                       
-                
+    <form class="check-form" action="edit" method="post" autocomplete="off" enctype="multipart/form-data">
+        <input type="hidden" name="adminId" value="${sessionScope.createdUser}"> 
+       <input type="hidden" name="workerNo" class="field w-100"  value="${workerDto.workerNo}" required>       
         <input type="hidden" name="workerPw" class="field w-100" value="${workerDto.workerPw}"
                                 placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
                         
@@ -250,7 +244,7 @@ function clearAddress() {
                     </div>
                     <div class="row">
                         <label>생년월일</label>
-                        <input type="text" name="workerBirth" class="field w-100">
+                        <input type="date" name="workerBirth" class="field w-100">
                     </div>
                     
          
@@ -301,4 +295,3 @@ function clearAddress() {
             </div>
         </div>
     </form>
-</div>

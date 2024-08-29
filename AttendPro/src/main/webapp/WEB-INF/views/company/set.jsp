@@ -23,10 +23,10 @@
             <label>퇴근시간</label>
             <input name="companyOut" type="time" class="field w-100" value="${companyDto.companyOut}">
         </div>
-        <div class="row">
-            <label>휴일</label>
-            <input name="companyHoliday" type="date" class="field w-100" value="${companyDto.companyHoliday}">
-        </div>
+<!--         <div class="row"> -->
+<!--             <label>휴일</label> -->
+<%--             <input name="companyHoliday" type="date" class="field w-100" value="${companyDto.companyHoliday}"> --%>
+<!--         </div> -->
         
         <div class="row mt-30">
             <button class="btn btn-positive w-100" type="submit">수정하기</button>

@@ -29,10 +29,10 @@
                 <th>퇴근시간</th>
                 <td>${companyDto.companyOut}</td>
             </tr>
-            <tr>
-                <th>휴일</th>
-                <td>${companyDto.companyHoliday}</td>
-            </tr>
+<!--             <tr> -->
+<!--                 <th>휴일</th> -->
+<%--                 <td>${companyDto.companyHoliday}</td> --%>
+<!--             </tr> -->
         </table>
         
         <!-- 다른 페이지로 이동할 수 있는 링크 -->
