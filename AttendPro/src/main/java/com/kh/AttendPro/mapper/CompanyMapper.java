@@ -21,7 +21,6 @@ public class CompanyMapper implements RowMapper<CompanyDto> {
         companyDto.setCompanyIn(timeInSql.toLocalTime());
         Time timeOutSql = rs.getTime("company_out");
         companyDto.setCompanyOut(timeOutSql.toLocalTime());
-        companyDto.setCompanyHoliday(rs.getDate("company_holiday")); // 수정된 부분
         companyDto.setCompanyPost(rs.getString("company_post"));
         companyDto.setCompanyAddress1(rs.getString("company_address1"));
         companyDto.setCompanyAddress2(rs.getString("company_address2"));
