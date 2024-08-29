@@ -17,13 +17,41 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <link rel="stylesheet" type="text/css" href="/css/commons.css">
 <style>
-.between{
- 			display: flex; 
-            justify-content: space-between; 
-            
+.row label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+	color: #333;
 }
 
+.field {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
 
+.field:focus {
+	border-color: #007bff;
+	outline: none;
+	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+.between {
+	display: flex;
+	justify-content: space-between;
+}
+
+.btn {
+    background-color: #659ad5;
+    color: white;
+    border-radius: 0.3em;
+    border: none;
+}
+
+.btn:hover {
+	background-color: #0869d4 !important;
+}
 </style>
 
 <form action="login" method="post" autocomplete="off">
@@ -43,8 +71,7 @@
 			<button type="submit" class="btn btn-positive w-100">로그인</button>
 		</div>
 		<div class="between">
-			<a href="join">회원가입</a>
-			 <a href="findPw">비밀번호가 기억나지 않습니다</a>
+			<a href="join">회원가입</a> <a href="findPw">비밀번호가 기억나지 않습니다</a>
 		</div>
 		<c:if test="${param.error != null}">
 			<div class="row center">

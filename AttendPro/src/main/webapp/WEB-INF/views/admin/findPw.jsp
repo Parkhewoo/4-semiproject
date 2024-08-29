@@ -5,6 +5,38 @@
     
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<style>
+.row label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+	color: #333;
+}
+
+.field {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.field:focus {
+	border-color: #007bff;
+	outline: none;
+	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+.btn  {
+    background-color: #659ad5;
+    color: white;
+    border-radius: 0.3em;
+    border: none;
+}
+.btn:hover {
+	background-color: #0869d4 !important;
+}
+
+</style>
 <script type="text/javascript">
 $(function(){
 	$(".check-form").submit(function(){

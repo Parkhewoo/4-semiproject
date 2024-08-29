@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -36,19 +37,12 @@
         box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
     }
 
-    .btn {
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        text-align: center;
-        color: #fff;
-        background-color: #007bff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+    .btn  {
+    background-color: #659ad5;
+    color: white;
+    border-radius: 0.3em;
+    border: none;
+}
 
     .btn-positive {
         background-color: #28a745;
