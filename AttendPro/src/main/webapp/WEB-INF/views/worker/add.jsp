@@ -9,7 +9,7 @@
     .success { border: 2px solid green; }
     .fail { border: 2px solid red; }
 </style>
- <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 function Find() {
     new daum.Postcode({
@@ -36,7 +36,6 @@ $(function(){
         workerPwValid : false,
         workerPwCheckValid : false,
         workerEmailValid : false,
-        workerNoCheckValid : false,
         //workerEmailCheckValid : false,
         workerRankValid : false,
         workerContactValid : true,
@@ -45,24 +44,22 @@ $(function(){
             return this.workerNameValid && this.workerPwValid
             && this.workerPwCheckValid && this.workerRankValid
             && this.workerEmailValid && this.workerEmailCheckValid
-            && this.workerContactValid && this.workerAddressValid
-            && this.workerNoCheckValid;
+            && this.workerContactValid && this.workerAddressValid;
         }
     };
-    
+
     $("[name=workerNo]").blur(function() {
-        var workerNo = $(this).val(); // 입력값 가져오기
+        var workerNo = $(this).val();
         $.ajax({
-            url: "/rest/worker/checkNo",
-            method: "post",
+            url: "http://localhost:8080/rest/worker/checkNo",
+            method : "post",
             data: { workerNo: workerNo },
             success: function(response) {
                 if (response === true) {
-                    // 성공 상태 처리
                     status.workerNoCheckValid = true;
                     $("[name=workerNo]").removeClass("fail").addClass("success");
-                } else {
-                    // 실패 상태 처리
+                } 
+                else {
                     status.workerNoCheckValid = false;
                     $("[name=workerNo]").removeClass("success").addClass("fail");
                 }
@@ -70,6 +67,7 @@ $(function(){
         });
     });
     
+
     $("[name=workerName]").blur(function(){
         var regex = /^[가-힣a-zA-Z0-9]{1,21}$/;
         var isValid = regex.test($(this).val());
@@ -134,10 +132,41 @@ $(function(){
             .addClass(isValid ? "success" : "fail");
         status.workerAddressValid = isValid;
     });
+
+
+//     $(".check-form").submit(function(){
+//         $("[name], #password-check").trigger("input").trigger("blur");
+//         return status.ok();
+//     });
+
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        var file = event.target.files[0]; // 선택한 파일
+        var image = document.getElementById('profileImage');
+        
+        if (file) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                // 이미지의 data URL을 얻어 이미지 태그의 src 속성에 적용
+                image.src = e.target.result;
+            }
+            
+            reader.readAsDataURL(file); // 파일을 data URL로 읽기
+        } else {
+            // 파일이 선택되지 않았을 때 기본 이미지로 되돌리기
+            image.src = "https://placehold.co/150?text=NO";
+        }
+    });
+
+    // 페이지 로드 시 기본 이미지 설정
+    var image = document.getElementById('profileImage');
+    image.src = "https://placehold.co/150?text=NO";
+
     $(".check-form").submit(function(){
         $("[name], #password-check").trigger("input").trigger("blur");
         return status.ok();
     });
+
 });
 function clearAddress() {
     document.querySelector("[name=workerPost]").value = '';
@@ -366,14 +395,14 @@ function clearAddress() {
                 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>8단계 : 프로필 이미지 선택</h2>
-                    </div>
-                    <div class="row">
-                        <input type="file" name="attach" accept="image/*" class="field w-100">
-                    </div>
-                    <div class="row">
-                        <img src="https://placehold.co/150?text=NO" width="150" height="150">
-                    </div>
+                		<h2>6단계 : 프로필 이미지 선택</h2>
+            		</div>
+           			<div class="row">
+        				<input type="file" id="fileInput" name="attach" accept="image/*" class="field w-100">
+    				</div>
+    				<div class="row">
+       		 			<img id="profileImage" src="https://placehold.co/150?text=NO" width="150" height="150" alt="Profile Image">
+    				</div>
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">
