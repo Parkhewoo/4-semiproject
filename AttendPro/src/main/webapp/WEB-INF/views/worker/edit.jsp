@@ -9,6 +9,13 @@
     }
     .success { border: 2px solid green; }
     .fail { border: 2px solid red; }
+    
+    .btn-my {
+        background-color: #659ad5;
+        color: white;
+        border-radius: 0.3em;
+        border: none;
+    }
 </style>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   
@@ -275,7 +282,7 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
                     <div class="row mt-50">
                         <div class="flex-box">                            
                             <div class="w-50 right">
-                                <button type="submit" class="btn btn-positive">
+                                <button type="submit" class="btn btn-my">
                                     <i class="fa-solid fa-right-to-bracket"></i>
                                     사원 정보 수정
                                 </button>

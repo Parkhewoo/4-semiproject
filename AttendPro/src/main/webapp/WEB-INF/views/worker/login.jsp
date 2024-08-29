@@ -5,6 +5,14 @@
 <%-- header.jsp에 존재하는 내용을 불러오도록 설정 --%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+
+<style>
+ .btn-my {
+        background-color: #659ad5;
+        color: white;
+        border-radius: 0.3em;
+        border: none;
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link
@@ -64,7 +72,7 @@
 				placeholder="비밀번호">
 		</div>
 		<div class="row">
-			<button type="submit" class="btn btn-positive w-100">로그인</button>
+			<button type="submit" class="btn btn-my w-100">로그인</button>
 		</div>
 		<div class="row center">
 			<!-- worker 비밀번호 찾기도 a태그 이동위치가  findPw가 맞는지 확인 필요 -->
