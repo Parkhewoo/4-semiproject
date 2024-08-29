@@ -30,7 +30,7 @@ public class AdminCompanyController {
             throw new TargetNotFoundException();
         }
         model.addAttribute("companyDto", companyDto);
-        return "/WEB-INF/views/company/detail.jsp";
+        return "/WEB-INF/views/admin/company/detail.jsp";
     }
 
     // 수정 (GET)
@@ -39,7 +39,7 @@ public class AdminCompanyController {
         CompanyDto companyDto = companyDao.selectOne(companyId);
         if (companyDto == null) throw new TargetNotFoundException();
         model.addAttribute("companyDto", companyDto);
-        return "/WEB-INF/views/company/set.jsp";
+        return "/WEB-INF/views/admin/company/set.jsp";
     }
 
     // 수정 (POST)

@@ -12,5 +12,6 @@ public class AdminDto {
 	private String adminRank;
 	private String adminEmail;
 	private Date adminLogin;
+	
 }
 
