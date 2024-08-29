@@ -205,6 +205,7 @@
 
            <div class="links"> 
                 <a href="list">사업주 목록</a>
+                <a href="/admin/company/info?companyId=${dto.adminId}">회사 정보</a>
                 <a href="delete?adminId=${dto.adminId}" onclick="return confirmDelete();">사업주 삭제</a>
                 <a href="edit?adminId=${dto.adminId}">정보 변경</a>
                 <c:if test="${not isBlocked}">
@@ -213,7 +214,7 @@
                 <c:if test="${isBlocked}">
                     <a href="cancle?blockTarget=${dto.adminId}">해제</a>
                 </c:if>
-            </div>
+           </div>  
         </c:otherwise>
     </c:choose>
 </div>

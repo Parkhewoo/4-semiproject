@@ -98,9 +98,6 @@
             <input name="companyPost" type="text" class="field w-100" value="${companyDto.companyPost}" size="6">
   		    <input name="CompanyAddress1" type="text" class="field w-100"  value="${companyDto.companyAddress1}" size="60"> <br>
 	 		<input  name="CompanyAddress2" type="text" class="field w-100" value="${companyDto.companyAddress2}" size="60"> <br>
-        <div class="row">
-            <label>휴일</label>
-            <input name="companyHoliday" type="date" class="field w-100" value="${companyDto.companyHoliday}">
         </div>
         
         <div class="row mt-30">

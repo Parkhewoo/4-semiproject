@@ -112,7 +112,7 @@
 </style>
 
 <div class="container">
-    <h1>업장 상세 정보</h1>
+    <h1>${companyDto.companyName}</h1>
 
     <!-- 에러 메시지 표시 -->
     <c:if test="${not empty error}">
@@ -126,8 +126,7 @@
                 <h2>존재하지 않는 업장입니다</h2>
             </div>
         </c:when>
-        <c:otherwise>
-            <h2>회사 정보</h2>																								
+        <c:otherwise>																							
             <table class="table-info">
                 <tr>
                     <th>회사 아이디</th>
@@ -153,10 +152,7 @@
                     <th>주소</th>
                     <td class="status-admin">${companyDto.companyPost} ${companyDto.companyAddress1} ${companyDto.companyAddress2}</td>
                 </tr>
-                <tr>
-                    <th>휴일</th>
-                    <td class="status-admin">${companyDto.companyHoliday}</td>
-                </tr>
+                
             </table>
 
             <!-- 페이지 네비게이터 -->
