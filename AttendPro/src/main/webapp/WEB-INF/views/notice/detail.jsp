@@ -13,7 +13,7 @@
 <script src="/editor/editor.js"></script>
 
 <!-- 공지글 스타일 -->
-<style>
+<style> 
     .notice-wrapper {
         display: flex;
     }
@@ -80,7 +80,7 @@
         
         <!-- 공지글 작성 버튼 (시스템 관리자만 가능) -->
         <c:if test="${isLogin && isAdmin}">
-            <a class="btn btn-positive" href="write">공지글 작성</a>
+            <a class="btn btn-positive" href="write">안내글 작성</a>
         </c:if>
         
         <!-- 수정 및 삭제 버튼 (본인 글 또는 시스템 관리자만 가능) -->

@@ -13,14 +13,14 @@
 
 <link rel="stylesheet" type="text/css" href="/editor/editor.css">
 <script src="/editor/editor.js"></script>
-
+ 
 <script type="text/javascript">
 	
 </script>
 <form action="write" method="post" autocomplete="off">
 <div class="container w-800">
 	<div class="row">
-		<h1>공지글 작성</h1>
+		<h1>안내글 작성</h1>
 	</div>
 	<div class="row">
 		<label>제목</label> <input type="text" name="noticeTitle"
