@@ -8,6 +8,12 @@
     }
     .success { border: 2px solid green; }
     .fail { border: 2px solid red; }
+    
+     .btn-my {
+        background-color: #659ad5;
+        color: white;
+        border-radius: 0.3em;
+        border: none;
 </style>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -134,7 +140,7 @@ $(function(){
     });
 
 
-//     $(".check-form").submit(function(){
+//     $(".check-form").submit(function() {
 //         $("[name], #password-check").trigger("input").trigger("blur");
 //         return status.ok();
 //     });
@@ -203,7 +209,7 @@ function clearAddress() {
                         <div class="flex-box">
                             <div class="w-50 left"></div>
                             <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
+                                <button type="button" class="btn btn-my btn-next">
                                     다음<i class="fa-solid fa-chevron-right"></i>
                                 </button>
                             </div>
@@ -238,12 +244,12 @@ function clearAddress() {
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
+                                <button type="button" class="btn btn-my btn-prev">
                                     <i class="fa-solid fa-chevron-left"></i>이전
                                 </button>
                             </div>
                             <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
+                                <button type="button" class="btn btn-my btn-next">
                                     다음<i class="fa-solid fa-chevron-right"></i>
                                 </button>
                             </div>
@@ -263,12 +269,12 @@ function clearAddress() {
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
+                                <button type="button" class="btn btn-my btn-prev">
                                     <i class="fa-solid fa-chevron-left"></i>이전
                                 </button>
                             </div>
                             <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
+                                <button type="button" class="btn btn-my btn-next">
                                     다음<i class="fa-solid fa-chevron-right"></i>
                                 </button>
                             </div>
@@ -294,12 +300,12 @@ function clearAddress() {
     <div class="row mt-50">
         <div class="flex-box">
             <div class="w-50 left">
-                <button type="button" class="btn btn-neutral btn-prev">
+                <button type="button" class="btn btn-my btn-prev">
                     <i class="fa-solid fa-chevron-left"></i>이전
                 </button>
             </div>
             <div class="w-50 right">
-                <button type="button" class="btn btn-neutral btn-next">
+                <button type="button" class="btn btn-my btn-next">
                     다음<i class="fa-solid fa-chevron-right"></i>
                 </button>
             </div>
@@ -318,12 +324,12 @@ function clearAddress() {
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
+                                <button type="button" class="btn btn-my btn-prev">
                                     <i class="fa-solid fa-chevron-left"></i>이전
                                 </button>
                             </div>
                             <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
+                                <button type="button" class="btn btn-my btn-next">
                                     다음<i class="fa-solid fa-chevron-right"></i>
                                 </button>
                             </div>
@@ -346,12 +352,12 @@ function clearAddress() {
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
+                                <button type="button" class="btn btn-my btn-prev">
                                     <i class="fa-solid fa-chevron-left"></i>이전
                                 </button>
                             </div>
                             <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
+                                <button type="button" class="btn btn-my btn-next">
                                     다음<i class="fa-solid fa-chevron-right"></i>
                                 </button>
                             </div>
@@ -364,7 +370,7 @@ function clearAddress() {
                     </div>
                     <div class="row">
                         <input type="text" name="workerPost" class="field" placeholder="우편번호" readonly>
-                        <button class="btn btn-neutral btn-find-address" onclick="Find()">
+                        <button class="btn btn-my btn-find-address" onclick="Find()">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
                         <button class="btn btn-negative btn-clear-address" onclick="clearAddress()">
@@ -381,12 +387,12 @@ function clearAddress() {
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
+                                <button type="button" class="btn btn-my btn-prev">
                                     <i class="fa-solid fa-chevron-left"></i>이전
                                 </button>
                             </div>
                             <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
+                                <button type="button" class="btn btn-my btn-next">
                                     다음<i class="fa-solid fa-chevron-right"></i>
                                 </button>
                             </div>
@@ -406,12 +412,12 @@ function clearAddress() {
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
+                                <button type="button" class="btn btn-my btn-prev">
                                     <i class="fa-solid fa-chevron-left"></i>이전
                                 </button>
                             </div>
                             <div class="w-50 right">
-                                <button type="submit" class="btn btn-positive">
+                                <button type="submit" class="btn btn-my">
                                     <i class="fa-solid fa-right-to-bracket"></i>
                                     사원등록
                                 </button>
@@ -419,7 +425,7 @@ function clearAddress() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
         </div>
     </form>
 </div>
