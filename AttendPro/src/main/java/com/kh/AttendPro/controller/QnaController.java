@@ -37,9 +37,15 @@ public class QnaController {
 	
 		@RequestMapping("/list")
 		public String list(@ModelAttribute("PageVO") PageVO pageVO , Model model) {
+				if (pageVO.getColumn() != null && pageVO.getColumn().trim().isEmpty()) {
+		           pageVO.setColumn(null);
+		       }
+		       if (pageVO.getKeyword() != null && pageVO.getKeyword().trim().isEmpty()) {
+		           pageVO.setKeyword(null);
+		       }
 			model.addAttribute("qnaList", qnaDao.selectListByPaging(pageVO));
-			int count = qnaDao.countByPaging(pageVO);
-			pageVO.setCount(count);
+			pageVO.setCount(qnaDao.countByPaging(pageVO));
+		       model.addAttribute("pageVO", pageVO);
 			return "/WEB-INF/views/qna/list.jsp";
 		}
 		
@@ -108,6 +114,7 @@ public class QnaController {
 			return "redirect:list";
 		}
 		
+		
 		//수정 페이지
 		@GetMapping("/edit")
 		public String edit(@RequestParam int qnaNo, Model model) {
@@ -166,6 +173,7 @@ public class QnaController {
 
 		    return "redirect:detail?qnaNo=" + qnaDto.getQnaNo();
 		}
+		
 		
 		
 }

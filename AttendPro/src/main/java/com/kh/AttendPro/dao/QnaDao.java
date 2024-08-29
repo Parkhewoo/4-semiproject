@@ -44,47 +44,59 @@ public class QnaDao {
 		}
 		
 		//페이징 적용 검색, 목록
-		public Object selectListByPaging(PageVO pageVO) {
-			if(pageVO.isSearch()) {//검색이라면
-				String sql = "select * from ("
-									+ "select rownum rn, TMP.* from ("
-										+ "select "
-											+ "qna_no, qna_title, qna_writer, qna_wtime, "
-											+ "qna_utime, qna_reply, "
-											+ "qna_group, qna_target, qna_depth "
-										+ "from qna "
-										+ " where instr(#1, ?) > 0 "
-										//트리정렬
-										+ "connect by prior qna_no=qna_target "
-										+ "start with qna_target is null "
-										+ "order siblings by qna_group desc, qna_no asc"
-									+ ")TMP"
-							+ ") where rn between ? and ?";
-				sql = sql.replace("#1", pageVO.getColumn());
-				Object[] data = {
-						pageVO.getKeyword(), 
-						pageVO.getBeginRow(), 
-						pageVO.getEndRow() 
-				};
-				return jdbcTemplate.query(sql, qnaListMapper, data);
-			}
-			else {//목록이라면
-				String sql = "select * from ("
-						+ "select rownum rn, TMP.* from ("
-						+ "select "
-							+ "qna_no, qna_title, qna_writer, qna_wtime, "
-							+ "qna_utime, qna_reply, "
-							+ "qna_group, qna_target, qna_depth "
-						+ "from qna "
-						//트리정렬
-						+ "connect by prior qna_no=qna_target "
-						+ "start with qna_target is null "
-						+ "order siblings by qna_group desc, qna_no asc"
-					+ ")TMP"
-			+ ") where rn between ? and ?";
-				Object[] data = {pageVO.getBeginRow(), pageVO.getEndRow()};
-				return jdbcTemplate.query(sql, qnaListMapper, data);
-			}
+		public List<QnaDto> selectListByPaging(PageVO pageVO) {
+		    String sql;
+		    Object[] data;
+
+		    if (pageVO.isSearch()) {
+		        // 검색 쿼리
+		        sql = "SELECT * FROM ("
+		                + "SELECT TMP.*, ROWNUM rn FROM ("
+		                + "SELECT qna_no, qna_title, qna_writer, qna_wtime, "
+		                + "qna_utime, qna_reply, qna_group, qna_target, qna_depth "
+		                + "FROM qna "
+		                + "WHERE INSTR(" + pageVO.getColumn() + ", ?) > 0 "
+		                + "CONNECT BY PRIOR qna_no = qna_target "
+		                + "START WITH qna_target IS NULL "
+		                + "ORDER SIBLINGS BY qna_group DESC, qna_no ASC"
+		                + ") TMP "
+		                + ") WHERE rn BETWEEN ? AND ?";
+		        
+		        data = new Object[]{
+		            pageVO.getKeyword(),
+		            pageVO.getBeginRow(),
+		            pageVO.getEndRow()
+		        };
+		    } else {
+		        // 목록 쿼리
+		        sql = "SELECT * FROM ("
+		                + "SELECT TMP.*, ROWNUM rn FROM ("
+		                + "SELECT qna_no, qna_title, qna_writer, qna_wtime, "
+		                + "qna_utime, qna_reply, qna_group, qna_target, qna_depth "
+		                + "FROM qna "
+		                + "CONNECT BY PRIOR qna_no = qna_target "
+		                + "START WITH qna_target IS NULL "
+		                + "ORDER SIBLINGS BY qna_group DESC, qna_no ASC"
+		                + ") TMP "
+		                + ") WHERE rn BETWEEN ? AND ?";
+		        
+		        data = new Object[]{
+		            pageVO.getBeginRow(),
+		            pageVO.getEndRow()
+		        };
+		    }
+
+		    // 데이터베이스에서 조회
+		    List<QnaDto> result = jdbcTemplate.query(sql, qnaListMapper, data);
+
+		    // 결과를 콘솔에 출력
+		    System.out.println("결과 수 : " + result.size());
+		    System.out.println("Query Result:");
+		    for (QnaDto qna : result) {
+		        System.out.println(qna);
+		    }
+
+		    return result;
 		}
 		
 		public QnaDto selectOne(int qnaNo) {

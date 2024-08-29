@@ -177,151 +177,69 @@ function clearAddress() {
 
 <div class="container w-600 my-50">
     <div class="row center">
-        <h1>사원정보 수정 페이지</h1>
+        <h1>사원 등록 페이지</h1>
     </div>
     <div class="row">
         <div class="progressbar"><div class="guage"></div></div>
     </div>
 
-    <form class="check-form" action="edit" method="post" autocomplete="off" enctype="multipart/form-data">
+    <form class="check-form" action="add" method="post" autocomplete="off" enctype="multipart/form-data">
         <input type="hidden" name="adminId" value="${sessionScope.createdUser}">
         
-        <div class="row">
-            <div class="multipage">
+       
             	
-                <div class="page">
-                    <div class="row">
-                        <h2>1단계 : 사원번호 입력</h2>
-                    </div>
-                    <div class="row">
-                        <label>사원번호</label>
-                        <input type="text" name="workerNo" class="field w-100" required>
-                    </div>
-                    <div class="row mt-50">
-                        <div class="flex-box">
-                            <div class="w-50 left"></div>
-                            <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
-                                    다음<i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="page">
-                    <div class="row">
-                        <h2>2단계 : 비밀번호 입력</h2>
-                    </div>
-                    <div class="row">
-                        <label>
-                            비밀번호
-                            <label class="ms-20">
-                                <input type="checkbox" class="field-show">
-                                <span>표시하기</span>
-                            </label>
-                            <i class="fa-solid fa-eye"></i>
-                        </label>
-                        <input type="password" name="workerPw" class="field w-100"
+               
+       <input type="hidden" name="workerNo" class="field w-100" "${workerDto.workerNo}" required>
+                       
+                
+        <input type="hidden" name="workerPw" class="field w-100" value="${workerDto.workerPw}"
                                 placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
-                        <div class="success-feedback">올바른 형식입니다!</div>
-                        <div class="fail-feedback">형식에 맞춰 8~16자로 작성하세요</div>
-                    </div>
-                    <div class="row">
-                        <label>비밀번호 확인</label>
-                        <input type="password" id="password-check" class="field w-100"
-                                placeholder="확인을 위해 비밀번호 한번 더 입력" required>
-                        <div class="success-feedback">비밀번호가 일치합니다</div>
-                        <div class="fail-feedback">비밀번호가 일치하지 않습니다</div>
-                    </div>
-                    <div class="row mt-50">
-                        <div class="flex-box">
-                            <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
-                                    <i class="fa-solid fa-chevron-left"></i>이전
-                                </button>
-                            </div>
-                            <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
-                                    다음<i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="page">
+                        
+              
+                    
+                    
+                
                     <div class="row">
                         <h2>3단계 : 사원 이름 입력</h2>
                     </div>
                     <div class="row">
                         <label>사원 이름</label>
-                        <input type="text" name="workerName" class="field w-100" required>
+                        <input type="text" name="workerName" class="field w-100" value="${workerDto.workerName}" required >
                         <div class="success-feedback">멋진 이름입니다!</div>
                         <div class="fail-feedback">잘못된 형식의 이름입니다</div>
                     </div>
-                    <div class="row mt-50">
-                        <div class="flex-box">
-                            <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
-                                    <i class="fa-solid fa-chevron-left"></i>이전
-                                </button>
-                            </div>
-                            <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
-                                    다음<i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="page">
-                    <div class="row">
-                        <h2>4단계 : 직급 입력</h2>
-                    </div>
-                    <div class="row">
-                        <label>직급</label>
-                        <input type="text" name="workerRank" class="field w-100" placeholder="인턴,사원,과장,팀장,사장" required>
-                        <div class="fail-feedback">이메일은 반드시 입력해야 합니다</div>
-                    </div>
-                    <div class="row mt-50">
-                        <div class="flex-box">
-                            <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
-                                    <i class="fa-solid fa-chevron-left"></i>이전
-                                </button>
-                            </div>
-                            <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
-                                    다음<i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="page">
+                    
+                
+               
+    	<div class="row">
+  	      <h2>4단계 : 직급 입력</h2>
+  	  </div>
+ 	   <div class="row">
+  	      <label for="workerRank">직급</label>
+  	      <select name="workerRank" id="workerRank" class="field w-100" required>
+   	      	   <option value="" disabled selected>선택하세요</option>
+    	       <option value="인턴">인턴</option>
+         	   <option value="사원">사원</option>
+           		<option value="과장">과장</option>
+          		<option value="팀장">팀장</option>
+          	  <option value="사장">사장</option>
+       	 </select>
+        <div class="fail-feedback">직급은 반드시 선택해야 합니다</div>
+    </div>
+    
+
+                
                     <div class="row">
                         <h2>5단계 : 이메일 입력</h2>
                     </div>
                     <div class="row">
                         <label>이메일</label>
-                        <input type="email" name="workerEmail" class="field w-100" value="${workerDto.workerEmail }"placeholder="test@kh.com" required>
+                        <input type="email" name="workerEmail" class="field w-100" value="${workerDto.workerEmail}" placeholder="test@kh.com" required>
                         <div class="fail-feedback">이메일은 반드시 입력해야 합니다</div>
                     </div>
-                    <div class="row mt-50">
-                        <div class="flex-box">
-                            <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
-                                    <i class="fa-solid fa-chevron-left"></i>이전
-                                </button>
-                            </div>
-                            <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
-                                    다음<i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="page">
+                    
+                
+                
                     <div class="row">
                         <h2>6단계 : 선택정보 입력</h2>
                     </div>
@@ -334,22 +252,9 @@ function clearAddress() {
                         <label>생년월일</label>
                         <input type="text" name="workerBirth" class="field w-100">
                     </div>
-                    <div class="row mt-50">
-                        <div class="flex-box">
-                            <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
-                                    <i class="fa-solid fa-chevron-left"></i>이전
-                                </button>
-                            </div>
-                            <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
-                                    다음<i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="page">
+                    
+         
+               
                     <div class="row">
                         <h2>7단계 : 주소 입력</h2>
                     </div>
@@ -369,67 +274,30 @@ function clearAddress() {
                         <input type="text" name="workerAddress2" class="field w-100" placeholder="상세주소">
                         <div class="fail-feedback">주소는 비워두거나 모두 입력해야 합니다</div>
                     </div>
+                    
+   
+           
+                    <div class="row">
+                		<h2>6단계 : 프로필 이미지 선택</h2>
+            		</div>
+           			<div class="row">
+        				<input type="file" id="fileInput" name="attach" accept="image/*" class="field w-100">
+    				</div>
+    				<div class="row">
+       		 			<img id="profileImage" src="https://placehold.co/150?text=NO" width="150" height="150" alt="Profile Image">
+    				</div>
                     <div class="row mt-50">
                         <div class="flex-box">
-                            <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
-                                    <i class="fa-solid fa-chevron-left"></i>이전
-                                </button>
-                            </div>
-                            <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
-                                    다음<i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-               <div class="page">
-            <div class="row">
-                <h2>6단계 : 프로필 이미지 선택</h2>
-            </div>
-           <div class="row">
-        <input type="file" id="fileInput" name="attach" accept="image/*" class="field w-100">
-    </div>
-    <div class="row">
-        <img id="profileImage" src="https://placehold.co/150?text=NO" width="150" height="150" alt="Profile Image">
-    </div>
-            <div class="row mt-50">
-                <div class="flex-box">
-                    <div class="w-50 left">
-                        <button type="button" class="btn btn-neutral btn-prev">
-                            <i class="fa-solid fa-chevron-left"></i>이전
-                        </button>
-
-                <div class="page">
-                    <div class="row">
-                        <h2>8단계 : 프로필 이미지 선택</h2>
-
-                    </div>
-                    <div class="row">
-                        <input type="file" name="attach" accept="image/*" class="field w-100">
-                    </div>
-                    <div class="row">
-                        <img src="https://placehold.co/150?text=NO" width="150" height="150">
-                    </div>
-                    <div class="row mt-50">
-                        <div class="flex-box">
-                            <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
-                                    <i class="fa-solid fa-chevron-left"></i>이전
-                                </button>
-                            </div>
+                            
                             <div class="w-50 right">
                                 <button type="submit" class="btn btn-positive">
                                     <i class="fa-solid fa-right-to-bracket"></i>
-                                    사원정보 수정
+                                    사원등록
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>
+                
             </div>
         </div>
     </form>
