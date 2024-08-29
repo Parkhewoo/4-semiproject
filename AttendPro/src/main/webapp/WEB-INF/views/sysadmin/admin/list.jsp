@@ -96,6 +96,7 @@
                     <th>업주아이디</th>
                     <th>사업자번호</th>
                     <th>업주이메일</th>
+                    <th>관리등급</th>
                     <th>상세</th>
                 </tr>
             </thead>
@@ -105,6 +106,7 @@
                         <td>${dto.adminId}</td>
                         <td>${dto.adminNo}</td>
                         <td>${dto.adminEmail}</td>
+                     	<td>${dto.adminRank}</td>
                         <td>
                             <a href="detail?adminId=${dto.adminId}" class="link">상세</a>
                         </td>
