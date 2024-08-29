@@ -106,22 +106,22 @@
                     <th>이름</th>
                     <td>${workerDto.workerName}</td>
                 </tr>
-                <tr>
-                    <th>출석</th>
-                    <td>${workerDto.workerAttend}</td>
-                </tr>
-                <tr>
-                    <th>결석</th>
-                    <td>${workerDto.workerAbsent}</td>
-                </tr>
-                <tr>
-                    <th>지각</th>
-                    <td>${workerDto.workerLate}</td>
-                </tr>
-                <tr>
-                    <th>조퇴</th>
-                    <td>${workerDto.workerLeave}</td>
-                </tr>
+<!--                 <tr> -->
+<!--                     <th>출석</th> -->
+<%--                     <td>${workerDto.workerAttend}</td> --%>
+<!--                 </tr> -->
+<!--                 <tr> -->
+<!--                     <th>결석</th> -->
+<%--                     <td>${workerDto.workerAbsent}</td> --%>
+<!--                 </tr> -->
+<!--                 <tr> -->
+<!--                     <th>지각</th> -->
+<%--                     <td>${workerDto.workerLate}</td> --%>
+<!--                 </tr> -->
+<!--                 <tr> -->
+<!--                     <th>조퇴</th> -->
+<%--                     <td>${workerDto.workerLeave}</td> --%>
+<!--                 </tr> -->
                 <tr>
                     <th>입사일</th>
                     <td>${workerDto.workerJoin}</td>

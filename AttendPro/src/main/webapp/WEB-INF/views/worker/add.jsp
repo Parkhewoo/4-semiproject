@@ -341,7 +341,7 @@ function clearAddress() {
                     </div>
                     <div class="row">
                         <label>생년월일</label>
-                        <input type="text" name="workerBirth" class="field w-100">
+                        <input type="date" name="workerBirth" class="field w-100">
                     </div>
                     <div class="row mt-50">
                         <div class="flex-box">
