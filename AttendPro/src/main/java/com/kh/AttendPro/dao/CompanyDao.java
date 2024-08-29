@@ -49,5 +49,4 @@ public class CompanyDao {
 	    return jdbcTemplate.update(sql, data) > 0;
 	}
 
-	
 }
