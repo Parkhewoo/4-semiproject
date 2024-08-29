@@ -30,7 +30,7 @@
     background-color: #659ad5;
     color: white;
     border-radius: 0.3em;
-    border: none;
+    border: none; 
 }
 
 .btn:hover {

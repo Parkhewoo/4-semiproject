@@ -33,7 +33,7 @@
     border: none;
 }
 
-.btn:hover {
+.btn:hover { 
 	background-color: #0869d4 !important;
 }
 

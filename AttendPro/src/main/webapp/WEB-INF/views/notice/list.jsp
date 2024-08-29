@@ -5,7 +5,7 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<style>
+<style> 
     .field.field-underline, 
     .btn.btn-underline { 
         border-color: #0984e3;
@@ -15,7 +15,7 @@
         border: 1px #33CC66 solid;
         color: #33CC66;
         background-color: transparent;
-        border-radius: 0.25em;
+        border-radius: 0.25em; 
         vertical-align: top;
         cursor: pointer;
     }
@@ -27,14 +27,14 @@
 
 <div class="container w-1000 my-50">
     <div class="row">
-        <h1>공지글</h1>
-        <p>공지글은 모든 사용자에게 공개됩니다.</p>
+        <h1>안내글</h1>
+        <p>안내글은 모든 사용자에게 공개됩니다.</p>
     </div>
 
     <!-- 글쓰기 버튼 -->
     <div class="row right">
         <c:if test="${sessionScope.createdRank == '시스템 관리자'}">
-            <a href="write" class="btn btn-neutral bounce">공지글 작성</a>
+            <a href="write" class="btn btn-neutral bounce">안내글 작성</a>
         </c:if>
     </div>
 

@@ -31,7 +31,7 @@
     color: white;
     border-radius: 0.3em;
     border: none;
-}
+} 
 .btn:hover {
 	background-color: #0869d4 !important;
 }
