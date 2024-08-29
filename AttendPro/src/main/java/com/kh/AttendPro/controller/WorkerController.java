@@ -176,6 +176,22 @@ public class WorkerController {
 			return "/WEB-INF/views/worker/mypage.jsp";			
 		}
 		
+		@RequestMapping("/image")
+		public String image(@RequestParam int  workerNo) {
+			
+			try {
+				int attachmentNo = workerDao.findImage(workerNo);
+				System.out.println("attachmentNo = " + attachmentNo);
+				return "redirect:/attach/download?attachmentNo="+attachmentNo;
+			}
+			catch(Exception e){
+				e.printStackTrace();
+				return "redirect:/images/user.jpg";
+			}
+		}
+		
+		
+		
 		//사원 비밀번호 변경
 		@GetMapping("/password")
 		public String password() {

@@ -117,12 +117,11 @@ public class AdminWorkerController {
 		}
 		@PostMapping("/edit")
 		public String change(@ModelAttribute WorkerDto workerDto, @RequestParam("attach") MultipartFile attach) throws IllegalStateException, IOException {
-		    System.out.println("WorkerDto: " + workerDto); // 디버깅을 위한 로그
 		    boolean result = workerDao.update(workerDto);
 		    if (!result) {
 		        throw new TargetNotFoundException();
 		    }
-
+		    
 		    // 기존 이미지 삭제
 		    workerDao.deleteImage(workerDto.getWorkerNo());
 
@@ -130,7 +129,7 @@ public class AdminWorkerController {
 		    if (attach != null && !attach.isEmpty()) {
 		        // 새로운 첨부파일 등록 및 저장
 		        int attachmentNo = attachmentService.save(attach);
-
+		        
 		        // 새로운 이미지와 회원 정보 연결
 		        workerDao.connect(workerDto.getWorkerNo(), attachmentNo);
 		    }
@@ -159,18 +158,7 @@ public class AdminWorkerController {
 			}			
 		}
 		
-		@RequestMapping("/image")
-		public String image(@RequestParam int  workerNo) {
-			
-			try {
-				int attachmentNo = workerDao.findImage(workerNo);
-				System.out.println("attachmentNo = " + attachmentNo);
-				return "redirect:/attach/download?attachmentNo="+attachmentNo;
-			}
-			catch(Exception e){
-				e.printStackTrace();
-				return "redirect:/images/user.jpg";
-			}
-		}
+
+
 		
 }

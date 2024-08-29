@@ -59,6 +59,8 @@ public class WorkerRestController {
 	    WorkerDto workerDto = workerDao.selectOne(workerNo);
 	    return workerDto == null;
 	}
+	
+	
 
 
 	//(시스템관리자용) 데이터베이스현황 조회 status

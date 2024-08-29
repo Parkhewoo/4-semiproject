@@ -4,9 +4,15 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+
+
+
 <div class="container w- 900">
 	<h1>${workerDto.workerNo} 님의 개인 정보</h1>
 
+	 <!-- 이미지가 존재한다면 이미지를 출력 -->
+        <img id="profileImage"  src="image?workerNo=${workerDto.workerNo}" width="150" height="150">
+	
 	<div class="row">
 		<table class="table table-horizontal table-stripe">
 		
@@ -14,7 +20,7 @@
 				<th width="25%">사원 이름</th>
 				<td class="left">${workerDto.workerName}</td>
 			</tr>
-			
+			<%--
 			<tr>
 				<th>출석</th>
 				<td class="left">${workerDto.workerAttend}</td>
@@ -34,7 +40,7 @@
 				<th>조퇴</th>
 				<td class="left">${workerDto.workerLeave}</td>
 			</tr>
-			
+			 --%>
 			<tr>
 				<th>입사일</th>
 				<td class="left">${workerDto.workerJoin}</td>
