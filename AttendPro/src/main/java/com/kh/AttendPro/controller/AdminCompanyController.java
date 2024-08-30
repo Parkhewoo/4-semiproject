@@ -22,6 +22,24 @@ public class AdminCompanyController {
     @Autowired
     private CompanyDao companyDao;
 
+    @GetMapping("/insert")
+    public String insert() {
+    	return "/WEB-INF/views/admin/company/insert.jsp";
+    }
+    
+    @PostMapping("/insert")
+    public String insert(@ModelAttribute CompanyDto companyDto) {
+        // 회사 ID가 없으면, 삽입 전에 새 ID를 생성하거나 유효성을 검사해야 할 수도 있습니다
+        if (companyDto.getCompanyId() == null || companyDto.getCompanyId().isEmpty()) {
+            throw new IllegalArgumentException("Company ID is missing");
+        }
+        
+        // Insert into database
+        companyDao.insert(companyDto);
+        
+        // Redirect to detail page
+        return "redirect:info?companyId=" + companyDto.getCompanyId();
+    }
     // 상세
     @RequestMapping("/info")
     public String detail(@RequestParam String companyId, Model model) {

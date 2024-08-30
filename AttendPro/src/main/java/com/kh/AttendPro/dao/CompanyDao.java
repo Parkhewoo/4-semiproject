@@ -19,19 +19,23 @@ public class CompanyDao {
 	
 	//
 	public void insert(CompanyDto companyDto) {
-			String sql = "insert into company("
-					+ "company_id,company_ceo,company_name,"
-					+ "company_in,company_out,"
-					+ "company_post,company_address1,company_address2"
-					+ ") values(?,?,?,?,?,?,?)";
-			Object[] data = {
-					companyDto.getCompanyId(),companyDto.getCompanyCeo(),
-					companyDto.getCompanyName(),companyDto.getCompanyIn(),
-					companyDto.getCompanyOut(),
-					companyDto.getCompanyPost(),companyDto.getCompanyAddress1(),
-					companyDto.getCompanyAddress2()
-			};
-			jdbcTemplate.update(sql,data);
+	    String sql = "INSERT INTO company("
+	            + "company_id, company_ceo, company_name, "
+	            + "company_in, company_out, "
+	            + "company_post, company_address1, company_address2"
+	            + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	    
+	    Object[] data = {
+	        companyDto.getCompanyId(),
+	        companyDto.getCompanyCeo(),
+	        companyDto.getCompanyName(),
+	        java.sql.Time.valueOf(companyDto.getCompanyIn()),  // LocalTime to Time
+	        java.sql.Time.valueOf(companyDto.getCompanyOut()), // LocalTime to Time
+	        companyDto.getCompanyPost(),
+	        companyDto.getCompanyAddress1(),
+	        companyDto.getCompanyAddress2()
+	    };
+	    jdbcTemplate.update(sql, data);
 	}
 
 	//상세
