@@ -22,9 +22,9 @@ public class NoticeDao {
 	private NoticeMapper noticeMapper;
 	
 	
-	public int sequence() {
+	public int sequence() { 
 		String sql = "SELECT notice_seq.NEXTVAL FROM dual";
-		return jdbcTemplate.queryForObject(sql, Integer.class);
+		return jdbcTemplate.queryForObject(sql, int.class);
 	}
 
 	public int countByPaging() {
@@ -50,12 +50,12 @@ public class NoticeDao {
 		
 		if(pageVO.isSearch()) {
 			sql = "SELECT * FROM ("
-					+ "SELECT TMP.*. ROWNUM rn FROM ("
+					+ "SELECT TMP.*, ROWNUM rn FROM ("
 					+ "SELECT notice_no, notice_writer, notice_title, "
 					+ "notice_content, notice_wtime, notice_utime "
 					+ "FROM notice "
-					+ "WHERE INSTR(" + pageVO.getColumn() + ". ?) > 0 "
-					+ "ORDER BY notice_no ASC"
+					+ "WHERE INSTR(" + pageVO.getColumn() + ", ?) > 0 "
+					+ "ORDER BY notice_no DESC"
 					+ ")TMP"
 					+ ")WHERE rn BETWEEN ? AND ?";
 			data = new Object[] {
@@ -69,7 +69,7 @@ public class NoticeDao {
 					+ "SELECT notice_no, notice_writer, notice_title, "
 					+ "notice_content, notice_wtime, notice_utime "
 					+ "FROM notice "
-					+ "ORDER BY notice_no ASC "
+					+ "ORDER BY notice_no DESC "
 					+ ") TMP "
 					+ ") WHERE rn BETWEEN ? AND ?";
 			data = new Object[] {

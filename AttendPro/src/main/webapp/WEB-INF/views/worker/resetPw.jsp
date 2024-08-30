@@ -25,7 +25,7 @@
 	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
 } 
 .btn  {
-    background-color: #659ad5;
+    background-color: #659ad5 !important;
     color: white;
     border-radius: 0.3em;
     border: none;

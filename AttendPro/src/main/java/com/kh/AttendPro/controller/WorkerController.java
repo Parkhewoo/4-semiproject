@@ -43,26 +43,32 @@ public class WorkerController {
 	}
 	
 	@PostMapping("/login")
-	public String login(@RequestParam int workerNo,
-								@RequestParam String workerPw,
-								HttpSession session) {
-		
-		//[1]아이디에 해당하는 정보(WorkerDto)를 불러온다
- 		WorkerDto workerDto = workerDao.selectOne(workerNo);
-		if(workerDto == null)
-			return "redirect:login?error";
-		
-		//[2] 1번에서 불러온 정보(WorkerDto)와 비밀번호를 비교
-		boolean isValid =encoder.matches(workerPw,workerDto.getWorkerPw());
-		if(isValid == false)
-			return "redirect:login?error";		
-		
-		//[3] 1,2번에서 쫓겨나지 않았다면 성공으로 간주
-		//session.setAttribute("이름", 값);
-		session.setAttribute("createdUser", workerNo);
-		session.setAttribute("createdRank", workerDto.getWorkerRank());
-		
-		return "redirect:/";//출퇴근 버튼 페이지로 이동
+	public String login(@RequestParam(required = false) String workerNoStr,
+	                    @RequestParam String workerPw,
+	                    HttpSession session) {
+	    int workerNo = 0;
+	    if (workerNoStr != null && !workerNoStr.isEmpty()) {
+	        try {
+	            workerNo = Integer.parseInt(workerNoStr);
+	        } catch (NumberFormatException e) {
+	            return "redirect:login?error";
+	        }
+	    } else {
+	        return "redirect:login?error";
+	    }
+
+	    WorkerDto workerDto = workerDao.selectOne(workerNo);
+	    if (workerDto == null)
+	        return "redirect:login?error";
+	    
+	    boolean isValid = encoder.matches(workerPw, workerDto.getWorkerPw());
+	    if (!isValid)
+	        return "redirect:login?error";    
+	    
+	    session.setAttribute("createdUser", workerNo);
+	    session.setAttribute("createdRank", workerDto.getWorkerRank());
+	    
+	    return "redirect:/";
 	}
 	
 	//로그아웃(회원 전용 기능)
