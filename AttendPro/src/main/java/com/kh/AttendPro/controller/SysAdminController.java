@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dao.BlockDao;
+import com.kh.AttendPro.dao.CompanyDao;
 import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.dto.BlockDto;
+import com.kh.AttendPro.dto.CompanyDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
 import com.kh.AttendPro.vo.PageVO;
 
@@ -27,7 +29,10 @@ public class SysAdminController {
 	@Autowired
 	private AdminDao adminDao;
 	
-	@Autowired BlockDao blockDao;
+	@Autowired 
+	private BlockDao blockDao;
+	
+	@Autowired CompanyDao companyDao;
 
 	
 	@RequestMapping("/home")
@@ -91,8 +96,10 @@ public class SysAdminController {
 	public String detail(@RequestParam String adminId, 
 	                     @ModelAttribute("pageVO") PageVO pageVO,
 	                     Model model) {
-	    AdminDto dto = adminDao.selectOne(adminId);
-	    model.addAttribute("dto", dto);
+	    AdminDto adminDto = adminDao.selectOne(adminId);
+	    CompanyDto companyDto = companyDao.selectOne(adminId);
+	    model.addAttribute("adminDto", adminDto);
+	    model.addAttribute("companyDto", companyDto);
 	    
 	    // 페이지 크기를 10으로 설정 (이미 설정되어 있지 않다면)
 	    if (pageVO.getSize() == 0) {

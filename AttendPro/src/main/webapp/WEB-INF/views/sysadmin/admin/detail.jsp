@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -51,8 +50,8 @@
         padding: 10px;
     }
 
-    .table-info td.status-admin {
-        text-align: center;
+    .table-info td.status-admin, .block-list-table td {
+        text-align: center; /* 가운데 정렬 */
     }
 
     .status-admin {
@@ -88,6 +87,12 @@
     .links a:hover {
         text-decoration: underline;
     }
+
+    /* 새로운 스타일 */
+    .block-list-table th, .block-list-table td {
+        width: 33.33%; /* 각 열의 너비를 동일하게 설정 */
+        text-align: center; /* 가운데 정렬 */
+    }
 </style>
 
 <div class="container">
@@ -99,7 +104,7 @@
     </c:if>
 
     <c:choose>
-        <c:when test="${dto == null}">
+        <c:when test="${empty adminDto}">
             <!-- 없을 때 화면 -->
             <div class="row">
                 <h2>존재하지 않는 아이디</h2>
@@ -110,26 +115,26 @@
             <table class="table-info">
                 <tr>
                     <th>사업주 아이디</th>
-                    <td class="status-admin">${dto.adminId}</td>
+                    <td class="status-admin">${adminDto.adminId}</td>
                 </tr>
                 <tr>
                     <th>사업자 번호</th>
-                    <td class="status-admin">${dto.adminNo}</td>
+                    <td class="status-admin">${adminDto.adminNo}</td>
                 </tr>
                 <tr>
                     <th>관리등급</th>
-                    <td class="status-admin">${dto.adminRank}</td>
+                    <td class="status-admin">${adminDto.adminRank}</td>
                 </tr>
                 <tr>
                     <th>사업주 이메일</th>
-                    <td class="status-admin">${dto.adminEmail}</td>
+                    <td class="status-admin">${adminDto.adminEmail}</td>
                 </tr>
                 <tr>
                     <th>최종 로그인</th>
                     <td class="status-admin">
                         <c:choose>
-                            <c:when test="${dto.adminLogin != null}">
-                                <fmt:formatDate value="${dto.adminLogin}" pattern="yyyy년 MM월 dd일 E요일 HH시 mm분 ss초"/>
+                            <c:when test="${adminDto.adminLogin != null}">
+                                <fmt:formatDate value="${adminDto.adminLogin}" pattern="yyyy년 MM월 dd일 E요일 HH시 mm분 ss초"/>
                             </c:when>
                             <c:otherwise>
                                 데이터가 없습니다
@@ -149,6 +154,38 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
+                </tr>
+            </table>
+            
+            <h2>회사 정보</h2>
+            <table class="table-info">
+                <tr>
+                    <th>회사 아이디</th>
+                    <td class="status-admin">${companyDto.companyId}</td>
+                </tr>
+                <tr>
+                    <th>회사명</th>
+                    <td class="status-admin">${companyDto.companyName}</td>
+                </tr>
+                <tr>
+                    <th>대표자</th>
+                    <td class="status-admin">${companyDto.companyCeo}</td>
+                </tr>
+                <tr>
+                    <th>근무 시작 시간</th>
+                    <td class="status-admin">${companyDto.companyIn}</td>
+                </tr>
+                <tr>
+                    <th>근무 종료 시간</th>
+                    <td class="status-admin">${companyDto.companyOut}</td>
+                </tr>
+                <tr>
+                    <th>우편번호</th>
+                    <td class="status-admin">${companyDto.companyPost}</td>
+                </tr>
+                <tr>
+                    <th>주소</th>
+                    <td class="status-admin">${companyDto.companyAddress1} ${companyDto.companyAddress2}</td>
                 </tr>
             </table>
 
@@ -197,7 +234,7 @@
                         </c:forEach>
 
                         <c:if test="${pageVO.hasNext()}">
-                            <a href="?adminId=${dto.adminId}&page=${pageVO.getNextBlock()}">다음 &raquo;</a>
+                            <a href="?adminId=${adminDto.adminId}&page=${pageVO.getNextBlock()}">다음 &raquo;</a>
                         </c:if>
                     </div>
                 </c:otherwise>
@@ -205,14 +242,14 @@
 
            <div class="links"> 
                 <a href="list">사업주 목록</a>
-                <a href="/admin/company/info?companyId=${dto.adminId}">회사 정보</a>
+                <a href="/admin/company/info?companyId=${adminDto.adminId}">회사 정보</a>
                 <a href="delete?adminId=${dto.adminId}" onclick="return confirmDelete();">사업주 삭제</a>
-                <a href="edit?adminId=${dto.adminId}">정보 변경</a>
+                <a href="edit?adminId=${adminDto.adminId}">정보 변경</a>
                 <c:if test="${not isBlocked}">
-                    <a href="block?blockTarget=${dto.adminId}">차단</a>
+                    <a href="block?blockTarget=${adminDto.adminId}">차단</a>
                 </c:if>
                 <c:if test="${isBlocked}">
-                    <a href="cancle?blockTarget=${dto.adminId}">해제</a>
+                    <a href="cancle?blockTarget=${adminDto.adminId}">해제</a>
                 </c:if>
            </div>  
         </c:otherwise>
