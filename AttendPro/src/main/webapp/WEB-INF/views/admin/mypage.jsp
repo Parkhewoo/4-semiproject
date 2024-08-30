@@ -145,9 +145,9 @@
        
        <c:if test="${adminDto.adminRank == '일반 관리자'}">
                     <c:choose>
-                        <c:when test="${companyDto.companyId != null}">
+                        <c:when test="${companyDto.companyId == null}">
                             <a href="/admin/company/info?companyId=${adminDto.adminId}" class="btn btn-my">회사 정보</a>
-                        </c:when>
+                         </c:when>
                         <c:otherwise>
                             <a href="/admin/company/insert?companyId=${adminDto.adminId}" class="btn btn-my">회사 등록</a>
                         </c:otherwise>
