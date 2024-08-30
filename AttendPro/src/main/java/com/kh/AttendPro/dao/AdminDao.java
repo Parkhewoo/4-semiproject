@@ -163,4 +163,17 @@ public class AdminDao {
 		// 쿼리 실행 및 결과 반환
 		return jdbcTemplate.query(sql, statusMapper);
 	}
+	
+	//관리자 개인 정보 변경
+	public boolean updateAdmin(AdminDto adminDto) {
+		String sql = "update admin set "
+							+ "admin_no=?,admin_email=? "
+							+ "WHERE admin_id=?";
+	    Object[] data = {
+	        adminDto.getAdminNo(), 	       
+	        adminDto.getAdminEmail(), 
+	        adminDto.getAdminId()
+	    };
+		return jdbcTemplate.update(sql, data) > 0;
+	}
 }
