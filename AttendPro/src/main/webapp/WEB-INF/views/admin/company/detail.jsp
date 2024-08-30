@@ -194,7 +194,6 @@
             });
     });
 </script>
-Last edited just now
 
 <head>
 <div class="container">
@@ -268,9 +267,11 @@ Last edited just now
                     </table>
                 </c:when>
             </c:choose> 
-            <div class="links">
-                <h2><a href="set?companyId=${companyDto.companyId}">회사정보 수정</a></h2>
-            </div>
+            
+<!--             <div class="links"> -->
+<%--                 <h2><a href="set?companyId=${companyDto.companyId}">회사정보 수정</a></h2> --%>
+<!--             </div> -->
+            
         </c:otherwise>
     </c:choose>
 </div>

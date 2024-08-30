@@ -103,8 +103,8 @@
 </head>
 
 <form action="set" method="post" autocomplete="off">
-    <!-- 수정에 필요하지만 보여지면 안되는 번호를 숨김 첨부 -->
-    <input type="hidden" name="companyId" value="${companyDto.companyId}">
+    <!-- 수정에 필요하지만 보여지면 안되는 번호를 숨김 첨부 --> 
+    <input type="hidden" name="companyId" value="${sessionScope.createdUser}">
     
     <div class="container w-400 my-50">
         <div class="row center">

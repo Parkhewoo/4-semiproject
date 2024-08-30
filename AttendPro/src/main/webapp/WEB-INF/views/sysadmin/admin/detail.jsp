@@ -250,7 +250,7 @@
                                     <td>
                                         <fmt:formatDate value="${blockDto.blockTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                                     </td>
-                                    <td>${blockDto.blocType}</td>
+                                    <td>${blockDto.blockType}</td>
                                     <td>${blockDto.blockMemo}</td>
                                 </tr>
                             </c:forEach>
@@ -288,9 +288,10 @@
                         <c:when test="${companyDto.companyId != null}">
                             <a href="/admin/company/info?companyId=${adminDto.adminId}">회사 정보</a>
                         </c:when>
-                        <c:otherwise>
-                            <a href="/admin/company/insert?companyId=${adminDto.adminId}">회사 등록</a>
-                        </c:otherwise>
+<%--                         <c:otherwise> --%>
+<%--                             <a href="/admin/company/insert?companyId=${adminDto.adminId}">회사 등록</a> --%>
+<%--                         </c:otherwise> --%>
+						
                     </c:choose>
                 </c:if>
                 <a href="delete?adminId=${adminDto.adminId}" onclick="return confirmDelete();">관리자 삭제</a>
