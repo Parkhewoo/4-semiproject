@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="/editor/editor.css">
 <script src="/editor/editor.js"></script>
 
+
 <h1>게시글 수정</h1>
 <form action="edit" method="post" autocomplete="off">
     <input type="hidden" name="qnaNo" value="${qnaDto.qnaNo}">

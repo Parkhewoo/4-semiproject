@@ -45,6 +45,8 @@ public class NoticeController {
 				pageVO.setKeyword(null);
 			}
 			model.addAttribute("noticeList", noticeDao.selectListByPaging(pageVO));
+			pageVO.setCount(noticeDao.countByPaging(pageVO));
+			model.addAttribute("pageVO", pageVO);
 			return "/WEB-INF/views/notice/list.jsp";
 		}
 		@RequestMapping("/detail")
@@ -106,7 +108,7 @@ public class NoticeController {
 				throw new TargetNotFoundException("존재하지 않는 글 번호");
 			Set<Integer> before = new HashSet<>();
 			Document beforeDocument = Jsoup.parse(originDto.getNoticeContent());
-			for(Element el : beforeDocument.select(".qna-attach")) {
+			for(Element el : beforeDocument.select(".notice-attach")) {
 				String keyStr = el.attr("data-key");
 				int key = Integer.parseInt(keyStr);
 				before.add(key);
@@ -114,7 +116,7 @@ public class NoticeController {
 			
 			Set<Integer> after = new HashSet<>();
 			Document afterDocument = Jsoup.parse(noticeDto.getNoticeContent());
-			for(Element el : afterDocument.select(".qna-attach")) {
+			for(Element el : afterDocument.select(".notice-attach")) {
 				String keyStr = el.attr("data-key");
 				int key = Integer.parseInt(keyStr);
 				after.add(key);

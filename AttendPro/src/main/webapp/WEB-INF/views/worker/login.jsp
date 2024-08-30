@@ -65,7 +65,7 @@
 		</div>
 		<div class="row">
 			<input type="text" name="workerNo" class="field w-100"
-				placeholder="아이디">
+				placeholder="사원번호">
 		</div>
 		<div class="row">
 			<input type="password" name="workerPw" class="field w-100"
@@ -80,7 +80,7 @@
 		</div>
 		<c:if test="${param.error != null}">
 			<div class="row center">
-				<b class="red">아이디 또는 비밀번호가 일치하지 않습니다</b>
+				<b class="red">사원번호 또는 비밀번호가 일치하지 않습니다</b>
 			</div>
 		</c:if>
 	</div>
