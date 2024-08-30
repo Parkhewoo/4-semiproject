@@ -5,41 +5,38 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
-    /* 컨테이너 설정 */
     .container {    
         width: 100%;
         max-width: 1200px;
-        margin: 40px auto; /* 상하 여백을 줄여서 중앙 정렬 */
+        margin: 40px auto;
         padding: 20px;
         border: 1px solid #ddd;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* 제목 및 행 간격 */
     .row {
-        margin-bottom: 20px; /* 제목과 다음 내용 사이의 간격을 넓힘 */
+        margin-bottom: 20px;
     }
 
-    /* 테이블 스타일링 */
     .table-info, .block-list-table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 30px; /* 테이블과 다음 요소 사이의 간격을 넓힘 */
+        margin-bottom: 30px;
     }
 
     .table-info th, .table-info td,
     .block-list-table th, .block-list-table td {
-        padding: 12px; /* 셀 내 여백을 약간 넓힘 */
+        padding: 12px;
         text-align: left;
         border-bottom: 1px solid #ddd;
-        font-size: 16px; /* 폰트 사이즈를 조정 */
+        font-size: 16px;
     }
 
     .table-info th, .block-list-table th {
         background-color: #f4f4f4;
         border-bottom: 2px solid #ddd;
-        font-size: 18px; /* 헤더 폰트 사이즈를 조정 */
+        font-size: 18px;
     }
 
     .table-info tr:last-child td,
@@ -47,17 +44,16 @@
         border-bottom: none;
     }
 
-    /* 메시지 스타일링 */
     .info-message, .status-message-negative, .status-message-positive {
         text-align: center;
-        font-size: 16px; /* 메시지 폰트 사이즈 조정 */
-        margin: 10px 0; /* 상하 여백 조정 */
+        font-size: 16px;
+        margin: 10px 0;
         padding: 10px;
     }
 
     .status-admin {
         text-align: center;
-        font-size: 16px; /* 상태 폰트 사이즈 조정 */
+        font-size: 16px;
         margin: 0;
         padding: 10px;
     }
@@ -74,25 +70,23 @@
         color: #3498db;
     }
 
-    /* 링크 스타일링 */
     .links {
         text-align: center;
-        margin-top: 20px; /* 링크와 위 요소 사이의 간격을 넓힘 */
+        margin-top: 20px;
     }
 
     .links a {
         text-decoration: none;
         color: #3498db;
         font-weight: bold;
-        margin: 0 10px; /* 링크 사이 간격 조정 */
-        font-size: 16px; /* 링크 폰트 사이즈 조정 */
+        margin: 0 10px;
+        font-size: 16px;
     }
 
     .links a:hover {
         text-decoration: underline;
     }
 
-    /* 페이지 네비게이터 스타일링 */
     .pagination {
         text-align: center;
         margin-top: 20px;
@@ -102,15 +96,107 @@
         text-decoration: none;
         color: #3498db;
         margin: 0 5px;
-        font-size: 16px; /* 페이지 네비게이터 폰트 사이즈 조정 */
+        font-size: 16px;
     }
 
     .pagination strong {
         font-size: 16px;
         font-weight: bold;
     }
-</style>
 
+    .kakao-map {
+        width: 100%;
+        height: 400px;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+</style>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a52f3e01da4d8f6dba534fb01a2c42ef&libraries=services"></script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        var container = document.querySelector(".kakao-map");
+        var options = {
+            center: new kakao.maps.LatLng(37.566826, 126.9786567),
+            level: 3
+        };
+
+        var map = new kakao.maps.Map(container, options);
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        // 회사 주소 정보
+        var companyPost = '${companyDto.companyPost}'.trim();
+        var companyAddress = '${companyDto.companyAddress1}'.trim();
+
+        // 주소 검색 함수
+        function searchAddress(address) {
+            console.log('Searching for address:', address);
+            return new Promise((resolve, reject) => {
+                geocoder.addressSearch(address, function(result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        resolve(result[0]);
+                    } else {
+                        reject(status);
+                    }
+                });
+            });
+        }
+
+        // 주소 검색 시도
+        async function tryAddressSearch() {
+            try {
+                // 첫 번째 시도: 우편번호 + 주소
+                let result = await searchAddress(companyPost + ' ' + companyAddress);
+                return result;
+            } catch (error) {
+                console.log('First attempt failed, trying without postcode...');
+                try {
+                    // 두 번째 시도: 주소만
+                    let result = await searchAddress(companyAddress);
+                    return result;
+                } catch (error) {
+                    console.log('Second attempt failed, trying with modified address...');
+                    // 세 번째 시도: 주소 수정 (예: '2로' -> '2길')
+                    let modifiedAddress = companyAddress.replace('2로', '2길');
+                    try {
+                        let result = await searchAddress(modifiedAddress);
+                        return result;
+                    } catch (error) {
+                        throw new Error('모든 주소 검색 시도가 실패했습니다.');
+                    }
+                }
+            }
+        }
+
+        // 주소 검색 실행 및 결과 처리
+        tryAddressSearch()
+            .then((data) => {
+                var coords = new kakao.maps.LatLng(data.y, data.x);
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="width:200px;text-align:center;padding:6px 0;">' +
+                             '<strong>${companyDto.companyName}</strong><br>' +
+                             data.address.address_name +
+                             '</div>'
+                });
+                infowindow.open(map, marker);
+
+                map.setCenter(coords);
+            })
+            .catch((error) => {
+                console.error('주소를 찾을 수 없습니다:', error);
+                alert('회사 주소를 찾을 수 없습니다. 입력된 주소를 확인해 주세요.');
+                container.innerHTML = '<p style="text-align:center;padding:20px;">주소를 찾을 수 없습니다: ' + companyPost + ' ' + companyAddress + '</p>';
+            });
+    });
+</script>
+Last edited just now
+
+<head>
 <div class="container">
     <h1>${companyDto.companyName}</h1>
 
@@ -121,12 +207,11 @@
 
     <c:choose>
         <c:when test="${companyDto == null}">
-            <!-- 없을 때 화면 -->
             <div class="row">
                 <h2>존재하지 않는 업장입니다</h2>
             </div>
         </c:when>
-        <c:otherwise>																							
+        <c:otherwise>
             <table class="table-info">
                 <tr>
                     <th>회사 아이디</th>
@@ -152,8 +237,10 @@
                     <th>주소</th>
                     <td class="status-admin">${companyDto.companyPost} ${companyDto.companyAddress1} ${companyDto.companyAddress2}</td>
                 </tr>
-                
             </table>
+
+            <!-- 지도 표시 -->
+            <div class="kakao-map"></div>
 
             <!-- 페이지 네비게이터 -->
             <c:choose>
@@ -181,17 +268,11 @@
                     </table>
                 </c:when>
             </c:choose> 
-  <div class="links">
+            <div class="links">
                 <h2><a href="set?companyId=${companyDto.companyId}">회사정보 수정</a></h2>
             </div>
         </c:otherwise>
     </c:choose>
 </div>
-
-<script>
-    function confirmDelete() {
-        return confirm('정말 삭제하시겠습니까?');
-    }
-</script>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
