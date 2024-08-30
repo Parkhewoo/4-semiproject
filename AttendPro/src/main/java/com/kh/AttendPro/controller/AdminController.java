@@ -17,11 +17,13 @@ import com.kh.AttendPro.configuration.CustomCertProperties;
 import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dao.BlockDao;
 import com.kh.AttendPro.dao.CertDao;
+import com.kh.AttendPro.dao.CompanyDao;
 import com.kh.AttendPro.dao.QnaDao;
 import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.dto.BlockDto;
 import com.kh.AttendPro.dto.CertDto;
+import com.kh.AttendPro.dto.CompanyDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
 import com.kh.AttendPro.service.EmailService;
 
@@ -49,6 +51,9 @@ public class AdminController {
 	
 	@Autowired
 	private QnaDao qnaDao;
+	
+	@Autowired
+	private CompanyDao companyDao;
 	
 	@GetMapping("/join")
 	public String join() {
@@ -225,8 +230,10 @@ public class AdminController {
 	public String mypage(HttpSession session, Model model) {
 		String adminId = (String) session.getAttribute("createdUser");
 		AdminDto adminDto = adminDao.selectOne(adminId);
+		CompanyDto companyDto = companyDao.selectOne(adminId);
 		
-		model.addAttribute("adminDto", adminDto);	
+		model.addAttribute("adminDto", adminDto);
+	    model.addAttribute("companyDto", companyDto);
 		//해당 admin이 작성한 글 조회하여 첨부
 		model.addAttribute("qnaWriteList", qnaDao.selectListByQnaWriter(adminId));
 		
