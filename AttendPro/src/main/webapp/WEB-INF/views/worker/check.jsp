@@ -43,7 +43,7 @@ $(function(){
         event.preventDefault(); // 폼의 기본 동작(서버로의 폼 제출)을 막음
         var createdUser = $("input[name='createdUser']").val(); // input에서 createdUser 값을 가져옴
         $.ajax({
-            url: "/rest/record/checkIn",
+            url: "/rest/worker/checkIn",
             method: "post",
             data: { workerNoStr: createdUser }, // createdUser 값을 전달
             success: function(){
@@ -59,7 +59,7 @@ $(function(){
         event.preventDefault(); // 폼의 기본 동작(서버로의 폼 제출)을 막음
         var createdUser = $("input[name='createdUser']").val(); // input에서 createdUser 값을 가져옴
         $.ajax({
-            url: "/rest/record/checkOut",
+            url: "/rest/worker/checkOut",
             method: "post",
             data: { workerNoStr: createdUser }, // createdUser 값을 전달
             success: function(){
@@ -81,7 +81,7 @@ $(function(){
             <form action="/checkIn" method="post">
                 <div class="row mt-30">
                     <input type="hidden" name="createdUser" value="${sessionScope.createdUser}">
-                    <button class="w-100 btn btn-my btn-checkIn">출근 해버리기!</button>
+                    <button class="w-100 btn btn-my btn-checkIn">출근</button>
                 </div>
             </form>
         </c:when>
@@ -90,7 +90,7 @@ $(function(){
             <form action="/checkOut" method="post">
                 <div class="row mt-30">
                     <input type="hidden" name="createdUser" value="${sessionScope.createdUser}">
-                    <button class="w-100 btn btn-my btn-checkOut">퇴근 해버리기!</button>
+                    <button class="w-100 btn btn-my btn-checkOut">퇴근</button>
                 </div>
             </form>
         </c:otherwise>
