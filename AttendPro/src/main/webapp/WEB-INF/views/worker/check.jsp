@@ -81,7 +81,7 @@ $(function(){
             <form action="/checkIn" method="post">
                 <div class="row mt-30">
                     <input type="hidden" name="createdUser" value="${sessionScope.createdUser}">
-                    <button class="w-100 btn btn-my btn-checkIn">출근</button>
+                    <button class="w-100 btn btn-my btn-checkIn">출근하기</button>
                 </div>
             </form>
         </c:when>
@@ -90,7 +90,7 @@ $(function(){
             <form action="/checkOut" method="post">
                 <div class="row mt-30">
                     <input type="hidden" name="createdUser" value="${sessionScope.createdUser}">
-                    <button class="w-100 btn btn-my btn-checkOut">퇴근</button>
+                    <button class="w-100 btn btn-my btn-checkOut">퇴근하기</button>
                 </div>
             </form>
         </c:otherwise>

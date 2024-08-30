@@ -9,12 +9,7 @@
 <h2>Status List</h2>
 
 <table border="1" class="table table-border table-stripe">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Count</th>
-        </tr>
-    </thead>
+    
     <tbody>
         <c:forEach var="statusVO" items="${list}">
             <tr>

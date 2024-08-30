@@ -94,7 +94,8 @@ public class RecordDao {
 		int late = jdbcTemplate.queryForObject(sqlForLate, int.class,data);
 		int leave = jdbcTemplate.update(sqlForLeave, int.class, data);
 	}
-
+	
+//근태기록(누적)
 	public List<StatusVO> selectListByAttendance(int workerNo) {
 	    List<StatusVO> statusList = new ArrayList<>();
 	    //

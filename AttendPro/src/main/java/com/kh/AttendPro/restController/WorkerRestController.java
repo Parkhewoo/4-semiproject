@@ -85,6 +85,7 @@ public class WorkerRestController {
 				recordDao.checkOut(workerNo);				
 			}
 			else {
+				//출근기록 없을시 예외처리
 				throw new TargetNotFoundException("잘못된 접근입니다.");
 			}
 			return "redirect:/rest/check";
