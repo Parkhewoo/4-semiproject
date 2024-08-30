@@ -250,7 +250,7 @@
                                     <td>
                                         <fmt:formatDate value="${blockDto.blockTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                                     </td>
-                                    <td>${blockDto.blockType}</td>
+                                    <td>${blockDto.blocType}</td>
                                     <td>${blockDto.blockMemo}</td>
                                 </tr>
                             </c:forEach>
