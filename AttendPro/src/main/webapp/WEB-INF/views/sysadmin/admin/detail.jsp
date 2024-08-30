@@ -93,10 +93,35 @@
         width: 33.33%; /* 각 열의 너비를 동일하게 설정 */
         text-align: center; /* 가운데 정렬 */
     }
+
+    .pagination {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .pagination a, .pagination strong {
+        display: inline-block;
+        margin: 0 5px;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        color: #3498db;
+        text-decoration: none;
+    }
+
+    .pagination a:hover {
+        background-color: #f4f4f4;
+    }
+
+    .pagination strong {
+        font-weight: bold;
+        color: #333;
+        background-color: #f4f4f4;
+    }
 </style>
 
 <div class="container">
-    <h1>사업주 상세페이지</h1>
+    <h1>관리자 상세페이지</h1>
 
     <!-- 에러 메시지 표시 -->
     <c:if test="${not empty error}">
@@ -111,10 +136,10 @@
             </div>
         </c:when>
         <c:otherwise>
-            <h2>사업주 정보</h2>
+            <h2>관리자 정보</h2>
             <table class="table-info">
                 <tr>
-                    <th>사업주 아이디</th>
+                    <th>관리자 아이디</th>
                     <td class="status-admin">${adminDto.adminId}</td>
                 </tr>
                 <tr>
@@ -126,7 +151,7 @@
                     <td class="status-admin">${adminDto.adminRank}</td>
                 </tr>
                 <tr>
-                    <th>사업주 이메일</th>
+                    <th>관리자 이메일</th>
                     <td class="status-admin">${adminDto.adminEmail}</td>
                 </tr>
                 <tr>
@@ -156,38 +181,54 @@
                     </td>
                 </tr>
             </table>
-            
-            <h2>회사 정보</h2>
-            <table class="table-info">
-                <tr>
-                    <th>회사 아이디</th>
-                    <td class="status-admin">${companyDto.companyId}</td>
-                </tr>
-                <tr>
-                    <th>회사명</th>
-                    <td class="status-admin">${companyDto.companyName}</td>
-                </tr>
-                <tr>
-                    <th>대표자</th>
-                    <td class="status-admin">${companyDto.companyCeo}</td>
-                </tr>
-                <tr>
-                    <th>근무 시작 시간</th>
-                    <td class="status-admin">${companyDto.companyIn}</td>
-                </tr>
-                <tr>
-                    <th>근무 종료 시간</th>
-                    <td class="status-admin">${companyDto.companyOut}</td>
-                </tr>
-                <tr>
-                    <th>우편번호</th>
-                    <td class="status-admin">${companyDto.companyPost}</td>
-                </tr>
-                <tr>
-                    <th>주소</th>
-                    <td class="status-admin">${companyDto.companyAddress1} ${companyDto.companyAddress2}</td>
-                </tr>
-            </table>
+
+            <!-- 회사 정보 표시 조건 -->
+            <c:choose>
+                <c:when test="${adminDto.adminRank == '일반 관리자'}">
+                    <c:choose>
+                        <c:when test="${companyDto.companyId == null}">
+                            <h2>회사 정보</h2>
+                            <p class="info-message">등록된 사업장이 없습니다. </p>
+                        </c:when>
+                        <c:otherwise>
+                            <h2>회사 정보</h2>
+                            <table class="table-info">
+                                <tr>
+                                    <th>회사 아이디</th>
+                                    <td class="status-admin">${companyDto.companyId}</td>
+                                </tr>
+                                <tr>
+                                    <th>회사명</th>
+                                    <td class="status-admin">${companyDto.companyName}</td>
+                                </tr>
+                                <tr>
+                                    <th>대표자</th>
+                                    <td class="status-admin">${companyDto.companyCeo}</td>
+                                </tr>
+                                <tr>
+                                    <th>근무 시작 시간</th>
+                                    <td class="status-admin">${companyDto.companyIn}</td>
+                                </tr>
+                                <tr>
+                                    <th>근무 종료 시간</th>
+                                    <td class="status-admin">${companyDto.companyOut}</td>
+                                </tr>
+                                <tr>
+                                    <th>우편번호</th>
+                                    <td class="status-admin">${companyDto.companyPost}</td>
+                                </tr>
+                                <tr>
+                                    <th>주소</th>
+                                    <td class="status-admin">${companyDto.companyAddress1} ${companyDto.companyAddress2}</td>
+                                </tr>
+                            </table>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+                <c:when test="${adminDto.adminRank == '시스템 관리자'}">
+                    <!-- 시스템 관리자 전용 내용 추가 가능 -->
+                </c:when>
+            </c:choose>
 
             <h2>차단 이력</h2>
             <c:choose>
@@ -219,7 +260,7 @@
                     <!-- 페이지 네비게이터 -->
                     <div class="pagination">
                         <c:if test="${pageVO.hasPrev()}">
-                            <a href="?adminId=${dto.adminId}&page=${pageVO.getPrevBlock()}">&laquo; 이전</a>
+                            <a href="?adminId=${adminDto.adminId}&page=${pageVO.getPrevBlock()}">&laquo; 이전</a>
                         </c:if>
 
                         <c:forEach var="i" begin="${pageVO.getStartBlock()}" end="${pageVO.getFinishBlock()}">
@@ -228,7 +269,7 @@
                                     <strong>${i}</strong>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="?adminId=${dto.adminId}&page=${i}">${i}</a>
+                                    <a href="?adminId=${adminDto.adminId}&page=${i}">${i}</a>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
@@ -240,10 +281,19 @@
                 </c:otherwise>
             </c:choose> 
 
-           <div class="links"> 
+            <div class="links"> 
                 <a href="list">사업주 목록</a>
-                <a href="/admin/company/info?companyId=${adminDto.adminId}">회사 정보</a>
-                <a href="delete?adminId=${dto.adminId}" onclick="return confirmDelete();">사업주 삭제</a>
+                <c:if test="${adminDto.adminRank == '일반 관리자'}">
+                    <c:choose>
+                        <c:when test="${companyDto.companyId != null}">
+                            <a href="/admin/company/info?companyId=${adminDto.adminId}">회사 정보</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="/admin/company/insert?companyId=${adminDto.adminId}">회사 등록</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+                <a href="delete?adminId=${adminDto.adminId}" onclick="return confirmDelete();">관리자 삭제</a>
                 <a href="edit?adminId=${adminDto.adminId}">정보 변경</a>
                 <c:if test="${not isBlocked}">
                     <a href="block?blockTarget=${adminDto.adminId}">차단</a>
@@ -251,7 +301,7 @@
                 <c:if test="${isBlocked}">
                     <a href="cancle?blockTarget=${adminDto.adminId}">해제</a>
                 </c:if>
-           </div>  
+            </div>  
         </c:otherwise>
     </c:choose>
 </div>

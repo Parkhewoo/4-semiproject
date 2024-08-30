@@ -121,7 +121,6 @@
         <c:otherwise>
             <form action="edit" method="post">
                 <input type="hidden" name="adminId" value="${adminDto.adminId}">
-                
                 <div class="row">
                     <label>사업자 번호*</label>
                     <input type="text" name="adminNo" value="${adminDto.adminNo}" class="field"
