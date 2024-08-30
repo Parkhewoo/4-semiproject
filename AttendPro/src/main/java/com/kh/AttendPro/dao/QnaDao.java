@@ -158,4 +158,13 @@ public class QnaDao {
 					};
 					return jdbcTemplate.update(sql, data) > 0;
 				}
+
+		//특정 사용자의 qna 작성 목록을 조회
+		public List<QnaDto> selectListByQnaWriter(String qnaWriter) {
+			String sql ="select * from qna "
+							+ "where qna_writer = ? "
+							+ "order by qna_no desc";
+			Object[] data = {qnaWriter};										
+			return jdbcTemplate.query(sql, qnaListMapper, data);
+		}
 	}

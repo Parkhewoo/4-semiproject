@@ -116,7 +116,8 @@ public class AdminWorkerController {
 			return "/WEB-INF/views/worker/edit.jsp";
 		}
 		@PostMapping("/edit")
-		public String change(@ModelAttribute WorkerDto workerDto, @RequestParam("attach") MultipartFile attach) throws IllegalStateException, IOException {
+		public String change(@ModelAttribute WorkerDto workerDto,
+									@RequestParam("attach") MultipartFile attach) throws IllegalStateException, IOException {
 		    boolean result = workerDao.update(workerDto);
 		    if (!result) {
 		        throw new TargetNotFoundException();

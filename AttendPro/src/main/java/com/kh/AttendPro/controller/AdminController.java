@@ -17,17 +17,13 @@ import com.kh.AttendPro.configuration.CustomCertProperties;
 import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dao.BlockDao;
 import com.kh.AttendPro.dao.CertDao;
+import com.kh.AttendPro.dao.QnaDao;
 import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.dto.BlockDto;
 import com.kh.AttendPro.dto.CertDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
 import com.kh.AttendPro.service.EmailService;
-
-import com.kh.AttendPro.vo.PageVO;
-
-
-
 
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
@@ -50,6 +46,9 @@ public class AdminController {
 	
 	@Autowired
 	private PasswordEncoder encoder;
+	
+	@Autowired
+	private QnaDao qnaDao;
 	
 	@GetMapping("/join")
 	public String join() {
@@ -220,5 +219,124 @@ public class AdminController {
 	public String resetPwFinish() {
 		return "/WEB-INF/views/admin/resetPwComplete.jsp";
 	}
+	
+	//관리자 마이페이지
+	@RequestMapping("/mypage")
+	public String mypage(HttpSession session, Model model) {
+		String adminId = (String) session.getAttribute("createdUser");
+		AdminDto adminDto = adminDao.selectOne(adminId);
+		
+		model.addAttribute("adminDto", adminDto);	
+		//해당 admin이 작성한 글 조회하여 첨부
+		model.addAttribute("qnaWriteList", qnaDao.selectListByQnaWriter(adminId));
+		
+		return "/WEB-INF/views/admin/mypage.jsp";
+	}
+	
+	//관리자 회원탈퇴
+	@GetMapping("/exit")
+	public String exit() {
+		return "/WEB-INF/views/admin/exit.jsp";
+	}
+	@PostMapping("/exit")
+	public String exit(HttpSession session, @RequestParam String adminPw) {
+		//아이디 및 정보추출
+		String adminId = (String)session.getAttribute("createdUser");
+		AdminDto adminDto = adminDao.selectOne(adminId);
+		
+		//비밀번호 비교
+//		boolean isValid = adminPw.equals(adminDto.getAdminPw());
+		boolean isValid = encoder.matches(adminPw, adminDto.getAdminPw());
+		if(isValid == false) return "redirect:exit?error";
+		
+		// DB에서 회원 삭제
+	    adminDao.delete(adminId);
+		
+		session.removeAttribute("createdUser");
+//		session.removeAttribute("createdRank");
+		
+		return "redirect:goodbye";
+	}
+	
+	@RequestMapping("/goodbye")
+	public String goodbye() {
+		return "/WEB-INF/views/admin/goodbye.jsp";
+	}
+	
+	//차단 알림 페이지
+	@RequestMapping("/block")
+	public String block() {
+		return "/WEB-INF/views/admin/block.jsp";
+	}
+	
+	//관리자 개인정보 변경
+	@GetMapping("/change")
+	public String change(HttpSession session, Model model) {
+		
+		//아이디 추출
+		String adminId = (String)session.getAttribute("createdUser");
+		
+		//회원정보 조회
+		AdminDto adminDto = adminDao.selectOne(adminId);
+		
+		//화면에 전달
+		model.addAttribute("adminDto", adminDto);
+		
+		return "/WEB-INF/views/admin/change.jsp";
+	}
+	
+	@PostMapping("/change")
+	public String change(HttpSession session,
+									@ModelAttribute AdminDto adminDto) {
+		//기본 정보 조회
+		String adminId = (String)session.getAttribute("createdUser");
+		AdminDto findDto = adminDao.selectOne(adminId);
+		
+		//비밀번호 검사
+		boolean isValid = adminDto.getAdminPw().equals(findDto.getAdminPw());
+		if(isValid == false) return "redirect:change?error";
+		
+		//변경처리
+		adminDto.setAdminId(adminId);//아이디 추가
+		adminDao.updateAdmin(adminDto);
+		return "redirect:mypage";
+	}
+	
+	//관리자 비밀번호 변경
+	@GetMapping("/password")
+	public String password() {
+		return "/WEB-INF/views/admin/password.jsp";
+	}
+	
+	@PostMapping("/password")
+	public String password(@RequestParam String currentPw,
+									@RequestParam String changePw,
+									HttpSession session) {
+		//관리자 아이디 추출
+		String adminId = (String)session.getAttribute("createdUser");
+		
+		//현재 사용ㅈ의 정보를 추출
+		AdminDto adminDto = adminDao.selectOne(adminId);
+		
+		//비밀번호 비교
+		boolean isValid = encoder.matches(currentPw, adminDto.getAdminPw());
+		if(isValid == false) {
+			return "redirect:password?error";
+		}
+		
+		//비밀번호 변경
+		adminDao.updateAdminPw(adminId, changePw);
+		return "redirect:passwordFinish";
+	}
+	@RequestMapping("/passwordFinish")
+	public String passwordFinish() {
+		return "/WEB-INF/views/admin/passwordFinish.jsp";
+	}
+	
+	
+	
+	
+	
+	
 	
 }
