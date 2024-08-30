@@ -27,7 +27,7 @@ public class SysAdminController {
 	@Autowired
 	private AdminDao adminDao;
 	
-	@Autowired BlockDao blockDao;
+	@Autowired BlockDao blockDao;  
 
 	
 	@RequestMapping("/home")
