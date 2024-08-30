@@ -122,7 +122,7 @@
         <!-- 헤더 영역 -->
         <div class="row my-30 flex-box">
         <a href="/">
-            <img src="/images/mainLogo.png" style="width:100px">
+            <img src="/images/mainLogo.png" style="width:85px">
         </a>
         <!-- 메뉴 영역 -->
         <div class="my-0 w-100">
@@ -172,7 +172,6 @@
             </div>
              <div style="flex-grow: 1;">
 				
-		<hr>
 		
 		
 		<!-- 중단(Container) -->

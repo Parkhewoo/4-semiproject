@@ -48,18 +48,15 @@
             <c:otherwise>
                 사원을 위한 콘텐츠 
                 <div class="container w-350 my-50">
-	                <form action="record/checkIn" method="post">
+	           
 			            <div class="row mt-30">
-			            	<input type="hidden" name="createdUser" value="${sessionScope.createdUser}">
-			                <button class="btn btn-my w-100">출근 해버리기!</button>
+			            	<a href="record/check">출퇴근 하기</a>
 			            </div>
-	                </form>
-                   <form action="record/checkOut" method="post">
+
 		            <div class="row mt-30">
-		            	<input type="hidden" name="createdUser" value="${sessionScope.createdUser}">
-		                <button class="btn btn-my w-100">퇴근 해버리기!</button>
+		            	<a href="#">내 출근기록보기</a>
 		            </div>
-		            </form>
+		            
 	            </div>
             </c:otherwise>
         </c:choose>

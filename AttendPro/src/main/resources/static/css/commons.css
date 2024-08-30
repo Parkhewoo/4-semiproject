@@ -118,6 +118,18 @@
 .ms-30 { margin-left: 30px !important; }
 .ms-40 { margin-left: 40px !important; }
 .ms-50 { margin-left: 50px !important; }
+.ms-60 { margin-left: 60px !important; }
+.ms-70 { margin-left: 70px !important; }
+.ms-80 { margin-left: 80px !important; }
+.ms-90 { margin-left: 90px !important; }
+.ms-100 { margin-left: 100px !important; }
+.ms-110 { margin-left: 110px !important; }
+.ms-120 { margin-left: 120px !important; }
+.ms-130 { margin-left: 130px !important; }
+.ms-140 { margin-left: 140px !important; }
+
+
+
 
 .me-0 { margin-right: 0px !important; }
 .me-10 { margin-right: 10px !important; }
@@ -588,12 +600,13 @@ textarea.field {
 /* 8 */
 .menu,
 .menu ul {
-    background-color: #2d3436;
-    color: white;
+    background-color: white;
+    color: black;
     font-size: 20px;
 }
 .menu li:hover {
-    background-color: #636e72;
+    background-color: white;
+    color: #0984e3;
 }
 
 .form-group label {
