@@ -132,6 +132,7 @@
 			<a class="btn btn-negative btn-delete"
 				href="delete?noticeNo=${noticeDto.noticeNo}">삭제</a>
 		</c:if>
+		
 
 		<!-- 목록 버튼 (모든 사용자에게 표시) -->
 		<a class="btn btn-neutral" href="list">목록</a>

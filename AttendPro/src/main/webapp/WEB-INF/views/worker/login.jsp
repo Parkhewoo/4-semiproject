@@ -64,12 +64,12 @@
 			<h1>사원 로그인</h1>
 		</div>
 		<div class="row">
-			<input type="text" name="workerNo" class="field w-100"
-				placeholder="사원번호">
+			<input type="text" name="workerNoStr" class="field w-100"
+				placeholder="사원번호" required>
 		</div>
 		<div class="row">
 			<input type="password" name="workerPw" class="field w-100"
-				placeholder="비밀번호">
+				placeholder="비밀번호" required>
 		</div>
 		<div class="row">
 			<button type="submit" class="btn btn-my w-100">로그인</button>
