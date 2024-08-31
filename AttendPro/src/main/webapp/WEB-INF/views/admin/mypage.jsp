@@ -103,7 +103,6 @@
         color: white;
         border-radius: 0.3em;
         border: none;
-        }
 </style>
 
 <div class="container">
@@ -142,18 +141,14 @@
 	<div class="row center"> 
        <a href="/admin/password" class="btn btn-my">비밀번호 변경하기</a>       
        <a href="/admin/change" class="btn btn-my">개인정보 변경하기</a> 
-       
        <c:if test="${adminDto.adminRank == '일반 관리자'}">
-                    <c:choose>
-                        <c:when test="${companyDto.companyId == null}">
-                            <a href="/admin/company/info?companyId=${adminDto.adminId}" class="btn btn-my">회사 정보</a>
-                         </c:when>
-                        <c:otherwise>
-                            <a href="/admin/company/insert?companyId=${adminDto.adminId}" class="btn btn-my">회사 등록</a>
-                        </c:otherwise>
-                    </c:choose>
+         <c:if test="${companyDto.companyId != null }">
+                   <a href="/admin/company/info?companyId=${sessionScope.createdUser}" class="btn btn-my">회사 상세</a> 
                 </c:if>
-                 
+                <c:if test="${companyDto.companyId == null }">
+                   <a href="/admin/company/insert?companyId=${sessionScope.createdUser}" class="btn btn-my">회사 등록</a> 
+                </c:if>
+       </c:if>
        <a href="/admin/exit" class="btn btn-my">회원탈퇴</a> 
 	 </div>  
       
