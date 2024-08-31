@@ -1,9 +1,6 @@
 package com.kh.AttendPro.dao;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.AttendPro.dto.RecordDto;
 import com.kh.AttendPro.mapper.RecordMapper;
+import com.kh.AttendPro.mapper.StatusMapper;
+import com.kh.AttendPro.vo.StatusVO;
 
 @Repository
 public class RecordDao {
@@ -21,6 +20,9 @@ public class RecordDao {
 	
 	@Autowired
 	RecordMapper recordMapper;
+	
+	@Autowired
+	StatusMapper statusMapper;
 	
 	//workerNo를 통해서 RecordDto를 반환
 	public RecordDto selectOne(int workerNo) {
@@ -43,8 +45,6 @@ public class RecordDao {
 	
 	//퇴근
 		public void checkOut(int workerNo) {
-			//당일 출근기록이 있을때만 시행 - > update 
-			if(getIsCome(workerNo)) {
 				String sql ="UPDATE record "
 						+"SET worker_out = SYSDATE "
 						+"WHERE worker_no = ? "
@@ -53,9 +53,7 @@ public class RecordDao {
 						+"FROM record "
 						+"WHERE worker_no = ?)";
 				Object[] data = {workerNo, workerNo};
-				jdbcTemplate.update(sql, data);
-			}
-			else return;
+				jdbcTemplate.update(sql, data);			
 		}
 	
 	//당일 출근 기록 검사 메소드
@@ -71,12 +69,14 @@ public class RecordDao {
 	    return isCome;
 	}
 	
+	
+	
 	public void getStatus(int workerNo) {
 		//vo로 세팅
 		String sqlForLate = "SELECT "
 				+ "COUNT(*) AS late_count "
 				+ "FROM "
-				+ "record_company_view "
+				+ "status "
 				+ "WHERE "
 				+ "r.worker_no = ? "
 				+ "AND r.company_in < r.worker_in";
@@ -84,7 +84,7 @@ public class RecordDao {
 		String sqlForLeave = "SELECT "
 				+ "COUNT(*) AS leave_count "
 				+ "FROM "
-				+ "record_company_view "
+				+ "status "
 				+ "WHERE "
 				+ "r.worker_no = ? "
 				+ "AND r.company_out > r.worker_out";
@@ -93,6 +93,59 @@ public class RecordDao {
 		
 		int late = jdbcTemplate.queryForObject(sqlForLate, int.class,data);
 		int leave = jdbcTemplate.update(sqlForLeave, int.class, data);
+	}
+	
+//근태기록(누적)
+	public List<StatusVO> selectListByAttendance(int workerNo) {
+	    List<StatusVO> statusList = new ArrayList<>();
+	    //
+	    //지각 횟수를 조회하는 sql
+	    String sqlForLate = "SELECT COUNT(*) "
+	            + "FROM status "
+	            + "WHERE worker_no = ? "
+	            + "AND to_char(company_in, 'HH24:MI:SS') < to_char(worker_in, 'HH24:MI:SS')";
+
+//	  //조퇴 횟수를 조회하는 sql
+	    String sqlForLeave = "SELECT COUNT(*) "
+	    		+"FROM status "
+	    		+"WHERE worker_no = ? "
+	    		+"AND TO_CHAR(company_out, 'HH24:MI:SS') "
+	    		+ "> TO_CHAR(worker_out, 'HH24:MI:SS') ";
+	    
+	  
+	  //출근 횟수를 조회하는 sql
+	    String sqlForAttend = "SELECT count(*) "
+	    		+ "FROM status "
+	    		+ "WHERE worker_no = ? "
+	    		+ "AND worker_out IS NOT NULL";
+	    
+	  //결근 횟수를 조회하는 sql
+	    
+	    //평일이면서 공휴일이 아니면서 worker_out = null
+	    //holidayStatus 회사 공휴일, 지정 출퇴근 시각, worker_out 여부 
+//	    String sqlForAbsent = "select count(*) "
+//	    		+ "from status "
+//	    		+ "where worker_no = ?"
+//	    		+"AND ";
+	    
+	    //List에 각 StatusVO 추가
+	    statusList.add(getStatusVO("출근", sqlForAttend, workerNo));
+	    statusList.add(getStatusVO("지각", sqlForLate, workerNo));
+	    statusList.add(getStatusVO("조퇴", sqlForLeave, workerNo));
+//	    statusList.add(getStatusVO("결근", sqlForAbsent, workerNo)); (구현 예정)
+	    
+	    return statusList;
+	}
+	
+	//구문과 키워드에 따라 달별 statusVO를 출력하는 메소드
+	public StatusVO getStatusVO(String title, String sql, int workerNo){
+		StatusVO statusVO = new StatusVO();
+		
+		Object[] data = {workerNo, };
+		int cnt = jdbcTemplate.queryForObject(sql, int.class, data);
+		statusVO.setTitle(title);
+		statusVO.setCnt(cnt);
+		return statusVO;
 	}
 	
 	
