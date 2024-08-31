@@ -267,8 +267,12 @@
                     </table>
                 </c:when>
             </c:choose> 
-            
-<!--             <div class="links"> -->
+            <div class="row center">
+            <h2>휴일</h2>
+            <jsp:include page="/WEB-INF/views/template/calendar.jsp"></jsp:include>
+			</div>
+<!--            
+ <div class="links"> -->
 <%--                 <h2><a href="set?companyId=${companyDto.companyId}">회사정보 수정</a></h2> --%>
 <!--             </div> -->
             
