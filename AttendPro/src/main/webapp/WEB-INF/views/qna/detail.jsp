@@ -40,6 +40,12 @@
 	}
 </style>
 
+<script>
+    function confirmDelete() {
+        return confirm("정말로 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.");
+    }
+</script>
+
 
 <div class="container w-800">
 	<!-- 제목 -->
@@ -118,7 +124,7 @@
 				<a class="btn btn-negative" href="edit?qnaNo=${qnaDto.qnaNo}">수정</a>
 			</c:if>
 			<c:if test="${isOwner || isAdmin}">
-				<a class="btn btn-negative" href="delete?qnaNo=${qnaDto.qnaNo}">삭제</a>
+				<a class="btn btn-negative" href="delete?qnaNo=${qnaDto.qnaNo}" onclick="return confirmDelete()">삭제</a>
 			</c:if>
 		</c:if>
 		

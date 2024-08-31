@@ -25,9 +25,74 @@
             color: white;
             background-color: #33CC66;
         }
+        
+          .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+   		border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .row {
+        margin-bottom: 15px;
+    }
+    
+    .center {
+        text-align: center;
+    }
+    .form-container {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .field {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+    .w-22 {
+        width: 22%;
+    }
+    .w-50 {
+        width: 50%;
+    }
+    .btn {
+        padding: 8px 15px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background-color: #2980b9;
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .table th, .table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    .table th {
+        background-color: #f4f4f4;
+    }
+    .link {
+        color: #3498db;
+        text-decoration: none;
+    }
+    .link:hover {
+        text-decoration: underline;
+    }
 </style>
-<div class="container w-1000 my-50">
-	<div class="row">
+<div class="container">
+	<div class="row center">
 		<h1>문의글</h1>
 		<p>글은 자신의 인격입니다</p>
 	</div>
@@ -55,7 +120,7 @@
 	</div>
 	
 	<div class="row">
-		<table class="table table-border table-stripe table-hover">
+		<table class="table">
 			<thead>
 				<tr>
 					<th>번호</th>
@@ -63,6 +128,7 @@
 					<th>작성자</th>
 					<th>작성일</th>
 					<th>번호</th>
+					<th>답변</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -96,7 +162,7 @@
 					
 						<c:choose>
 							<c:when test="${qnaDto.qnaDepth == 1}">
-								답변 입니다
+								${qnaDto.qnaTarget}번글 답변
 							</c:when>		
 							<c:when test="${qnaDto.qnaReply == null}">
 								답변 대기중 입니다!
@@ -127,7 +193,10 @@
 				<option value="qna_writer" <c:if test="${param.column == 'qna_writer'}">selected</c:if>>작성자</option>
 			</select>
 			<input class="field field-underline" type="text" name="keyword" placeholder="검색어" value="${param.keyword}">
-			<button class="btn custom-btn"  type="submit">검색</button>
+			<button type="submit" class="btn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    검색
+                </button>
 		</form>
 	</div>
 	
