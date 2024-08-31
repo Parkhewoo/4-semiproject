@@ -1,7 +1,8 @@
 package com.kh.AttendPro.controller;
 
 import java.io.IOException;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.YearMonth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +22,7 @@ import com.kh.AttendPro.dto.CertDto;
 import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
 import com.kh.AttendPro.service.EmailService2;
-import com.kh.AttendPro.vo.StatusVO;
+import com.kh.AttendPro.vo.AttendanceVO;
 
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
@@ -243,12 +244,39 @@ public class WorkerController {
     }
 
     @RequestMapping("/attendance")
-    public String attendance(HttpSession session,
+    public String attendance(HttpSession session, LocalDate today,
             Model model) {
         Integer createdUser = (Integer) session.getAttribute("createdUser");
         int workerNo = createdUser;
-     //   List<StatusVO> list = recordDao.selectListByAttendance(workerNo);
-      //  model.addAttribute("list",list);
+        
+     // today로부터 연도와 월 추출
+        int year = today.getYear();
+     // today로부터 YearMonth 생성
+        YearMonth yearMonth = YearMonth.from(today);
+        
+        //누적
+        AttendanceVO attendanceVO = recordDao.selectAttendance(workerNo);
+        //올해
+        AttendanceVO attendanceVOYearly = recordDao.selectAttendanceVOYearly(workerNo, year);
+        //작해
+        AttendanceVO attendanceVOYearly2 = recordDao.selectAttendanceVOYearly(workerNo, year);
+        //이번달
+        AttendanceVO attendanceVOMonthly = recordDao.selectAttendanceMonthly(workerNo, yearMonth);
+        //저번달
+        AttendanceVO attendanceVOMonthly2 = recordDao.selectAttendanceMonthly(workerNo, yearMonth);
+        //저저번달
+        AttendanceVO attendanceVOMonthly3 = recordDao.selectAttendanceMonthly(workerNo, yearMonth);
+        
+        model.addAttribute("attendance", attendanceVO);
+        
+        model.addAttribute("attendanceYearly", attendanceVOYearly);
+        model.addAttribute("attendanceYearly2", attendanceVOYearly2);
+        
+        model.addAttribute("attendanceMonthly", attendanceVOMonthly);
+        model.addAttribute("attendanceMonthly2", attendanceVOMonthly2);
+        model.addAttribute("attendanceMonthly3", attendanceVOMonthly3);
+        
+        
         return "/WEB-INF/views/worker/attendance.jsp";
     }
 }
