@@ -568,6 +568,7 @@ textarea.field {
     position: absolute;
     top:100%;
     left:0;
+    
 }
 
 /* 5 */
@@ -607,6 +608,7 @@ textarea.field {
 .menu li:hover {
     background-color: white;
     color: #0984e3;
+    
 }
 
 .form-group label {
