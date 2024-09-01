@@ -1,10 +1,15 @@
 package com.kh.AttendPro.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.kh.AttendPro.dto.RecordDto;
@@ -81,7 +86,8 @@ public class RecordDao {
 	    String sqlForLate = "SELECT COUNT(*) "
 	            + "FROM attendance "
 	            + "WHERE worker_no = ? "
-	            + "AND to_char(company_in, 'HH24:MI:SS') < to_char(worker_in, 'HH24:MI:SS')";
+	            + "AND to_char(company_in, 'HH24:MI:SS') < to_char(worker_in, 'HH24:MI:SS')"
+	            +" AND worker_out is not null";
 	    int late = jdbcTemplate.queryForObject(sqlForLate, int.class, data);
 	  	attendanceVO.setLate(late);
 
@@ -139,14 +145,14 @@ public class RecordDao {
 		attendanceVO.setLeave(leave);
 		
 		
-		String sqlForAbsent = "";
-		int absent = jdbcTemplate.queryForObject(sqlForAbsent, int.class, data);
-		attendanceVO.setAbsent(absent);
-		
+//		String sqlForAbsent = "";
+//		int absent = jdbcTemplate.queryForObject(sqlForAbsent, int.class, data);
+//		attendanceVO.setAbsent(absent);
+//		
 		return attendanceVO;
 	}
 
-	public AttendanceVO selectAttendanceVOYearly(int workerNo, int year) {
+	public AttendanceVO selectAttendanceYearly(int workerNo, int year) {
 		AttendanceVO attendanceVO = new AttendanceVO();
 		Object[] data = {workerNo, year};
 		
@@ -173,26 +179,43 @@ public class RecordDao {
 		attendanceVO.setLeave(leave);
 		
 		
-		String sqlForAbsent = "";
-		int absent = jdbcTemplate.queryForObject(sqlForAbsent, int.class, data);
-		attendanceVO.setAbsent(absent);
+//		String sqlForAbsent = "";
+//		int absent = jdbcTemplate.queryForObject(sqlForAbsent, int.class, data);
+//		attendanceVO.setAbsent(absent);
 		
 		
 		return attendanceVO;
 	}
 	
-	//구문과 키워드에 따라 달별 statusVO를 출력하는 메소드
-//	public AttendanceVO getStatusVO(String title, String sql, int workerNo){
-//		AttendanceVO attendanceVO = new AttendanceVO();
-//		
-//		Object[] data = {workerNo, };
-//		int cnt = jdbcTemplate.queryForObject(sql, int.class, data);
-//		attendanceVO.setTitle(title);
-//		attendanceVO.setCnt(cnt);
-//		return statusVO;
-//	}
-//	
-	
-
+	public void getAbsent(int workerNo, int year) {
+		
+		//record 에서 companyNo 가져오기
+		String companyId = selectOne(workerNo).getAdminId();
+		
+		String sqlForHoliday = "SELECT holiday_date"
+				+ " FROM holiday"
+				+ "WHERE company_id = ?"
+				+" AND TO_CHAR(holiday_date, 'YYYY') = ?";
+		
+		String sqlForWorkerOut = "SELECT worker_out FROM record"
+								+"WHERE worker_no = ?"
+								+" AND TO_CHAR(worker_out, 'YYYY') = ?";
+		
+		Object[] workdayData = {companyId, year};
+		Object[] recordData = {workerNo, year};
+		
+		 List<LocalDate> workdayList = jdbcTemplate.query(sqlForWorkerOut, new RowMapper<LocalDate>() {
+	            @Override
+	            public LocalDate mapRow(ResultSet rs, int rowNum) throws SQLException {
+	                return rs.getDate("worker_out").toLocalDate(); // SQL 날짜를 LocalDate로 변환
+	            }
+	        });
+		 
+		HashSet workdaySet = new HashSet<>(workdayList);
+		
+		//set으로 저장, worker_out 도 set 으로 저장 set<LocalDate>
+		//workday-worker_out -> 결근일
+		
+	}
 	
 }

@@ -244,38 +244,39 @@ public class WorkerController {
     }
 
     @RequestMapping("/attendance")
-    public String attendance(HttpSession session, LocalDate today,
+    public String attendance(HttpSession session,
             Model model) {
         Integer createdUser = (Integer) session.getAttribute("createdUser");
         int workerNo = createdUser;
-        
+        LocalDate today= LocalDate.now();
      // today로부터 연도와 월 추출
         int year = today.getYear();
      // today로부터 YearMonth 생성
         YearMonth yearMonth = YearMonth.from(today);
-        
+        YearMonth lastMonth = yearMonth.minusMonths(1);
+        YearMonth lastMonth2 = yearMonth.minusMonths(2);
+        		
         //누적
         AttendanceVO attendanceVO = recordDao.selectAttendance(workerNo);
         //올해
-        AttendanceVO attendanceVOYearly = recordDao.selectAttendanceVOYearly(workerNo, year);
-        //작해
-        AttendanceVO attendanceVOYearly2 = recordDao.selectAttendanceVOYearly(workerNo, year);
+        AttendanceVO attendanceYearly = recordDao.selectAttendanceYearly(workerNo, year);
+        //작년
+        AttendanceVO attendanceYearly2 = recordDao.selectAttendanceYearly(workerNo, year-1);
         //이번달
-        AttendanceVO attendanceVOMonthly = recordDao.selectAttendanceMonthly(workerNo, yearMonth);
+        AttendanceVO attendanceMonthly = recordDao.selectAttendanceMonthly(workerNo, yearMonth);
         //저번달
-        AttendanceVO attendanceVOMonthly2 = recordDao.selectAttendanceMonthly(workerNo, yearMonth);
+        AttendanceVO attendanceMonthly2 = recordDao.selectAttendanceMonthly(workerNo, lastMonth);
         //저저번달
-        AttendanceVO attendanceVOMonthly3 = recordDao.selectAttendanceMonthly(workerNo, yearMonth);
+        AttendanceVO attendanceMonthly3 = recordDao.selectAttendanceMonthly(workerNo, lastMonth2);
         
         model.addAttribute("attendance", attendanceVO);
         
-        model.addAttribute("attendanceYearly", attendanceVOYearly);
-        model.addAttribute("attendanceYearly2", attendanceVOYearly2);
+        model.addAttribute("attendanceYearly", attendanceYearly);
+        model.addAttribute("attendanceYearly2", attendanceYearly2);
         
-        model.addAttribute("attendanceMonthly", attendanceVOMonthly);
-        model.addAttribute("attendanceMonthly2", attendanceVOMonthly2);
-        model.addAttribute("attendanceMonthly3", attendanceVOMonthly3);
-        
+        model.addAttribute("attendanceMonthly", attendanceMonthly);
+        model.addAttribute("attendanceMonthly2", attendanceMonthly2);
+        model.addAttribute("attendanceMonthly3", attendanceMonthly3);
         
         return "/WEB-INF/views/worker/attendance.jsp";
     }
