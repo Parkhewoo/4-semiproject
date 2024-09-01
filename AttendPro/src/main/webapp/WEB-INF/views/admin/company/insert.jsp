@@ -139,6 +139,10 @@
         <div class="row">
             <input type="text" id="address2" name="companyAddress2" class="field w-50" placeholder="상세 주소" value="${companyDto.companyAddress2}" />
         </div>
+<!--         <div class="row"> -->
+<!--         	<label>휴일</label> -->
+<%--       	 	 <input name="holidayDate" type="date" class="field w-100" value="${holidayDto.holidayDate}"> --%>
+<!--    		</div> -->
         <div class="row mt-30">
             <button class="btn w-100" type="submit">등록하기</button>
         </div>
