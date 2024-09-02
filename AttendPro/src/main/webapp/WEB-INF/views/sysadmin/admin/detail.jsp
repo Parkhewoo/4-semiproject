@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
@@ -222,6 +223,10 @@
                                     <td class="status-admin">${companyDto.companyAddress1} ${companyDto.companyAddress2}</td>
                                 </tr>
                             </table>
+                             <div class="row center">
+                                <h2>휴일</h2>
+                                <jsp:include page="/WEB-INF/views/template/calendar.jsp"></jsp:include>
+                            </div>
                         </c:otherwise>
                     </c:choose>
                 </c:when>
@@ -259,58 +264,66 @@
 
                     <!-- 페이지 네비게이터 -->
                     <div class="pagination">
-                        <c:if test="${pageVO.hasPrev()}">
-                            <a href="?adminId=${adminDto.adminId}&page=${pageVO.getPrevBlock()}">&laquo; 이전</a>
-                        </c:if>
-
-                        <c:forEach var="i" begin="${pageVO.getStartBlock()}" end="${pageVO.getFinishBlock()}">
-                            <c:choose>
-                                <c:when test="${i == pageVO.getPage()}">
-                                    <strong>${i}</strong>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="?adminId=${adminDto.adminId}&page=${i}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-
-                        <c:if test="${pageVO.hasNext()}">
-                            <a href="?adminId=${adminDto.adminId}&page=${pageVO.getNextBlock()}">다음 &raquo;</a>
+                        <c:if test="${pageDto != null}">
+                            <c:if test="${pageDto.page != 1}">
+                                <a href="?page=1"><<</a>
+                                <a href="?page=${pageDto.page - 1}"><</a>
+                            </c:if>
+                            <c:forEach var="pageNum" begin="1" end="${pageDto.totalPages}">
+                                <c:choose>
+                                    <c:when test="${pageNum == pageDto.page}">
+                                        <strong>${pageNum}</strong>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="?page=${pageNum}">${pageNum}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                            <c:if test="${pageDto.page != pageDto.totalPages}">
+                                <a href="?page=${pageDto.page + 1}">></a>
+                                <a href="?page=${pageDto.totalPages}">>></a>
+                            </c:if>
                         </c:if>
                     </div>
                 </c:otherwise>
-            </c:choose> 
+            </c:choose>
 
-            <div class="links"> 
-                <a href="list">사업주 목록</a>
-                <c:if test="${adminDto.adminRank == '일반 관리자'}">
-                    <c:choose>
-                        <c:when test="${companyDto.companyId != null}">
-                            <a href="/admin/company/info?companyId=${adminDto.adminId}">회사 정보</a>
-                        </c:when>
-<%--                         <c:otherwise> --%>
-<%--                             <a href="/admin/company/insert?companyId=${adminDto.adminId}">회사 등록</a> --%>
-<%--                         </c:otherwise> --%>
-						
-                    </c:choose>
-                </c:if>
-                <a href="delete?adminId=${adminDto.adminId}" onclick="return confirmDelete();">관리자 삭제</a>
-                <a href="edit?adminId=${adminDto.adminId}">정보 변경</a>
-                <c:if test="${not isBlocked}">
-                    <a href="block?blockTarget=${adminDto.adminId}">차단</a>
-                </c:if>
-                <c:if test="${isBlocked}">
-                    <a href="cancle?blockTarget=${adminDto.adminId}">해제</a>
-                </c:if>
-            </div>  
+            <div class="links">
+                <a href="${pageContext.request.contextPath}/sysadmin/admin/list">관리자 목록</a>
+                <a href="${pageContext.request.contextPath}/sysadmin/admin/modify?id=${adminDto.adminId}">정보 수정</a>
+                <a href="${pageContext.request.contextPath}/sysadmin/admin/delete?id=${adminDto.adminId}">관리자 삭제</a>
+            </div>
         </c:otherwise>
     </c:choose>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css">
 <script>
-    function confirmDelete() {
-        return confirm('정말 삭제하시겠습니까?');
-    }
-</script>
+    // holidaysJson을 콘솔에 출력
+    const holidaysJson = ${fn:escapeXml(holidaysJson)};
+    console.log("Holidays JSON: ", holidaysJson);
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+    // holidaysJson을 객체로 변환
+    const holidays = JSON.parse(holidaysJson);
+    
+    // FullCalendar 초기화
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: holidays.map(holiday => {
+                // 날짜 형식 변환 (시, 분, 초 제거)
+                const date = new Date(holiday.holidayDate);
+                const formattedDate = date.toISOString().split('T')[0];
+                
+                return {
+                    title: '휴일',
+                    start: formattedDate, // '2024-09-11' 형식의 날짜 문자열
+                    color: 'red' // 이벤트 색상 설정
+                };
+            }),
+        });
+        calendar.render();
+    });
+</script>
