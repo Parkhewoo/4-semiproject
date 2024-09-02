@@ -25,8 +25,6 @@ import com.kh.AttendPro.service.EmailService2;
 import com.kh.AttendPro.vo.AttendanceVO;
 
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -52,10 +50,8 @@ public class WorkerController {
 	}
 
 	@PostMapping("/login")
-	public String login(@RequestParam(required = false) String workerNoStr,
-								@RequestParam String workerPw,
-								@RequestParam(required = false) String remember,//쿠키 아이디 저장
-								HttpSession session, HttpServletResponse response) {
+	public String login(@RequestParam(required = false) String workerNoStr, @RequestParam String workerPw,
+			HttpSession session) {
 
 		int workerNo = 0;
 		if (workerNoStr != null && !workerNoStr.isEmpty()) {
@@ -80,18 +76,6 @@ public class WorkerController {
 
 		session.setAttribute("createdUser", workerNo);
 		session.setAttribute("createdRank", workerDto.getWorkerRank());
-		
-		//( 쿠키적용) 로그인 성공 시 remeber의 유무에 따라 쿠키 생성 or 제거
-		if(remember != null) {//아이디 저장하기 체크
-			Cookie ck = new Cookie("saveWorkerNo", workerNoStr);//쿠키 생성
-			ck.setMaxAge(4 * 7 * 60 * 60);//4주동안 유효
-			response.addCookie(ck);
-		}
-		else {//아이디 저장하기 체크x
-			Cookie ck = new Cookie("saveWorkerNo", workerNoStr);//쿠키 생성
-			ck.setMaxAge(0);//0초 지속(= 삭제)
-			response.addCookie(ck);
-		}
 
 		return "redirect:/";
 	}
@@ -208,15 +192,18 @@ public class WorkerController {
 
 	@RequestMapping("/image")
 	public String image(@RequestParam int workerNo) {
-
-		try {
-			int attachmentNo = workerDao.findImage(workerNo);
-			System.out.println("attachmentNo = " + attachmentNo);
-			return "redirect:/attach/download?attachmentNo=" + attachmentNo;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "redirect:/images/user.jpg";
-		}
+	    try {
+	        int attachmentNo = workerDao.findImage(workerNo);
+	        System.out.println("WorkerController - attachmentNo = " + attachmentNo);
+	        if (attachmentNo > 0) {
+	            return "redirect:/attach/download?attachmentNo=" + attachmentNo;
+	        } else {
+	            return "redirect:/images/user.jpg";
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "redirect:/images/user.jpg";
+	    }
 	}
 
 	// 사원 비밀번호 변경

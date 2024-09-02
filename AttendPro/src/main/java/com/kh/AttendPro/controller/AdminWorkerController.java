@@ -1,8 +1,6 @@
 package com.kh.AttendPro.controller;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.YearMonth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,12 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.AttendPro.dao.RecordDao;
 import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
 import com.kh.AttendPro.service.AttachmentService;
-import com.kh.AttendPro.vo.AttendanceVO;
 import com.kh.AttendPro.vo.PageVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -37,8 +33,6 @@ public class AdminWorkerController {
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
 	private AttachmentService attachmentService;
-	@Autowired
-	private RecordDao recordDao;
 	
 	//회원가입
 	   @GetMapping("/add")
@@ -165,47 +159,21 @@ public class AdminWorkerController {
 			}			
 		}
 		
-		@RequestMapping("/attendance")
-	    public String attendance(@RequestParam int workerNo,
-	            Model model) {
-	        
-	        LocalDate today= LocalDate.now();
-	     // today로부터 연도와 월 추출
-	        int year = today.getYear();
-	     // today로부터 YearMonth 생성
-	        YearMonth yearMonth = YearMonth.from(today);
-	        YearMonth lastMonth = yearMonth.minusMonths(1);
-	        YearMonth lastMonth2 = yearMonth.minusMonths(2);
-	        		
-	        //누적
-	        AttendanceVO attendanceVO = recordDao.selectAttendance(workerNo);
-	        //올해
-	        AttendanceVO attendanceYearly = recordDao.selectAttendanceYearly(workerNo, year);
-	        //작년
-	        AttendanceVO attendanceYearly2 = recordDao.selectAttendanceYearly(workerNo, year-1);
-	        //이번달
-	        AttendanceVO attendanceMonthly = recordDao.selectAttendanceMonthly(workerNo, yearMonth);
-	        //저번달
-	        AttendanceVO attendanceMonthly2 = recordDao.selectAttendanceMonthly(workerNo, lastMonth);
-	        //저저번달
-	        AttendanceVO attendanceMonthly3 = recordDao.selectAttendanceMonthly(workerNo, lastMonth2);
-	        //올해 결근일
-	        int absent = recordDao.getAbsent(workerNo, year);
-	        //작년 결근일
-	        int absent2 = recordDao.getAbsent(workerNo, year-1);
-	        
-	        model.addAttribute("attendance", attendanceVO);
-	        
-	        model.addAttribute("attendanceYearly", attendanceYearly);
-	        model.addAttribute("attendanceYearly2", attendanceYearly2);
-	        
-	        model.addAttribute("attendanceMonthly", attendanceMonthly);
-	        model.addAttribute("attendanceMonthly2", attendanceMonthly2);
-	        model.addAttribute("attendanceMonthly3", attendanceMonthly3);
-	        
-	        return "/WEB-INF/views/worker/attendance.jsp";
-	    }
 
-
+		@RequestMapping("/image")
+		public String image(@RequestParam int workerNo) {
+		    try {
+		        int attachmentNo = workerDao.findImage(workerNo);
+		        System.out.println("WorkerController - attachmentNo = " + attachmentNo);
+		        if (attachmentNo > 0) {
+		            return "redirect:/attach/download?attachmentNo=" + attachmentNo;
+		        } else {
+		            return "redirect:/images/user.jpg";
+		        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        return "redirect:/images/user.jpg";
+		    }
+		}
 		
 }

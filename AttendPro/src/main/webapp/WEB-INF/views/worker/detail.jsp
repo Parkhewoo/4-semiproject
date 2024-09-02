@@ -4,84 +4,71 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
-   .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 10px;
-}
+    /* 통일된 스타일 */
+    .container {
+        width: 100%;
+        max-width: 1200px; /* 기존 스타일과 동일한 최대 너비 */
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-.header {
-    text-align: center;
-    margin-bottom: 50px;
-}
+    .header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
 
-.table-info {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    .table-info {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
 
-.table-info th, .table-info td {
-    padding: 12px;
-    text-align: left;
-}
+    .table-info th, .table-info td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
 
-.table-info th {
-    background-color: #f4f4f4;
-    border-bottom: 2px solid #ddd;
-}
+    .table-info th {
+        background-color: #f4f4f4;
+        border-bottom: 2px solid #ddd;
+    }
 
-.table-info td {
-    border-bottom: 1px solid #ddd;
-}
+    .table-info tr:last-child td {
+        border-bottom: none;
+    }
 
-.table-info tr:last-child td {
-    border-bottom: none;
-}
+    .links {
+        text-align: center;
+    }
 
-.links {
-    text-align: center;
-}
+    .links a {
+        text-decoration: none;
+        color: #3498db; /* 버튼 텍스트 색상 통일 */
+        font-weight: bold;
+        margin: 0 15px;
+        padding: 10px 20px;
+        display: inline-block;  }
 
-.links a {
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-    margin: 0 15px;
-}
+    .links a:hover {
+        text-decoration: underline;
+    }
 
-.links a:hover {
-    text-decoration: underline;
-}
+    .info-message {
+        text-align: center;
+        font-size: 18px;
+        color: #e74c3c;
+        margin: 20px 0; /* 여백 추가 */
+    }
 
-.info-message {
-    text-align: center;
-    font-size: 18px;
-    color: #e74c3c;
-}
-
-.btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 16px;
-    color: #fff;
-    background-color: none;
-    border: none;
-    border-radius: 4px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s; /* 배경색 변경 시 부드러운 효과 */
-}
-
-.btn:hover {
-    background-color: lightgray;
-}
-
+    img {
+        display: block;
+        margin: 0 auto;
+        border-radius: 8px;
+    }
 </style>
 
 <div class="container">
@@ -95,8 +82,7 @@
         <c:otherwise>
         
         <!-- 이미지가 존재한다면 이미지를 출력 -->
-        <img src="image?workerNo=${workerDto.workerNo}" width="150" height="150">
-        
+<img id="profileImage" src="${pageContext.request.contextPath}/worker/image?workerNo=${workerDto.workerNo}" width="150" height="150">
             <table class="table-info">
                 <tr>
                     <th>번호</th>
@@ -106,22 +92,23 @@
                     <th>이름</th>
                     <td>${workerDto.workerName}</td>
                 </tr>
-<!--                 <tr> -->
-<!--                     <th>출석</th> -->
-<%--                     <td>${workerDto.workerAttend}</td> --%>
-<!--                 </tr> -->
-<!--                 <tr> -->
-<!--                     <th>결석</th> -->
-<%--                     <td>${workerDto.workerAbsent}</td> --%>
-<!--                 </tr> -->
-<!--                 <tr> -->
-<!--                     <th>지각</th> -->
-<%--                     <td>${workerDto.workerLate}</td> --%>
-<!--                 </tr> -->
-<!--                 <tr> -->
-<!--                     <th>조퇴</th> -->
-<%--                     <td>${workerDto.workerLeave}</td> --%>
-<!--                 </tr> -->
+                <!-- 비활성화된 부분은 주석으로 남김 -->
+                <!-- <tr>
+                    <th>출석</th>
+                    <td>${workerDto.workerAttend}</td>
+                </tr>
+                <tr>
+                    <th>결석</th>
+                    <td>${workerDto.workerAbsent}</td>
+                </tr>
+                <tr>
+                    <th>지각</th>
+                    <td>${workerDto.workerLate}</td>
+                </tr>
+                <tr>
+                    <th>조퇴</th>
+                    <td>${workerDto.workerLeave}</td>
+                </tr> -->
                 <tr>
                     <th>입사일</th>
                     <td>${workerDto.workerJoin}</td>
@@ -160,13 +147,12 @@
 
     <!-- 다른 페이지로 이동할 수 있는 링크 -->
     <div class="links">
-        <a href="add" class="btn">신규 사원 등록</a>
-        <a href="list" class="btn">목록으로 이동</a>
+        <a href="add">사원 등록</a>
+        <a href="list">사원 목록</a>
 
         <c:if test="${workerDto != null}">
-            <a href="edit?workerNo=${workerDto.workerNo}" class="btn">이 사원 정보 수정</a>
-            <a href="delete?workerNo=${workerDto.workerNo}" class="btn">이 사원 삭제하기</a>
-            <a href="attendance?workerNo=${workerDto.workerNo}" class="btn">출석현황</a>
+            <a href="edit?workerNo=${workerDto.workerNo}">정보 수정</a>
+            <a href="delete?workerNo=${workerDto.workerNo}">사원 삭제</a>
         </c:if>
     </div>
 </div>

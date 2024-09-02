@@ -1,66 +1,61 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
-    /* 컨테이너 설정 */
-    .fa-asterisk {
-        color: #d63031;
-    }
-    .container {    
+    /* 기존 스타일 */
+    .container {
         width: 100%;
         max-width: 1200px;
-        margin: 40px auto; /* 상하 여백을 줄여서 중앙 정렬 */
+        margin: 50px auto;
         padding: 20px;
         border: 1px solid #ddd;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* 제목 및 행 간격 */
     .row {
-        margin-bottom: 20px; /* 제목과 다음 내용 사이의 간격을 넓힘 */
+        margin-bottom: 15px;
     }
 
-    /* 테이블 스타일링 */
-    .table-info, .block-list-table {
+    .table-info, .block-list-table, .table-horizontal {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 30px; /* 테이블과 다음 요소 사이의 간격을 넓힘 */
+        margin-bottom: 20px;
     }
 
     .table-info th, .table-info td,
-    .block-list-table th, .block-list-table td {
-        padding: 12px; /* 셀 내 여백을 약간 넓힘 */
-        text-align: status-admin;
+    .block-list-table th, .block-list-table td,
+    .table-horizontal th, .table-horizontal td {
+        padding: 12px;
+        text-align: left;
         border-bottom: 1px solid #ddd;
-        font-size: 16px; /* 폰트 사이즈를 조정 */
     }
 
-    .table-info th, .block-list-table th {
+    .table-info th, .block-list-table th, .table-horizontal th {
         background-color: #f4f4f4;
         border-bottom: 2px solid #ddd;
-        font-size: 18px; /* 헤더 폰트 사이즈를 조정 */
     }
 
     .table-info tr:last-child td,
-    .block-list-table tr:last-child td {
+    .block-list-table tr:last-child td,
+    .table-horizontal tr:last-child td {
         border-bottom: none;
     }
 
-    /* 메시지 스타일링 */
     .info-message, .status-message-negative, .status-message-positive {
         text-align: center;
-        font-size: 16px; /* 메시지 폰트 사이즈 조정 */
-        margin: 10px 0; /* 상하 여백 조정 */
+        font-size: 18px;
+        margin: 0;
         padding: 10px;
     }
 
     .status-admin {
         text-align: center;
-        font-size: 16px; /* 상태 폰트 사이즈 조정 */
+        font-size: 18px;
         margin: 0;
         padding: 10px;
     }
@@ -77,115 +72,166 @@
         color: #3498db;
     }
 
-    /* 링크 스타일링 */
     .links {
         text-align: center;
-        margin-top: 20px; /* 링크와 위 요소 사이의 간격을 넓힘 */
     }
 
     .links a {
         text-decoration: none;
         color: #3498db;
         font-weight: bold;
-        margin: 0 10px; /* 링크 사이 간격 조정 */
-        font-size: 16px; /* 링크 폰트 사이즈 조정 */
+        margin: 0 15px;
     }
 
     .links a:hover {
         text-decoration: underline;
     }
-  .success { border: 2px solid green; }
-    .fail { border: 2px solid red; }
-    
-     .btn-my {
-        background-color: #659ad5;
-        color: white;
-        border-radius: 0.3em;
-        border: none;
+
+    /* 새로운 스타일 */
+    .block-list-table th, .block-list-table td,
+    .table-horizontal th, .table-horizontal td {
+        width: 33.33%; /* 각 열의 너비를 동일하게 설정 */
+        text-align: center; /* 가운데 정렬 */
+    }
+
+    .pagination {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .pagination a, .pagination strong {
+        display: inline-block;
+        margin: 0 5px;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        color: #3498db;
+        text-decoration: none;
+    }
+
+    .pagination a:hover {
+        background-color: #f4f4f4;
+    }
+
+    .pagination strong {
+        font-weight: bold;
+        color: #333;
+        background-color: #f4f4f4;
+    }
+
+    #profileImage {
+        border-radius: 50%;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 0 5px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        text-align: center;
+        color: #fff;
+        background-color: #3498db;
+    }
+
+
+    .btn-neutral:hover {
+        background-color: #95a5a6;
+    }
+    .btn-my {
+    background-color: #659ad5;
+    color: white;
+    border-radius: 0.3em;
+    border: none;
+}
 </style>
 
-
 <div class="container">
-	<h1>${workerDto.workerNo} 님의 개인 정보</h1>
+    <h1>${workerDto.workerNo} 님의 개인 정보</h1>
 
-	 <!-- 이미지가 존재한다면 이미지를 출력 -->
-        <img id="profileImage"  src="image?workerNo=${workerDto.workerNo}" width="150" height="150">
-	
-	<div class="row">
-		<table class="table-info">
-		
-			<tr>
-				<th>사원 이름</th>
-				<td class="status-admin">${workerDto.workerName}</td>
-			</tr>
-			<%--
-			<tr>
-				<th>출석</th>
-				<td class="status-admin">${workerDto.workerAttend}</td>
-			</tr>
-			
-			<tr>
-				<th>결석</th>
-				<td class="status-admin">${workerDto.workerAbsent}</td>
-			</tr>
-			
-			<tr>
-				<th>지각</th>
-				<td class="status-admin">${workerDto.workerLate}</td>
-			</tr>
-			
-			<tr>
-				<th>조퇴</th>
-				<td class="status-admin">${workerDto.workerLeave}</td>
-			</tr>
-			 --%>
-			<tr>
-				<th>입사일</th>
-				<td class="status-admin">${workerDto.workerJoin}</td>
-			</tr>
-			
-			<tr>
-				<th>이메일</th>
-				<td class="status-admin">${workerDto.workerEmail}</td>
-			</tr>
-			
-			<tr>
-				<th>생년월일</th>
-				<td class="status-admin">${workerDto.workerBirthday}</td>
-			</tr>
-			
-			<tr>
-				<th>직급</th>
-				<td class="status-admin">${workerDto.workerRank}</td>
-			</tr>
-			
-			<tr>
-				<th>연락처</th>
-				<td class="status-admin">${workerDto.workerContact}</td>
-			</tr>
-			
-			<tr>
-				<th>주소</th>
-				<td class="status-admin">
-					[${workerDto.workerPost}]
-					${workerDto.workerAddress1}
-					${workerDto.workerAddress2}
-				</td>
-			</tr>			
-			
-		</table>
-	</div>
+    <!-- 이미지가 존재한다면 이미지를 출력 -->
+    <img id="profileImage" src="${pageContext.request.contextPath}/worker/image?workerNo=${workerDto.workerNo}" width="150" height="150">
 
+    <div class="row">
+        <table class="table-horizontal table-stripe">
+            <tr>
+                <th>사원 이름</th>
+                <td class="left">${workerDto.workerName}</td>
+            </tr>
+            <tr>
+                <th>입사일</th>
+                <td class="left">${workerDto.workerJoin}</td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td class="left">${workerDto.workerEmail}</td>
+            </tr>
+            <tr>
+                <th>생년월일</th>
+                <td class="left">${workerDto.workerBirthday}</td>
+            </tr>
+            <tr>
+                <th>직급</th>
+                <td class="left">${workerDto.workerRank}</td>
+            </tr>
+            <tr>
+                <th>연락처</th>
+                <td class="left">${workerDto.workerContact}</td>
+            </tr>
+            <tr>
+                <th>주소</th>
+                <td class="left">
+                    [${workerDto.workerPost}]
+                    ${workerDto.workerAddress1} ${workerDto.workerAddress2}
+                </td>
+            </tr>
+        </table>
+    </div>
 
-	<!-- 각종 메뉴를 배치 -->
-	
-		<div class="row center">			
-			<a href="password" class="btn btn-my">비밀번호 변경하기</a>
-			<a href="/admin/worker/edit?workerNo=${workerDto.workerNo}"  class="btn btn-my">개인정보 변경하기</a>	
-		</div>
-	
+    <!-- 각종 메뉴를 배치 -->
+    <div class="row center">
+        <h2>
+            <a href="password" class="btn btn-my">비밀번호 변경하기</a>
+            <a href="/admin/worker/edit?workerNo=${workerDto.workerNo}" class="btn btn-my ms-10">개인정보 변경하기</a>
+        </h2>
+    </div>
+
+    <!-- 기존 관리자 상세 페이지 코드 유지 -->
+    <!-- 여기에 관리자 상세 페이지 코드를 붙여넣기 -->
+    <!-- 기존 코드를 여기에 붙여넣습니다. -->
 
 </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css">
+<script>
+    // holidaysJson을 콘솔에 출력
+    const holidaysJson = ${fn:escapeXml(holidaysJson)};
+    console.log("Holidays JSON: ", holidaysJson);
+
+    // holidaysJson을 객체로 변환
+    const holidays = JSON.parse(holidaysJson);
     
+    // FullCalendar 초기화
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: holidays.map(holiday => {
+                // 날짜 형식 변환 (시, 분, 초 제거)
+                const date = new Date(holiday.holidayDate);
+                const formattedDate = date.toISOString().split('T')[0];
+                
+                return {
+                    title: '휴일',
+                    start: formattedDate, // '2024-09-11' 형식의 날짜 문자열
+                    color: 'red' // 이벤트 색상 설정
+                };
+            }),
+        });
+        calendar.render();
+    });
+</script>
