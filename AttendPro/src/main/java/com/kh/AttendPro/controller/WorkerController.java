@@ -268,6 +268,10 @@ public class WorkerController {
         AttendanceVO attendanceMonthly2 = recordDao.selectAttendanceMonthly(workerNo, lastMonth);
         //저저번달
         AttendanceVO attendanceMonthly3 = recordDao.selectAttendanceMonthly(workerNo, lastMonth2);
+        //올해 결근일
+        int absent = recordDao.getAbsent(workerNo, year);
+        //작년 결근일
+        int absent2 = recordDao.getAbsent(workerNo, year-1);
         
         model.addAttribute("attendance", attendanceVO);
         

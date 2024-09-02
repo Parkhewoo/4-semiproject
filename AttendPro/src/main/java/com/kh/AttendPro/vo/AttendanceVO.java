@@ -8,4 +8,5 @@ public class AttendanceVO {
 	private int absent;
 	private int late;
 	private int leave;
+	private int workday;
 }
