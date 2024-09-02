@@ -37,7 +37,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="/admin/home">관리자 메뉴</a>
+                        <a href="#">관리자 메뉴</a>
                         <ul>
                             <li>
                                 <a href="/admin/worker/list">사원정보보기</a>
@@ -48,8 +48,8 @@
 					
 					
 				<c:otherwise>
-                    <li><a href="/worker/attendance">나의 출석률보기</a></li>
-                	<li><a href="worker/mypage">마이 페이지</a></li>
+                    <li><a href="/worker/attendance">나의 출석률<br>보기</a></li>
+                	<li><a href="/worker/mypage">마이 페이지</a></li>
 				</c:otherwise>
             </c:choose>
 
