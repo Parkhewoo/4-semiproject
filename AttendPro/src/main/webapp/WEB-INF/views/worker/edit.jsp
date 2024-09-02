@@ -20,7 +20,7 @@
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   
 <script>
-<%--
+
 function Find() {
     new daum.Postcode({
         oncomplete: function (data) {
@@ -43,7 +43,7 @@ function Find() {
 $(function(){
     var status = {
         workerNameValid : true,
-        workerPwValid : false,
+//         workerPwValid : false,
 //         workerPwCheckValid : false,
         workerEmailValid : false,
         //workerEmailCheckValid : false,
@@ -87,7 +87,7 @@ $(function(){
                .addClass(isValid ? "success" : "fail");
         status.workerNameValid = isValid;
     });
-
+<%--
     $("[name=workerPw]").blur(function(){
     	var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
         var isValid = regex.test($(this).val());
@@ -95,7 +95,6 @@ $(function(){
                .addClass(isValid ? "success" : "fail");
         status.workerPwValid = isValid;
     });
-
     $("#password-check").blur(function(){
         var isValid = $("[name=workerPw]").val().length
                       && $(this).val() === $("[name=workerPw]").val();
@@ -103,6 +102,7 @@ $(function(){
                .addClass(isValid ? "success" : "fail");
         status.workerPwCheckValid = isValid;
     });
+--%>
 
     $("[name=workerRank]").blur(function(){
         var regex = /^(인턴|사원|과장|팀장|사장)$/;
@@ -159,7 +159,7 @@ function clearAddress() {
     document.querySelector("[name=workerAddress1]").value = '';
     document.querySelector("[name=workerAddress2]").value = '';
 }
---%>
+
 document.getElementById('fileInput').addEventListener('change', function(event) {
     var file = event.target.files[0]; // 선택한 파일
     var image = document.getElementById('profileImage');
