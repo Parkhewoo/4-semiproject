@@ -225,11 +225,11 @@
                     <td class="status-admin">${companyDto.companyCeo}</td>
                 </tr>
                 <tr>
-                    <th>출근시간</th>
+                    <th>출근시간 </th>
                     <td class="status-admin">${companyDto.companyIn}</td>
                 </tr>
                 <tr>
-                    <th>퇴근시간</th>
+                    <th>퇴근시간 </th>
                     <td class="status-admin">${companyDto.companyOut}</td>
                 </tr>
                 <tr>

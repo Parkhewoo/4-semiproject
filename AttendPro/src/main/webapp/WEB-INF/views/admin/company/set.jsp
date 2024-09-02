@@ -198,7 +198,7 @@ function addHoliday(companyId, holidayDate) {
 
     <div class="container">
         <div class="row center">
-            <h1>업장정보 수정</h1>
+            <h1>업장 정보 수정</h1>
         </div>
         <div class="row">
             <label>회사이름</label>
