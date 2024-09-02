@@ -89,13 +89,6 @@ public class QnaDao {
 		    // 데이터베이스에서 조회
 		    List<QnaDto> result = jdbcTemplate.query(sql, qnaListMapper, data);
 
-		    // 결과를 콘솔에 출력
-		    System.out.println("결과 수 : " + result.size());
-		    System.out.println("Query Result:");
-		    for (QnaDto qna : result) {
-		        System.out.println(qna);
-		    }
-
 		    return result;
 		}
 		
