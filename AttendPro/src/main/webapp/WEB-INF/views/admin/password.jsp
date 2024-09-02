@@ -133,7 +133,7 @@
                 <label class="ms-20">
                     <input type="checkbox" class="field-show" id="show-change-password-toggle">
                     <span>표시하기</span>
-                </label>
+                </label> 
                 <i class="fa-solid fa-eye" id="toggle-change-eye"></i>
                 <input type="password" name="changePw" id="changePw" class="field w-100"
                        placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
