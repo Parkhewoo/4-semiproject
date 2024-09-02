@@ -61,12 +61,16 @@
     .table th {
         background-color: #f4f4f4;
     }
-    .link {
-        color: #3498db;
+      .link {
+        color: black; /* 기본 텍스트 색상: 검정색 */
         text-decoration: none;
     }
     .link:hover {
-        text-decoration: underline;
+        color: #3498db; /* 마우스를 올렸을 때 색상: 하늘색 */
+        text-decoration: underline; /* 마우스를 올렸을 때 밑줄 추가 */
+    }
+    .link-animation {
+        transition: color 0.3s ease; /* 색상 변경에 부드러운 전환 효과 추가 */
     }
 </style>
 
@@ -74,7 +78,7 @@
     <div class="row center">
         <h1>사업주 목록</h1>
         <form action="list" method="get" autocomplete="off">
-            <div class="form-container">
+            <div class="form-container"> 
                 <select name="column" class="field w-22">
                     <option value="admin_id" <c:if test="${param.column == 'admin_id'}">selected</c:if>>아이디</option>
                     <option value="admin_no" <c:if test="${param.column == 'admin_no'}">selected</c:if>>사업자번호</option>
@@ -97,19 +101,17 @@
                     <th>사업자번호</th>
                     <th>업주이메일</th>
                     <th>관리등급</th>
-                    <th>상세</th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach var="dto" items="${list}">
-                    <tr>
-                        <td>${dto.adminId}</td>
+                    <tr> 
+                        <td>
+                        <a href="detail?adminId=${dto.adminId}" class="link link-animation">${dto.adminId}</a>
+                        </td>
                         <td>${dto.adminNo}</td>
                         <td>${dto.adminEmail}</td>
                      	<td>${dto.adminRank}</td>
-                        <td>
-                            <a href="detail?adminId=${dto.adminId}" class="link">상세</a>
-                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
