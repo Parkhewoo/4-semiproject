@@ -77,15 +77,8 @@
     .w-50 {
         width: 50%;
     }
-    .btn {
-        padding: 8px 15px;
-        font-size: 16px;
-        color: #fff;
-        background-color: #3498db;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+    
+
     .btn-del {
         padding: 8px 15px;
         font-size: 16px;
@@ -97,6 +90,9 @@
     }
     .btn:hover {
         background-color: #2980b9;
+    }
+    .btn-del:hover{
+    	background-color: red;
     }
     .table {
         width: 100%;
@@ -138,7 +134,7 @@
         transition: transform 0.5s ease-out;
     }
     .btn-ani:active {
-        transform: scale(1.1); /* 클릭 시 10% 확대 */
+        transform: scale(1.5); /* 클릭 시 10% 확대 */
     }
 </style>
 
@@ -251,7 +247,7 @@ function addHoliday(companyId, holidayDate) {
 <%--                             <button type="button" class="btn" onclick="addHoliday('${sessionScope.createdUser}', '${formattedHolidayDate}')">X</button> --%>
 <!--                         </td> -->
                         <td>
-                            <button type="button" class="btn btn-del" onclick="deleteHoliday('${sessionScope.createdUser}', '${formattedHolidayDate}')">X</button>
+                            <button type="button" class="btn btn-del btn-ani" onclick="deleteHoliday('${sessionScope.createdUser}', '${formattedHolidayDate}')"><i class="fa-solid fa-x"></i></button>
                         </td>
                     </tr>
                 </c:forEach>

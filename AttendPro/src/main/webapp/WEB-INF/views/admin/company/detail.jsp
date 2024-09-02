@@ -111,6 +111,51 @@
         border: 1px solid #ddd;
         border-radius: 8px;
     }
+    
+/*     .btn { */
+/*         padding: 8px 15px; */
+/*         font-size: 16px; */
+/*         color: #fff; */
+/*         background-color: #3498db; */
+/*         border: none; */
+/*         border-radius: 4px; */
+/*         cursor: pointer; */
+/*     } */
+     .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    color: #fff;
+    background-color: none;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s; /* 배경색 변경 시 부드러운 효과 */
+}
+
+.btn:hover {
+    background-color: lightgray;
+}
+.links {
+    text-align: center;
+}
+
+.links a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    margin: 0 15px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
 </style>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a52f3e01da4d8f6dba534fb01a2c42ef&libraries=services"></script>
 <script type="text/javascript">
@@ -270,6 +315,9 @@
             <div class="row center">
             <h2>휴일</h2>
             <jsp:include page="/WEB-INF/views/template/calendar.jsp"></jsp:include>
+			</div>
+			<div class="links">
+			<a href="/admin/company/set?companyId=${sessionScope.createdUser}" class="btn">수정하기</a>
 			</div>
 <!--            
  <div class="links"> -->
