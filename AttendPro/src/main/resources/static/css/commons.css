@@ -267,7 +267,7 @@ textarea.field {
     font-size: 16px; /* 입력창과 동일하게 */
     padding: 0.5em 0.75em; /*입력창과 동일하게*/
     color: #2d3436;
-    background-color: #dfe6e9;
+    background-color: #7199d0; 
     border: 1px solid #2d3436;
     border-radius: 0.1em;
     cursor: pointer; /* 커서모양 변경 */
@@ -666,9 +666,16 @@ textarea.field {
 
 }        
 .progressbar > .guage {
-    background: rgb(131,58,180);
-    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+    background: #becce9;
+    background: linear-gradient(90deg, #becce9 0%, #567fd6 50%, #1154e7 100%);
     width: 0%;
     height: 5px;
     transition: width 0.1s linear;
 }
+.container-my{
+    max-width: 1200px;
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
