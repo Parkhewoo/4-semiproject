@@ -65,12 +65,22 @@
 		</div>
 		<div class="row">
 			<input type="text" name="workerNoStr" class="field w-100"
-				placeholder="사원번호" required>
+				placeholder="사원번호" value="${cookie.saveWorkerNo.value}" required>
 		</div>
 		<div class="row">
 			<input type="password" name="workerPw" class="field w-100"
 				placeholder="비밀번호" required>
 		</div>
+		
+		<%--쿠키 로그인 체크박스 --%>
+		<div class="row">
+			<label>
+				<input type="checkbox" name="remember"
+					<c:if test="${cookie.saveWorkerNo != null}">checked</c:if>>
+					<span>아이디 저장</span>
+			</label>
+		</div>
+		
 		<div class="row">
 			<button type="submit" class="btn btn-my w-100">로그인</button>
 		</div>

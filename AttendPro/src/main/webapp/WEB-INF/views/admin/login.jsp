@@ -67,12 +67,22 @@
 		</div>
 		<div class="row">
 			<input type="text" name="adminId" class="field w-100"
-				placeholder="아이디">
+				placeholder="아이디" value="${cookie.saveId.value}" required>
 		</div>
 		<div class="row">
 			<input type="password" name="adminPw" class="field w-100"
 				placeholder="비밀번호">
 		</div>
+		
+		<%--쿠키 로그인 체크박스 --%>
+		<div class="row">
+			<label>
+				<input type="checkbox" name="remember"
+					<c:if test="${cookie.saveId != null }">checked</c:if>>
+					<span>아이디 저장</span>
+			</label>
+		</div>
+		
 		<div class="row">
 			<button type="submit" class="btn btn-my w-100">로그인</button>
 		</div>

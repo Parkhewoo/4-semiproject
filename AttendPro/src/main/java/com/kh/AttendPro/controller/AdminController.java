@@ -28,6 +28,8 @@ import com.kh.AttendPro.error.TargetNotFoundException;
 import com.kh.AttendPro.service.EmailService;
 
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -99,8 +101,9 @@ public class AdminController {
 	
 	@PostMapping("/login")
 	public String login(@RequestParam String adminId,
-						@RequestParam String adminPw,						
-						HttpSession session) {
+						@RequestParam String adminPw,
+						@RequestParam(required = false) String remember,// 쿠키 아이디 저장하기
+						HttpSession session, HttpServletResponse response) {
 		
 		//[1]Admin 아이디를 AdminDto에서 불러온다		
 		AdminDto adminDto = adminDao.selectOne(adminId);
@@ -123,8 +126,18 @@ public class AdminController {
 		session.setAttribute("createdRank", adminDto.getAdminRank());
 		adminDao.updateAdminLogin(adminId);
 
-//		session.setAttribute("이름", "값");
-		
+		//[5] (쿠키적용) 로그인 성공 시 remeber 의 유무에 따라 쿠키 생성 or 제거
+		if(remember != null) {//아이디 저장하기 체크
+			Cookie ck = new Cookie("saveId", adminId);//쿠키 생성
+			ck.setMaxAge(4 * 7 * 60 * 60);//4주 동안 유효
+			response.addCookie(ck);//사용자에게 발행 
+		}
+		else {//아이디 저장하기 체크x
+			Cookie ck = new Cookie("saveId", adminId);//쿠키 생성
+			ck.setMaxAge(0);//0초 지속(= 삭제)
+			response.addCookie(ck);//사용자에게 발행
+		}
+
 		return "redirect:/";
 	}
 	

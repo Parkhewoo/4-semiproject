@@ -4,6 +4,17 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+
+<style>
+ .btn-my {
+        background-color: #659ad5;
+        color: white;
+        border-radius: 0.3em;
+        border: none;
+        
+
+</style>
+
 <script>
 	$(function(){
 		var status = {
@@ -100,7 +111,7 @@
                             <div class="w-50 left">                                
                             </div>
                             <div class="w-50 right">
-                                <button type="button" class="btn btn-neutral btn-next">
+                                <button type="button" class="btn btn-my btn-next">
                                     다음<i class="fa-solid fa-chevron-right"></i>
                                 </button>
                             </div>
@@ -136,12 +147,12 @@
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">
-                                <button type="button" class="btn btn-neutral btn-prev">
+                                <button type="button" class="btn btn-my btn-prev">
                                     <i class="fa-solid fa-chevron-left"></i>이전
                                 </button>
                             </div>
                             <div class="w-50 right">
-                               <button type="submit" class="btn btn-positive">
+                               <button type="submit" class="btn btn-my">
                                     <i class="fa-solid fa-right-to-bracket"></i>
                                     변경 완료
                                 </button>

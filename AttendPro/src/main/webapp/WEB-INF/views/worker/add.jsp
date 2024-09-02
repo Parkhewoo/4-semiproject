@@ -34,8 +34,7 @@ function Find() {
             document.querySelector("[name=workerAddress2]").focus();
         }
     }).open();
-    
-  //Enter 키 이벤트 기본 동작 방지
+    //Enter 키 이벤트 기본 동작 방지
     $(".check-form").on('keypress', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -185,9 +184,6 @@ function clearAddress() {
     document.querySelector("[name=workerAddress1]").value = '';
     document.querySelector("[name=workerAddress2]").value = '';
 }
-
-
-});
 </script>
 
 <div class="container w-600 my-50">
