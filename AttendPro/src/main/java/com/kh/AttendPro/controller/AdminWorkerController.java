@@ -46,8 +46,7 @@ public class AdminWorkerController {
 			   					 MultipartFile attach) throws IllegalStateException, IOException {		   	   
 		 //[1] 회원가입
 	      workerDao.insert(workerDto);
-	      System.out.println("workerDto"+workerDto);
-	      System.out.println(attach);
+	      
 	      
 	      if(attach.isEmpty() == false) {
 	    	  //[2] 첨부파일이 있다면 등록 및 저장
@@ -67,7 +66,7 @@ public class AdminWorkerController {
 	   @RequestMapping("/detail")
 	   public String detail(@RequestParam int workerNo, Model model) {
 	       WorkerDto workerDto = workerDao.selectOne(workerNo);
-	       System.out.println("WorkerDto: " + workerDto); // 디버깅용 로그
+	       
 	       model.addAttribute("workerDto", workerDto);
 	       return "/WEB-INF/views/worker/detail.jsp";
 	   }
