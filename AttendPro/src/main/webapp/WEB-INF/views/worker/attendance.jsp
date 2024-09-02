@@ -5,7 +5,7 @@
 
 <body>
     <h2>${sessionScope.createdUser}님의 근태 기록</h2>
-
+	
     <div class="row center">누적 근태 기록</div>
     <table border="1" class="table table-border table-stripe">
         <thead>
@@ -25,12 +25,14 @@
     </table>
 
     <div class="row center" id="currentYearText">년 근태기록</div>
+	${attendanceYearly.workday}
     <table border="1" class="table table-border table-stripe">
         <thead>
             <tr>
                 <th>출근</th>
                 <th>지각</th>
                 <th>조퇴</th>
+                <th>결근</th>
             </tr>
         </thead>
         <tbody>
@@ -38,17 +40,20 @@
                 <td>${attendanceYearly.attend}</td>
                 <td>${attendanceYearly.late}</td>
                 <td>${attendanceYearly.leave}</td>
+                <td>${attendanceYearly.absent}</td>
             </tr>
         </tbody>
     </table>
 
     <div class="row center" id="lastYearText">작년 근태기록</div>
+    ${attendanceYearly2.workday}
     <table border="1" class="table table-border table-stripe">
         <thead>
             <tr>
                 <th>출근</th>
                 <th>지각</th>
                 <th>조퇴</th>
+                <th>결근</th>
             </tr>
         </thead>
         <tbody>
@@ -56,6 +61,7 @@
                 <td>${attendanceYearly2.attend}</td>
                 <td>${attendanceYearly2.late}</td>
                 <td>${attendanceYearly2.leave}</td>
+                <td>${attendanceYearly2.absent}</td>
             </tr>
         </tbody>
     </table>
@@ -113,7 +119,7 @@
             </tr>
         </tbody>
     </table>
-
+	
     <script type="text/javascript">
         window.onload = function() {
             const now = new Date();

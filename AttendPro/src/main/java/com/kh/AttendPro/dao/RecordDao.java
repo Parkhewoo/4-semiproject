@@ -1,7 +1,9 @@
 package com.kh.AttendPro.dao;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.HashSet;
@@ -13,6 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.kh.AttendPro.dto.RecordDto;
+import com.kh.AttendPro.mapper.HolidayMapper;
 import com.kh.AttendPro.mapper.RecordMapper;
 import com.kh.AttendPro.vo.AttendanceVO;
 
@@ -23,9 +26,8 @@ public class RecordDao {
 	JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	RecordMapper recordMapper;
+	RecordMapper recordMapper;	
 	
-
 	//workerNo를 통해서 RecordDto를 반환
 	public RecordDto selectOne(int workerNo) {
 		String sql = "select * from record where worker_no = ?";
@@ -177,45 +179,96 @@ public class RecordDao {
 				+" AND TO_CHAR(worker_out, 'YYYY') = ?";
 		int leave = jdbcTemplate.queryForObject(sqlForLeave, int.class, data);
 		attendanceVO.setLeave(leave);
-		
-		
-//		String sqlForAbsent = "";
-//		int absent = jdbcTemplate.queryForObject(sqlForAbsent, int.class, data);
-//		attendanceVO.setAbsent(absent);
-		
-		
+		HashSet<LocalDate> weekdaySet = getWeekdaySet(workerNo, year);
+		weekdaySet.removeAll(getHolidaySet(workerNo, year));
+		attendanceVO.setWorkday(weekdaySet.size());
+		attendanceVO.setAbsent(getAbsent(workerNo, year));
 		return attendanceVO;
 	}
 	
-	public void getAbsent(int workerNo, int year) {
-		
+	//해당년도의 모든 지정 휴일
+	public HashSet<LocalDate> getHolidaySet(int workerNo, int year){
 		//record 에서 companyNo 가져오기
-		String companyId = selectOne(workerNo).getAdminId();
+				String companyId = selectOne(workerNo).getAdminId();
+				//해당 연도의 지정 휴일 날짜 조회
+				String sql = "SELECT holiday_date"
+						+ " FROM holiday"
+						+ " WHERE company_id = ?"
+						+" AND TO_CHAR(holiday_date, 'YYYY') = ?";
+				
+				Object[] data = {companyId, year};
+
+				// RowMapper 구현
+		        RowMapper<LocalDate> holiMapper = new RowMapper<LocalDate>() {
+		            @Override
+		            public LocalDate mapRow(ResultSet rs, int rowNum) throws SQLException {
+		                return rs.getDate("holiday_date").toLocalDate();
+		            }
+		        };
+		        
+				List<LocalDate> list = jdbcTemplate.query(
+					    sql, holiMapper, data
+					);
+				
+				HashSet holidaySet = new HashSet<>(list);
+				return holidaySet;
+	}
+	
+	//해당 년도의 모든 평일 날짜
+	public HashSet<LocalDate> getWeekdaySet(int workerNo, int year){
+		HashSet weekdaySet = new HashSet<>();
 		
-		String sqlForHoliday = "SELECT holiday_date"
-				+ " FROM holiday"
-				+ "WHERE company_id = ?"
-				+" AND TO_CHAR(holiday_date, 'YYYY') = ?";
+		LocalDate start = LocalDate.of(year, 1, 1);
+		LocalDate end = LocalDate.of(year, 12, 31);
 		
-		String sqlForWorkerOut = "SELECT worker_out FROM record"
-								+"WHERE worker_no = ?"
+		LocalDate date = start;
+	        while (!date.isAfter(end)) {
+	            // 현재 날짜가 평일인지 확인
+	            DayOfWeek dayOfWeek = date.getDayOfWeek();
+	            if (dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY) {
+	            	weekdaySet.add(date); // 평일인 경우 HashSet에 추가
+	            }
+	            // 다음 날짜로 이동
+	            date = date.plusDays(1);
+	        }
+		return weekdaySet;
+	}
+	
+	//결근 횟수 조회
+	public int getAbsent(int workerNo, int year) {
+		//해당년도의 모든 평일 날짜 데이터
+		HashSet<LocalDate> weekdaySet = 
+				getWeekdaySet(workerNo, year);
+		
+		//해당년도의 모든 지정휴일 데이터
+		HashSet<LocalDate> holidaySet = 
+				getHolidaySet(workerNo, year);
+		
+		//평일 - 지정휴일 = 출근해야 하는 날짜 
+		weekdaySet.removeAll(holidaySet);
+		
+		//해당 연도의 모든 사원출근 날짜 조회
+		String sqlForRecord = "SELECT worker_out FROM record"
+								+" WHERE worker_no = ?"
 								+" AND TO_CHAR(worker_out, 'YYYY') = ?";
 		
-		Object[] workdayData = {companyId, year};
 		Object[] recordData = {workerNo, year};
 		
-		 List<LocalDate> workdayList = jdbcTemplate.query(sqlForWorkerOut, new RowMapper<LocalDate>() {
-	            @Override
-	            public LocalDate mapRow(ResultSet rs, int rowNum) throws SQLException {
-	                return rs.getDate("worker_out").toLocalDate(); // SQL 날짜를 LocalDate로 변환
-	            }
-	        });
-		 
-		HashSet workdaySet = new HashSet<>(workdayList);
-		
-		//set으로 저장, worker_out 도 set 으로 저장 set<LocalDate>
-		//workday-worker_out -> 결근일
-		
+		List<LocalDate> workerOutList = jdbcTemplate.query(
+				sqlForRecord,
+			    new RowMapper<LocalDate>() {
+			        @Override
+			        public LocalDate mapRow(ResultSet rs, int rowNum) throws SQLException {
+			            return rs.getDate("worker_out").toLocalDate(); // SQL 날짜를 LocalDate로 변환
+			        }
+			    },
+			    recordData
+			);
+		 HashSet recordSet = new HashSet<>(workerOutList);
+		 //출근해야 하는 날짜 - 출근한 날짜 = 결근일
+		 weekdaySet.removeAll(recordSet);
+		 int absent = weekdaySet.size();
+		 return absent;
 	}
 	
 }
