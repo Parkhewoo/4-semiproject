@@ -120,7 +120,7 @@
 
 		<!-- 공지글 작성 버튼 (시스템 관리자만 가능) -->
 		<c:if test="${isLogin && isAdmin}">
-			<a class="btn btn-positive" href="write">공지글 작성</a>
+			<a class="btn btn-positive" href="/notice/write">공지글 작성</a>
 		</c:if>
 
 		<!-- 수정 및 삭제 버튼 (본인 글 또는 시스템 관리자만 가능) -->
@@ -135,7 +135,7 @@
 		
 
 		<!-- 목록 버튼 (모든 사용자에게 표시) -->
-		<a class="btn btn-neutral" href="list">목록</a>
+		<a class="btn btn-neutral" href="/">목록</a>
 	</div>
 </div>
 
