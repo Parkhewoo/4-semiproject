@@ -2,6 +2,7 @@
 
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+
 <style>
     .fa-asterisk {
         color: #d63031;
@@ -15,178 +16,206 @@
         border-radius: 0.3em;
         border: none;
 </style>
-  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-function Find() {
-    new daum.Postcode({
-        oncomplete: function (data) {
-            var addr = ''; // 주소 변수
+   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+ // 문서가 로드될 때 실행되는 이벤트 리스너
+    document.addEventListener('DOMContentLoaded', function() {
+        var fileInput = document.getElementById('fileInput');
+        var profileImage = document.getElementById('profileImage');
 
-            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                addr = data.roadAddress;
-            } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                addr = data.jibunAddress;
-            }
+        // 기본 이미지 설정
+        profileImage.src = "https://placehold.co/150?text=NO";
 
-            document.querySelector("[name=workerPost]").value = data.zonecode;
-            document.querySelector("[name=workerAddress1]").value = addr;
-            // 커서를 상세주소 필드로 이동한다.
-            document.querySelector("[name=workerAddress2]").focus();
-        }
-    }).open();
-    //Enter 키 이벤트 기본 동작 방지
-    $(".check-form").on('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-        }
-}
-
-$(function(){
-    var status = {
-        workerNameValid : true,
-        workerPwValid : false,
-        workerPwCheckValid : false,
-        workerEmailValid : false,
-        //workerEmailCheckValid : false,
-        workerRankValid : false,
-        workerContactValid : true,
-        workerAddressValid : true,
-        ok : function(){
-            return this.workerNameValid && this.workerPwValid
-            && this.workerPwCheckValid && this.workerRankValid
-            && this.workerEmailValid && this.workerEmailCheckValid
-            && this.workerContactValid && this.workerAddressValid;
-        }
-    };
-
-    $("[name=workerNo]").blur(function() {
-        var workerNo = $(this).val();
-        $.ajax({
-            url: "http://localhost:8080/rest/worker/checkNo",
-            method : "post",
-            data: { workerNo: workerNo },
-            success: function(response) {
-                if (response === true) {
-                    status.workerNoCheckValid = true;
-                    $("[name=workerNo]").removeClass("fail").addClass("success");
-                } 
-                else {
-                    status.workerNoCheckValid = false;
-                    $("[name=workerNo]").removeClass("success").addClass("fail");
+        fileInput.addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    profileImage.src = e.target.result;
                 }
+                reader.readAsDataURL(file);
+            } else {
+                profileImage.src = "https://placehold.co/150?text=NO";
+            }
+        });
+
+        // 주소 찾기
+        window.Find = function() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    var addr = '';
+                    if (data.userSelectedType === 'R') {
+                        addr = data.roadAddress;
+                    } else {
+                        addr = data.jibunAddress;
+                    }
+                    document.querySelector("[name=workerPost]").value = data.zonecode;
+                    document.querySelector("[name=workerAddress1]").value = addr;
+                    document.querySelector("[name=workerAddress2]").focus();
+                }
+            }).open();
+        }
+
+        // 주소 지우기
+        window.clearAddress = function() {
+            document.querySelector("[name=workerPost]").value = '';
+            document.querySelector("[name=workerAddress1]").value = '';
+            document.querySelector("[name=workerAddress2]").value = '';
+        }
+
+        // 입력 검증을 위한 상태 객체
+        var status = {
+            workerNameValid: true,
+            workerPwValid: false,
+            workerPwCheckValid: false,
+            workerEmailValid: false,
+            workerRankValid: false,
+            workerContactValid: true,
+            workerAddressValid: true,
+            ok: function() {
+                return this.workerNameValid && this.workerPwValid
+                    && this.workerPwCheckValid && this.workerRankValid
+                    && this.workerEmailValid && this.workerContactValid
+                    && this.workerAddressValid;
+            }
+        };
+
+        // 이메일 입력 검증
+        $("[name=workerEmail]").blur(function() {
+            var regex = /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/;
+            var isValid = regex.test($(this).val());
+            $(this).removeClass("success fail")
+                   .addClass(isValid ? "success" : "fail");
+            $(".success-feedback, .fail-feedback").hide();
+            $(".fail-feedback").toggle(!isValid);
+            $(".success-feedback").toggle(isValid);
+            status.workerEmailValid = isValid;
+        });
+
+        // 전화번호 입력 검증
+        $("[name=workerContact]").blur(function() {
+            var regex = /^010\d{8}$/;
+            var isValid = regex.test($(this).val());
+            $(this).removeClass("success fail")
+                   .addClass(isValid ? "success" : "fail");
+            $(".fail-feedback").toggle(!isValid);
+            status.workerContactValid = isValid;
+        });
+
+        // 생년월일 입력 제한
+        var workerBirthInput = document.querySelector("[name=workerBirth]");
+        workerBirthInput.setAttribute("max", new Date().toISOString().slice(0,10));
+
+        // 각 입력 필드 검증
+        $("[name=workerNo]").blur(function() {
+            var workerNo = $(this).val();
+            $.ajax({
+                url: "http://localhost:8080/rest/worker/checkNo",
+                method: "post",
+                data: { workerNo: workerNo },
+                success: function(response) {
+                    if (response === true) {
+                        status.workerNoCheckValid = true;
+                        $("[name=workerNo]").removeClass("fail").addClass("success");
+                    } else {
+                        status.workerNoCheckValid = false;
+                        $("[name=workerNo]").removeClass("success").addClass("fail");
+                    }
+                }
+            });
+        });
+
+        $("[name=workerName]").blur(function() {
+            var regex = /^[가-힣a-zA-Z0-9]{1,21}$/;
+            var isValid = regex.test($(this).val());
+            $(this).removeClass("success fail")
+                   .addClass(isValid ? "success" : "fail");
+            status.workerNameValid = isValid;
+        });
+
+        $("[name=workerPw]").blur(function() {
+            var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
+            var isValid = regex.test($(this).val());
+            $(this).removeClass("success fail")
+                   .addClass(isValid ? "success" : "fail");
+            status.workerPwValid = isValid;
+        });
+
+        $("#password-check").blur(function() {
+            var isValid = $("[name=workerPw]").val().length
+                          && $(this).val() === $("[name=workerPw]").val();
+            $(this).removeClass("success fail")
+                   .addClass(isValid ? "success" : "fail");
+            status.workerPwCheckValid = isValid;
+        });
+
+        $("[name=workerRank]").blur(function() {
+            var regex = /^(인턴|사원|과장|팀장|사장)$/;
+            var isValid = regex.test($(this).val());
+            $(this).removeClass("success fail")
+                   .addClass(isValid ? "success" : "fail");
+            status.workerRankValid = isValid;
+        });
+
+        $("[name=workerPost], [name=workerAddress1], [name=workerAddress2]").blur(function() {
+            var workerPost = $("[name=workerPost]").val();
+            var workerAddress1 = $("[name=workerAddress1]").val();
+            var workerAddress2 = $("[name=workerAddress2]").val();
+            
+            var isEmpty = workerPost.length == 0 
+                        && workerAddress1.length == 0 
+                        && workerAddress2.length == 0;
+            var isFill = workerPost.length > 0
+                        && workerAddress1.length > 0
+                        && workerAddress2.length > 0;
+            var isValid = isEmpty || isFill;
+            $("[name=workerPost], [name=workerAddress1], [name=workerAddress2]")
+                .removeClass("success fail")
+                .addClass(isValid ? "success" : "fail");
+            status.workerAddressValid = isValid;
+        });
+
+        $(".check-form").submit(function() {
+            $("[name], #password-check").trigger("input").trigger("blur");
+            return status.ok();
+        });
+
+        // ENTER 키 동작 방지 (input, textarea, select 필드에 한정)
+        $(".check-form").on('keydown', 'input, textarea, select', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+
+        // 비밀번호 표시 체크박스 처리
+        var passwordInput = document.querySelector("[name=workerPw]");
+        var passwordCheckInput = document.getElementById("password-check");
+        var passwordShowCheckbox = document.querySelector(".field-show");
+        var passwordShowIcon = document.querySelector(".fa-eye");
+
+        // 체크박스 상태에 따라 비밀번호 표시/숨기기
+        passwordShowCheckbox.addEventListener("change", function() {
+            if (this.checked) {
+                passwordInput.type = "text";
+                passwordCheckInput.type = "text";
+                passwordShowIcon.classList.remove("fa-eye");
+                passwordShowIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                passwordCheckInput.type = "password";
+                passwordShowIcon.classList.remove("fa-eye-slash");
+                passwordShowIcon.classList.add("fa-eye");
             }
         });
     });
-    
 
-    $("[name=workerName]").blur(function(){
-        var regex = /^[가-힣a-zA-Z0-9]{1,21}$/;
-        var isValid = regex.test($(this).val());
-        $(this).removeClass("success fail")
-               .addClass(isValid ? "success" : "fail");
-        status.workerNameValid = isValid;
-    });
-
-    $("[name=workerPw]").blur(function(){
-    	var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
-        var isValid = regex.test($(this).val());
-        $(this).removeClass("success fail")
-               .addClass(isValid ? "success" : "fail");
-        status.workerPwValid = isValid;
-    });
-
-    $("#password-check").blur(function(){
-        var isValid = $("[name=workerPw]").val().length
-                      && $(this).val() === $("[name=workerPw]").val();
-        $(this).removeClass("success fail")
-               .addClass(isValid ? "success" : "fail");
-        status.workerPwCheckValid = isValid;
-    });
-
-    $("[name=workerRank]").blur(function(){
-        var regex = /^(인턴|사원|과장|팀장|사장)$/;
-        var isValid = regex.test($(this).val());
-        $(this).removeClass("success fail")
-               .addClass(isValid ? "success" : "fail");
-        status.workerRankValid = isValid;
-    });
-
-    $("[name=workerEmail]").blur(function(){
-        var isValid = $(this).val().length > 0;
-        $(this).removeClass("success fail")
-               .addClass(isValid ? "success" : "fail");
-        status.workerEmailValid = isValid;
-    });
-
-    $("[name=workerContact]").blur(function(){
-        var regex = /^010[1-9][0-9]{7}$/;
-        var isValid = $(this).val().length == 0 || regex.test($(this).val());
-        $(this).removeClass("success fail")
-               .addClass(isValid ? "success" : "fail");
-        status.workerContactValid = isValid;
-    });
-
-    $("[name=workerPost], [name=workerAddress1], [name=workerAddress2]").blur(function(){
-        var workerPost = $("[name=workerPost]").val();
-        var workerAddress1 = $("[name=workerAddress1]").val();
-        var workerAddress2 = $("[name=workerAddress2]").val();
-        
-        var isEmpty = workerPost.length == 0 
-                    && workerAddress1.length == 0 
-                    && workerAddress2.length == 0;
-        var isFill = workerPost.length > 0
-                    && workerAddress1.length > 0
-                    && workerAddress2.length > 0;
-        var isValid = isEmpty || isFill;
-        $("[name=workerPost], [name=workerAddress1], [name=workerAddress2]")
-            .removeClass("success fail")
-            .addClass(isValid ? "success" : "fail");
-        status.workerAddressValid = isValid;
-    });
-
-
-//     $(".check-form").submit(function() {
-//         $("[name], #password-check").trigger("input").trigger("blur");
-//         return status.ok();
-//     });
-
-    document.getElementById('fileInput').addEventListener('change', function(event) {
-        var file = event.target.files[0]; // 선택한 파일
-        var image = document.getElementById('profileImage');
-        
-        if (file) {
-            var reader = new FileReader();
-            
-            reader.onload = function(e) {
-                // 이미지의 data URL을 얻어 이미지 태그의 src 속성에 적용
-                image.src = e.target.result;
-            }
-            
-            reader.readAsDataURL(file); // 파일을 data URL로 읽기
-        } else {
-            // 파일이 선택되지 않았을 때 기본 이미지로 되돌리기
-            image.src = "https://placehold.co/150?text=NO";
-        }
-    });
-
-    // 페이지 로드 시 기본 이미지 설정
-    var image = document.getElementById('profileImage');
-    image.src = "https://placehold.co/150?text=NO";
-
-    $(".check-form").submit(function(){
-        $("[name], #password-check").trigger("input").trigger("blur");
-        return status.ok();
-    });
-
-});
-function clearAddress() {
-    document.querySelector("[name=workerPost]").value = '';
-    document.querySelector("[name=workerAddress1]").value = '';
-    document.querySelector("[name=workerAddress2]").value = '';
-}
+     
+   
 </script>
 
-<div class="container w-600 my-50">
+</head>
+<body>
+   <div class="container w-600 my-50">
     <div class="row center">
         <h1>사원 등록 페이지</h1>
     </div>
@@ -222,30 +251,27 @@ function clearAddress() {
                     </div>
                 </div>
                 <div class="page">
-                    <div class="row">
-                        <h2>2단계 : 비밀번호 입력</h2>
-                    </div>
-                    <div class="row">
-                        <label>
-                            비밀번호
-                            <label class="ms-20">
-                                <input type="checkbox" class="field-show">
-                                <span>표시하기</span>
-                            </label>
-                            <i class="fa-solid fa-eye"></i>
-                        </label>
-                        <input type="password" name="workerPw" class="field w-100"
-                                placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
-                        <div class="success-feedback">올바른 형식입니다!</div>
-                        <div class="fail-feedback">형식에 맞춰 8~16자로 작성하세요</div>
-                    </div>
-                    <div class="row">
-                        <label>비밀번호 확인</label>
-                        <input type="password" id="password-check" class="field w-100"
-                                placeholder="확인을 위해 비밀번호 한번 더 입력" required>
-                        <div class="success-feedback">비밀번호가 일치합니다</div>
-                        <div class="fail-feedback">비밀번호가 일치하지 않습니다</div>
-                    </div>
+					 <div class="row">
+					    <label>
+					        비밀번호
+					        <label class="ms-20">
+					            <input type="checkbox" class="field-show">
+					            <span>표시하기</span>
+					        </label>
+					        <i class="fa-solid fa-eye"></i>
+					    </label>
+					    <input type="password" name="workerPw" class="field w-100"
+					            placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
+					    <div class="success-feedback">올바른 형식입니다!</div>
+					    <div class="fail-feedback">형식에 맞춰 8~16자로 작성하세요</div>
+					</div>
+					<div class="row">
+					    <label>비밀번호 확인</label>
+					    <input type="password" id="password-check" class="field w-100"
+					            placeholder="확인을 위해 비밀번호 한번 더 입력" required>
+					    <div class="success-feedback">비밀번호가 일치합니다</div>
+					    <div class="fail-feedback">비밀번호가 일치하지 않습니다</div>
+					</div>
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">
@@ -319,13 +345,14 @@ function clearAddress() {
 </div>
                 <div class="page">
                     <div class="row">
-                        <h2>5단계 : 이메일 입력</h2>
-                    </div>
-                    <div class="row">
-                        <label>이메일</label>
-                        <input type="email" name="workerEmail" class="field w-100" placeholder="test@kh.com" required>
-                        <div class="fail-feedback">이메일은 반드시 입력해야 합니다</div>
-                    </div>
+					    <h2>5단계 : 이메일 입력</h2>
+					</div>
+					<div class="row">
+					    <label>이메일</label>
+					    <input type="email" name="workerEmail" class="field w-100" placeholder="test@kh.com" required>
+					    <div class="success-feedback" >올바른 이메일 형식입니다!</div>
+					    <div class="fail-feedback" style="display: none;">올바르지 않은 이메일 형식입니다</div>
+					</div>
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">
@@ -349,6 +376,7 @@ function clearAddress() {
                         <label>연락처(휴대전화번호, - 제외)</label>
                         <input type="text" name="workerContact" class="field w-100" placeholder="010XXXXXXXX">
                         <div class="fail-feedback">입력한 번호가 형식에 맞지 않습니다</div>
+                        <div class="success-feedback">올바른 전화번호 형식입니다</div>
                     </div>
                     <div class="row">
                         <label>생년월일</label>
