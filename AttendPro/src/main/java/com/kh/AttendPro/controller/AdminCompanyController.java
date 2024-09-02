@@ -35,14 +35,11 @@ public class AdminCompanyController {
     }
 
     @PostMapping("/insert")
-    public String insert(@ModelAttribute CompanyDto companyDto,
-                         HolidayDto holidayDto) {
+    public String insert(@ModelAttribute CompanyDto companyDto) {
         if (companyDto.getCompanyId() == null || companyDto.getCompanyId().isEmpty()) {
             throw new IllegalArgumentException("Company ID is missing");
         }
-
         companyDao.insert(companyDto);
-        holidayDao.insert(holidayDto);
         return "redirect:info?companyId=" + companyDto.getCompanyId();
     }
 
