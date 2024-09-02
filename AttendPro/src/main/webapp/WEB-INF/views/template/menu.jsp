@@ -12,8 +12,7 @@
 <c:choose>
     <c:when test="${sessionScope.createdUser != null}">
         <ul class="menu">
-            <!-- 모든 사용자 공통 메뉴 -->
-            <li><a href="#">나의 출석률보기</a></li>
+           
 
             <!-- 사용자 등급별 메뉴 -->
             <c:choose>
@@ -24,7 +23,9 @@
                 </c:when>
 
                 <c:when test="${sessionScope.createdRank == '일반 관리자'}">
-                   
+                   <li>
+                    <a href="/admin/mypage">마이페이지</a>
+                   </li>
                     <li>
                         <a href="/admin/worker/list">사원 관리</a>
                     </li>
@@ -44,15 +45,17 @@
                         </ul>
                     </li>
                 </c:when>
-
-                <c:when test="${sessionScope.createdRank == '사원 '}">
-                    <li><a href="#">나의 출석률보기</a></li>
-                </c:when>
+					
+					
+				<c:otherwise>
+                    <li><a href="/worker/attendance">나의 출석률보기</a></li>
+                	<li><a href="worker/mypage">마이 페이지</a></li>
+				</c:otherwise>
             </c:choose>
 
-            <!-- 로그인 사용자 정보 및 로그아웃 메뉴 -->
+             <!-- 모든 사용자 공통 메뉴 -->
             <li class="right-menu">
-                <a href="/worker/mypage">
+                <a href="#">
                     ${sessionScope.createdUser} 님
                 </a>
                 <ul>

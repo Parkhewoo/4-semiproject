@@ -50,6 +50,36 @@
         .profile-wrapper:hover > label{
         	display:flex;
         }    
+        
+        /* 왼쪽 고정 메뉴 스타일 */
+.right-fixed-menu {
+    position: fixed;  /* 스크롤을 따라 고정 */
+    top: 50%;         /* 화면의 중앙에 위치 */
+    right: 0;          /* 화면의 오른쪽 에 붙이기 */
+    transform: translateY(-50%); /* 완전히 가운데 정렬 */
+    width: 150px;     /* 메뉴 너비 설정 */
+    background-color: #fff;  /* 배경색 */
+    border: 1px solid #ddd;  /* 테두리 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    z-index: 1000;    /* 다른 요소보다 위에 위치 */
+    text-align: center;  /* 텍스트 가운데 정렬 */
+    padding: 10px 0;     /* 메뉴 아이템 간의 간격 */
+}
+
+.right-fixed-menu .row {
+    margin: 10px 0; /* 메뉴 항목 간의 간격 */
+}
+
+.right-fixed-menu .link {
+    display: block; /* 블록 요소로 설정 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: #333; /* 텍스트 색상 */
+}
+
+.right-fixed-menu .link:hover {
+    background-color: #f5f5f5; /* 호버 시 배경색 변경 */
+}
+        
     </style>
     
     <!-- moment JS -->
@@ -133,43 +163,82 @@
 		<!-- 컨텐츠 영역 -->
         <div class="row my-0 flex-box" style="min-height: 400px;">
             <div class="w-200 pt-20">
+            	<div class="right-fixed-menu">
             	<c:choose>
-					<c:when test="${sessionScope.createdUser != null}">
-<%--
-					<div class="row center flex-core">
-						<div class="profile-wrapper">
-							<img src="/admin/worker/myImage" width="50%"
-									class="image image-circle image-left user-image">
-							<label for="change-image">변경하기</label>
-							<input type="file" id="change-image" accept="image/*" 
-										style="display:none;">
-						</div>
-					</div>					
- --%>
-					 <div class="row center">
-		                	${sessionScope.createdUser}
-		                	(${sessionScope.createdRank})
-		                </div>
-		                 <div class="row center">
-		                	<a href="/admin/worker/list" class="link link-animation">
-		                		사원정보보기<i class="fa-solid fa-square-arrow-up-right"></i>
-		                	</a>
-		                </div>
-					</c:when>
-				<c:otherwise>
-						<div class="row center">
-							<a href="/admin/login" class="link link-animation">
-								관리자<i class="fa-solid fa-square-arrow-up-right"></i>
-							</a> 로그인
-						</div>
-						<div class="row center">
-							<a href="/worker/login" class="link link-animation">
-								일반회원<i class="fa-solid fa-square-arrow-up-right"></i>
-							</a> 로그인
-						</div>
-					</c:otherwise>
-					</c:choose>
+    <c:when test="${sessionScope.createdUser != null}">
+            	
+    <c:choose>
+     <c:when test="${sessionScope.createdRank == '시스템 관리자'}">
+     <div class="row center">
+                ${sessionScope.createdUser}<br>
+                (${sessionScope.createdRank})
             </div>
+            <div class="row center">
+                <a href="/sysadmin/list" class="link link-animation">
+                    관리자 정보 보기<i class="fa-solid fa-square-arrow-up-right"></i>
+                </a>
+            </div>
+            <div class="row center">
+                <a href="/admin/logout" class="link link-animation">
+                    로그아웃<i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+            </div>
+     </c:when>
+    
+        <c:when test="${sessionScope.createdRank == '일반 관리자'}">
+            <!-- 일반관리자인 경우 -->
+            <div class="row center">
+                <a href="/admin/mypage">${sessionScope.createdUser} </a><br>
+                (${sessionScope.createdRank})
+            </div>
+            <div class="row center">
+                <a href="/admin/worker/list" class="link link-animation">
+                    사원정보보기<i class="fa-solid fa-square-arrow-up-right"></i>
+                </a>
+            </div>
+            <div class="row center">
+                <a href="/admin/logout" class="link link-animation">
+                    로그아웃<i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+            </div>
+        </c:when>
+        
+        <c:otherwise>
+        <div class="row center">
+                <a href="/worker/mypage">${sessionScope.createdUser} </a><br>
+                (${sessionScope.createdRank})
+            </div>
+                    <div class="row center">
+                <a href="/worker/attendance" class="link link-animation">
+                    출근기록 보기<i class="fa-solid fa-poo"></i>
+                </a>
+            </div>   
+                <div class="row center">
+                <a href="/worker/logout" class="link link-animation">
+                    로그아웃<i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+            </div>
+				</c:otherwise>
+            </c:choose>
+            </c:when>
+        
+        
+        <c:otherwise>
+            <!-- 비로그인 시 -->
+            <div class="row center">
+                <a href="/admin/login" class="link link-animation">
+                    관리자<i class="fa-solid fa-square-arrow-up-right"></i>
+                </a> 로그인
+            </div>
+            <div class="row center">
+                <a href="/worker/login" class="link link-animation">
+                    일반회원<i class="fa-solid fa-square-arrow-up-right"></i>
+                </a> 로그인
+            </div>
+        </c:otherwise>
+    </c:choose>
+</div>
+</div>
              <div style="flex-grow: 1;">
 				
 		
