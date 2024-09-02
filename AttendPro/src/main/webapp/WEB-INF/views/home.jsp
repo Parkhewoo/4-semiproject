@@ -8,7 +8,19 @@
   <!--swiper cdn-->
   <link   rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/> 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
- 
+ <style>
+       .btn-my{ 
+        background-color: #659ad5;
+        color: white;
+        border-radius: 0.3em;
+        border: none;
+        }   
+       
+        .swiper {
+       width: 100%;
+       height: 300px;
+     }     
+</style>
  <script type="text/javascript">      
       $(function(){
         //var swiper = new Swiper('선택자', 옵션객체);
@@ -65,20 +77,77 @@
 });
 </script>
 
-<style>
-       .btn-my{ 
-        background-color: #659ad5;
-        color: white;
-        border-radius: 0.3em;
-        border: none;
-        }   
-       
-        .swiper {
-       width: 100%;
-       height: 300px;
-     }     
-</style>
-    
+<c:if test="${cookie.noPopup == null}">
+<!-- 모달 관련 코드 -->
+<script type="text/javascript">
+	$(function(){
+		//x버튼과 닫기버튼 이벤트 처리
+		$(".btn-modal-close").click(function(e){
+			e.preventDefault();//a 태그 기본이벤트 차단
+			$(this).parents(".screen-wrapper").remove();
+		});
+		//배경(backdrop)을 클릭해도 닫기 처리되도록 구현
+		$(".screen-wrapper").click(function(){
+			$(this).remove();
+		});
+		
+		//  오늘 하루 안보기				
+		$(".btn-modal-nomore").click(function(e){
+			e.preventDefault();//a태그 기본이벤트 차단
+			
+			var btn =this;
+			
+			$.ajax({
+				url:"/rest/cookie/today",
+				method:"post",
+				data:{
+					cookieName:"noPopup"
+				},
+				success:function(){
+					//모달 제거
+					$(btn).parents(".screen-wrapper").remove();
+				},
+			});
+			
+		});
+	});
+</script>
+
+<div class="screen-wrapper flex-core">
+    <div class="container w-500" style="padding:20px; background:white; height:500px; display: flex; flex-direction: column; justify-content: space-between;">
+        
+        <div class="row center" style="display: grid; grid-template-columns: repeat(2, 200px); grid-template-rows: repeat(2, 200px); gap: 5px; justify-content: center;">
+            <!-- 첫 번째 광고 모달 -->
+            <div class="ad-modal1" style="width: 200px; height: 200px;">
+                <img src="/modal/modal1.jpg" style="width: 100%; height: 100%;">
+            </div>
+            <!-- 두 번째 광고 모달 -->
+            <div class="ad-modal2" style="width: 200px; height: 200px;">
+                <img src="/modal/modal2.jpg" style="width: 100%; height: 100%;">
+            </div>
+            <!-- 세 번째 광고 모달 -->
+            <div class="ad-modal3" style="width: 200px; height: 200px;">
+                <img src="/modal/modal3.jpg" style="width: 100%; height: 100%;">
+            </div>
+            <!-- 네 번째 광고 모달 -->
+            <div class="ad-modal4" style="width: 200px; height: 200px;">
+                <img src="/modal/modal4.jpg" style="width: 100%; height: 100%;">
+            </div>
+        </div>        
+        
+        <div class="row flex-box" style="margin-top: auto;">
+            <div class="w-50 left">
+                <a href="#" class="link link-animation btn-modal-nomore">오늘 하루 안보기</a>
+            </div>
+            <div class="w-50 right">
+                <a href="#" class="link link-animation btn-modal-close">닫기</a>
+            </div>
+        </div>
+        
+    </div>
+</div>
+</c:if>
+  
 <c:choose>
     <c:when test="${sessionScope.createdUser != null}">
     <div class="center">
