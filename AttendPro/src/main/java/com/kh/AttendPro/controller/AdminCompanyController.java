@@ -40,6 +40,7 @@ public class AdminCompanyController {
             throw new IllegalArgumentException("Company ID is missing");
         }
         companyDao.insert(companyDto);
+
         return "redirect:info?companyId=" + companyDto.getCompanyId();
     }
 

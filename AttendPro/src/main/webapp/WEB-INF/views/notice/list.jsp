@@ -2,13 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+
 
 <style>
 .field.field-underline, .btn.btn-underline {
     border-color: #0984e3;
 }
-
 .field {
     padding: 8px;
     border-radius: 4px;
@@ -102,7 +101,7 @@
     <div class="button-search-container">
         <!-- 검색창 및 버튼을 가운데 정렬 -->
         <div class="search">
-            <form action="list" method="get" autocomplete="off" style="display: flex; align-items: center;">
+            <form action="/" method="get" autocomplete="off" style="display: flex; align-items: center;">
                 <select name="column" class="field">
                     <option value="notice_title"
                         <c:if test="${param.column == 'notice_title'}">selected</c:if>>제목</option>
@@ -117,7 +116,7 @@
         <!-- 글쓰기 버튼을 검색창 옆에 배치 -->
         <div>
             <c:if test="${sessionScope.createdRank == '시스템 관리자'}">
-                <a href="write" class="btn btn-neutral bounce custom-btn">글쓰기</a>
+                <a href="/notice/write" class="btn btn-neutral bounce custom-btn">글쓰기</a>
             </c:if>
         </div>
     </div>
@@ -143,7 +142,7 @@
                         <td>${noticeDto.noticeNo}</td>
                         <td>
                             <!-- 제목에 링크를 부여해서 상세 페이지로 이동하도록 구현 -->
-                            <a class="link link-animation" href="detail?noticeNo=${noticeDto.noticeNo}">
+                            <a class="link link-animation" href="/notice/detail?noticeNo=${noticeDto.noticeNo}">
                                 ${noticeDto.noticeTitle}
                                 <c:if test="${noticeDto.noticeUtime != null && noticeDto.noticeWtime.before(noticeDto.noticeUtime)}">
                                     <span class="modified-tag">(수정됨)</span>
@@ -160,10 +159,10 @@
 
     <div class="row">
         <!-- 네비게이터 불러오는 코드 -->
-        <jsp:include page="/WEB-INF/views/template/navigator.jsp" />
+        <jsp:include page="/WEB-INF/views/template/navigator.jsp"/>
     </div>
-
+	
     <br>
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+
