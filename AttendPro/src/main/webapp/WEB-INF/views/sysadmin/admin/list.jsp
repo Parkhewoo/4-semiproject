@@ -85,6 +85,7 @@
                     <option value="admin_rank" <c:if test="${param.column == 'admin_rank'}">selected</c:if>>관리등급</option>
                 </select>
                 <input type="text" name="keyword" value="${keyword}" class="field w-50">
+               
                 <button type="submit" class="btn">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     검색
@@ -104,18 +105,20 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="dto" items="${list}">
+                <c:forEach var="adminDto" items="${list}">
                     <tr> 
-                        <td>
-                        <a href="detail?adminId=${dto.adminId}" class="link link-animation">${dto.adminId}</a>
+                        <td>	
+							
+                            <a href="detail?adminId=${adminDto.adminId}&companyId=${adminDto.adminId}" class="link link-animation">${adminDto.adminId}</a>
+ 
                         </td>
-                        <td>${dto.adminNo}</td>
-                        <td>${dto.adminEmail}</td>
-                     	<td>${dto.adminRank}</td>
+                        <td>${adminDto.adminNo}</td>
+                        <td>${adminDto.adminEmail}</td>
+                     	<td>${adminDto.adminRank}</td>
                     </tr>
                 </c:forEach>
-            </tbody>
-        </table>
+            </tbody>  
+        </table>  
     </div>
 </div>
 

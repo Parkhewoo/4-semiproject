@@ -11,13 +11,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.AttendPro.dao.AdminDao;
 import com.kh.AttendPro.dao.BlockDao;
 import com.kh.AttendPro.dao.CompanyDao;
+import com.kh.AttendPro.dao.HolidayDao;
 import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.dto.BlockDto;
 import com.kh.AttendPro.dto.CompanyDto;
+import com.kh.AttendPro.dto.HolidayDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
 import com.kh.AttendPro.vo.PageVO;
 
@@ -32,8 +36,11 @@ public class SysAdminController {
 	@Autowired 
 	private BlockDao blockDao;
 	
-	@Autowired CompanyDao companyDao;
+	@Autowired 
+	private CompanyDao companyDao;
 
+	@Autowired
+	private HolidayDao holidayDao;
 	
 	@RequestMapping("/home")
 	public String home() {
@@ -69,7 +76,7 @@ public class SysAdminController {
 	       model.addAttribute("list", adminDao.selectListBypaging(pageVO));
 	       pageVO.setCount(adminDao.countByPaging(pageVO));
 	       model.addAttribute("pageVO", pageVO);
-
+	      
 	       return "/WEB-INF/views/sysadmin/admin/list.jsp";
 	   }
 	
@@ -93,14 +100,21 @@ public class SysAdminController {
 	
 	
 	@RequestMapping("/detail")
-	public String detail(@RequestParam String adminId, 
+	public String detail(@RequestParam String adminId,
+	                     @RequestParam String companyId,
 	                     @ModelAttribute("pageVO") PageVO pageVO,
 	                     Model model) {
+	    // 관리자 정보 조회
 	    AdminDto adminDto = adminDao.selectOne(adminId);
+	    
+	    // 회사 정보 조회
 	    CompanyDto companyDto = companyDao.selectOne(adminId);
+	    
+	    // 모델에 관리자 및 회사 정보 추가
 	    model.addAttribute("adminDto", adminDto);
 	    model.addAttribute("companyDto", companyDto);
-	    
+	    model.addAttribute("companyId", companyId);
+
 	    // 페이지 크기를 10으로 설정 (이미 설정되어 있지 않다면)
 	    if (pageVO.getSize() == 0) {
 	        pageVO.setSize(10);
@@ -122,18 +136,24 @@ public class SysAdminController {
 	    boolean isBlocked = lastBlock != null && "차단".equals(lastBlock.getBlockType());
 	    model.addAttribute("isBlocked", isBlocked);
 	    
+	    // 휴일 조회
+	    List<HolidayDto> holidays = holidayDao.selectByCompanyId(companyId);
+
+	    // 데이터가 올바르게 조회되었는지 로그로 확인
+	    System.out.println("Holidays List: " + holidays);
+
+	    // JSON 변환
+	    Gson gson = new GsonBuilder()
+	        .setDateFormat("yyyy-MM-dd") // 날짜 형식 지정
+	        .create();
+	    String holidaysJson = gson.toJson(holidays);
+
+	    // 모델에 JSON 문자열 추가
+	    model.addAttribute("holidaysJson", holidaysJson);
+	    
 	    return "/WEB-INF/views/sysadmin/admin/detail.jsp";
 	}
-	
-	//관리자 정보수정
-	@GetMapping("/edit")
-	public String edit(Model model, @RequestParam String adminId) {		
-		AdminDto adminDto = adminDao.selectOne(adminId);
-		if(adminDto == null)
-			throw new TargetNotFoundException("존재하지 않는 아이디입니다");
-		model.addAttribute("adminDto", adminDto);
-			return "/WEB-INF/views/sysadmin/admin/edit.jsp";
-	}
+
 	
 	//관리자 정보수정
 	@PostMapping("/edit")

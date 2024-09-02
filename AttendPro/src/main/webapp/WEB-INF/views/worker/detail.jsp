@@ -166,6 +166,7 @@
         <c:if test="${workerDto != null}">
             <a href="edit?workerNo=${workerDto.workerNo}" class="btn">이 사원 정보 수정</a>
             <a href="delete?workerNo=${workerDto.workerNo}" class="btn">이 사원 삭제하기</a>
+            <a href="attendance?workerNo=${workerDto.workerNo}" class="btn">출석현황</a>
         </c:if>
     </div>
 </div>
