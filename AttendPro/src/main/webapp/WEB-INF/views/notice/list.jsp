@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
 .field.field-underline, .btn.btn-underline {
@@ -101,7 +101,7 @@
     <div class="button-search-container">
         <!-- 검색창 및 버튼을 가운데 정렬 -->
         <div class="search">
-            <form action="/" method="get" autocomplete="off" style="display: flex; align-items: center;">
+            <form action="list" method="get" autocomplete="off" style="display: flex; align-items: center;">
                 <select name="column" class="field">
                     <option value="notice_title"
                         <c:if test="${param.column == 'notice_title'}">selected</c:if>>제목</option>
@@ -165,4 +165,5 @@
     <br>
 </div>
 
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 

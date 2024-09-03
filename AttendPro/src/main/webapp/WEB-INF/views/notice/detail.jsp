@@ -135,7 +135,7 @@
 		
 
 		<!-- 목록 버튼 (모든 사용자에게 표시) -->
-		<a class="btn btn-neutral" href="/">목록</a>
+		<a class="btn btn-neutral" href="list">목록</a>
 	</div>
 </div>
 
