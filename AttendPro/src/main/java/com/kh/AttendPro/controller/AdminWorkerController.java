@@ -1,6 +1,8 @@
 package com.kh.AttendPro.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.YearMonth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.AttendPro.dao.RecordDao;
 import com.kh.AttendPro.dao.WorkerDao;
 import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
 import com.kh.AttendPro.service.AttachmentService;
+import com.kh.AttendPro.vo.AttendanceVO;
 import com.kh.AttendPro.vo.PageVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -33,7 +37,8 @@ public class AdminWorkerController {
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
 	private AttachmentService attachmentService;
-	
+	@Autowired
+	private RecordDao recordDao;
 	//회원가입
 	   @GetMapping("/add")
 	   public String add() {
@@ -46,7 +51,8 @@ public class AdminWorkerController {
 			   					 MultipartFile attach) throws IllegalStateException, IOException {		   	   
 		 //[1] 회원가입
 	      workerDao.insert(workerDto);
-	      
+	      System.out.println("workerDto"+workerDto);
+	      System.out.println(attach);
 	      
 	      if(attach.isEmpty() == false) {
 	    	  //[2] 첨부파일이 있다면 등록 및 저장
@@ -66,7 +72,7 @@ public class AdminWorkerController {
 	   @RequestMapping("/detail")
 	   public String detail(@RequestParam int workerNo, Model model) {
 	       WorkerDto workerDto = workerDao.selectOne(workerNo);
-	       
+	       System.out.println("WorkerDto: " + workerDto); // 디버깅용 로그
 	       model.addAttribute("workerDto", workerDto);
 	       return "/WEB-INF/views/worker/detail.jsp";
 	   }
@@ -91,21 +97,40 @@ public class AdminWorkerController {
 //			return "/WEB-INF/views/worker/list.jsp";
 //		}
 	   
+//	   @RequestMapping("/list")
+//	   public String list(@ModelAttribute("pageVO") PageVO pageVO, Model model) {
+//	       // 빈 문자열을 null로 변환
+//	       if (pageVO.getColumn() != null && pageVO.getColumn().trim().isEmpty()) {
+//	           pageVO.setColumn(null);
+//	       }
+//	       if (pageVO.getKeyword() != null && pageVO.getKeyword().trim().isEmpty()) {
+//	           pageVO.setKeyword(null);
+//	       }
+//	       model.addAttribute("list", workerDao.selectListByPaging(pageVO));
+//	       pageVO.setCount(workerDao.countByPaging(pageVO));
+//	       model.addAttribute("pageVO", pageVO);
+//
+//	       return "/WEB-INF/views/worker/list2.jsp";
+//	   }
+	   
+	   
+	   //일반관리자의 사원조회
 	   @RequestMapping("/list")
-	   public String list(@ModelAttribute("pageVO") PageVO pageVO, Model model) {
-	       // 빈 문자열을 null로 변환
-	       if (pageVO.getColumn() != null && pageVO.getColumn().trim().isEmpty()) {
-	           pageVO.setColumn(null);
-	       }
-	       if (pageVO.getKeyword() != null && pageVO.getKeyword().trim().isEmpty()) {
-	           pageVO.setKeyword(null);
-	       }
-	       model.addAttribute("list", workerDao.selectListByPaging(pageVO));
-	       pageVO.setCount(workerDao.countByPaging(pageVO));
-	       model.addAttribute("pageVO", pageVO);
+	    public String adminList(@ModelAttribute("pageVO") PageVO pageVO, 
+	                            @RequestParam String adminId, 
+	                            Model model) {
+	        if (pageVO.getColumn() != null && pageVO.getColumn().trim().isEmpty()) {
+	            pageVO.setColumn(null);
+	        }
+	        if (pageVO.getKeyword() != null && pageVO.getKeyword().trim().isEmpty()) {
+	            pageVO.setKeyword(null);
+	        }
+	        model.addAttribute("list", workerDao.selectListByAdminPaging(pageVO, adminId));
+	        pageVO.setCount(workerDao.countListByAdminPaging(pageVO, adminId));
+	        model.addAttribute("pageVO", pageVO);
 
-	       return "/WEB-INF/views/worker/list2.jsp";
-	   }
+	        return "/WEB-INF/views/worker/list2.jsp";
+	    }
 		
 		@GetMapping("/edit")
 		public String change(Model model, @RequestParam int workerNo) {
@@ -174,5 +199,46 @@ public class AdminWorkerController {
 		        return "redirect:/images/user.jpg";
 		    }
 		}
+		
+		@RequestMapping("/attendance")
+	    public String attendance(@RequestParam int workerNo,
+	            Model model) {
+
+	        LocalDate today= LocalDate.now();
+	     // today로부터 연도 와 월 추출
+	        int year = today.getYear();
+	     // today로부터 YearMonth 생성
+	        YearMonth yearMonth = YearMonth.from(today);
+	        YearMonth lastMonth = yearMonth.minusMonths(1);
+	        YearMonth lastMonth2 = yearMonth.minusMonths(2);
+
+	        //누적
+	        AttendanceVO attendanceVO = recordDao.selectAttendance(workerNo);
+	        //올해
+	        AttendanceVO attendanceYearly = recordDao.selectAttendanceYearly(workerNo, year);
+	        //작년
+	        AttendanceVO attendanceYearly2 = recordDao.selectAttendanceYearly(workerNo, year-1);
+	        //이번달
+	        AttendanceVO attendanceMonthly = recordDao.selectAttendanceMonthly(workerNo, yearMonth);
+	        //저번달
+	        AttendanceVO attendanceMonthly2 = recordDao.selectAttendanceMonthly(workerNo, lastMonth);
+	        //저저번달
+	        AttendanceVO attendanceMonthly3 = recordDao.selectAttendanceMonthly(workerNo, lastMonth2);
+	        //올해 결근일
+	        int absent = recordDao.getAbsent(workerNo, year);
+	        //작년 결근일
+	        int absent2 = recordDao.getAbsent(workerNo, year-1);
+
+	        model.addAttribute("attendance", attendanceVO);
+
+	        model.addAttribute("attendanceYearly", attendanceYearly);
+	        model.addAttribute("attendanceYearly2", attendanceYearly2);
+
+	        model.addAttribute("attendanceMonthly", attendanceMonthly);
+	        model.addAttribute("attendanceMonthly2", attendanceMonthly2);
+	        model.addAttribute("attendanceMonthly3", attendanceMonthly3);
+
+	        return "/WEB-INF/views/worker/attendance.jsp";
+	    }
 		
 }

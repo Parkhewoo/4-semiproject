@@ -254,11 +254,11 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
                         <h2>주소 변경</h2>
                     </div>
                     <div class="row">
-                        <input type="text" name="workerPost" class="field" placeholder="우편번호" readonly>
-                        <button class="btn btn-neutral btn-find-address" onclick="Find()">
+                        <input type="text" name="workerPost" class="field" placeholder="우편 번호" readonly>
+                        <button type="button" class="btn btn-neutral btn-find-address" onclick="Find()">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
-                        <button class="btn btn-negative btn-clear-address" onclick="clearAddress()">
+                        <button type="button" class="btn btn-negative btn-clear-address" onclick="clearAddress()">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
