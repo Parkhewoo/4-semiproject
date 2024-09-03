@@ -12,7 +12,7 @@
 <!-- 메뉴를 감싸는 div -->
 <div class="menu-container">
 		<a href="/">
-            <img src="/images/mainLogo.png" style="width:85px">
+      
         </a>
     <c:choose>
         <c:when test="${sessionScope.createdUser != null}">
@@ -37,14 +37,6 @@
                             <ul>
                                 <li><a href="/qna/list">문의목록</a></li>
                                 <li><a href="/qna/write">문의하기</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">관리자 메뉴</a>
-                            <ul>
-                                <li>
-                                    <a href="/admin/worker/list?adminId=${workerDto.adminId}">사원정보보기</a>
-                                </li>
                             </ul>
                         </li>
                     </c:when>
