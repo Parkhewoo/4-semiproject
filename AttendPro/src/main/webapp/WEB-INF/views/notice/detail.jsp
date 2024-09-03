@@ -116,7 +116,8 @@
 		<c:set var="isAdmin" value="${sessionScope.createdLevel == '시스템 관리자'}" />
 		<c:set var="isLogin" value="${sessionScope.createdUser != null}" />
 		<c:set var="isOwner"
-			value="${sessionScope.createdUser == noticeDto.noticeWriter}" />
+    value="${sessionScope.createdUser != null && sessionScope.createdUser.equals(noticeDto.noticeWriter)}" />
+
 
 		<!-- 공지글 작성 버튼 (시스템 관리자만 가능) -->
 		<c:if test="${isLogin && isAdmin}">
