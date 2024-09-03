@@ -4,11 +4,34 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<div class="row center">
-	<h1>비밀번호 변경 완료</h1>
-</div>
+<style>
+.password-finish{
+		color:#7199d0; 
+	}
 
-<div class="row center">
-	<h2><a href="/" class="link link-animation">메인페이지로 이동</a></h2>
+.btn-my {
+	background-color: #659ad5;
+	color: white;
+	border-radius: 0.3em;
+	border: none;
+}
+</style>
+
+<div class="container w-600 my-50">
+
+	<div class="password-finish row center">
+		<h1>비밀번호 변경 완료</h1>
+	</div>
+	
+	<div class="row center">
+			<p> 변경 된 비밀번호로 로그인 해주세요.</p>
+			 
+	</div>
+	
+	<div class="row center mt-50">
+		<h2><a href="/"  class="btn btn-my">메인페이지로 이동</a></h2>
+	</div>
+	
 </div>
+	
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
