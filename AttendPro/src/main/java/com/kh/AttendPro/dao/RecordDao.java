@@ -1,6 +1,5 @@
 package com.kh.AttendPro.dao;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
@@ -15,7 +14,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.kh.AttendPro.dto.RecordDto;
-import com.kh.AttendPro.mapper.HolidayMapper;
 import com.kh.AttendPro.mapper.RecordMapper;
 import com.kh.AttendPro.vo.AttendanceVO;
 
@@ -27,6 +25,9 @@ public class RecordDao {
 	
 	@Autowired
 	RecordMapper recordMapper;	
+	
+	@Autowired
+	WorkerDao workerDao;
 	
 	//workerNo를 통해서 RecordDto를 반환
 	public RecordDto selectOne(int workerNo) {
@@ -219,8 +220,15 @@ public class RecordDao {
 		HashSet weekdaySet = new HashSet<>();
 		
 		LocalDate start = LocalDate.of(year, 1, 1);
-		LocalDate end = LocalDate.of(year, 12, 31);
 		
+		LocalDate workerJoin = workerDao.selectOne(workerNo).getWorkerJoin().toLocalDate();
+			
+			// 사원이 기준년도에 입사
+			if (year == workerJoin.getYear()) {
+				start = workerJoin;
+			}
+		//사원이 기준년도 이전 입사한 경우
+		LocalDate end = LocalDate.of(year, 12, 31);
 		LocalDate date = start;
 	        while (!date.isAfter(end)) {
 	            // 현재 날짜가 평일인지 확인
@@ -236,6 +244,11 @@ public class RecordDao {
 	
 	//결근 횟수 조회
 	public int getAbsent(int workerNo, int year) {
+		LocalDate workerJoin = workerDao.selectOne(workerNo).getWorkerJoin().toLocalDate();
+		//사원이 기준년도 이후 입사한 경우
+		if (year < workerJoin.getYear()) {
+			return  0;
+		}
 		//해당년도의 모든 평일 날짜 데이터
 		HashSet<LocalDate> weekdaySet = 
 				getWeekdaySet(workerNo, year);
