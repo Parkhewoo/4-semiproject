@@ -187,7 +187,37 @@ function addHoliday(companyId, holidayDate) {
         }
     });
 }
+
 </script>
+
+<!-- 기존의 head 내용 -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+    function openPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 우편번호와 주소 필드를 업데이트
+                document.getElementById('post').value = data.zonecode;
+                document.getElementById('address1').value = data.address;
+                // 상세 주소 필드로 포커스를 이동
+                document.getElementById('address2').focus();
+            }
+        }).open();
+    }
+    </script>
+
+    <!-- 에러 메시지 표시 -->
+    <c:if test="${not empty error}">
+        <div class="info-message">${error}</div>
+    </c:if>
+
+    <c:choose>
+        <c:when test="${companyDto == null}">
+            <div class="row">
+                <h2>사업장이 존재하지 않습니다.</h2>
+            </div>
+        </c:when>
+        <c:otherwise>
 
 <form action="set" method="post" autocomplete="off">
     <input type="hidden" name="companyId" value="${sessionScope.createdUser}">
@@ -216,7 +246,7 @@ function addHoliday(companyId, holidayDate) {
             <label>주소</label>
             <div class="input-group">
                 <input type="text" id="post" name="companyPost" class="field w-22" placeholder="우편번호" value="${companyDto.companyPost}" readonly />
-                <button type="button" class="btn-my" onclick="openPostcode()">우편번호 검색</button>
+                <button type="button" class="btn-my btn-find-address" onclick="openPostcode()"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
         </div>
         <div class="row">
@@ -264,5 +294,9 @@ function addHoliday(companyId, holidayDate) {
         </div>
     </div>
 </form>
+
+ </c:otherwise>
+    </c:choose>
+
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

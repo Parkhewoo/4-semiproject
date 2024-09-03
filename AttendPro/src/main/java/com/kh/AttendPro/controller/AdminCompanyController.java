@@ -47,7 +47,7 @@ public class AdminCompanyController {
     @RequestMapping("/info")
     public String detail(@RequestParam String companyId, Model model) {
         CompanyDto companyDto = companyDao.selectOne(companyId);
-        if (companyDto == null) {
+        if (companyId == null) {
             throw new TargetNotFoundException();
         }
         List<HolidayDto> holidays = holidayDao.selectByCompanyId(companyId);
@@ -68,7 +68,6 @@ public class AdminCompanyController {
     @GetMapping("/set")
     public String set(Model model, @RequestParam String companyId) {
         CompanyDto companyDto = companyDao.selectOne(companyId);
-        //if (companyDto == null) throw new TargetNotFoundException();
 
         List<Date> holidayDates = holidayDao.selectHolidayDatesByCompanyId(companyId);
 
@@ -83,6 +82,11 @@ public class AdminCompanyController {
                                 @RequestParam(required = false) String addHolidayDate,
                                 @RequestParam(required = false) String removeHolidayDate,
                                 @RequestParam String companyId) throws ParseException {
+    	
+    	 if (companyId == null) {
+             throw new TargetNotFoundException("해당 ID를 가진 사업장을 찾을 수 없습니다: " + companyId);
+         }
+    	 
         // 회사 정보 업데이트
         boolean result = companyDao.update(companyDto);
         if (!result) throw new TargetNotFoundException();
