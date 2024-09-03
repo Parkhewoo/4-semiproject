@@ -4,6 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css">
 
 <style>
     /* 기존 스타일 */
@@ -121,6 +123,15 @@
     }
 </style>
 
+
+
+
+
+<script>
+function confirmDelete() {
+    return confirm('정말 삭제하시겠습니까?');
+}
+</script>
 <div class="container">
     <h1>관리자 상세페이지</h1>
 
@@ -289,16 +300,19 @@
             </c:choose>
 
             <div class="links">
-                <a href="${pageContext.request.contextPath}/sysadmin/admin/list">관리자 목록</a>
-                <a href="${pageContext.request.contextPath}/sysadmin/admin/modify?id=${adminDto.adminId}">정보 수정</a>
-                <a href="${pageContext.request.contextPath}/sysadmin/admin/delete?id=${adminDto.adminId}">관리자 삭제</a>
+                <a href="list">관리자 목록</a>
+                <a href="delete?adminId=${adminDto.adminId}" onclick="return confirmDelete();">관리자 삭제</a>
+                <a href="edit?adminId=${adminDto.adminId}">정보 변경</a>
+                 <c:if test="${not isBlocked}">
+                    <a href="block?blockTarget=${adminDto.adminId}">차단</a>
+                </c:if>
+                <c:if test="${isBlocked}">
+                    <a href="cancle?blockTarget=${adminDto.adminId}">해제</a>
+                </c:if>
             </div>
         </c:otherwise>
     </c:choose>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css">
-<script>
     
 </script>
