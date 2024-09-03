@@ -241,10 +241,11 @@ public class WorkerDao {
 
 		    if (pageVO.isSearch()) {
 		        // 검색 쿼리
+		    	String column=pageVO.getColumn();
 		        sql = "SELECT * FROM ("
 		                + "SELECT TMP.*, ROWNUM rn FROM ("
 		                + "SELECT * FROM worker "
-		                + "WHERE INSTR(worker_name, ?) > 0 "
+		                +  "WHERE INSTR(" + column + ", ?) > 0 "
 		                + "AND admin_id = ? " // admin_id 추가
 		                + "ORDER BY " + pageVO.getColumn() + " ASC, worker_no ASC"
 		                + ") TMP "

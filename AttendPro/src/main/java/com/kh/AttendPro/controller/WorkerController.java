@@ -350,7 +350,7 @@ public class WorkerController {
 	        workerDao.connect(workerDto.getWorkerNo(), attachmentNo);
 	    }
 
-	    return "redirect:detail?workerNo=" + workerDto.getWorkerNo();
+	    return "redirect:mypage?workerNo=" + workerDto.getWorkerNo();
 	}
     
 }
