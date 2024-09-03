@@ -101,7 +101,7 @@ public class SysAdminController {
 	
 	@RequestMapping("/detail")
 	public String detail(@RequestParam String adminId,
-	                     @RequestParam String companyId,
+	                     @RequestParam(required = false) String companyId,
 	                     @ModelAttribute("pageVO") PageVO pageVO,
 	                     Model model) {
 	    // 관리자 정보 조회
@@ -155,14 +155,31 @@ public class SysAdminController {
 	}
 
 	
-	//관리자 정보수정
+//	//관리자 정보수정
+//	@PostMapping("/edit")
+//	public String edit(@ModelAttribute AdminDto adminDto) {
+//		boolean result = adminDao.updateAdminBySysadmin(adminDto);
+//		if(result == false)
+//			throw new TargetNotFoundException("존재하지 않는 아이디입니다");
+//		return "redirect:/sysadmin/detail?adminId=" + adminDto.getAdminId();
+//
+//	}
+	
+	// 관리자 정보 수정 페이지를 보여주는 GET 메서드 추가
+	@GetMapping("/edit")
+	public String editForm(@RequestParam String adminId, Model model) {
+	    AdminDto adminDto = adminDao.selectOne(adminId);
+	    model.addAttribute("adminDto", adminDto);
+	    return "/WEB-INF/views/sysadmin/admin/edit.jsp";
+	}
+
+	// 관리자 정보 수정을 처리하는 POST 메서드
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute AdminDto adminDto) {
-		boolean result = adminDao.updateAdminBySysadmin(adminDto);
-		if(result == false)
-			throw new TargetNotFoundException("존재하지 않는 아이디입니다");
-		return "redirect:/sysadmin/detail?adminId=" + adminDto.getAdminId();
-
+	    boolean result = adminDao.updateAdminBySysadmin(adminDto);
+	    if(result == false)
+	        throw new TargetNotFoundException("존재하지 않는 아이디입니다");
+	    return "redirect:/sysadmin/detail?adminId=" + adminDto.getAdminId();
 	}
 	
 	//관리자 정보삭제
