@@ -38,7 +38,7 @@ $(document).ready(function() {
   });
 </script>
 
-<form action="/notice/edit" method="post" autocomplete="off">
+<form action="edit" method="post" autocomplete="off">
 	<input type="hidden" name="noticeNo" value="${noticeDto.noticeNo}"> 
 	
 	<div class="container w-800">
@@ -57,7 +57,7 @@ $(document).ready(function() {
 		</div>
 		<div class="row right">
 			<button type="submit" class="btn btn-positive">수정하기</button>
-			<a class="btn btn-neutral" href="/">목록으로</a>
+			<a class="btn btn-neutral" href="list">목록으로</a>
 		</div>
 	</div>
 </form>

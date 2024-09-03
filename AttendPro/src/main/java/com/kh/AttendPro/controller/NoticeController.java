@@ -36,7 +36,7 @@ public class NoticeController {
 	@Autowired
 	private AttachmentService attachmentService;
 	
-		@RequestMapping("/")
+		@RequestMapping("/list")
 		public String list(@ModelAttribute("PageVO") PageVO pageVO, Model model) {
 			if(pageVO.getColumn() != null && pageVO.getColumn().trim().isEmpty()) {
 				pageVO.setColumn(null);
@@ -72,7 +72,7 @@ public class NoticeController {
 			
 			noticeDao.insert(noticeDto);
 			
-			return "redirect:/";
+			return "redirect:list";
 		}
 		
 		@RequestMapping("/delete")
@@ -91,7 +91,7 @@ public class NoticeController {
 				attachmentService.delete(attachmentNo);
 			}
 			boolean result = noticeDao.delete(noticeNo);
-			return "redirect:/";
+			return "redirect:list";
 		}
 		@GetMapping("/edit")
 		public String edit(@RequestParam int noticeNo, Model model) {
