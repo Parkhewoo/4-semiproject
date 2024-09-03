@@ -35,17 +35,19 @@
 
 <script>
 $(function(){
+	
+	var createdUser = "${sessionScope.createdUser}";
+	
     function showSuccessMessage(message) {
         $(".success-message").text(message).fadeIn(300).delay(1000).fadeOut(300);
     }
 
     $(".btn-checkIn").click(function(event){
         event.preventDefault(); // 폼의 기본 동작(서버로의 폼 제출)을 막음
-        var createdUser = $("input[name='createdUser']").val(); // input에서 createdUser 값을 가져옴
         $.ajax({
             url: "/rest/worker/checkIn",
             method: "post",
-            data: { workerNoStr: createdUser }, // createdUser 값을 전달
+            data: { workerNo : createdUser }, //createdUser 값을 전달
             success: function(){
                 showSuccessMessage("출근 완료!");
             },
@@ -57,11 +59,10 @@ $(function(){
 
     $(".btn-checkOut").click(function(event){
         event.preventDefault(); // 폼의 기본 동작(서버로의 폼 제출)을 막음
-        var createdUser = $("input[name='createdUser']").val(); // input에서 createdUser 값을 가져옴
         $.ajax({
             url: "/rest/worker/checkOut",
             method: "post",
-            data: { workerNoStr: createdUser }, // createdUser 값을 전달
+            data: { workerNo : createdUser }, // createdUser 값을 전달
             success: function(){
                 showSuccessMessage("퇴근 완료!");
             },
@@ -70,6 +71,24 @@ $(function(){
             }
         });
     });
+    
+    $(".btn-checkOut").click(function(){
+    	$.ajax({
+    		url: "/rest/worker/getIsGo",
+    		method: "post",
+    		data: {workerNoStr : createdUser},
+    		success: function(response){
+    			if(response === true){
+    				console.log("퇴근기록 유");
+    			}	
+    			else{
+    				console.log("퇴근기록 무");
+    			}
+    		}
+    	});
+    }); //체크아웃
+    
+    
 });
 </script>
 
@@ -78,21 +97,16 @@ $(function(){
     <c:choose>
         <c:when test="${!isCome}">
             <!-- 출근 버튼만 보이게 처리 -->
-            <form action="/checkIn" method="post">
                 <div class="row mt-30">
-                    <input type="hidden" name="createdUser" value="${sessionScope.createdUser}">
                     <button class="w-100 btn btn-my btn-checkIn">출근하기</button>
                 </div>
-            </form>
         </c:when>
         <c:otherwise>
             <!-- 퇴근 버튼만 보이게 처리 -->
-            <form action="/checkOut" method="post">
                 <div class="row mt-30">
-                    <input type="hidden" name="createdUser" value="${sessionScope.createdUser}">
                     <button class="w-100 btn btn-my btn-checkOut">퇴근하기</button>
                 </div>
-            </form>
+            
         </c:otherwise>
     </c:choose>
     <div class="success-message"></div> <!-- 성공 메시지를 표시할 요소 -->

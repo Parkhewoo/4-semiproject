@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +33,9 @@ public class WorkerRestController {
 	
 	@Autowired
 	private RecordDao recordDao;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 	
 	//프로필 이미지만 업로드하는 매핑
 	@PostMapping("/profile")
@@ -67,6 +71,30 @@ public class WorkerRestController {
 		@RequestMapping("/status")
 		public List<StatusVO> statusByWorkerRank(){
 			return workerDao.statusByWorkerRank();
+		}
+		
+		//당일 출근 기록 검사
+		@PostMapping("/getIsCome")
+		public boolean getIsCome(@RequestParam String workerNoStr) {
+			Integer workerNo = Integer.parseInt(workerNoStr);
+			String sql = "select count(*) from record "
+					+ "where worker_no= ? and "
+					+ "TRUNC(worker_in) = TRUNC(SYSDATE)";
+			Object[] data = {workerNo};
+		    boolean isCome = jdbcTemplate.queryForObject(sql, int.class, data) > 0;
+		    return isCome;
+		}
+		
+		//당일 퇴근 기록 검사
+		@PostMapping("/getIsGo")
+		public boolean getIsGo(@RequestParam String workerNoStr) {
+			Integer workerNo = Integer.parseInt(workerNoStr);
+			String sql = "select count(*) from record "
+					+ "where worker_no= ? and "
+					+ "TRUNC(worker_out) = TRUNC(SYSDATE)";
+			Object[] data = {workerNo};
+			boolean isGo = jdbcTemplate.queryForObject(sql, int.class, data) > 0;
+			return isGo;
 		}
 		
 		@PostMapping("/checkIn")

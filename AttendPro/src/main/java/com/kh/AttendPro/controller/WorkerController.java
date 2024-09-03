@@ -324,6 +324,9 @@ public class WorkerController {
         model.addAttribute("attendanceMonthly2", attendanceMonthly2);
         model.addAttribute("attendanceMonthly3", attendanceMonthly3);
         
+        String workerName = workerDao.selectOne(workerNo).getWorkerName();
+        model.addAttribute("workerName", workerName);
+        
         return "/WEB-INF/views/worker/attendance.jsp";
     }
     @GetMapping("/edit")
@@ -352,7 +355,7 @@ public class WorkerController {
 	        // 새로운 이미지와 회원 정보 연결
 	        workerDao.connect(workerDto.getWorkerNo(), attachmentNo);
 	    }
-
+	    
 	    return "redirect:mypage?workerNo=" + workerDto.getWorkerNo();
 	}
     
