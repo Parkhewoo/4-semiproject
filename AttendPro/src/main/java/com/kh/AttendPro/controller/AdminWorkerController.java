@@ -72,7 +72,6 @@ public class AdminWorkerController {
 	   @RequestMapping("/detail")
 	   public String detail(@RequestParam int workerNo, Model model) {
 	       WorkerDto workerDto = workerDao.selectOne(workerNo);
-	       System.out.println("WorkerDto: " + workerDto); // 디버깅용 로그
 	       model.addAttribute("workerDto", workerDto);
 	       return "/WEB-INF/views/worker/detail.jsp";
 	   }
@@ -129,7 +128,7 @@ public class AdminWorkerController {
 	        model.addAttribute("list", workerDao.selectListByAdminPaging(pageVO, adminId));
 	        pageVO.setCount(workerDao.countListByAdminPaging(pageVO, adminId));
 	        model.addAttribute("pageVO", pageVO);
-
+	        
 	        return "/WEB-INF/views/worker/list2.jsp";
 	    }
 		
@@ -238,8 +237,11 @@ public class AdminWorkerController {
 	        model.addAttribute("attendanceMonthly", attendanceMonthly);
 	        model.addAttribute("attendanceMonthly2", attendanceMonthly2);
 	        model.addAttribute("attendanceMonthly3", attendanceMonthly3);
-
-	        return "/WEB-INF/views/worker/attendance.jsp";
+	        
+	        String workerName = workerDao.selectOne(workerNo).getWorkerName();
+	        System.out.println(workerName);
+	        model.addAttribute("workerName", workerName);
+	        return "/WEB-INF/views/admin/worker/attendance.jsp";
 	    }
 		
 }

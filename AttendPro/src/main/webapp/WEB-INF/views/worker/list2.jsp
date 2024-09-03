@@ -130,13 +130,13 @@
                     <tfoot>
                         <tr align="right">
                             <td colspan="3">
-                                <a href="add" class="link link-animation">신규 등록</a>
                             </td>
                         </tr>
                     </tfoot>
                 </table>
             </c:otherwise>
         </c:choose>
+    <div class="row center" ><a href="add" class="btn">신규 등록</a> </div>
     </div>
 
     <div class="row center">
