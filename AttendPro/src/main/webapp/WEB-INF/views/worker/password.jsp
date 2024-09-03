@@ -1,184 +1,232 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
-.fa-asterisk {
-	color: #d63031;
-}
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .row {
+        margin-bottom: 15px;
+    }
+    .field {
+        width: 50%;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        height: 1px;
+        box-sizing: border-box;
+    }
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        margin: 5px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .btn:hover {
+        background-color: #2980b9;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .info-message {
+        text-align: center;
+        font-size: 18px;
+        color: #e74c3c;
+    }
+    .success-feedback, .fail-feedback {
+        display: none;
+        font-size: 12px;
+        color: #e74c3c;
+    }
+    .success-feedback {
+        color: #2ecc71;
+    }
+    .success-feedback.show, .fail-feedback.show {
+        display: block;
+    }
+    
+    .btn-my {
+        background-color: #659ad5;
+        color: white;
+        border-radius: 0.3em;
+        border: none;
+    }
 
-.success {
-	border: 2px solid green;
-}
-
-.fail {
-	border: 2px solid red;
-}
-
-.btn-my {
-	background-color: #659ad5;
-	color: white;
-	border-radius: 0.3em;
-	border: none;
-}
-
-.field-show-checkbox {
-	display: inline-block;
-}
-
-.field-show {
-	display: none;
-}
-
-.fa-eye, .fa-eye-slash {
-	cursor: pointer;
-}
+    .field-show-container {
+        display: flex;
+        align-items: center;
+    }
+    .field-show-container input[type="checkbox"] {
+        margin-right: 10px;
+    }
+    .field-show-container i {
+        cursor: pointer;
+    }
 </style>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-	$(function() {
-		var status = {
-			currentPwValid : false,
-			currentPwCheckValid : false,
-			changePwValid : false,
-			changePwCheckValid : false,
-			ok : function() {
-				return this.currentPwValid && this.currentPwCheckValid
-						&& this.changePwValid && this.changePwCheckValid;
-			}
-		};
+    $(function() {
+        var status = {
+            currentPwValid: false,
+            changePwValid: false,
+            changePwCheckValid: false,
+            ok: function() {
+                return this.currentPwValid && this.changePwValid && this.changePwCheckValid;
+            }
+        };
 
-		function togglePasswordVisibility(checkbox, icons, fields) {
-			checkbox.each(function() {
-				var $checkbox = $(this);
-				var $icons = $(icons);
-				var $fields = $(fields);
+        // 비밀번호 표시/숨기기 토글
+        $('#show-password-toggle').change(function() {
+            var inputType = $(this).is(':checked') ? 'text' : 'password';
+            $('#currentPw').attr('type', inputType);
+            $('#toggle-eye').toggleClass('fa-eye fa-eye-slash');
+        });
 
-				// Update password fields and icons based on checkbox state
-				function updateVisibility() {
-					var type = $checkbox.is(':checked') ? 'text' : 'password';
-					$fields.attr('type', type);
+        $('#show-change-password-toggle').change(function() {
+            var inputType = $(this).is(':checked') ? 'text' : 'password';
+            $('#changePw, #changePw-check').attr('type', inputType);
+            $('#toggle-change-eye').toggleClass('fa-eye fa-eye-slash');
+        });
 
-					$icons.each(function() {
-						if ($checkbox.is(':checked')) {
-							$(this).removeClass('fa-eye-slash').addClass(
-									'fa-eye');
-						} else {
-							$(this).removeClass('fa-eye').addClass(
-									'fa-eye-slash');
-						}
-					});
-				}
+        // 현재 비밀번호 유효성 검사
+        $("[name=currentPw]").blur(function() {
+            var currentPw = $(this).val();
+            $.ajax({
+                url: "/worker/checkCurrentPassword",
+                method: "POST",
+                data: { currentPw: currentPw },
+                success: function(response) {
+                    var isValid = response === "valid";
+                    $("[name=currentPw]").removeClass("success fail")
+                                         .addClass(isValid ? "success" : "fail");
+                    status.currentPwValid = isValid;
+                    if (isValid) {
+                        $("#current-pw-success").show();
+                        $("#current-pw-fail").hide();
+                    } else {
+                        $("#current-pw-success").hide();
+                        $("#current-pw-fail").show();
+                    }
+                }
+            });
+        });
 
-				// Initialize visibility based on the current state of the checkbox
-				updateVisibility();
+        // 새 비밀번호 유효성 검사
+        $("[name=changePw]").blur(function() {
+            var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
+            var isValid = regex.test($(this).val());
+            $(this).removeClass("success fail")
+                   .addClass(isValid ? "success" : "fail");
+            status.changePwValid = isValid;
+            if (isValid) {
+                $("#change-pw-success").show();
+                $("#change-pw-fail").hide();
+            } else {
+                $("#change-pw-success").hide();
+                $("#change-pw-fail").show();
+            }
+        });
 
-				// Add change event listener to the checkbox
-				$checkbox.change(function() {
-					updateVisibility();
-				});
-			});
-		}
+        // 새 비밀번호 확인 유효성 검사
+        $("#changePw-check").blur(function() {
+            var isValid = $("[name=changePw]").val() === $(this).val();
+            $(this).removeClass("success fail")
+                   .addClass(isValid ? "success" : "fail");
+            status.changePwCheckValid = isValid;
+            if (isValid) {
+                $("#change-pw-check-success").show();
+                $("#change-pw-check-fail").hide();
+            } else {
+                $("#change-pw-check-success").hide();
+                $("#change-pw-check-fail").show();
+            }
+        });
 
-		// Initialize password visibility toggles
-		togglePasswordVisibility($("#showCurrentPw"), ".fa-eye.currentPw",
-				"[name=currentPw]");
-		togglePasswordVisibility($("#showChangePw"), ".fa-eye.changePw",
-				"[name=changePw], #changePw-check");
-
-		$("[name=currentPw]")
-				.blur(
-						function() {
-							var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
-							var isValid = regex.test($(this).val());
-							$(this).removeClass("success fail").addClass(
-									isValid ? "success" : "fail");
-							status.currentPwValid = isValid;
-						});
-
-		$("[name=changePw]")
-				.blur(
-						function() {
-							var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
-							var isValid = regex.test($(this).val());
-							$(this).removeClass("success fail").addClass(
-									isValid ? "success" : "fail");
-							status.changePwValid = isValid;
-						});
-
-		$("#changePw-check").blur(
-				function() {
-					var isValid = $("[name=changePw]").val().length
-							&& $(this).val() === $("[name=changePw]").val();
-					$(this).removeClass("success fail").addClass(
-							isValid ? "success" : "fail");
-					status.changePwCheckValid = isValid;
-				});
-
-		$(".check-form").submit(function() {
-			$("[name], #password-check").trigger("input").trigger("blur");
-			return status.ok();
-		});
-
-		$(".check-form").on('keydown', 'input, textarea, select', function(e) {
-			if (e.key === 'Enter') {
-				e.preventDefault();
-			}
-		});
-	});
+        // 폼 제출 시 유효성 검사
+        $(".check-form").submit(function(e) {
+            e.preventDefault();
+            $("[name], #changePw-check").trigger("blur");
+            if (status.ok()) {
+                this.submit();
+            } else {
+                alert("입력 정보를 다시 확인해주세요.");
+            }
+        });
+    });
 </script>
 
 <div class="container w-600 my-50">
-	<div class="row center">
-		<h1>비밀번호 변경 페이지</h1>
-	</div>
-
-	<form action="password" method="post" class="check-form">
-		<div class="row">
-			<div class="page">
-				<div class="row">
-					<h2>현재 비밀번호 입력</h2>
-				</div>
-				<div class="row">
-					<input type="checkbox" id="showCurrentPw"
-						class="field-show-checkbox"> <label for="showCurrentPw">
-						<span>표시하기</span> <i class="fa-solid fa-eye currentPw"></i>
-					</label> <input type="password" name="currentPw" class="field w-100"
-						placeholder="현재 비밀번호" required>
-					<div class="success-feedback">올바른 형식입니다!</div>
-					<div class="fail-feedback">형식에 맞춰 8~16자로 작성하세요</div>
-				</div>
-				<div class="row">
-					<input type="checkbox" id="showChangePw"
-						class="field-show-checkbox"> <label for="showChangePw">
-						<span>표시하기</span> <i class="fa-solid fa-eye changePw"></i>
-					</label> <input type="password" name="changePw" class="field w-100"
-						placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
-					<div class="success-feedback">올바른 형식입니다!</div>
-					<div class="fail-feedback">형식에 맞춰 8~16자로 작성하세요</div>
-
-					<input type="password" id="changePw-check" class="field w-100"
-						placeholder="확인을 위해 비밀번호 한번 더 입력" required>
-					<div class="success-feedback">비밀번호가 일치합니다</div>
-					<div class="fail-feedback">비밀번호가 일치하지 않습니다</div>
-				</div>
-				<div class="row mt-50">
-					<div class="flex-box">
-
-						<div class="w-50 right">
-							<button type="submit" class="btn btn-my">
-								<i class="fa-solid fa-right-to-bracket"></i>변경 완료
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
+    <div class="row center">
+        <h1>비밀번호 변경 페이지</h1>
+    </div>
+    
+    <form action="password" method="post" class="check-form">
+        <div class="row">
+            <div class="row">
+                <h2>비밀번호 입력</h2>
+            </div>
+            <div class="field-show-container">
+                <label class="ms-20">
+                    <input type="checkbox" class="field-show" id="show-password-toggle">
+                    <span>표시하기</span>
+                </label>
+                <i class="fa-solid fa-eye" id="toggle-eye"></i>
+            </div>
+            <input type="password" name="currentPw" id="currentPw" class="field w-100"
+                   placeholder="현재 비밀번호를 입력하세요" required>
+            <div id="current-pw-success" class="success-feedback">현재 비밀번호와 일치합니다</div>
+            <div id="current-pw-fail" class="fail-feedback">현재 비밀번호와 일치하지 않습니다</div>
+            
+            <div class="row mt-20">
+                <h2>변경할 비밀번호 입력</h2>
+            </div>
+            <div class="row">
+                <div class="field-show-container">
+                    <label class="ms-20">
+                        <input type="checkbox" class="field-show" id="show-change-password-toggle">
+                        <span>표시하기</span>
+                    </label>
+                    <i class="fa-solid fa-eye" id="toggle-change-eye"></i>
+                </div>
+                <input type="password" name="changePw" id="changePw" class="field w-100"
+                       placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
+                <div id="change-pw-success" class="success-feedback">올바른 형식입니다!</div>
+                <div id="change-pw-fail" class="fail-feedback">형식에 맞춰 8~16자로 작성하세요</div>
+            </div>
+            
+            <div class="row mt-20">
+                <input type="password" id="changePw-check" name="changePwCheck" class="field w-100"
+                       placeholder="변경할 비밀번호 확인" required>
+                <div id="change-pw-check-success" class="success-feedback">비밀번호가 일치합니다</div>
+                <div id="change-pw-check-fail" class="fail-feedback">비밀번호가 일치하지 않습니다</div>
+            </div>
+        </div>
+        
+        <div class="row mt-30">
+            <button type="submit" class="btn btn-my">변경하기</button>
+        </div>
+    </form>
 </div>
-
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

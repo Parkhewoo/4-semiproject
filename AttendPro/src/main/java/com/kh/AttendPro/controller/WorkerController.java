@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.AttendPro.configuration.CustomCertProperties;
 import com.kh.AttendPro.dao.CertDao;
 import com.kh.AttendPro.dao.RecordDao;
 import com.kh.AttendPro.dao.WorkerDao;
+import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.dto.CertDto;
 import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
@@ -211,23 +213,53 @@ public class WorkerController {
 	public String password() {
 		return "/WEB-INF/views/worker/password.jsp";
 	}
+	
+	@PostMapping("/checkCurrentPassword")
+	@ResponseBody
+	public String checkCurrentPassword(@RequestParam String currentPw, HttpSession session) {
+	    int workerNo = (int) session.getAttribute("createdUser");
+	    WorkerDto workerDto = workerDao.selectOne(workerNo);
+	    
+	    // 현재 비밀번호 확인
+	    boolean isValid = encoder.matches(currentPw, workerDto.getWorkerPw());
+	    return isValid ? "valid" : "invalid";
+	}
 
 	@PostMapping("/password")
-	public String password(@RequestParam String currentPw, @RequestParam String changePw, HttpSession session) {
+	public String password(@RequestParam String currentPw,
+						   @RequestParam String changePw, 
+						   @RequestParam(value="changePwCheck", required = false) String changePwCheck,
+						   HttpSession session) {
 		// 사원 번호 추출
 		int workerNo = (int) session.getAttribute("createdUser");
-
 		// 현재 사용자의 정보를 추출
 		WorkerDto workerDto = workerDao.selectOne(workerNo);
-
-		// 비밀번호 비교
-		boolean isValid = encoder.matches(currentPw, workerDto.getWorkerPw());
-		if (!isValid) {
-			return "redirect:password?error";
+		//현재비밀번호확인
+		boolean isCurrentPwValid = encoder.matches(currentPw, workerDto.getWorkerPw());
+		if(!isCurrentPwValid) {
+	        return "redirect:password?error"; // 현재 비밀번호 불일치
+	    }
+		
+		//새 비밀번호와 비밀번호확인의 일치여부 확인
+		if(!changePw.equals(changePwCheck)) {
+			return "redirect:password?error";//비밀번호 확인 불일치
 		}
 
-		// 비밀번호 변경
-		workerDao.updateWorkerPw(workerNo, changePw);
+		// 새 비밀번호 형식검증
+		String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$";
+	    boolean isChangePwValid = changePw.matches(regex);
+		if (!isChangePwValid) {
+			return "redirect:password?error";//새 비밀번호 형식 불일치
+		}
+
+		// 비밀번호 업데이트
+		boolean success = workerDao.updateWorkerPw(workerNo, changePw);
+		if(!success) {
+			return "redirect:password?error";// 비밀번호 업데이트 실패
+		}
+		//세션 무효화 (비밀번호 변경 후 세션을 무효화하여 새로운 비밀번호로 재로그인 요구)
+		session.invalidate();
+		
 		return "redirect:passwordFinish";
 	}
 

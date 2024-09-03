@@ -3,7 +3,6 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-
 <style>
     .container {
         width: 100%;
@@ -22,7 +21,6 @@
         padding: 8px;
         border-radius: 4px;
         border: 1px solid #ddd;
-        height: 1px;
         box-sizing: border-box;
     }
     .btn {
@@ -66,8 +64,25 @@
         display: block;
     }
     
-    .btn btn-my{
-    }]
+    .btn-my {
+        background-color: #659ad5;
+        color: white;
+        border-radius: 0.3em;
+        border: none;
+    }
+
+    .field-show-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .field-show-container input[type="checkbox"] {
+        margin-right: 10px;
+    }
+    .field-show-container i {
+        cursor: pointer;
+        margin-left: 5px;
+    }
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -83,12 +98,16 @@
         };
 
         // 비밀번호 표시/숨기기 토글
-        $('#show-password-toggle, #show-change-password-toggle').change(function() {
+        $('#show-password-toggle').change(function() {
             var inputType = $(this).is(':checked') ? 'text' : 'password';
-            var targetId = $(this).attr('id') === 'show-password-toggle' ? '#currentPw' : '#changePw';
-            var eyeId = $(this).attr('id') === 'show-password-toggle' ? '#toggle-eye' : '#toggle-change-eye';
-            $(targetId).attr('type', inputType);
-            $(eyeId).toggleClass('fa-eye fa-eye-slash');
+            $('#currentPw').attr('type', inputType);
+            $('#toggle-eye').toggleClass('fa-eye fa-eye-slash');
+        });
+
+        $('#show-change-password-toggle').change(function() {
+            var inputType = $(this).is(':checked') ? 'text' : 'password';
+            $('#changePw, #changePw-check').attr('type', inputType);
+            $('#toggle-change-eye').toggleClass('fa-eye fa-eye-slash');
         });
 
         // 현재 비밀번호 유효성 검사
@@ -168,11 +187,13 @@
             <div class="row">
                 <h2>비밀번호 입력</h2>
             </div>
-            <label class="ms-20">
-                <input type="checkbox" class="field-show" id="show-password-toggle">
-                <span>표시하기</span>
-            </label>
-            <i class="fa-solid fa-eye" id="toggle-eye"></i>
+            <div class="field-show-container">
+                <label>
+                    <input type="checkbox" class="field-show" id="show-password-toggle">
+                    <span>현재 비밀번호 표시하기</span>
+                </label>
+                <i class="fa-solid fa-eye" id="toggle-eye"></i>
+            </div>
             <input type="password" name="currentPw" id="currentPw" class="field w-100"
                    placeholder="현재 비밀번호를 입력하세요" required>
             <div id="current-pw-success" class="success-feedback">현재 비밀번호와 일치합니다</div>
@@ -181,17 +202,17 @@
             <div class="row mt-20">
                 <h2>변경할 비밀번호 입력</h2>
             </div>
-            <div class="row">
-                <label class="ms-20">
+            <div class="field-show-container">
+                <label>
                     <input type="checkbox" class="field-show" id="show-change-password-toggle">
-                    <span>표시하기</span>
-                </label> 
+                    <span>변경할 비밀번호 표시하기</span>
+                </label>
                 <i class="fa-solid fa-eye" id="toggle-change-eye"></i>
-                <input type="password" name="changePw" id="changePw" class="field w-100"
-                       placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
-                <div id="change-pw-success" class="success-feedback">올바른 형식입니다!</div>
-                <div id="change-pw-fail" class="fail-feedback">형식에 맞춰 8~16자로 작성하세요</div>
             </div>
+            <input type="password" name="changePw" id="changePw" class="field w-100"
+                   placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
+            <div id="change-pw-success" class="success-feedback">올바른 형식입니다!</div>
+            <div id="change-pw-fail" class="fail-feedback">형식에 맞춰 8~16자로 작성하세요</div>
             
             <div class="row mt-20">
                 <input type="password" id="changePw-check" name="changePwCheck" class="field w-100"
