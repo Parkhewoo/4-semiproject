@@ -117,8 +117,9 @@ public class AdminWorkerController {
 	   //일반관리자의 사원조회
 	   @RequestMapping("/list")
 	    public String adminList(@ModelAttribute("pageVO") PageVO pageVO, 
-	                            @RequestParam String adminId, 
+	                             HttpSession session, 
 	                            Model model) {
+		   String adminId = (String)session.getAttribute("createdUser");
 	        if (pageVO.getColumn() != null && pageVO.getColumn().trim().isEmpty()) {
 	            pageVO.setColumn(null);
 	        }

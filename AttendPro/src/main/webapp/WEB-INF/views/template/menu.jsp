@@ -38,8 +38,7 @@
                                 <li><a href="/qna/list">문의목록</a></li>
                                 <li><a href="/qna/write">문의하기</a></li>
                             </ul>
-                        </li>
-                        
+                      </li>                       
                         </li>
                     </c:when>
                     

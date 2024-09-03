@@ -150,26 +150,7 @@ public class AdminController {
 		return "redirect:/";
 	}
 	
-	//목록+검색
-	@RequestMapping("/list")
-	public String list(Model model,
-			@RequestParam(required = false) String column,
-			@RequestParam(required = false) String keyword) {
-				
-				boolean isSearch = column !=null && keyword != null;
-				model.addAttribute("isSearch",isSearch);
-				
-				model.addAttribute("column",column);
-				model.addAttribute("keyword",keyword);
-				
-				if(isSearch) {
-					model.addAttribute("list",adminDao.selectList(column, keyword));
-				}
-				else {
-					model.addAttribute("list",adminDao.selectList());
-				}
-				return"/WEB-INF/views/admin/list.jsp"; 
-			}
+	
 	@GetMapping("/findPw")
 	public String findPw() {
 		return "/WEB-INF/views/admin/findPw.jsp";
