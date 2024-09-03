@@ -252,7 +252,7 @@
     <c:choose>
         <c:when test="${companyDto == null}">
             <div class="row">
-                <h2>존재하지 않는 업장입니다</h2>
+                <h2>사업장이 존재하지 않습니다.</h2>
             </div>
         </c:when>
         <c:otherwise>
