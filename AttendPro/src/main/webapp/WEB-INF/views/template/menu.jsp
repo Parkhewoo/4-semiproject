@@ -30,7 +30,7 @@
                             <a href="/admin/mypage">마이페이지</a>
                         </li>
                         <li>
-                            <a href="/admin/worker/list">사원 관리</a>
+                            <a href="/admin/worker/list?adminId=${sessionScope.createdUser}">사원 관리</a>
                         </li>
                         <li>
                             <a href="#">QNA</a>
@@ -43,7 +43,7 @@
                             <a href="#">관리자 메뉴</a>
                             <ul>
                                 <li>
-                                    <a href="/admin/worker/list">사원정보보기</a>
+                                    <a href="/admin/worker/list?adminId=${workerDto.adminId}">사원정보보기</a>
                                 </li>
                             </ul>
                         </li>
