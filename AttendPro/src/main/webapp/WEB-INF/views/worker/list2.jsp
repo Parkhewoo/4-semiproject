@@ -130,7 +130,7 @@
                     <tfoot>
                         <tr align="right">
                             <td colspan="3">
-                                <a href="add" class="link link-animation">신규등록</a>
+                                <a href="add" class="link link-animation">신규 등록</a>
                             </td>
                         </tr>
                     </tfoot>
