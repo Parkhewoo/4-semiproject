@@ -68,7 +68,8 @@ public class AdminController {
 	public String join(@RequestParam String adminId,
             @RequestParam String adminPw,
             @RequestParam String adminNo,
-            @RequestParam String adminEmail){
+            @RequestParam String adminEmail,
+            Model model){
 		
 		   // AdminDto 객체 생성
         AdminDto adminDto = new AdminDto();
@@ -82,6 +83,7 @@ public class AdminController {
 
         // 성공 여부에 따라 리다이렉트 또는 오류 페이지 표시
         if (success) {
+        	model.addAttribute("adminDto",adminDto);
             return "redirect:/admin/joinFinish"; // 가입 성공 페이지로 리다이렉트
         } else {
             return "redirect:/join"; // 실패 시 회원가입 페이지로 리다이렉트
