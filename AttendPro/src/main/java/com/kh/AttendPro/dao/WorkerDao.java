@@ -171,15 +171,15 @@ public class WorkerDao {
 		            pageVO.getBeginRow(),
 		            pageVO.getEndRow()
 		        };
-		        System.out.println(Arrays.toString(data));
+		        
 		    }
 		    List<WorkerDto> result = jdbcTemplate.query(sql, workerMapper, data);
 //		    System.out.println("결과 수 : " + result.size());
 	        // Print the result to the console
 //	        System.out.println("Query Result:");
-	        for (WorkerDto worker : result) {
-	            System.out.println(worker);
-	        }
+//	        for (WorkerDto worker : result) {
+//	            System.out.println(worker);
+//	        }
 
 	        return result;
 	    }
