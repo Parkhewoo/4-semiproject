@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.AttendPro.configuration.CustomCertProperties;
 import com.kh.AttendPro.dao.AdminDao;
@@ -322,41 +323,69 @@ public class AdminController {
 		return "redirect:mypage";
 	}
 	
-	//관리자 비밀번호 변경
+	// 관리자 비밀번호 변경
 	@GetMapping("/password")
 	public String password() {
-		return "/WEB-INF/views/admin/password.jsp";
+	    return "/WEB-INF/views/admin/password.jsp";
 	}
-	
+
+	@PostMapping("/checkCurrentPassword")
+	@ResponseBody
+	public String checkCurrentPassword(@RequestParam String currentPw, HttpSession session) {
+	    String adminId = (String) session.getAttribute("createdUser");
+	    AdminDto adminDto = adminDao.selectOne(adminId);
+
+	    // 현재 비밀번호 확인
+	    boolean isValid = encoder.matches(currentPw, adminDto.getAdminPw());
+	    return isValid ? "valid" : "invalid";
+	}
+
 	@PostMapping("/password")
-	public String password(@RequestParam String currentPw,
-									@RequestParam String changePw,
-									HttpSession session) {
-		//관리자 아이디 추출
-		String adminId = (String)session.getAttribute("createdUser");
-		
-		//현재 사용ㅈ의 정보를 추출
-		AdminDto adminDto = adminDao.selectOne(adminId);
-		
-		//비밀번호 비교
-		boolean isValid = encoder.matches(currentPw, adminDto.getAdminPw());
-		if(isValid == false) {
-			return "redirect:password?error";
-		}
-		
-		//비밀번호 변경
-		adminDao.updateAdminPw(adminId, changePw);
-		return "redirect:passwordFinish";
+	public String password(
+	        @RequestParam String currentPw,
+	        @RequestParam String changePw,
+	        @RequestParam(value = "changePwCheck", required = false) String changePwCheck,
+	        HttpSession session) {
+
+	    // 관리자 ID 가져오기
+	    String adminId = (String) session.getAttribute("createdUser");
+
+	    // 현재 비밀번호 확인
+	    AdminDto adminDto = adminDao.selectOne(adminId);
+	    boolean isCurrentPwValid = encoder.matches(currentPw, adminDto.getAdminPw());
+	    if (!isCurrentPwValid) {
+	        return "redirect:password?error"; // 현재 비밀번호 불일치
+	    }
+
+	    // 새 비밀번호와 확인 비밀번호 일치 여부 확인
+	    if (!changePw.equals(changePwCheck)) {
+	        return "redirect:password?error"; // 비밀번호 확인 불일치
+	    }
+
+	    // 새 비밀번호 형식 검증
+	    String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$";
+	    boolean isChangePwValid = changePw.matches(regex);
+	    if (!isChangePwValid) {
+	        return "redirect:password?error"; // 새 비밀번호 형식 불일치
+	    }
+
+	    // 비밀번호 업데이트
+	    boolean success = adminDao.updateAdminPw(adminId, changePw);
+	    if (!success) {
+	        return "redirect:password?error"; // 비밀번호 업데이트 실패
+	    }
+
+	    // 세션 무효화 (비밀번호 변경 후 세션을 무효화하여 새로운 비밀번호로 재로그인 요구)
+	    session.invalidate();
+
+	    return "redirect:passwordFinish";
 	}
+
+
 	@RequestMapping("/passwordFinish")
 	public String passwordFinish() {
-		return "/WEB-INF/views/admin/passwordFinish.jsp";
+	    return "/WEB-INF/views/admin/passwordFinish.jsp";
 	}
-	
-	
-	
-	
-	
-	
+
 	
 }

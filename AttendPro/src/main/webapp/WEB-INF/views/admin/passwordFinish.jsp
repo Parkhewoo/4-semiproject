@@ -9,7 +9,6 @@
 </div>
 
 <div class="row center">
-	<h2><a href="/admin/mypage" class="link link-animation">마이페이지로 이동</a></h2>
 	<h2><a href="/" class="link link-animation">메인페이지로 이동</a></h2>
 </div>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

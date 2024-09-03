@@ -82,20 +82,28 @@ public class AdminDao {
 	}
 
 	// 최종 로그인 시각 갱신
-	public boolean updateAdminLogin(String adminId) {
+	public boolean updateAdminLogin(String adminId) {	
 		String sql = "update admin set admin_login=sysdate " + "where admin_id = ?";
 		Object[] data = { adminId };
 		return jdbcTemplate.update(sql, data) > 0;
 	}
 
-	// 비밀번호 변경
+//	// 비밀번호 변경
+//	public boolean updateAdminPw(String adminId, String adminPw) {
+//		   String encPw = encoder.encode(adminPw);
+//		    String sql = "update admin set admin_pw=? where admin_id=?";
+//		Object[] data = { encPw, adminId };
+//		return jdbcTemplate.update(sql, data) > 0;
+//	}
+
 	public boolean updateAdminPw(String adminId, String adminPw) {
-		   String encPw = encoder.encode(adminPw);
-		    String sql = "update admin set admin_pw=? where admin_id=?";
-		Object[] data = { encPw, adminId };
-		return jdbcTemplate.update(sql, data) > 0;
+	    String encPw = encoder.encode(adminPw);
+	    String sql = "UPDATE admin SET admin_pw = ? WHERE admin_id = ?";
+	    Object[] data = { encPw, adminId };
+	    return jdbcTemplate.update(sql, data) > 0;
 	}
 
+	
 	public List<AdminDto> selectListBypaging(PageVO pageVO) {
 		if (pageVO.isSearch()) {
 			String sql = "SELECT * FROM (" + "SELECT TMP.*, ROWNUM rn FROM (" + "SELECT * FROM admin " + "WHERE instr("
