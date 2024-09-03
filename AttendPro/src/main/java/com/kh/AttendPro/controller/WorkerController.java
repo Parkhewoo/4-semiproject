@@ -275,6 +275,9 @@ public class WorkerController {
 	@RequestMapping("/check")
     public String check(HttpSession session,
             Model model) {
+		if(session.getAttribute("createdUser") == null) {
+			return "redirect:login";
+		}
             Integer createdUser = (Integer) session.getAttribute("createdUser");
             int workerNo = createdUser; 
             boolean isCome = recordDao.getIsCome(workerNo); // 당일 출근 기록 검사
