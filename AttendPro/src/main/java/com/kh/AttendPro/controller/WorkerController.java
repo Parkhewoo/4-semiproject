@@ -14,15 +14,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.AttendPro.configuration.CustomCertProperties;
 import com.kh.AttendPro.dao.CertDao;
 import com.kh.AttendPro.dao.RecordDao;
 import com.kh.AttendPro.dao.WorkerDao;
-import com.kh.AttendPro.dto.AdminDto;
 import com.kh.AttendPro.dto.CertDto;
 import com.kh.AttendPro.dto.WorkerDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
+import com.kh.AttendPro.service.AttachmentService;
 import com.kh.AttendPro.service.EmailService2;
 import com.kh.AttendPro.vo.AttendanceVO;
 
@@ -44,6 +45,9 @@ public class WorkerController {
 
 	@Autowired
 	private RecordDao recordDao;
+	
+	@Autowired
+	private AttachmentService attachmentService;
 
 	// Worker 로그인
 	@GetMapping("/login")
@@ -319,4 +323,34 @@ public class WorkerController {
         
         return "/WEB-INF/views/worker/attendance.jsp";
     }
+    @GetMapping("/edit")
+	public String change(Model model, @RequestParam int workerNo) {
+		WorkerDto workerDto = workerDao.selectOne(workerNo);
+		if(workerDto == null) throw new TargetNotFoundException();
+		model.addAttribute("workerDto", workerDto);
+		return "/WEB-INF/views/worker/edit.jsp";
+	}
+	@PostMapping("/edit")
+	public String change(@ModelAttribute WorkerDto workerDto,
+								@RequestParam("attach") MultipartFile attach) throws IllegalStateException, IOException {
+	    boolean result = workerDao.update(workerDto);
+	    if (!result) {
+	        throw new TargetNotFoundException();
+	    }
+	    
+	    // 기존 이미지 삭제
+	    workerDao.deleteImage(workerDto.getWorkerNo());
+
+	    // 새로운 이미지가 있는 경우
+	    if (attach != null && !attach.isEmpty()) {
+	        // 새로운 첨부파일 등록 및 저장
+	        int attachmentNo = attachmentService.save(attach);
+	        
+	        // 새로운 이미지와 회원 정보 연결
+	        workerDao.connect(workerDto.getWorkerNo(), attachmentNo);
+	    }
+
+	    return "redirect:detail?workerNo=" + workerDto.getWorkerNo();
+	}
+    
 }
