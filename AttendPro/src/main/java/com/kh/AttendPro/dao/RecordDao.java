@@ -190,7 +190,7 @@ public class RecordDao {
 	//해당년도의 모든 지정 휴일
 	public HashSet<LocalDate> getHolidaySet(int workerNo, int year){
 		//record 에서 companyNo 가져오기
-				String companyId = selectOne(workerNo).getAdminId();
+				String companyId = workerDao.selectOne(workerNo).getAdminId();
 				//해당 연도의 지정 휴일 날짜 조회
 				String sql = "SELECT holiday_date"
 						+ " FROM holiday"
