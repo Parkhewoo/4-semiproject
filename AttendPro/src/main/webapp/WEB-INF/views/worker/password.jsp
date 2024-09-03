@@ -21,7 +21,6 @@
         padding: 8px;
         border-radius: 4px;
         border: 1px solid #ddd;
-        height: 1px;
         box-sizing: border-box;
     }
     .btn {
@@ -75,105 +74,92 @@
     .field-show-container {
         display: flex;
         align-items: center;
+        margin-bottom: 10px;
     }
     .field-show-container input[type="checkbox"] {
         margin-right: 10px;
     }
     .field-show-container i {
         cursor: pointer;
+        margin-left: 5px;
     }
 </style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-    $(function() {
-        var status = {
-            currentPwValid: false,
-            changePwValid: false,
-            changePwCheckValid: false,
-            ok: function() {
-                return this.currentPwValid && this.changePwValid && this.changePwCheckValid;
-            }
-        };
+$(function() {
+    var status = {
+        currentPwValid: false,
+        changePwValid: false,
+        changePwCheckValid: false,
+        ok: function() {
+            return this.currentPwValid && this.changePwValid && this.changePwCheckValid;
+        }
+    };
 
-        // 비밀번호 표시/숨기기 토글
-        $('#show-password-toggle').change(function() {
-            var inputType = $(this).is(':checked') ? 'text' : 'password';
-            $('#currentPw').attr('type', inputType);
-            $('#toggle-eye').toggleClass('fa-eye fa-eye-slash');
-        });
+    // 비밀번호 표시/숨기기 토글
+    $('.field-show').change(function() {
+        var inputType = $(this).is(':checked') ? 'text' : 'password';
+        var $targetInput = $(this).closest('.row').find('input[type="password"], input[type="text"]').not(this);
+        $targetInput.attr('type', inputType);
+        $(this).siblings('i').toggleClass('fa-eye fa-eye-slash');
+    });
 
-        $('#show-change-password-toggle').change(function() {
-            var inputType = $(this).is(':checked') ? 'text' : 'password';
-            $('#changePw, #changePw-check').attr('type', inputType);
-            $('#toggle-change-eye').toggleClass('fa-eye fa-eye-slash');
-        });
-
-        // 현재 비밀번호 유효성 검사
-        $("[name=currentPw]").blur(function() {
-            var currentPw = $(this).val();
-            $.ajax({
-                url: "/worker/checkCurrentPassword",
-                method: "POST",
-                data: { currentPw: currentPw },
-                success: function(response) {
-                    var isValid = response === "valid";
-                    $("[name=currentPw]").removeClass("success fail")
-                                         .addClass(isValid ? "success" : "fail");
-                    status.currentPwValid = isValid;
-                    if (isValid) {
-                        $("#current-pw-success").show();
-                        $("#current-pw-fail").hide();
-                    } else {
-                        $("#current-pw-success").hide();
-                        $("#current-pw-fail").show();
-                    }
-                }
-            });
-        });
-
-        // 새 비밀번호 유효성 검사
-        $("[name=changePw]").blur(function() {
-            var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
-            var isValid = regex.test($(this).val());
-            $(this).removeClass("success fail")
-                   .addClass(isValid ? "success" : "fail");
-            status.changePwValid = isValid;
-            if (isValid) {
-                $("#change-pw-success").show();
-                $("#change-pw-fail").hide();
-            } else {
-                $("#change-pw-success").hide();
-                $("#change-pw-fail").show();
-            }
-        });
-
-        // 새 비밀번호 확인 유효성 검사
-        $("#changePw-check").blur(function() {
-            var isValid = $("[name=changePw]").val() === $(this).val();
-            $(this).removeClass("success fail")
-                   .addClass(isValid ? "success" : "fail");
-            status.changePwCheckValid = isValid;
-            if (isValid) {
-                $("#change-pw-check-success").show();
-                $("#change-pw-check-fail").hide();
-            } else {
-                $("#change-pw-check-success").hide();
-                $("#change-pw-check-fail").show();
-            }
-        });
-
-        // 폼 제출 시 유효성 검사
-        $(".check-form").submit(function(e) {
-            e.preventDefault();
-            $("[name], #changePw-check").trigger("blur");
-            if (status.ok()) {
-                this.submit();
-            } else {
-                alert("입력 정보를 다시 확인해주세요.");
+    // 현재 비밀번호 유효성 검사
+    $("[name=currentPw]").blur(function() {
+        var currentPw = $(this).val();
+        var $feedback = $(this).siblings('.feedback');
+        $.ajax({
+            url: "/worker/checkCurrentPassword",
+            method: "POST",
+            data: { currentPw: currentPw },
+            success: function(response) {
+                var isValid = response === "valid";
+                $feedback.removeClass("success-feedback fail-feedback")
+                         .addClass(isValid ? "success-feedback" : "fail-feedback")
+                         .text(isValid ? "현재 비밀번호와 일치합니다" : "현재 비밀번호와 일치하지 않습니다")
+                         .show();
+                status.currentPwValid = isValid;
             }
         });
     });
+
+    // 새 비밀번호 유효성 검사
+    $("[name=changePw]").blur(function() {
+        var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
+        var isValid = regex.test($(this).val());
+        var $feedback = $(this).siblings('.feedback');
+        $feedback.removeClass("success-feedback fail-feedback")
+                 .addClass(isValid ? "success-feedback" : "fail-feedback")
+                 .text(isValid ? "올바른 형식입니다!" : "형식에 맞춰 8~16자로 작성하세요")
+                 .show();
+        status.changePwValid = isValid;
+        $("#changePw-check").trigger('blur');  // 비밀번호 확인 필드 재검사
+    });
+
+    // 새 비밀번호 확인 유효성 검사
+    $("#changePw-check").blur(function() {
+        var isValid = $("[name=changePw]").val() === $(this).val();
+        var $feedback = $(this).siblings('.feedback');
+        $feedback.removeClass("success-feedback fail-feedback")
+                 .addClass(isValid ? "success-feedback" : "fail-feedback")
+                 .text(isValid ? "비밀번호가 일치합니다" : "비밀번호가 일치하지 않습니다")
+                 .show();
+        status.changePwCheckValid = isValid;
+    });
+
+    // 폼 제출 시 유효성 검사
+    $(".check-form").submit(function(e) {
+        e.preventDefault();
+        $("[name=currentPw], [name=changePw], #changePw-check").trigger("blur");
+        if (status.ok()) {
+            this.submit();
+        } else {
+            alert("입력 정보를 다시 확인해주세요.");
+        }
+    });
+});
 </script>
 
 <div class="container w-600 my-50">
@@ -184,45 +170,42 @@
     <form action="password" method="post" class="check-form">
         <div class="row">
             <div class="row">
-                <h2>비밀번호 입력</h2>
+                <h2>현재 비밀번호 입력</h2>
             </div>
             <div class="field-show-container">
-                <label class="ms-20">
-                    <input type="checkbox" class="field-show" id="show-password-toggle">
-                    <span>표시하기</span>
+                <label>
+                    <input type="checkbox" class="field-show">
+                    <span>현재 비밀번호 표시하기</span>
                 </label>
-                <i class="fa-solid fa-eye" id="toggle-eye"></i>
+                <i class="fa-solid fa-eye"></i>
             </div>
             <input type="password" name="currentPw" id="currentPw" class="field w-100"
                    placeholder="현재 비밀번호를 입력하세요" required>
-            <div id="current-pw-success" class="success-feedback">현재 비밀번호와 일치합니다</div>
-            <div id="current-pw-fail" class="fail-feedback">현재 비밀번호와 일치하지 않습니다</div>
-            
-            <div class="row mt-20">
-                <h2>변경할 비밀번호 입력</h2>
-            </div>
-            <div class="row">
-                <div class="field-show-container">
-                    <label class="ms-20">
-                        <input type="checkbox" class="field-show" id="show-change-password-toggle">
-                        <span>표시하기</span>
-                    </label>
-                    <i class="fa-solid fa-eye" id="toggle-change-eye"></i>
-                </div>
-                <input type="password" name="changePw" id="changePw" class="field w-100"
-                       placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
-                <div id="change-pw-success" class="success-feedback">올바른 형식입니다!</div>
-                <div id="change-pw-fail" class="fail-feedback">형식에 맞춰 8~16자로 작성하세요</div>
-            </div>
-            
-            <div class="row mt-20">
-                <input type="password" id="changePw-check" name="changePwCheck" class="field w-100"
-                       placeholder="변경할 비밀번호 확인" required>
-                <div id="change-pw-check-success" class="success-feedback">비밀번호가 일치합니다</div>
-                <div id="change-pw-check-fail" class="fail-feedback">비밀번호가 일치하지 않습니다</div>
-            </div>
+            <div class="feedback"></div>
         </div>
         
+        <div class="row mt-20">
+            <div class="row">
+                <h2>새 비밀번호 입력</h2>
+            </div>
+            <div class="field-show-container">
+                <label>
+                    <input type="checkbox" class="field-show">
+                    <span>새 비밀번호 표시하기</span>
+                </label>
+                <i class="fa-solid fa-eye"></i>
+            </div>
+            <input type="password" name="changePw" id="changePw" class="field w-100"
+                   placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
+            <div class="feedback"></div>
+        
+        
+        <div class="row mt-20">
+            <input type="password" id="changePw-check" name="changePwCheck" class="field w-100"
+                   placeholder="새 비밀번호 확인" required>
+            <div class="feedback"></div>
+        </div>
+        </div>
         <div class="row mt-30">
             <button type="submit" class="btn btn-my">변경하기</button>
         </div>

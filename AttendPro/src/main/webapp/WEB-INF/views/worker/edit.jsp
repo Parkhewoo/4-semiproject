@@ -224,7 +224,7 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
 				         	   <option value="사원">사원</option>
 				           		<option value="과장">과장</option>
 				          		<option value="팀장">팀장</option>
-				          	  <option value="사장">사장</option>
+				          						          	  <option value="사장">사장</option>
 				       	 </select>
       				  <div class="fail-feedback">직급은 반드시 선택해야 합니다</div>
                     </div>
@@ -293,3 +293,4 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
             </div>
    
 
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
