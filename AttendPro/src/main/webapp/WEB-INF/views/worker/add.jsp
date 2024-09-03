@@ -87,8 +87,10 @@
             $(this).removeClass("success fail")
                    .addClass(isValid ? "success" : "fail");
             $(".success-feedback, .fail-feedback").hide();
-            $(".fail-feedback").toggle(!isValid);
-            $(".success-feedback").toggle(isValid);
+
+            // 해당 입력 필드의 형제 요소 중 성공 및 실패 피드백만 표시
+            $(this).siblings(".success-feedback, .fail-feedback").hide();
+            $(this).siblings(isValid ? ".success-feedback" : ".fail-feedback").show();
             status.workerEmailValid = isValid;
         });
 
@@ -98,7 +100,10 @@
             var isValid = regex.test($(this).val());
             $(this).removeClass("success fail")
                    .addClass(isValid ? "success" : "fail");
-            $(".fail-feedback").toggle(!isValid);
+
+            // 해당 입력 필드의 형제 요소 중 성공 및 실패 피드백만 표시
+            $(this).siblings(".success-feedback, .fail-feedback").hide();
+            $(this).siblings(isValid ? ".success-feedback" : ".fail-feedback").show();
             status.workerContactValid = isValid;
         });
 
@@ -172,6 +177,9 @@
             $("[name=workerPost], [name=workerAddress1], [name=workerAddress2]")
                 .removeClass("success fail")
                 .addClass(isValid ? "success" : "fail");
+            // 해당 입력 필드의 형제 요소 중 성공 및 실패 피드백만 표시
+            $(this).siblings(".success-feedback, .fail-feedback").hide();
+            $(this).siblings(isValid ? ".success-feedback" : ".fail-feedback").show();
             status.workerAddressValid = isValid;
         });
 
@@ -403,10 +411,10 @@
                     </div>
                     <div class="row">
                         <input type="text" name="workerPost" class="field" placeholder="우편번호" readonly>
-                        <button class="btn btn-my btn-find-address" onclick="Find()">
+                        <button type="button" class="btn btn-my btn-find-address" onclick="Find()">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
-                        <button class="btn btn-negative btn-clear-address" onclick="clearAddress()">
+                        <button type="button" class="btn btn-negative btn-clear-address" onclick="clearAddress()">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>

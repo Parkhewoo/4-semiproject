@@ -193,7 +193,7 @@
     <div class="row center">
         <h2>
             <a href="password" class="btn btn-my">비밀번호 변경하기</a>
-            <a href="/admin/worker/edit?workerNo=${workerDto.workerNo}" class="btn btn-my ms-10">개인정보 변경하기</a>
+            <a href="/worker/edit?workerNo=${workerDto.workerNo}" class="btn btn-my ms-10">개인정보 변경하기</a>
         </h2>
     </div>
 

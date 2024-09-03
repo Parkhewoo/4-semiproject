@@ -39,7 +39,7 @@ $(document).ready(function() {
   });
 </script>
 
-<form action="/notice/write" method="post" autocomplete="off">
+<form action="write" method="post" autocomplete="off">
 
 <div class="container w-800">
 	<div class="row center">
@@ -55,7 +55,7 @@ $(document).ready(function() {
 	</div>
 	<div class="row right">
 		<button type="submit" class="btn btn-positive">작성하기</button>
-		<a class="btn btn-neutral" href="/">목록으로</a>
+		<a class="btn btn-neutral" href="list">목록으로</a>
 	</div>
 </div>
 </form>

@@ -7,7 +7,7 @@
 		<h1>등록완료</h1>
 	</div>
 	<div class="row center">
-		<a href="/admin/worker/list">목록으로돌아가기</a>
+		<a href="/admin/worker/list?adminId=${sessionScope.createdUser}">목록으로돌아가기</a>
 	</div>
 </div>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
