@@ -96,6 +96,7 @@ public class AdminDao {
 //		return jdbcTemplate.update(sql, data) > 0;
 //	}
 
+	// 비밀번호 변경
 	public boolean updateAdminPw(String adminId, String adminPw) {
 	    String encPw = encoder.encode(adminPw);
 	    String sql = "UPDATE admin SET admin_pw = ? WHERE admin_id = ?";
