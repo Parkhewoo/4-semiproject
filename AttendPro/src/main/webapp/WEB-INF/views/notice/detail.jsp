@@ -48,10 +48,76 @@
 	
 }
 
-.btn {
-	border-radius: 0.3em;
-	border: none;
-}
+.field.field-underline, 
+        .btn.btn-underline
+        { 
+            border-color: #0984e3;
+        }   
+          .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+   		border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .row {
+        margin-bottom: 15px;
+    }
+    
+    .center {
+        text-align: center;
+    }
+    .form-container {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .field {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+    .w-22 {
+        width: 22%;
+    }
+    .w-50 {
+        width: 50%;
+    }
+    .btn {
+        padding: 8px 15px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background-color: #2980b9;
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .table th, .table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    .table th {
+        background-color: #f4f4f4;
+    }
+    .link {
+        color: #3498db;
+        text-decoration: none;
+    }
+    .link:hover {
+        text-decoration: underline;
+    }
+    
 
 .btn-neutral {
 	background-color: #7e8a91 !important;

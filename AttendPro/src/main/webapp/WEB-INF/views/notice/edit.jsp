@@ -38,7 +38,7 @@ $(document).ready(function() {
   });
 </script>
 
-<form action="edit" method="post" autocomplete="off">
+<form action="edit" method="post" autocomplete="off" enctype="multipart/form-data">
 	<input type="hidden" name="noticeNo" value="${noticeDto.noticeNo}"> 
 	
 	<div class="container w-800">

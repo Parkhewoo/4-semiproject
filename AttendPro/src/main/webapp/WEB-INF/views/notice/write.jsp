@@ -39,7 +39,7 @@ $(document).ready(function() {
   });
 </script>
 
-<form action="write" method="post" autocomplete="off">
+<form action="write" method="post" autocomplete="off" enctype="multipart/form-data">
 
 <div class="container w-800">
 	<div class="row center">
