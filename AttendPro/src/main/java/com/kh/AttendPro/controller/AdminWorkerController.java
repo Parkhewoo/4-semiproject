@@ -1,6 +1,7 @@
 package com.kh.AttendPro.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
@@ -48,7 +49,11 @@ public class AdminWorkerController {
 	   @Transactional
 	   @PostMapping("/add")
 	   public String add(@ModelAttribute WorkerDto workerDto,
-			   					 MultipartFile attach) throws IllegalStateException, IOException {		   	   
+			   					 MultipartFile attach) throws IllegalStateException, IOException {	
+//		   LocalDate workerJoin = workerDto.getWorkerJoin();
+//		   if (workerJoin == null) {
+//		       workerDto.setWorkerJoin(null);  // 데이터베이스에서 SYSDATE로 대체됨
+//		   }
 		 //[1] 회원가입
 	      workerDao.insert(workerDto);
 	      System.out.println("workerDto"+workerDto);

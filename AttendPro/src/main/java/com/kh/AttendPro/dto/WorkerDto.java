@@ -1,5 +1,8 @@
 package com.kh.AttendPro.dto;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 import lombok.Data;
 
 @Data
@@ -13,7 +16,7 @@ public class WorkerDto {
     private int workerAbsent;
     private int workerLate;
     private int workerLeave;
-    private java.sql.Date workerJoin;  // DATE 타입
+    private Date workerJoin;  // DATE 타입
     private String workerRank;
     private String workerBirthday;  // DATE 타입
     private String workerContact;
@@ -21,4 +24,5 @@ public class WorkerDto {
     private String workerPost;
     private String workerAddress1;
     private String workerAddress2;
+
 }

@@ -390,10 +390,6 @@
                         <label>생년월일</label>
                         <input type="date" name="workerBirth" class="field w-100">
                     </div>
-                    <div class="row">
-                        <label>입사일</label>
-                        <input type="date" name="workerJoin" class="field w-100">
-                    </div>
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">
