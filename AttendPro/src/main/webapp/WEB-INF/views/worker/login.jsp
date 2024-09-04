@@ -57,6 +57,13 @@
 .btn:hover {
 	background-color: #0869d4 !important;
 }
+.blue {
+	text-decoration:none;
+}
+.blue:hover {
+ 	text-decoration: underline;
+ }
+ 
 </style>
 
 <form action="login" method="post" autocomplete="off">
@@ -87,7 +94,7 @@
 		</div>
 		<div class="row center">
 			<!-- worker 비밀번호 찾기도 a태그 이동위치가  findPw가 맞는지 확인 필요 -->
-			<a href="findPw">비밀번호가 기억나지 않습니다</a>
+			<a class="blue" href="findPw">비밀번호가 기억나지 않습니다</a>
 		</div>
 		<c:if test="${param.error != null}">
 			<div class="row center">

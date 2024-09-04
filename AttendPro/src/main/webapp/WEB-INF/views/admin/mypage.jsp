@@ -11,7 +11,7 @@
         color: #d63031;
     }
     .container {    
-        width: 100%;
+        width: 80%;
         max-width: 1200px;
         margin: 40px auto; /* 상하 여백을 줄여서 중앙 정렬 */
         padding: 20px;

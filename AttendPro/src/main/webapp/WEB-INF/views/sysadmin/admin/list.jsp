@@ -62,11 +62,10 @@
         background-color: #f4f4f4;
     }
       .link {
-        color: black; /* 기본 텍스트 색상: 검정색 */
+        color: #3498db; 
         text-decoration: none;
     }
     .link:hover {
-        color: #3498db; /* 마우스를 올렸을 때 색상: 하늘색 */
         text-decoration: underline; /* 마우스를 올렸을 때 밑줄 추가 */
     }
     .link-animation {
