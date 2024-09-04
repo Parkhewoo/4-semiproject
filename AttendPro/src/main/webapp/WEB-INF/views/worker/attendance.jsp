@@ -19,7 +19,7 @@
 	<div class="container-my w-800">
     <h2>
     <span style="color:#88a2d8">
-    ${sessionScope.createdUser}
+    ${workerName}
     </span>
     님의 근태 기록</h2>
     
