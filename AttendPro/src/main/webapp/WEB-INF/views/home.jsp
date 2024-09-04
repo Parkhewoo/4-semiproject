@@ -11,7 +11,12 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <style>
-
+.container {
+    width: 100%;
+    max-width: 1200px; /* 컨테이너의 최대 너비 설정 */
+    margin: 0 auto; /* 자동 중앙 정렬 */
+    padding: 20px; /* 패딩 추가 */
+}
 
 .btn-my {
 	background-color: #659ad5;
@@ -24,25 +29,112 @@
 	width: 100%;
 	height: 300px;
 }
- .notice-section {
-    width: 50%; /* 섹션이 페이지의 절반을 차지하도록 설정 */
-    padding: 10px; /* 패딩 조정 */
+
+.notice-section {
+    width: 50%; /* 섹션을 컨테이너의 너비에 맞게 조정 */
+    padding: 10px;
     background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 추가로 시각적 강조 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-height: 500px;
-    box-sizing: border-box; /* 패딩과 보더를 포함하여 박스의 전체 크기 계산 */
+    box-sizing: border-box;
 }
 
 .notice-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px; /* 제목과 항목 사이의 간격 조정 */
+    margin-bottom: 15px;
 }
 
 .notice-header h1 {
-    font-size: 25px; /* 제목 폰트 크기 조정 */
+    font-size: 25px;
+    margin: 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.more-btn {
+    font-size: 25px;
+    color: #659ad5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.notice-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: none;
+}
+
+.notice-item:last-child {
+    border-bottom: none; 
+}
+
+.notice-item h2 {
+    font-size: 15px;
+    margin: 0;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notice-item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.notice-date {
+    font-size: 12px;
+    color: #888;
+    margin-left: 10px;
+    padding: 5px;
+}
+
+.btn {
+    background-color: #659ad5;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-my {
+	background-color: #659ad5;
+	color: white;
+	border-radius: 0.3em;
+	border: none;
+}
+
+.swiper {
+	width: 100%;
+	height: 300px;
+}
+
+   .notice-section {
+    width: 60%; /* 섹션 너비를 100%로 설정하여 컨테이너에 맞게 조정 */
+    max-width: 800px; /* 최대 너비를 설정하여 너무 넓어지지 않도록 조정 */
+    margin-left: 55px; /* 섹션을 중앙에 배치 */
+    padding: 10px; /* 패딩 조정 */
+    background-color: #f9f9f9; /* 배경색 조정 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    box-sizing: border-box; /* 패딩과 테두리가 전체 너비와 높이에 포함되도록 설정 */
+}
+
+.notice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* 제목과 항목 사이의 간격 조정 */
+}
+
+.notice-header h1 {
+    font-size: 20px; /* 제목 폰트 크기 조정 */
     margin: 0;
     font-weight: bold; /* 제목을 두껍게 설정 */
     color: #333; /* 제목 색상 조정 */
@@ -295,8 +387,9 @@
 		</div>
 	</c:otherwise>
 </c:choose>
-<h1>새 소식</h1>
+<div class="content">
 <div class="notice-section">
+<h1>새 소식</h1>
     <div class="notice-header">
         <a href="${pageContext.request.contextPath}/notice/list" class="more-btn">
             공지사항 <i class="fa-solid fa-chevron-right"></i>
@@ -312,6 +405,7 @@
             </span>
         </div>
     </c:forEach>
+    </div>
 </div>
 </div>
 
