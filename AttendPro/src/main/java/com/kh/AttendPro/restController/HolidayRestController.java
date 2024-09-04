@@ -1,6 +1,9 @@
 package com.kh.AttendPro.restController;
 
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +41,43 @@ public class HolidayRestController {
             return "삭제되었습니다"; // 성공 메시지 반환
         } catch (Exception e) {
             return "Error deleting holiday: " + e.getMessage(); // 오류 메시지 반환
+        }
+    }
+	
+	@PostMapping("/addMultiple")
+	public String addMultipleHolidays(@RequestParam String companyId, @RequestParam String holidayDates) {
+	    System.out.println("Received companyId: " + companyId);
+	    System.out.println("Received holidayDates: " + holidayDates);
+	    
+	    try {
+	        List<Date> dates = Arrays.stream(holidayDates.split(","))
+	            .map(Date::valueOf)
+	            .collect(Collectors.toList());
+
+	        for (Date date : dates) {
+	            holidayDao.addHoliday(companyId, date);
+	        }
+	        return "Dates added successfully";
+	    } catch (Exception e) {
+	        e.printStackTrace(); // 자세한 오류 스택 트레이스를 기록
+	        return "Error adding holidays: " + e.getMessage();
+	    }
+	}
+
+
+    @PostMapping("/deleteMultiple")
+    public String deleteMultipleHolidays(@RequestParam String companyId, @RequestParam String holidayDates) {
+        try {
+            List<Date> dates = Arrays.stream(holidayDates.split(","))
+                .map(Date::valueOf)
+                .collect(Collectors.toList());
+
+            for (Date date : dates) {
+                holidayDao.deleteHoliday(companyId, date);
+            }
+            return "Dates deleted successfully";
+        } catch (Exception e) {
+            return "Error deleting holidays: " + e.getMessage();
         }
     }
 }

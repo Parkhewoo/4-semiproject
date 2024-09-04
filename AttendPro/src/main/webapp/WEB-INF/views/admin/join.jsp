@@ -78,7 +78,7 @@
 </style>
 
 <script>
-    $(function() {
+    $(document).ready(function() {
         var status = {
             adminIdValid: false,
             adminIdCheckValid: false,
@@ -156,45 +156,58 @@
             status.adminEmailValid = isValid;
         });
 
-        // 폼 제출 검사
-        $(".check-form").submit(function() {
-            $("[name], #password-check").trigger("blur");
-            return status.ok();
-        });
-    });
-    
-  //체크박스 처리 모듈
-    //- 전체선택 - .check-all
-    //- 필수선택 - .check-required-all
-    //- 전체항목 - .check-item
-    //- 필수항목 - .check-required-item
-    $(function(){
-        //전체선택
-        $(".check-all").change(function(){
-            var checked = $(this).prop("checked");//this.checked
-            $(".check-item").prop("checked", checked);
+        // 체크박스 처리 모듈
+        $(function() {
+            // 전체 선택 체크박스 클릭 시
+            $(".check-all").change(function() {
+                var checked = $(this).prop("checked");
+                $(".check-item").prop("checked", checked);
+                $(".check-item").trigger("change");
+            });
 
-            //change를 강제로 발생시켜서 연쇄적인 처리
-            $(".check-item").trigger("change");
-        });
-        $(".check-required-all").change(function(){
-            var checked = $(this).prop("checked");//this.checked
-            $(".check-required-item").prop("checked", checked);
+            // 필수 선택 체크박스 클릭 시
+            $(".check-required-all").change(function() {
+                var checked = $(this).prop("checked");
+                $(".check-required-item").prop("checked", checked);
+                $(".check-item").trigger("change");
+            });
 
-            //change를 강제로 발생시켜서 연쇄적인 처리
-            $(".check-item").trigger("change");
-        });
-        $(".check-item").change(function(){
-            var requiredCount = $(".check-required-item").length;
-            var checkRequiredCount = $(".check-required-item:checked").length;
-            var checkRequiredAll = requiredCount == checkRequiredCount;
+            // 개별 체크박스 클릭 시
+            $(".check-item").change(function() {
+                var requiredCount = $(".check-required-item").length;
+                var checkRequiredCount = $(".check-required-item:checked").length;
+                var checkRequiredAll = requiredCount == checkRequiredCount;
 
-            var allCount = $(".check-item").length;
-            var checkAllCount = $(".check-item:checked").length;
-            var checkAll = allCount == checkAllCount;
+                var allCount = $(".check-item").length;
+                var checkAllCount = $(".check-item:checked").length;
+                var checkAll = allCount == checkAllCount;
 
-            $(".check-required-all").prop("checked", checkRequiredAll);
-            $(".check-all").prop("checked", checkAll);
+                $(".check-required-all").prop("checked", checkRequiredAll);
+                $(".check-all").prop("checked", checkAll);
+
+                checkRequiredItems();
+            });
+
+            // 필수 체크박스가 모두 선택되었는지 확인하는 함수
+            function checkRequiredItems() {
+                var allRequiredChecked = $(".check-required-item").length === $(".check-required-item:checked").length;
+                $(".btn-next").prop("disabled", !allRequiredChecked);
+                console.log("필수 체크박스 상태: ", allRequiredChecked);
+            }
+
+            // 초기 상태에서 버튼 활성화 여부 체크
+            checkRequiredItems();
+
+            // 다음 버튼 클릭 이벤트
+            $(".btn-next").click(function() {
+                console.log("다음 버튼 클릭됨");
+                if ($(this).prop("disabled")) {
+                    alert("모든 필수 항목에 동의해야 다음 페이지로 넘어갈 수 있습니다.");
+                    console.log("disabled");
+                } else {
+                    console.log("다음 페이지로 넘어갑니다.");
+                }
+            });
         });
     });
 </script>

@@ -446,7 +446,7 @@
                 </div>
                 <div class="page">
                     <div class="row">
-                		<h2>6단계 : 프로필 이미지 선택</h2>
+                		<h2>8단계 : 프로필 이미지 선택</h2>
             		</div>
            			<div class="row">
         				<input type="file" id="fileInput" name="attach" accept="image/*" class="field w-100">
