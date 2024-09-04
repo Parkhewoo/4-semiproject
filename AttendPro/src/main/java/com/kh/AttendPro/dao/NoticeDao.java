@@ -97,9 +97,8 @@ public class NoticeDao {
 
     public void insert(NoticeDto noticeDto) {
         String sql = "insert into notice("
-            + "notice_no, notice_writer, notice_title, notice_content, "
-            + "notice_wtime, notice_utime "
-            + ") values(?, ?, ?, ?, SYSDATE, SYSDATE)";
+            + "notice_no, notice_writer, notice_title, notice_content"
+            + ") values(?, ?, ?, ?)";
         Object[] data = {
             noticeDto.getNoticeNo(), noticeDto.getNoticeWriter(),
             noticeDto.getNoticeTitle(), noticeDto.getNoticeContent()
