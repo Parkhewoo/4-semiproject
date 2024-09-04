@@ -11,12 +11,15 @@
 
 <!-- 메뉴를 감싸는 div -->
 <div class="menu-container">
-		<a href="/">
-      
-        </a>
+
     <c:choose>
         <c:when test="${sessionScope.createdUser != null}">
             <ul class="menu">
+            <li>
+            <a href="/">
+            <img src="/images/mainLogo.png" style="width:75px">
+        </a>
+            </li>
                 <!-- 사용자 등급별 메뉴 -->
                 <c:choose>
                     <c:when test="${sessionScope.createdRank == '시스템 관리자'}">
@@ -39,7 +42,7 @@
                                 <li><a href="/qna/write">문의하기</a></li>
                             </ul>
                       </li>                       
-                        </li>
+
                     </c:when>
                     
                     <c:otherwise>
@@ -65,6 +68,11 @@
         <c:otherwise>
             <!-- 비로그인 상태일 때 회원가입 메뉴 -->
             <ul class="menu">
+            <li>
+            <a href="/">
+            <img src="/images/mainLogo.png" style="width:75px">
+        </a>
+            </li>
                 <li class="right-menu">
                     <a href="/admin/join">회원가입</a>
                 </li>

@@ -147,22 +147,15 @@
  --%>    
     
     <!-- 홈페이지 크기를 결정하는 외부 영역(main) -->
-    <div class="container w-1200">
 
-        <!-- 헤더 영역 -->
-        <div class="row my-30 flex-box">
-        <a href="/">
-            <img src="/images/mainLogo.png" style="width:85px">
-        </a>
-        <!-- 메뉴 영역 -->
-        <div class="my-0 w-100">
+
+        <!-- 헤더 및 메뉴 영역 -->
+        <div class="row my-50 flex-box">
 			<jsp:include page="/WEB-INF/views/template/menu.jsp"></jsp:include>
-		</div>
         </div>
-		
+        
 		<!-- 컨텐츠 영역 -->
-        <div class="row my-0 flex-box" style="min-height: 400px;">
-            <div class="w-200 pt-20">
+            
             	<div class="right-fixed-menu">
             	<c:choose>
     <c:when test="${sessionScope.createdUser != null}">
@@ -238,8 +231,8 @@
         </c:otherwise>
     </c:choose>
 </div>
-</div>
-             <div style="flex-grow: 1;">
+<div style="flex-grow: 1;">
+				
 				
 		
 		

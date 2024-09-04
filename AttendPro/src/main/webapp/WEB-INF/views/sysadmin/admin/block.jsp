@@ -6,7 +6,7 @@
 
 <style>
     .container {
-        width: 100%;
+        width:  80%;
         max-width: 1400px;
         margin: 50px auto;
         padding: 20px;
