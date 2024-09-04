@@ -6,7 +6,7 @@
 <style>
     /* 위의 CSS 스타일을 여기에 포함시키세요 */
     .container {
-        width: 100%;
+        width: 80%;
         max-width: 1200px;
         margin: 50px auto;
         padding: 20px;
