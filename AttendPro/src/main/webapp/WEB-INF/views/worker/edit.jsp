@@ -373,7 +373,7 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
                     <div class="row">
                         <h2>주소 변경</h2>
                     </div>
-                    <div class="row">
+                    <div class="row"> 
                         <input type="text" name="workerPost" class="field" placeholder="우편 번호" readonly>
                         <button type="button" class="btn btn-neutral btn-find-address" onclick="Find()">
                             <i class="fa-solid fa-magnifying-glass"></i>
