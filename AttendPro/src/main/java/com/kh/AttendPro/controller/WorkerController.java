@@ -93,29 +93,7 @@ public class WorkerController {
 		session.removeAttribute("createdRank");
 		return "redirect:/";
 	}
-
-	// 근로자 출근
-	@GetMapping("/attend")
-	public String attend() {
-		return "/WEB-INF/views/worker/attend.jsp";
-	}
-
-	@PostMapping("/attend")
-	public String attend(@RequestParam int workerNo) {
-		return "";
-	}
-
-	// 근로자 퇴근
-	@GetMapping("/leave")
-	public String leave() {
-		return "/WEB-INF/views/worker/leave.jsp";
-	}
-
-	@PostMapping("/leave")
-	public String leave(@RequestParam int workerNo) {
-		return "";
-	}
-
+	
 	// 비밀번호 재설정 페이지
 	@GetMapping("/findPw")
 	public String findPw() {

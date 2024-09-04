@@ -261,20 +261,19 @@ textarea.field {
     
     - 기본 스타일 : .btn
 */
-.btn {
+ .btn {
     text-decoration: none; /* 밑줄 제거 */
     display: inline-block;/* 한줄에 여러개 배치 + 폭 설정 가능하게 */
     font-size: 16px; /* 입력창과 동일하게 */
     padding: 0.5em 0.75em; /*입력창과 동일하게*/
-    color: #2d3436;
+    color: white;
     background-color: #7199d0; 
-    border: 1px solid #2d3436;
+    border: none;
     border-radius: 0.1em;
     cursor: pointer; /* 커서모양 변경 */
     text-align: center;
     line-height: 1.2;
 }
-
 /* 긍정 버튼 디자인 */
 .btn.btn-positive {
     border-color: #00b894;
@@ -672,6 +671,7 @@ textarea.field {
     height: 5px;
     transition: width 0.1s linear;
 }
+
 .container-my{
     max-width: 1200px;
 	padding: 20px;

@@ -220,15 +220,18 @@ public class RecordDao {
 		HashSet weekdaySet = new HashSet<>();
 		
 		LocalDate start = LocalDate.of(year, 1, 1);
-		
+		LocalDate end = LocalDate.of(year, 12, 31);
 		LocalDate workerJoin = workerDao.selectOne(workerNo).getWorkerJoin().toLocalDate();
 			
-			// 사원이 기준년도에 입사
+			// 사원이 기준년도에 입사한 경우, 입사일부터 평일 날짜 셋에 입력
 			if (year == workerJoin.getYear()) {
 				start = workerJoin;
 			}
-		//사원이 기준년도 이전 입사한 경우
-		LocalDate end = LocalDate.of(year, 12, 31);
+			// 현재 년도를 조회할 경우 오늘날짜 까지만 평일날짜 셋에 입력
+			if(year == LocalDate.now().getYear()) {
+				end = LocalDate.now();
+			}
+			
 		LocalDate date = start;
 	        while (!date.isAfter(end)) {
 	            // 현재 날짜가 평일인지 확인
