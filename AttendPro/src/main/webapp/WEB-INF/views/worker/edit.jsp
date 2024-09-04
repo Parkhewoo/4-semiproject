@@ -3,18 +3,138 @@
 
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+
 <style>
-    .fa-asterisk {
-        color: #d63031;
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    .success { border: 2px solid green; }
-    .fail { border: 2px solid red; }
-    
-    .btn-my {
-        background-color: #659ad5;
-        color: white;
-        border-radius: 0.3em;
+    .row {
+        margin-bottom: 15px;
+    }
+    .center {
+        text-align: center;
+    }
+    .form-container {
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
+    }
+    .form-card {
+        flex: 1;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9;
+    }
+    .form-card h3 {
+        margin-bottom: 15px;
+        color: #333;
+    }
+    .form-card label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #555;
+    }
+    .form-card input[type="date"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 15px;
+    }
+    .form-card button {
+        padding: 10px 15px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
         border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+    .form-card button:hover {
+        background-color: #2980b9;
+    }
+    .hidden {
+        display: none;
+    }
+    .field {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+    .w-22 {
+        width: 22%;
+    }
+    .w-50 {
+        width: 50%;
+    }
+    
+
+    .btn-del {
+        padding: 8px 15px;
+        font-size: 16px;
+        color: #fff;
+        background-color: red;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background-color: #2980b9;
+    }
+    .btn-del:hover{
+    	background-color: red;
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .table th, .table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    .table th {
+        background-color: #f4f4f4;
+    }
+    .link {
+        color: #3498db;
+        text-decoration: none;
+    }
+    .link:hover {
+        text-decoration: underline;
+    }
+    .input-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    .btn-my {
+        padding: 8px 15px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .btn-my:hover {
+        background-color: #2980b9;
+    }
+    .btn-ani {
+        transition: transform 0.5s ease-out;
+    }
+    .btn-ani:active {
+        transform: scale(1.5); /* 클릭 시 10% 확대 */
     }
 </style>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -253,7 +373,7 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
                     <div class="row">
                         <h2>주소 변경</h2>
                     </div>
-                    <div class="row">
+                    <div class="row"> 
                         <input type="text" name="workerPost" class="field" placeholder="우편 번호" readonly>
                         <button type="button" class="btn btn-neutral btn-find-address" onclick="Find()">
                             <i class="fa-solid fa-magnifying-glass"></i>

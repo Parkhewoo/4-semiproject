@@ -222,7 +222,7 @@ function addHoliday(companyId, holidayDate) {
 <form action="set" method="post" autocomplete="off">
     <input type="hidden" name="companyId" value="${sessionScope.createdUser}">
 
-    <div class="container">
+    <div class="container w-600 my-50">
         <div class="row center">
             <h1>업장 정보 수정</h1>
         </div>
@@ -245,52 +245,52 @@ function addHoliday(companyId, holidayDate) {
         <div class="row">
             <label>주소</label>
             <div class="input-group">
-                <input type="text" id="post" name="companyPost" class="field w-22" placeholder="우편번호" value="${companyDto.companyPost}" readonly />
+                <input type="text" id="post" name="companyPost" class="field w-30" placeholder="우편번호" value="${companyDto.companyPost}" readonly />
                 <button type="button" class="btn-my btn-find-address" onclick="openPostcode()"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
         </div>
         <div class="row">
-            <input type="text" id="address1" name="companyAddress1" class="field w-50" placeholder="주소" value="${companyDto.companyAddress1}" readonly />
+            <input type="text" id="address1" name="companyAddress1" class="field w-80" placeholder="주소" value="${companyDto.companyAddress1}" readonly />
         </div>
         <div class="row">
-            <input type="text" id="address2" name="companyAddress2" class="field w-50" placeholder="상세 주소" value="${companyDto.companyAddress2}" />
+            <input type="text" id="address2" name="companyAddress2" class="field w-80" placeholder="상세 주소" value="${companyDto.companyAddress2}" />
         </div>
 
-<!--         휴일 목록만 표시 -->
-<!--         <div class="row center"> -->
-<!--             <h2>휴일 목록</h2> -->
-<!--         </div> -->
-<!--         <table class="table"> -->
-<!--             <thead> -->
-<!--                 <tr> -->
-<!--                     <th>휴일 날짜</th> -->
-<!--                    <th>추가</th>  -->
-<!--                     <th>삭제</th> -->
-<!--                 </tr> -->
-<!--             </thead> -->
-<!--             <tbody> -->
-<%--                 <c:forEach var="holidayDate" items="${holidayDates}"> --%>
-<%--                     <fmt:formatDate value="${holidayDate}" pattern="yyyy-MM-dd" var="formattedHolidayDate"/> --%>
-<!--                     <tr> -->
-<%--                         <td>${formattedHolidayDate}</td> --%>
-<!-- <!--                         <td> --> 
-<%-- <%--                             <button type="button" class="btn" onclick="addHoliday('${sessionScope.createdUser}', '${formattedHolidayDate}')">X</button> --%>
-<!-- <!--                         </td> --> 
+        <!-- 휴일 목록만 표시 -->
+        <div class="row center">
+            <h2>휴일 목록</h2>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>휴일 날짜</th>
+<!--                     <th>추가</th>  -->
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="holidayDate" items="${holidayDates}">
+                    <fmt:formatDate value="${holidayDate}" pattern="yyyy-MM-dd" var="formattedHolidayDate"/>
+                    <tr>
+                        <td>${formattedHolidayDate}</td>
 <!--                         <td> -->
-<%--                             <button type="button" class="btn btn-del btn-ani" onclick="deleteHoliday('${sessionScope.createdUser}', '${formattedHolidayDate}')"><i class="fa-solid fa-x"></i></button> --%>
+<%--                             <button type="button" class="btn" onclick="addHoliday('${sessionScope.createdUser}', '${formattedHolidayDate}')">X</button> --%>
 <!--                         </td> -->
-<!--                     </tr> -->
-<%--                 </c:forEach> --%>
-<!--             </tbody> -->
-<!--         </table> -->
+                        <td>
+                            <button type="button" class="btn btn-del btn-ani" onclick="deleteHoliday('${sessionScope.createdUser}', '${formattedHolidayDate}')"><i class="fa-solid fa-x"></i></button>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
 
-<!--         <div class="row"> -->
-<!--             <label>휴일추가</label> -->
-<!--             <input name="addHolidayDate" type="date" class="field w-100"> -->
-<!--         </div> -->
+        <div class="row">
+            <label>휴일추가</label>
+            <input name="addHolidayDate" type="date" class="field w-100">
+        </div>
         
-        <div class="row mt-30">
-            <button class="btn w-100" type="submit">수정하기</button>
+        <div class="row center">
+            <button class="btn btn-my" type="submit">수정하기</button>
         </div>
     </div>
 </form>

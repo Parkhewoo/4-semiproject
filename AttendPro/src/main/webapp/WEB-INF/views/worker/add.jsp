@@ -262,7 +262,7 @@
 					 <div class="row">
 					    <label>
 					        비밀번호
-					        <label class="ms-20">
+					        <label>
 					            <input type="checkbox" class="field-show">
 					            <span>표시하기</span>
 					        </label>
@@ -390,6 +390,10 @@
                         <label>생년월일</label>
                         <input type="date" name="workerBirth" class="field w-100">
                     </div>
+                    <div class="row">
+                        <label>입사일</label>
+                        <input type="date" name="workerJoin" class="field w-100">
+                    </div>
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">
@@ -442,7 +446,7 @@
                 </div>
                 <div class="page">
                     <div class="row">
-                		<h2>8단계 : 프로필 이미지 선택</h2>
+                		<h2>6단계 : 프로필 이미지 선택</h2>
             		</div>
            			<div class="row">
         				<input type="file" id="fileInput" name="attach" accept="image/*" class="field w-100">
