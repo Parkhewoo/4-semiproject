@@ -28,39 +28,41 @@ public class WorkerDao {
 	
 	//사원 등록 (암호화 추가)
 	public void insert(WorkerDto workerDto) {
-		//암호화
-		String rawPw = workerDto.getWorkerPw();
-		String encPw = encoder.encode(rawPw);
-		workerDto.setWorkerPw(encPw);
-		
-        // SQL 쿼리 정의
-        String sql = "INSERT INTO worker ("
-                + "admin_id,worker_no, worker_pw, worker_name, worker_attend, worker_absent, "
-                + "worker_late, worker_leave, worker_join, worker_rank, worker_birthday, "
-                + "worker_contact, worker_email, worker_post, worker_address1, worker_address2"
-                + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+	    // 암호화
+	    String rawPw = workerDto.getWorkerPw();
+	    String encPw = encoder.encode(rawPw);
+	    workerDto.setWorkerPw(encPw);
 
-        // 데이터 설정
-        Object[] data = {
-        	workerDto.getAdminId(),
-            workerDto.getWorkerNo(),
-            workerDto.getWorkerPw(),
-            workerDto.getWorkerName(),
-            workerDto.getWorkerAttend(),         // 기본값: 0
-            workerDto.getWorkerAbsent(),         // 기본값: 0
-            workerDto.getWorkerLate(),           // 기본값: 0
-            workerDto.getWorkerLeave(),          // 기본값: 0
-            workerDto.getWorkerJoin(), // 변환된 날짜 값
-            workerDto.getWorkerRank(),
-            workerDto.getWorkerBirthday(),
-            workerDto.getWorkerContact(),
-            workerDto.getWorkerEmail(),
-            workerDto.getWorkerPost(),
-            workerDto.getWorkerAddress1(),
-            workerDto.getWorkerAddress2()
-        };
-        jdbcTemplate.update(sql, data);
+	    // SQL 쿼리 정의
+	    String sql = "INSERT INTO worker ("
+	            + "admin_id, worker_no, worker_pw, worker_name, worker_attend, worker_absent, "
+	            + "worker_late, worker_leave, worker_rank, worker_birthday, "
+	            + "worker_contact, worker_email, worker_post, worker_address1, worker_address2"
+	            + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+	    // 데이터 설정
+	    Object[] data = {
+	        workerDto.getAdminId(),
+	        workerDto.getWorkerNo(),
+	        workerDto.getWorkerPw(),
+	        workerDto.getWorkerName(),
+	        workerDto.getWorkerAttend(),         // 기본값: 0
+	        workerDto.getWorkerAbsent(),         // 기본값: 0
+	        workerDto.getWorkerLate(),           // 기본값: 0
+	        workerDto.getWorkerLeave(),          // 기본값: 0
+	        workerDto.getWorkerRank(),
+	        workerDto.getWorkerBirthday(),
+	        workerDto.getWorkerContact(),
+	        workerDto.getWorkerEmail(),
+	        workerDto.getWorkerPost(),
+	        workerDto.getWorkerAddress1(),
+	        workerDto.getWorkerAddress2()
+	    };
+
+	    // 데이터베이스 업데이트
+	    jdbcTemplate.update(sql, data);
 	}
+
 	
 //	// 목록 
 //		public List<WorkerDto> selectList(){
