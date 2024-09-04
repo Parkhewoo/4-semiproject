@@ -5,6 +5,7 @@
 
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
   #calendar {
@@ -22,20 +23,34 @@
     text-align: center;
     line-height: 1.5;
   }
+  .selected-day {
+    background-color: rgba(0, 0, 255, 0.2) !important;
+  }
+  .btn-my {
+        padding: 8px 15px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 </style>
 
 <div id="calendar"></div>
+<button class="btn-my" id="addHolidays">Add Holidays</button>
+<button class="btn-my" id="removeHolidays">Remove Holidays</button>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function() {
     var calendarEl = document.getElementById('calendar');
 
-    // JSON 문자열을 JavaScript 배열로 변환
     var holidaysJson = '${holidaysJson}';
-    console.log("Holidays JSON: " + holidaysJson); // JSON 데이터 확인
     var holidays = JSON.parse(holidaysJson);
-   
-    // FullCalendar 설정
+
+    var selectedDates = [];
+	
+    // Initialize calendar
     var calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
             left: 'prev',
@@ -49,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var date = new Date(holiday.holidayDate);
             var formattedDate = date.toISOString().split('T')[0];
             return {
+                id: formattedDate, // Add event id for easy removal
                 title: '휴일',
                 start: formattedDate,
                 color: 'red'
@@ -56,12 +72,102 @@ document.addEventListener('DOMContentLoaded', function() {
         }),
         dayCellDidMount: function(info) {
             var date = info.date;
+            var dateStr = formatDateToISO(date); // Format date to ISO string
+
             if (date.getDay() === 0 || date.getDay() === 6) {
                 info.el.style.color = 'red';
             }
+
+            $(info.el).on('click', function() {
+                var dateStr = formatDateToISO(date);
+                var index = selectedDates.indexOf(dateStr);
+
+                if (index === -1) {
+                    selectedDates.push(dateStr);
+                    $(info.el).addClass('selected-day');
+                } else {
+                    selectedDates.splice(index, 1);
+                    $(info.el).removeClass('selected-day');
+                }
+
+                console.log("Selected Dates: ", selectedDates); // Debug log
+            });
         }
     });
 
     calendar.render();
+
+    
+    // Add holidays to the server and calendar
+    $('#addHolidays').on('click', function() {
+        if (selectedDates.length > 0) {
+            $.ajax({
+                url: '/rest/holi/addMultiple',
+                type: 'POST',
+                data: {
+                    companyId: '${companyDto.companyId}',
+                    holidayDates: selectedDates.join(',')
+                },
+                success: function(response) {
+                    console.log(response);
+                    // Add events to the calendar
+                    selectedDates.forEach(date => {
+                        var event = {
+                            id: date, // Use date as event id
+                            title: '휴일',
+                            start: date,
+                            color: 'red'
+                        };
+                        if (!calendar.getEventById(date)) { // Add event if it does not already exist
+                            calendar.addEvent(event);
+                        }
+                    });
+                    selectedDates = []; // Clear selected dates
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        } else {
+            alert('No dates selected.');
+        }
+    });
+
+    // Remove holidays from the server and calendar
+    $('#removeHolidays').on('click', function() {
+        if (selectedDates.length > 0) {
+            $.ajax({
+                url: '/rest/holi/deleteMultiple',
+                type: 'POST',
+                data: {
+                    companyId: '${companyDto.companyId}',
+                    holidayDates: selectedDates.join(',')
+                },
+                success: function(response) {
+                    console.log(response);
+                    // Remove events from the calendar
+                    selectedDates.forEach(date => {
+                        var event = calendar.getEventById(date);
+                        if (event) {
+                            event.remove();
+                        }
+                    });
+                    selectedDates = []; // Clear selected dates
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        } else {
+            alert('No dates selected.');
+        }
+    });
+
+    // Helper function to format date to ISO string without time
+    function formatDateToISO(date) {
+        return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString().split('T')[0];
+    }
+    
+    
 });
 </script>
