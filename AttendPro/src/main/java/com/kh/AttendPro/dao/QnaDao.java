@@ -1,5 +1,6 @@
 package com.kh.AttendPro.dao;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,5 +160,96 @@ public class QnaDao {
 							+ "order by qna_no desc";
 			Object[] data = {qnaWriter};										
 			return jdbcTemplate.query(sql, qnaListMapper, data);
+		}
+		
+		//관리자전용 qna 목록
+		public List<QnaDto> adminSelectList(String qnaWriter){
+		String sql ="SELECT qna_no, qna_title, qna_writer, qna_wtime,"
+			       +"qna_utime, qna_reply, qna_group, qna_target, qna_depth "
+			      +" FROM qna"
+			      + " CONNECT BY PRIOR qna_no = qna_target"
+			      + " START WITH qna_target IS NULL"
+			       +" ORDER SIBLINGS BY qna_group DESC, qna_no ASC";
+		
+		List<QnaDto> qnaList = jdbcTemplate.query(sql, qnaListMapper);
+
+		 // 내 글의 답글이 아닌 경우 삭제
+	    for (Iterator<QnaDto> iterator = qnaList.iterator(); iterator.hasNext();) {
+	        QnaDto qnaDto = iterator.next();
+	        
+	        // qnaWriter가 null인 경우 예외 처리
+	        if (qnaDto.getQnaWriter() == null) {
+	            iterator.remove(); // qnaWriter가 null이면 해당 요소 제거
+	            continue;
+	        }
+	        boolean isWriter = qnaDto.getQnaWriter().equals(qnaWriter);
+	        Integer t = qnaDto.getQnaTarget();
+	        // 타겟이 null이거나 0인 경우 다음 루프로 넘어감
+	        if (t == null || t == 0) {
+	            if (!isWriter) {
+	                iterator.remove();
+	            }
+	            continue;
+	        }
+	        QnaDto targetQna = selectOne(t);
+	        // 타겟 글이 null이거나 타겟 글의 작성자가 null인 경우 예외 처리
+	        if (targetQna == null || targetQna.getQnaWriter() == null) {
+	            iterator.remove(); // 문제가 있는 데이터는 제거
+	            continue;
+	        }
+	        String tWriter = targetQna.getQnaWriter(); // 타겟 글의 작성자
+	        // 내 글이 아니거나 내 글에 달린 답글이 아닌 경우 목록에서 제거
+	        if (!tWriter.equals(qnaWriter)) {
+	            iterator.remove(); // 안전하게 요소 제거
+	        }
+	    }
+
+			return qnaList;
+		}
+		
+		public List<QnaDto> adminSelectList(String column, String keyword, String qnaWriter) {
+			String sql = "SELECT qna_no, qna_title, qna_writer, qna_wtime, "
+			           + "qna_utime, qna_reply, qna_group, qna_target, qna_depth "
+			           + "FROM qna "
+			           + "WHERE INSTR(#1, ?) > 0 "
+			           + "CONNECT BY PRIOR qna_no = qna_target "
+			           + "START WITH qna_target IS NULL "
+			           + "ORDER SIBLINGS BY qna_group DESC, qna_no ASC";
+			sql = sql.replace("#1", column);
+			Object[] data = {keyword};
+			List<QnaDto> qnaList = jdbcTemplate.query(sql, qnaListMapper, data);
+			
+			 // 내 글의 답글이 아닌 경우 삭제
+		    for (Iterator<QnaDto> iterator = qnaList.iterator(); iterator.hasNext();) {
+		        QnaDto qnaDto = iterator.next();
+		        
+		        // qnaWriter가 null인 경우 예외 처리
+		        if (qnaDto.getQnaWriter() == null) {
+		            iterator.remove(); // qnaWriter가 null이면 해당 요소 제거
+		            continue;
+		        }
+		        boolean isWriter = qnaDto.getQnaWriter().equals(qnaWriter);
+		        Integer t = qnaDto.getQnaTarget();
+		        // 타겟이 null이거나 0인 경우 다음 루프로 넘어감
+		        if (t == null || t == 0) {
+		            if (!isWriter) {
+		                iterator.remove();
+		            }
+		            continue;
+		        }
+		        QnaDto targetQna = selectOne(t);
+		        // 타겟 글이 null이거나 타겟 글의 작성자가 null인 경우 예외 처리
+		        if (targetQna == null || targetQna.getQnaWriter() == null) {
+		            iterator.remove(); // 문제가 있는 데이터는 제거
+		            continue;
+		        }
+		        String tWriter = targetQna.getQnaWriter(); // 타겟 글의 작성자
+		        // 내 글이 아니거나 내 글에 달린 답글이 아닌 경우 목록에서 제거
+		        if (!tWriter.equals(qnaWriter)) {
+		            iterator.remove(); // 안전하게 요소 제거
+		        }
+		    }
+
+				return qnaList;
 		}
 	}

@@ -1,6 +1,8 @@
 package com.kh.AttendPro.controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.jsoup.Jsoup;
@@ -45,8 +47,26 @@ public class QnaController {
 		       }
 			model.addAttribute("qnaList", qnaDao.selectListByPaging(pageVO));
 			pageVO.setCount(qnaDao.countByPaging(pageVO));
-		       model.addAttribute("pageVO", pageVO);
+		    model.addAttribute("pageVO", pageVO);
 			return "/WEB-INF/views/qna/list.jsp";
+		}
+		
+		@RequestMapping("/adminList")
+		public String list(@RequestParam(required = false) String column, 
+				@RequestParam(required = false) String keyword,
+				HttpSession session,
+				Model model) {
+			String qnaWriter =(String)session.getAttribute("createdUser");
+			boolean isSearch = column != null && keyword != null;
+			//검색
+			if(isSearch) {
+			model.addAttribute("list", qnaDao.adminSelectList(column, keyword, qnaWriter));
+			}
+			//목록
+			else {
+			model.addAttribute("list", qnaDao.adminSelectList(qnaWriter));
+			}
+			return "/WEB-INF/views/qna/adminList.jsp";
 		}
 		
 		@RequestMapping("/detail")
@@ -86,14 +106,17 @@ public class QnaController {
 		    }
 
 		    qnaDao.insert(qnaDto);
-
+		    String rank = "일반 관리자";
+		    if(rank.equals(session.getAttribute("createdRank"))) {
+		    	return "redirect:adminList";
+		    }
 		    return "redirect:list";
 		}
 		
 		//삭제 페이지
 		// 글 안에 들어가 있는 이미지 파일을 모두 찾아서 삭제한 뒤 글삭제
 		@RequestMapping("/delete")
-		public String delete(@RequestParam int qnaNo) {
+		public String delete(@RequestParam int qnaNo, HttpSession session) {
 			QnaDto qnaDto = qnaDao.selectOne(qnaNo);
 			if(qnaDto == null)
 				throw new TargetNotFoundException("존재하지 않는 글 번호");
@@ -111,6 +134,11 @@ public class QnaController {
 			}
 			
 			boolean result = qnaDao.delete(qnaNo);
+		
+			 String rank = "일반 관리자";
+			 if(rank.equals(session.getAttribute("createdRank"))) {
+			    	return "redirect:adminList";
+			   }
 			return "redirect:list";
 		}
 		
