@@ -234,10 +234,10 @@ function confirmDelete() {
                                     <td class="status-admin">${companyDto.companyAddress1} ${companyDto.companyAddress2}</td>
                                 </tr>
                             </table>
-                             <div class="row center">
-                                <h2>휴일</h2>
-                                <jsp:include page="/WEB-INF/views/template/calendar.jsp"></jsp:include>
-                            </div>
+<!--                              <div class="row center"> -->
+<!--                                 <h2>휴일</h2> -->
+<%--                                 <jsp:include page="/WEB-INF/views/template/calendar.jsp"></jsp:include> --%>
+<!--                             </div> -->
                         </c:otherwise>
                     </c:choose>
                 </c:when>
