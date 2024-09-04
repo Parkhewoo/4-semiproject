@@ -24,8 +24,7 @@
 	</div>
 	
 	<div class="row center">
-			<p> 변경 된 비밀번호로 로그인 해주세요.</p>
-			 
+			<p> 변경 된 비밀번호로 로그인 해주세요.</p>			 
 	</div>
 	
 	<div class="row center mt-50">
