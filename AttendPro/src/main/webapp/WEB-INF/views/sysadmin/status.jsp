@@ -15,7 +15,7 @@
 <style>
     /* 기존 스타일 */
     .container {    
-        width: 100%;
+       	width: 80%;
         max-width: 1200px;
         margin: 50px auto;
         padding: 20px;

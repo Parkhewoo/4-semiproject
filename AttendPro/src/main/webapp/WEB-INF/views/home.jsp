@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -12,6 +11,8 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <style>
+
+
 .btn-my {
 	background-color: #659ad5;
 	color: white;
@@ -220,6 +221,7 @@
 	</div>
 </c:if>
 
+<div class="content">
 <c:choose>
 	<c:when test="${sessionScope.createdUser != null}">
 		<div class="center">
@@ -228,7 +230,7 @@
 		<!-- 로그인한 경우  -->
 		<c:choose>
 			<c:when test="${sessionScope.createdRank == '시스템 관리자'}">
-				<div class="container w-350 my-50">
+				<div class="container w-900 my-50 home">
 					<div class="row center mt-30">
 						<a href="sysadmin/list">유저 현황</a>
 					</div>
@@ -239,7 +241,7 @@
 			</c:when>
 
 			<c:when test="${sessionScope.createdRank == '일반 관리자'}">
-				<div class="container w-350 my-50">
+				<div class="container w-900 my-50 home">
 					<!-- 일반 관리자를 위한 콘텐츠 -->
 					<div class="row center mt-30">
 						<a href="admin/worker/list">사원 현황(매핑 미완성)</a>
@@ -249,15 +251,19 @@
 							업장 정보</a>
 					</div>
 					<div class="row center mt-30">
+						<a href="admin/company/insert?companyId=${sessionScope.createdUser}">내
+							업장 <br>신규 등록</a>
+					</div>
+					<div class="row center mt-30">
 						<a href="admin/company/set?companyId=${sessionScope.createdUser}">내
-							업장 설정하기</a>
+							업장  <br>수정하기</a>
 					</div>
 				</div>
 			</c:when>
 
 			<c:otherwise>
 				<!--사원을 위한 콘텐츠 -->
-				<div class="container w-350 my-50">
+				<div class="container w-900 my-50 home">
 
 					<div class="row center mt-30">
 						<a href="/worker/check">출퇴근 하기</a>
@@ -306,6 +312,7 @@
             </span>
         </div>
     </c:forEach>
+</div>
 </div>
 
 

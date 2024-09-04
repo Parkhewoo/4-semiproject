@@ -6,14 +6,15 @@
 
 <style>
     .container {
-        width: 100%;
+        width: 80%;
         max-width: 1200px;
         margin: 50px auto;
         padding: 20px;
         border: 1px solid #ddd;
         border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);   
     }
+    
     .row {
         margin-bottom: 15px;
     }
@@ -72,6 +73,10 @@
     .link-animation {
         transition: color 0.3s ease;
     }
+     .content {
+    margin-top: 60px; /* 메뉴의 높이만큼 여백 추가 */
+}
+    
 </style>
 
 <div class="container">
