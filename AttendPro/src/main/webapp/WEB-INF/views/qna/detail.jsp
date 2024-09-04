@@ -241,8 +241,15 @@
                 <a class="btn btn-negative" href="delete?qnaNo=${qnaDto.qnaNo}" onclick="return confirmDelete()">삭제</a>
             </c:if>
         </c:if>
+        <c:choose>
+        	<c:when test="${sessionScope.createdRank == '일반 관리자'}">
+        	<a class="btn" href="adminList">목록</a>
+        	</c:when>
+        	<c:otherwise>
+        	<a class="btn" href="list">목록</a>
+        	</c:otherwise>
+        </c:choose>
         
-        <a class="btn btn-neutral" href="list">목록</a>
     </div>
 </div>
 
