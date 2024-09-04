@@ -2,6 +2,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
+.container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+   		border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
    .table {
         width: 100%;
@@ -16,7 +25,7 @@
 </style>
     
 <body>
-	<div class="container-my w-800">
+	<div class="container w-800">
     <h2>
     <span style="color:#88a2d8">
     ${workerName}
