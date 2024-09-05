@@ -1,23 +1,27 @@
 package com.kh.AttendPro.controller;
 
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import com.kh.AttendPro.dao.CompanyDao;
 import com.kh.AttendPro.dao.HolidayDao;
 import com.kh.AttendPro.dto.CompanyDto;
 import com.kh.AttendPro.dto.HolidayDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.sql.Date;
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin/company")
@@ -38,6 +42,9 @@ public class AdminCompanyController {
     public String insert(@ModelAttribute CompanyDto companyDto) {
         if (companyDto.getCompanyId() == null || companyDto.getCompanyId().isEmpty()) {
             throw new IllegalArgumentException("Company ID is missing");
+        }
+        if(companyDto != null) {
+        	throw new TargetNotFoundException("이미 회사가 존재합니다.");
         }
         companyDao.insert(companyDto);
 
