@@ -214,6 +214,26 @@
                 $prevPage.show();
             }
         });
+
+	var passwordInput = document.querySelector("[name=adminPw]");
+        var passwordCheckInput = document.getElementById("password-check");
+        var passwordShowCheckbox = document.querySelector(".field-show");
+        var passwordShowIcon = document.querySelector(".fa-eye");
+
+        // 체크박스 상태에 따라 비밀번호 표시/숨기기
+        passwordShowCheckbox.addEventListener("change", function() {
+            if (this.checked) {
+                passwordInput.type = "text";
+                passwordCheckInput.type = "text";
+                passwordShowIcon.classList.remove("fa-eye");
+                passwordShowIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                passwordCheckInput.type = "password";
+                passwordShowIcon.classList.remove("fa-eye-slash");
+                passwordShowIcon.classList.add("fa-eye");
+            }
+        });
     });
 </script>
 <div class="container w-500 my-50">
@@ -319,7 +339,7 @@
                     </div>
 						</div>
             	</div>
-                <div class="page">
+            	<div class="page">
                     <div class="row">
                         <label>아이디</label>
                         <input name="adminId" type="text" class="field w-100"
@@ -343,18 +363,23 @@
                         </div>
                     </div>
                 </div>
+            	
                 <div class="page">
                     <div class="row">
-                        <label>비밀번호</label>
-                        <input name="adminPw" type="password" class="field w-100"
-                            placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함">
+                        <label>비밀번호
+                         <input type="checkbox" class="field-show">
+					     <span>표시하기</span>
+					      <i class="fa-solid fa-eye"></i>
+					      </label>	
+                        <input type="password" name="adminPw"class="field w-100"
+                            placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
                         <div class="success-feedback">올바른 형식입니다!</div>
                         <div class="fail-feedback">형식에 맞춰 8~16자로 작성하세요</div>
                     </div>
                     <div class="row">
                         <label>비밀번호 확인</label>
                         <input type="password" id="password-check" class="field w-100"
-                            placeholder="확인을 위해 비밀번호 한번 더 입력">
+                            placeholder="확인을 위해 비밀번호 한번 더 입력" required>
                         <div class="success-feedback">비밀번호가 일치합니다</div>
                         <div class="fail-feedback">비밀번호가 일치하지 않습니다</div>
                     </div>
@@ -373,6 +398,8 @@
                         </div>
                     </div>
                 </div>
+                
+                
                 <div class="page">
                     <div class="row">
                         <label>사업자 번호</label>
@@ -401,6 +428,7 @@
                         <label>이메일</label>
                         <input name="adminEmail" type="text" class="field w-100"
                             placeholder="sample@kh.com">
+                            <div class="success-feedback">올바른 형식입니다!</div>
                         <div class="fail-feedback">형식에 맞춰 작성하십시오</div>
                     </div>
                     <div class="row mt-50">
