@@ -85,9 +85,20 @@ public class QnaController {
 		}
 		
 		@PostMapping("/write")
-		public String write(@ModelAttribute QnaDto qnaDto, HttpSession session) {
+		public String write(@ModelAttribute QnaDto qnaDto, HttpSession session,
+				Model model) {
 		    String createdUser = (String)session.getAttribute("createdUser");
 		    qnaDto.setQnaWriter(createdUser);
+		    
+		    // 제목과 내용이 비어 있지 않은지 확인
+		    if (qnaDto.getQnaTitle() == null || qnaDto.getQnaTitle().trim().isEmpty()) {
+		        model.addAttribute("error", "제목을 입력하세요.");
+		        return "/WEB-INF/views/qna/write.jsp";
+		    }
+		    if (qnaDto.getQnaContent() == null || qnaDto.getQnaContent().trim().isEmpty()) {
+		        model.addAttribute("error", "내용을 입력하세요.");
+		        return "/WEB-INF/views/qna/write.jsp";
+		    }
 
 		    int seq = qnaDao.sequence();
 		    qnaDto.setQnaNo(seq);
