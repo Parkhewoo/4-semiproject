@@ -66,7 +66,9 @@ public class NoticeController {
 		public String write(@ModelAttribute NoticeDto noticeDto, HttpSession session) {
 			String createdUser = (String)session.getAttribute("createdUser");
 			noticeDto.setNoticeWriter(createdUser);
-			
+			 if(createdUser == null) {
+		        	throw new TargetNotFoundException("로그인하고 작성하세요");
+		        }
 			int seq = noticeDao.sequence();
 			noticeDto.setNoticeNo(seq);
 			
