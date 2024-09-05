@@ -40,8 +40,9 @@
 </style>
 
 <div id="calendar"></div>
-<button class="btn-my" id="휴일추가">Add Holidays</button>
-<button class="btn-my" id="휴일삭제">Remove Holidays</button>
+<button class="btn-my" id="addHolidays">휴일추가</button>
+<button class="btn-my" id="removeHolidays">휴일삭제</button>
+
 
 <script>
 $(document).ready(function() {
