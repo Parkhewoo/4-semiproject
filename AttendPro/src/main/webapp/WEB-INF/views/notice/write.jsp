@@ -13,7 +13,7 @@
 
 <form action="write" method="post" autocomplete="off">
 	
-	<div class="container-my w-900" style="margin:50px; padding:50px;">
+	<div class="container w-800" >
 		<div class="row">
 			<h1>게시글 작성</h1>
 		</div>
