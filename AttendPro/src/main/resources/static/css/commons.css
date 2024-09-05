@@ -537,81 +537,54 @@ textarea.field {
     margin-top: 60px; /* 메뉴의 높이만큼 여백 추가 */
 }
 
-/* 1 */
-.menu,      /*1차메뉴*/
-.menu ul    /*2차메뉴이상*/
-{
+.menu, .menu ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
-.menu a /* 메뉴안의 모든 a태그 */
-{
+.menu a {
     color: inherit;
     text-decoration: none;
 }
-
-/* 2 */
 .menu {
     display: flex;
 }
-
-/* 3 */
-.menu li /* 메뉴안에 있는 모든 항목 */
-{
+.menu li {
     width: 150px;
+    position: relative;
 }
-.menu a /* 메뉴안에 있는 모든 a태그 */
-{
+.menu a {
     display: block;
     width: 100%;
     padding: 0.5em;
     text-align: center;
 }
-
-/* 4 */
-.menu li /* 모든 메뉴의 항목 */
-{
-    position: relative;
-}
-.menu ul /* 2차 이상 메뉴 */
-{
-    position: absolute;
-    top:100%;
-    left:0;
-    
-}
-
-/* 5 */
 .menu ul {
-    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    opacity: 0; /* 초기 투명도 */
+    max-height: 0; /* 초기 높이 */
+    overflow: hidden; /* 내용이 넘치지 않도록 숨김 */
+    transition: opacity 0.5s ease, max-height 0.5s ease; /* 애니메이션 설정 */
 }
-.menu li:hover > ul /* 모든 항목에 마우스가 올라가면 바로아래 메뉴 */
-{
-    display: block;
+.menu li:hover > ul {
+    opacity: 1; /* 완전히 불투명하게 */
+    max-height: 500px; /* 충분히 큰 값으로 설정 (메뉴의 실제 높이에 맞게 조정) */
 }
-
-/* 6 */
 .right-menu {
     margin-left: auto;
 }
-
-/* 7 */
-.menu > li > ul ul /* 3차 이상의 모든 메뉴 */
-{
+.menu > li > ul ul {
     top: 0;
     left: 100%;
 }
-.menu > li.right-menu > ul ul, 
-.menu > li.right-menu ~ li > ul ul/* 3차 이상의 오른쪽 메뉴 */
-{
+.menu > li.right-menu > ul ul,
+.menu > li.right-menu ~ li > ul ul {
     top: 0;
     left: -100%;
 }
-
-/* 8 */
-.menu,
-.menu ul {
+.menu, .menu ul {
     background-color: transparent;
     color: black;
     font-size: 20px;
@@ -619,7 +592,6 @@ textarea.field {
 .menu li:hover {
     background-color: transparent;
     color: #0984e3;
-    
 }
 
 .form-group label {
@@ -694,23 +666,11 @@ textarea.field {
 
 .home {
     display: flex; /* Flexbox로 정렬 */
-    justify-content: center; /* 버튼을 수평 중앙 정렬 */
-    flex-wrap: nowrap; /* 한 줄로 강제 정렬 */
+
     gap: 20px; /* 버튼 사이의 간격 */
     margin-top: 30px; /* 위쪽 여백 */
 }
 
 .home a {
-    flex: 1; /* 버튼의 너비를 균등하게 설정 */
-    min-width: 150px; /* 최소 너비 설정 */
-    max-width: 200px; /* 최대 너비 제한 */
-    display: inline-block; /* 블록처럼 보이게 함 */
-    font-size: 20px; /* 글자 크기 */
-    font-weight: bold; /* 글자 굵게 */
-    color: #ffffff; /* 텍스트 색상 */
-    text-decoration: none; /* 밑줄 제거 */
-   	background: #becce9;
-    background: linear-gradient(90deg, #becce9 0%, #567fd6 50%, #1154e7 100%);/* 그라데이션 배경 */
-    padding: 15px 30px; /* 패딩으로 버튼 크기 조절 */
-    border-radius: 8px;
+
 }

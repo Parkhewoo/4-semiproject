@@ -25,19 +25,19 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 
         
-        registry.addInterceptor(sysAdminInterceptor)
-                .addPathPatterns("/admin/company/set",
-                						"/admin/company/insert",
-                						"/admin/worker/add",
-                						"/admin/worker/list",
-                						"/admin/worker/edit",
-                						"/admin/worker/delete",
-                						"/admin/worker/addfinish",
-                						"/admin/password",
-                						"/admin/mypage",
-                						"/admin/change"
-                						);
-          
+//        registry.addInterceptor(sysAdminInterceptor)
+//                .addPathPatterns("/admin/company/set",
+//                						"/admin/company/insert",
+//                						"/admin/worker/add",
+//                						"/admin/worker/list",
+//                						"/admin/worker/edit",
+//                						"/admin/worker/delete",
+//                						"/admin/worker/addfinish",
+//                						"/admin/password",
+//                						"/admin/mypage",
+//                						"/admin/change"
+//                						);
+//          
                
 //        
 //

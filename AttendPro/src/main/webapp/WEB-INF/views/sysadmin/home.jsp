@@ -41,7 +41,9 @@
     }
 </style>
 
-<h1>시스템 관리자 페이지</h1>
+<div class="center">
+			<img src="/images/logoVer2.png" style="width: 30%">
+		</div>
 
 <div class="container w-800 my-80">
 
