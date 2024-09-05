@@ -99,7 +99,7 @@
 <script>
 $(function() {
     var status = {
-        companyNameValid: false,
+
         companyCeoValid: false,
         companyAddressValid: false,
         ok: function() {
@@ -107,15 +107,7 @@ $(function() {
         }
     };
     
-    $("[name=companyName]").blur(function() {
-        var regex = /^[가-힣a-zA-Z0-9]{1,21}$/;
-        var isValid = regex.test($(this).val());
-        $(this).removeClass("success fail")
-               .addClass(isValid ? "success" : "fail");
-        $(this).siblings(".success-feedback, .fail-feedback").hide();
-        $(this).siblings(isValid ? ".success-feedback" : ".fail-feedback").show();
-        status.companyNameValid = isValid;
-    });
+   
     
     $("[name=companyCeo]").blur(function() {
         var regex = /^[가-힣a-zA-Z0-9]{1,21}$/;
@@ -175,7 +167,7 @@ function openPostcode() {
         </div>
         <div class="row">
             <label>회사이름</label>
-            <input name="companyName" type="text" class="field w-100" value="${companyDto.companyName}">
+            <input name="companyName" type="text" class="field w-100" value="${companyDto.companyName}" required>
             <div class="success-feedback">멋진 이름입니다!</div>
             <div class="fail-feedback">잘못된 형식의 이름입니다</div>
         </div>
