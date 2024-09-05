@@ -168,12 +168,12 @@
             </div>
             <div class="row center">
                 <a href="/sysadmin/list" class="link link-animation">
-                    관리자 정보 보기<i class="fa-solid fa-square-arrow-up-right"></i>
+                    유저 현황 <i class="fa-solid fa-square-arrow-up-right"></i>
                 </a>
             </div>
             <div class="row center">
                 <a href="/admin/logout" class="link link-animation">
-                    로그아웃<i class="fa-solid fa-right-from-bracket"></i>
+                    로그아웃 <i class="fa-solid fa-right-from-bracket"></i>
                 </a>
             </div>
      </c:when>

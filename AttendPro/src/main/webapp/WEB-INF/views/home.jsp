@@ -325,12 +325,12 @@
 				<div class="container w-600 my-50 home">
 					<div class="row center mt-30">
 						<a href="sysadmin/list">
-						<img src="/images/userList.png" style="width: 70%">
+						<img src="/images/userList.png" style="width: 85%">
 						</a>
 					</div>
 					<div class="row center mt-30">
 						<a href="qna/list">
-						<img src="/images/qna.png" style="width: 70%">
+						<img src="/images/qna.png" style="width: 85%">
 						</a>
 					</div>
 				</div>
@@ -391,11 +391,11 @@
 		<div class="container w-350 my-50">
 			<div class="row mt-30">
 				<button class="btn btn-my w-100"
-					onclick="window.location.href='/admin/login'"><i class="fa-solid fa-arrow-right"></i>관리자 로그인</button>
+					onclick="window.location.href='/admin/login'"><i class="fa-solid fa-arrow-right"></i> 관리자 로그인</button>
 			</div>
 			<div class="row mt-30">
 				<button class="btn btn-my w-100"
-					onclick="window.location.href='/worker/login'"><i class="fa-solid fa-arrow-right"></i>사원 로그인</button>
+					onclick="window.location.href='/worker/login'"><i class="fa-solid fa-arrow-right"></i> 사원 로그인</button>
 			</div>
 		</div>
 	</c:otherwise>
