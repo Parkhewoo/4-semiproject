@@ -126,8 +126,11 @@
 		});
 	});
 </script>
+<div class="center">
+			<img src="/images/logoVer2.png" style="width: 30%">
+		</div>
 
-<div class="center container w-350 my-50">
+<div class="center container w-350 my-50" style="height: 200px">
     <!-- 출근 버튼 -->
     <div class="row mt-30">
         <button class="w-100 btn btn-my btn-checkIn" style="display:none;">출근하기</button>
@@ -145,5 +148,7 @@
     
     <div class="row center success-message"></div> <!-- 성공 메시지를 표시할 요소 -->
 </div>
+
+
 <%-- footer.jsp에 존재하는 내용을 불러오도록 설정 --%>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
