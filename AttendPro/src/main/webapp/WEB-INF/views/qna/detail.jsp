@@ -12,6 +12,19 @@
 <link rel="stylesheet" type="text/css" href="/editor/editor.css">
 <script src="/editor/editor.js"></script>
 
+<!-- 자바스크립트 코드 작성 영역 -->
+<script type="text/javascript">
+   // 폼 검증 함수
+   function validateForm() {
+       var title = document.forms["qnaForm"]["qnaTitle"].value;
+       if (title == null || title.trim() == "") {
+           alert("제목을 입력하세요.");
+           return false;
+       }
+       return true; // 검증 통과 시 폼을 제출
+   }
+</script>
+
 <!-- 댓글 스타일 -->
 <style>
 	.reply-wrapper {
@@ -208,7 +221,7 @@
         </c:when>
         <c:otherwise>
             <div class="row reply-section">
-                <form action="write" method="post" autocomplete="off">
+                <form action="write" method="post" autocomplete="off" onsubmit="return validateForm()">
                     <c:if test="${sessionScope.createdRank == '시스템 관리자'}">
                         <!-- qnaNo를 hidden input으로 폼에 포함 -->
                         <input type="hidden" name="qnaTarget" value="${qnaDto.qnaNo}">
