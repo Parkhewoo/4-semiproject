@@ -25,7 +25,7 @@
 		<h2>회원가입이 완료되었습니다!</h2>
 	</div>
 	<div class="row center">
-			<p> 이제부터 AttandPro의 다양한 서비스를<br>
+			<p> 이제부터 AttendPro의 다양한 서비스를<br>
 			 자유롭게 이용하실 수 있습니다.
 			</p>
 	</div>
