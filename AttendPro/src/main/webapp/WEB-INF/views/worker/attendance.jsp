@@ -38,7 +38,7 @@
             <div class="guage" id="workRate"></div>
     </div>
 
-	
+
     <div class="center">누적 근태 기록</div>
     <table border="1" class="table table-stripe">
         <thead>
@@ -166,10 +166,13 @@
             const twoMonthsAgo = twoMonthsAgoDate.getMonth() + 1;
             
             const attend = ${attendanceYearly.attend}; 
-            const workday = ${attendanceYearly.workday}; 
+            const workday = ${attendanceYearly.workday};
             
-         	// Calculate work rate
-            const workRate = (attend / workday) * 100;
+            let workRate = (attend / workday) * 100;  
+
+            if (workRate > 100) {
+                workRate = 100;
+            }
 
             currentYearText.textContent = currentYear+'년 근태 기록';
             lastYearText.textContent = lastYear+'년 근태 기록';
