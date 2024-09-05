@@ -17,7 +17,9 @@
     color: red !important;
   }
   .fc-event {
-    color: white;
+    color: red; /* 텍스트 색상을 빨간색으로 변경 */
+    background-color: transparent; /* 배경색을 투명으로 설정 */
+    border: none; /* 테두리 제거 */
   }
   .fc-event-title {
     text-align: center;
@@ -27,19 +29,19 @@
     background-color: rgba(0, 0, 255, 0.2) !important;
   }
   .btn-my {
-        padding: 8px 15px;
-        font-size: 16px;
-        color: #fff;
-        background-color: #3498db;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+    padding: 8px 15px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
 </style>
 
 <div id="calendar"></div>
-<button class="btn-my" id="addHolidays">Add Holidays</button>
-<button class="btn-my" id="removeHolidays">Remove Holidays</button>
+<button class="btn-my" id="휴일추가">Add Holidays</button>
+<button class="btn-my" id="휴일삭제">Remove Holidays</button>
 
 <script>
 $(document).ready(function() {
@@ -67,9 +69,12 @@ $(document).ready(function() {
                 id: formattedDate, // Add event id for easy removal
                 title: '휴일',
                 start: formattedDate,
-                color: 'red'
-            };
+                backgroundColor: 'transparent', // 배경색을 투명으로 설정
+                borderColor: 'transparent', // 테두리 색상도 투명으로 설정
+                textColor: 'red' // 글자 색상을 빨간색으로 설정
+            };           
         }),
+        
         dayCellDidMount: function(info) {
             var date = info.date;
             var dateStr = formatDateToISO(date); // Format date to ISO string
