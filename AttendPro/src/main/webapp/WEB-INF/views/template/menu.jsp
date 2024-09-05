@@ -23,9 +23,7 @@
                 <!-- 사용자 등급별 메뉴 -->
                 <c:choose>
                     <c:when test="${sessionScope.createdRank == '시스템 관리자'}">
-                        <li>
-                            <a href="/sysadmin/home">시스템관리자 메뉴</a>
-                        </li>
+                       
                     </c:when>
 
                     <c:when test="${sessionScope.createdRank == '일반 관리자'}">
