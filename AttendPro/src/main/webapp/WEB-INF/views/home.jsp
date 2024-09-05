@@ -118,7 +118,7 @@
    .notice-section {
     width: 60%; /* 섹션 너비를 100%로 설정하여 컨테이너에 맞게 조정 */
     max-width: 800px; /* 최대 너비를 설정하여 너무 넓어지지 않도록 조정 */
-    margin-left: 370px; /* 섹션을 중앙에 배치 */
+    margin-left: 370px; /* 섹션을 중앙에 배치 */ 
     padding: 10px; /* 패딩 조정 */
     background-color: #f9f9f9; /* 배경색 조정 */
     border-radius: 5px; /* 모서리 둥글게 */
