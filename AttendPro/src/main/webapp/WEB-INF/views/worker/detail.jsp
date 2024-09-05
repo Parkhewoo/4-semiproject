@@ -6,7 +6,7 @@
 <style>
     /* 통일된 스타일 */
     .container {
-        width: 80%;
+        width: 80%; 
         max-width: 1200px; /* 기존 스타일과 동일한 최대 너비 */
         margin: 50px auto;
         padding: 20px;
