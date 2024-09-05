@@ -105,7 +105,7 @@
 	</div>
 
 	<div class="row right">
-	<c:if test="${sessionScope.createdRank == '시스템 관리자' || noticeDto.noticeWriter == sessionScope.createdUser}">
+	<c:if test="${sessionScope.createdRank == '시스템 관리자'}">
 		<a href="write" class="btn btn-neutral bounce">글쓰기</a>
 		</c:if>
 	</div>
