@@ -361,14 +361,14 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
                     </div>
                     <div class="row">
                         <label>연락처(휴대전화번호, - 제외)</label>
-                        <input type="text" name="workerContact" class="field w-100" placeholder="010XXXXXXXX">
+                        <input type="text" name="workerContact" class="field w-100" value="${workerDto.workerContact}"placeholder="010XXXXXXXX">
                         <div class="fail-feedback">입력한 번호가 형식에 맞지 않습니다</div>
                     </div>
                     <div class="row">
                         <label>생년월일</label>
                         <input type="date" name="workerBirth" class="field w-100">
                     </div>
-                                  
+                          <input type="hidden" name="workerJoin" value="${workerDto.workerJoin}">      
                 
                     <div class="row">
                         <h2>주소 변경</h2>
