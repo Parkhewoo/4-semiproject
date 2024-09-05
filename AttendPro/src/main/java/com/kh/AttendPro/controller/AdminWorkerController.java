@@ -244,7 +244,6 @@ public class AdminWorkerController {
 	        model.addAttribute("attendanceMonthly3", attendanceMonthly3);
 	        
 	        String workerName = workerDao.selectOne(workerNo).getWorkerName();
-	        System.out.println(workerName);
 	        model.addAttribute("workerName", workerName);
 	        return "/WEB-INF/views/admin/worker/attendance.jsp";
 	    }
