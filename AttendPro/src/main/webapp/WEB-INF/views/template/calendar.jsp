@@ -46,19 +46,7 @@
 <button class="btn-my" id="addHolidays">휴일 추가</button>
 <button class="btn-my" id="removeHolidays">휴일 삭제</button>
 
-    padding: 8px 15px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #3498db;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-</style>
 
-<div id="calendar"></div>
-<button class="btn-my" id="addHolidays">휴일추가</button>
-<button class="btn-my" id="removeHolidays">휴일삭제</button>
 
 
 <script>
