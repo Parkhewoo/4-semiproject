@@ -35,11 +35,14 @@
         border-radius: 4px;
         cursor: pointer;
     }
+    .btn-my:hover {
+    background-color: #2980b9; /* 호버 시 배경색 변경 */
+}
 </style>
 
 <div id="calendar"></div>
-<button class="btn-my" id="addHolidays">Add Holidays</button>
-<button class="btn-my" id="removeHolidays">Remove Holidays</button>
+<button class="btn-my" id="addHolidays">휴일 추가</button>
+<button class="btn-my" id="removeHolidays">휴일 삭제</button>
 
 <script>
 $(document).ready(function() {
@@ -163,7 +166,6 @@ $(document).ready(function() {
         }
     });
 
-    // Helper function to format date to ISO string without time
     function formatDateToISO(date) {
         return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString().split('T')[0];
     }

@@ -256,39 +256,6 @@ function addHoliday(companyId, holidayDate) {
             <input type="text" id="address2" name="companyAddress2" class="field w-80" placeholder="상세 주소" value="${companyDto.companyAddress2}" />
         </div>
 
-        <!-- 휴일 목록만 표시 -->
-        <div class="row center">
-            <h2>휴일 목록</h2>
-        </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>휴일 날짜</th>
-<!--                     <th>추가</th>  -->
-                    <th>삭제</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="holidayDate" items="${holidayDates}">
-                    <fmt:formatDate value="${holidayDate}" pattern="yyyy-MM-dd" var="formattedHolidayDate"/>
-                    <tr>
-                        <td>${formattedHolidayDate}</td>
-<!--                         <td> -->
-<%--                             <button type="button" class="btn" onclick="addHoliday('${sessionScope.createdUser}', '${formattedHolidayDate}')">X</button> --%>
-<!--                         </td> -->
-                        <td>
-                            <button type="button" class="btn btn-del btn-ani" onclick="deleteHoliday('${sessionScope.createdUser}', '${formattedHolidayDate}')"><i class="fa-solid fa-x"></i></button>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-
-        <div class="row">
-            <label>휴일추가</label>
-            <input name="addHolidayDate" type="date" class="field w-100">
-        </div>
-        
         <div class="row center">
             <button class="btn btn-my" type="submit">수정하기</button>
         </div>

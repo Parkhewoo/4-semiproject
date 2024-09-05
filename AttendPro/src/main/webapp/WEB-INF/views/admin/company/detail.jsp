@@ -77,7 +77,7 @@
 
     .links a {
         text-decoration: none;
-        color: #3498db;
+        color: #3498db; !important;
         font-weight: bold;
         margin: 0 10px;
         font-size: 16px;
@@ -122,13 +122,13 @@
 /*         cursor: pointer; */
 /*     } */
      .btn {
-    display: flex;
+    display: inline-block;
     align-items: center;
     justify-content: center;
     padding: 10px 20px;
     margin: 5px;
     font-size: 16px;
-    color: #fff;
+    color: white;
     background-color: none;
     border: none;
     border-radius: 4px;
@@ -147,7 +147,7 @@
 
 .links a {
     text-decoration: none;
-    color: black;
+    color: white;
     font-weight: bold;
     margin: 0 15px;
 }
@@ -155,7 +155,27 @@
 .links a:hover {
     text-decoration: underline;
 }
-
+.btn-my {
+        padding: 8px 15px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+.btn-set {
+        padding: 0px 0px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .btn-set:hover {
+    background-color: #2980b9; /* 호버 시 배경색 변경 */
+}
 </style>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a52f3e01da4d8f6dba534fb01a2c42ef&libraries=services"></script>
 <script type="text/javascript">
@@ -316,13 +336,13 @@
             <h2>휴일</h2>
             <jsp:include page="/WEB-INF/views/template/calendar.jsp"></jsp:include>
 			</div>
-<!-- 			<div class="links"> -->
-<%-- 			<a href="/admin/company/set?companyId=${sessionScope.createdUser}" class="btn">수정하기</a> --%>
-<!-- 			</div> -->
-<!--            
- <div class="links"> -->
-<%--                 <h2><a href="set?companyId=${companyDto.companyId}">회사정보 수정</a></h2> --%>
-<!--             </div> -->
+
+       
+ 			<div class="links">
+ 				<button class="btn-set">
+              		 <h2><a href="set?companyId=${companyDto.companyId}">회사정보 수정</a></h2>
+               </button>
+    		 </div>
             
         </c:otherwise>
     </c:choose>
