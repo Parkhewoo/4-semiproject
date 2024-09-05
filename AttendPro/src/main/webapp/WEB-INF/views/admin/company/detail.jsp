@@ -262,7 +262,9 @@
 
 <head>
 <div class="container">
+<div class="center">
     <h1>${companyDto.companyName}</h1>
+</div>
 
     <!-- 에러 메시지 표시 -->
     <c:if test="${not empty error}">

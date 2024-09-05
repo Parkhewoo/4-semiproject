@@ -1,28 +1,22 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
 <style>
     .row {
         margin-bottom: 15px;
     }
-
     .btn-my {
         background-color: #659ad5;
         color: white;
         border-radius: 0.3em;
         border: none;
     }
-
     .row label {
         display: block;
         margin-bottom: 5px;
         font-weight: bold;
         color: #333;
     }
-
     .field {
         width: 100%;
         padding: 10px;
@@ -30,55 +24,45 @@
         border-radius: 4px;
         box-sizing: border-box;
     }
-
     .field:focus {
         border-color: #007bff;
         outline: none;
         box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
     }
-
     .btn  {
     background-color: #659ad5;
     color: white;
     border-radius: 0.3em;
     border: none;
 }
-
     .btn-positive {
         background-color: #28a745;
     }
-
     .btn-positive:hover {
         background-color: #218838;
     }
-
     h1 {
         font-size: 24px;
         margin-bottom: 20px; 
         color: #333;
     }
-
     .feedback {
         display: none;
         margin-top: 5px;
         font-size: 14px;
     }
-
     .success-feedback {
         color: #28a745;
     }
-
     .fail-feedback {
         color: #dc3545;
     }
-
     .fail2-feedback {
         color: #dc3545;
     }
 </style>
-
 <script>
-    $(function() {
+    $(document).ready(function() {
         var status = {
             adminIdValid: false,
             adminIdCheckValid: false,
@@ -86,19 +70,24 @@
             adminPwCheckValid: false,
             adminNoValid: false,
             adminEmailValid: false,
+            personalInfoPolicy: false,
+            siteUsageRules: false,
+            eventInfo: false,
+            thirdPartyInfo: false,
             ok: function() {
+                // 모든 상태가 true인지 확인
                 return this.adminIdValid && this.adminIdCheckValid
                     && this.adminPwValid && this.adminPwCheckValid
-                    && this.adminNoValid && this.adminEmailValid;
+                    && this.adminNoValid && this.adminEmailValid
+                    && this.personalInfoPolicy && this.siteUsageRules;
             }
         };
 
-        // 아이디 형식 검사
+        // 각 필드의 검증 로직
         $("[name=adminId]").blur(function() {
             var regex = /^[a-z][a-z0-9]{7,19}$/;
             var adminId = $(this).val();
             var isValid = regex.test(adminId);
-
             if (isValid) {
                 $.ajax({
                     url: "/rest/admin/checkId",
@@ -107,23 +96,20 @@
                     success: function(response) {
                         if (response) {
                             status.adminIdCheckValid = true;
-                            $("[name=adminId]").removeClass("success fail fail2")
-                                .addClass("success");
+                            $("[name=adminId]").removeClass("success fail fail2").addClass("success");
                         } else {
                             status.adminIdCheckValid = false;
-                            $("[name=adminId]").removeClass("success fail fail2")
-                                .addClass("fail2");
+                            $("[name=adminId]").removeClass("success fail fail2").addClass("fail2");
                         }
-                    },
+                    }
                 });
             } else {
-                $("[name=adminId]").removeClass("success fail fail2")
-                    .addClass("fail");
+                $("[name=adminId]").removeClass("success fail fail2").addClass("fail");
+                status.adminIdCheckValid = false;
             }
             status.adminIdValid = isValid;
         });
 
-        // 비밀번호 형식 검사
         $("[name=adminPw]").blur(function() {
             var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
             var isValid = regex.test($(this).val());
@@ -131,7 +117,6 @@
             status.adminPwValid = isValid;
         });
 
-        // 비밀번호 확인 검사
         $("#password-check").blur(function() {
             var isValid = $("[name=adminPw]").val().length
                 && $(this).val() == $("[name=adminPw]").val();
@@ -139,7 +124,6 @@
             status.adminPwCheckValid = isValid;
         });
 
-        // 사업자 번호 형식 검사
         $("[name=adminNo]").blur(function() {
             var regex = /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/;
             var isValid = regex.test($(this).val());
@@ -147,202 +131,189 @@
             status.adminNoValid = isValid;
         });
 
-        // 이메일 형식 검사
         $("[name=adminEmail]").blur(function() {
             var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
             var isValid = regex.test($(this).val());
-            $(this).removeClass("success fail")
-                .addClass(isValid ? "success" : "fail");
+            $(this).removeClass("success fail").addClass(isValid ? "success" : "fail");
             status.adminEmailValid = isValid;
         });
 
-        // 폼 제출 검사
-        $(".check-form").submit(function() {
-            $("[name], #password-check").trigger("blur");
-            return status.ok();
+        $(".check-item").change(function() {
+            var name = $(this).siblings("span").text().trim();
+            switch (name) {
+                case "(필수) 개인정보 취급방침에 동의합니다":
+                    status.personalInfoPolicy = $(this).is(":checked");
+                    break;
+                case "(필수) 홈페이지 이용규칙을 준수합니다":
+                    status.siteUsageRules = $(this).is(":checked");
+                    break;
+                case "(선택) 이벤트성 정보 수신에 동의합니다":
+                    status.eventInfo = $(this).is(":checked");
+                    break;
+                case "(선택) 개인정보의 제 3자 제공에 대해 동의합니다":
+                    status.thirdPartyInfo = $(this).is(":checked");
+                    break;
+            }
         });
-    });
-    
-  //체크박스 처리 모듈
-    //- 전체선택 - .check-all
-    //- 필수선택 - .check-required-all
-    //- 전체항목 - .check-item
-    //- 필수항목 - .check-required-item
-    $(function(){
-        //전체선택
-        $(".check-all").change(function(){
-            var checked = $(this).prop("checked");//this.checked
+
+        $(".check-all").change(function() {
+            var checked = $(this).prop("checked");
             $(".check-item").prop("checked", checked);
-
-            //change를 강제로 발생시켜서 연쇄적인 처리
             $(".check-item").trigger("change");
         });
-        $(".check-required-all").change(function(){
-            var checked = $(this).prop("checked");//this.checked
+
+        $(".check-required-all").change(function() {
+            var checked = $(this).prop("checked");
             $(".check-required-item").prop("checked", checked);
-
-            //change를 강제로 발생시켜서 연쇄적인 처리
-            $(".check-item").trigger("change");
+            $(".check-required-item").trigger("change");
         });
-        $(".check-item").change(function(){
+
+        $(".check-item").change(function() {
             var requiredCount = $(".check-required-item").length;
             var checkRequiredCount = $(".check-required-item:checked").length;
-            var checkRequiredAll = requiredCount == checkRequiredCount;
-
+            var checkRequiredAll = requiredCount === checkRequiredCount;
             var allCount = $(".check-item").length;
             var checkAllCount = $(".check-item:checked").length;
-            var checkAll = allCount == checkAllCount;
-
+            var checkAll = allCount === checkAllCount;
             $(".check-required-all").prop("checked", checkRequiredAll);
             $(".check-all").prop("checked", checkAll);
         });
-        // 비밀번호 표시 체크박스 처리
-        var passwordInput = document.querySelector("[name=adminPw]");
-        var passwordCheckInput = document.getElementById("password-check");
-        var passwordShowCheckbox = document.querySelector(".field-show");
-        var passwordShowIcon = document.querySelector(".fa-eye");
 
-        // 체크박스 상태에 따라 비밀번호 표시/숨기기
-        passwordShowCheckbox.addEventListener("change", function() {
-            if (this.checked) {
-                passwordInput.type = "text";
-                passwordCheckInput.type = "text";
-                passwordShowIcon.classList.remove("fa-eye");
-                passwordShowIcon.classList.add("fa-eye-slash");
-            } else {
-                passwordInput.type = "password";
-                passwordCheckInput.type = "password";
-                passwordShowIcon.classList.remove("fa-eye-slash");
-                passwordShowIcon.classList.add("fa-eye");
-            }
-        });
-    });$(document).ready(function() {
-        // 필수 체크박스가 모두 선택되었는지 확인하는 함수
-        function areAllRequiredChecked() {
-            return $(".check-required-item:checked").length === $(".check-required-item").length;
-        }
+        $(".check-form").submit(function(event) {
+            // 모든 필드를 강제로 검토
+            $("[name], #password-check").trigger("blur");
 
-        // 다음 버튼 클릭 이벤트
-        $(".btn-next").on("click", function(e) {
-            e.preventDefault(); // 기본 동작 방지
-            console.log("다음 버튼 클릭됨");
-            
-            if (!areAllRequiredChecked()) {
-                alert("모든 필수 항목에 동의해야 다음 페이지로 넘어갈 수 있습니다.");
-                console.log("필수 항목 미동의");
-            } else {
-                console.log("다음 페이지로 넘어갑니다.");
-                // 여기에 다음 페이지로 넘어가는 로직 추가
-                // 예: $(this).closest('form').submit();
+            // 상태 로그를 콘솔에 출력하여 확인
+            console.log("Validation Status: ", status);
+
+            // 상태 객체의 모든 속성이 true인지 확인
+            var isValid = status.ok();
+
+            if (!isValid) {
+                alert("기입하지 않은 항목이 있습니다.");
+                event.preventDefault(); // 폼 제출을 막습니다.
             }
         });
 
-        // 체크박스 변경 시 콘솔에 상태 출력
-        $(".check-required-item").on("change", function() {
-            console.log("필수 체크박스 상태 변경:", areAllRequiredChecked());
+        $(".btn-next").click(function() {
+            var $currentPage = $(this).closest(".page");
+            var $nextPage = $currentPage.next(".page");
+
+            if ($nextPage.length) {
+                $currentPage.hide();
+                $nextPage.show();
+            }
+        });
+
+        $(".btn-prev").click(function() {
+            var $currentPage = $(this).closest(".page");
+            var $prevPage = $currentPage.prev(".page");
+
+            if ($prevPage.length) {
+                $currentPage.hide();
+                $prevPage.show();
+            }
         });
     });
-    </script>
-
-    <div class="container w-500 my-50">
-        <div class="row center">
-            <h1>회원가입</h1>
+</script>
+<div class="container w-500 my-50">
+    <div class="row center">
+        <h1>회원가입</h1>
+    </div>
+    <div class="row">
+        <div class="progressbar">
+            <div class="guage"></div>
         </div>
+    </div>
+    <form class="check-form" action="join" method="post" autocomplete="off"
+        enctype="multipart/form-data">
         <div class="row">
-            <div class="progressbar">
-                <div class="guage"></div>
-            </div>
-        </div>
+            <div class="multipage">
+            	<div class="page">
+            		  <div class="container w-400 my-50">
+						    <div class="row">
+						        <h1>이용약관 동의</h1>
+						    </div>
+						    <div class="row">
+						        <label>
+						            <input type="checkbox" class="check-item check-required-item">
+						            <span>(필수) 개인정보 취급방침에 동의합니다</span>
+						        </label>
+						        <textarea class="field w-100" rows="5" readonly>
+개인정보 취급방침
+제1조 목적
+이 약관은 회사(이하 "회사")가 제공하는 모든 서비스(이하 "서비스")의 이용 조건 및 절차에 관한 사항과 기타 필요한 사항을 규정함을 목적으로 합니다.
 
-        <form class="check-form" action="join" method="post" autocomplete="off"
-            enctype="multipart/form-data">
-            <div class="row">
-                <div class="multipage">
-                	<div class="page">
-                		  <div class="container w-400 my-50">
-    						    <div class="row">
-    						        <h1>이용약관 동의</h1>
-    						    </div>
-    						    <div class="row">
-    						        <label>
-    						            <input type="checkbox" class="check-item check-required-item">
-    						            <span>(필수) 개인정보 취급방침에 동의합니다</span>
-    						        </label>
-    						        <textarea class="field w-100" rows="5" readonly>
-    개인정보 취급방침
-    제1조 목적
-    이 약관은 회사(이하 "회사")가 제공하는 모든 서비스(이하 "서비스")의 이용 조건 및 절차에 관한 사항과 기타 필요한 사항을 규정함을 목적으로 합니다.
-    						
-    제2조 개인정보의 수집 및 이용
-    회사는 서비스 제공을 위해 필요한 최소한의 개인정보만을 수집하며, 수집된 개인정보는 이용자의 동의 없이 목적 외의 용도로 이용하거나 제3자에게 제공되지 않습니다.
-    						
-    제3조 개인정보의 보유 및 이용기간
-    회사는 수집된 개인정보를 수집 및 이용 목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다.
-    						
-    제4조 이용자의 권리
-    이용자는 언제든지 개인정보의 열람, 정정, 삭제를 요구할 수 있으며, 회사는 이에 대해 지체 없이 조치하겠습니다.
-    						        </textarea>
-    						    </div> 
-    						    <div class="row">
-    						        <label>
-    						            <input type="checkbox" class="check-item check-required-item">
-    						            <span>(필수) 홈페이지 이용규칙을 준수합니다</span>
-    						        </label>
-    						        <textarea class="field w-100" rows="5" readonly>
-    홈페이지 이용규칙
-    제1조 목적
-    이 규칙은 회사가 운영하는 홈페이지(이하 "홈페이지")의 이용 조건 및 절차에 관한 사항과 기타 필요한 사항을 규정함을 목적으로 합니다.
-    						
-    제2조 이용자의 의무
-    이용자는 홈페이지 이용 시 본 규칙 및 관계 법령을 준수해야 하며, 타인의 권리나 명예를 침해하는 행위를 해서는 안 됩니다.
-    						
-    제3조 서비스의 제공
-    회사는 이용자에게 안정적이고 지속적인 서비스를 제공하기 위해 최선을 다하며, 정기 점검 또는 긴급 조치가 필요한 경우 서비스 제공을 일시 중단할 수 있습니다.
-    						
-    제4조 서비스의 변경 및 중단
-    회사는 불가피한 사정으로 인해 서비스의 내용을 변경하거나 중단할 수 있으며, 이 경우 홈페이지를 통해 사전에 공지합니다.
-    						        </textarea>
-    						    </div> 
-    						    <div class="row">
-    						        <label>
-    						            <input type="checkbox" class="check-item">
-    						            <span>(선택) 이벤트성 정보 수신에 동의합니다</span>
-    						        </label>
-    						        <textarea class="field w-100" rows="5" readonly>
-    이벤트성 정보 수신 동의
-    이용자는 회사가 제공하는 이벤트성 정보(할인 쿠폰, 이벤트 소식 등)를 수신하는 것에 동의할 수 있으며, 동의하지 않아도 서비스 이용에는 영향이 없습니다.
-    						        </textarea>
-    						    </div> 
-    						    <div class="row">
-    						        <label>
-    						            <input type="checkbox" class="check-item">
-    						            <span>(선택) 개인정보의 제 3자 제공에 대해 동의합니다</span>
-    						        </label>
-    						        <textarea class="field w-100" rows="5" readonly>
-    개인정보의 제 3자 제공 동의
-    회사는 서비스 제공을 위해 이용자의 개인정보를 제3자에게 제공할 수 있으며, 이 경우 제공받는 자, 제공 목적, 제공 항목 등을 사전에 고지하고 동의를 받습니다.
-    						        </textarea>
-    						    </div> 
-    						    <hr>
-    						    <div class="row">
-    						        <label>
-    						            <input type="checkbox" class="check-required-all" id="agreeMust">
-    						            <span>필수 이용약관에 동의합니다</span>
-    						        </label>
-    						    </div> 
-    						    <div class="row">
-    						        <label>
-    						            <input type="checkbox" class="check-all" id="agreeAll">
-    						            <span>전체 이용약관에 동의합니다</span>
-    						        </label>
-    						    </div> 
-    						    <div class="row mt-50">
-    		                        <div class="flex-box">
-    		                            <div class="w-50 left"></div>
-    		                            <div class="w-50 right">
-    		                                <button type="button" class="btn btn-my btn-next">
-    		                                    다음<i class="fa-solid fa-chevron-right"></i>
-    		                                </button>
+제2조 개인정보의 수집 및 이용
+회사는 서비스 제공을 위해 필요한 최소한의 개인정보만을 수집하며, 수집된 개인정보는 이용자의 동의 없이 목적 외의 용도로 이용하거나 제3자에게 제공되지 않습니다.
+
+제3조 개인정보의 보유 및 이용기간
+회사는 수집된 개인정보를 수집 및 이용 목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다.
+
+제4조 이용자의 권리
+이용자는 언제든지 개인정보의 열람, 정정, 삭제를 요구할 수 있으며, 회사는 이에 대해 지체 없이 조치하겠습니다.
+						        </textarea>
+						    </div> 
+						    <div class="row">
+						        <label>
+						            <input type="checkbox" class="check-item check-required-item">
+						            <span>(필수) 홈페이지 이용규칙을 준수합니다</span>
+						        </label>
+						        <textarea class="field w-100" rows="5" readonly>
+홈페이지 이용규칙
+제1조 목적
+이 규칙은 회사가 운영하는 홈페이지(이하 "홈페이지")의 이용 조건 및 절차에 관한 사항과 기타 필요한 사항을 규정함을 목적으로 합니다.
+
+제2조 이용자의 의무
+이용자는 홈페이지 이용 시 본 규칙 및 관계 법령을 준수해야 하며, 타인의 권리나 명예를 침해하는 행위를 해서는 안 됩니다.
+
+제3조 서비스의 제공
+회사는 이용자에게 안정적이고 지속적인 서비스를 제공하기 위해 최선을 다하며, 정기 점검 또는 긴급 조치가 필요한 경우 서비스 제공을 일시 중단할 수 있습니다.
+
+제4조 서비스의 변경 및 중단
+회사는 불가피한 사정으로 인해 서비스의 내용을 변경하거나 중단할 수 있으며, 이 경우 홈페이지를 통해 사전에 공지합니다.
+						        </textarea>
+						    </div> 
+						    <div class="row">
+						        <label>
+						            <input type="checkbox" class="check-item">
+						            <span>(선택) 이벤트성 정보 수신에 동의합니다</span>
+						        </label>
+						        <textarea class="field w-100" rows="5" readonly>
+이벤트성 정보 수신 동의
+이용자는 회사가 제공하는 이벤트성 정보(할인 쿠폰, 이벤트 소식 등)를 수신하는 것에 동의할 수 있으며, 동의하지 않아도 서비스 이용에는 영향이 없습니다.
+						        </textarea>
+						    </div> 
+						    <div class="row">
+						        <label>
+						            <input type="checkbox" class="check-item">
+						            <span>(선택) 개인정보의 제 3자 제공에 대해 동의합니다</span>
+						        </label>
+						        <textarea class="field w-100" rows="5" readonly>
+개인정보의 제 3자 제공 동의
+회사는 서비스 제공을 위해 이용자의 개인정보를 제3자에게 제공할 수 있으며, 이 경우 제공받는 자, 제공 목적, 제공 항목 등을 사전에 고지하고 동의를 받습니다.
+						        </textarea>
+						    </div> 
+						    <hr>
+						    <div class="row">
+						        <label>
+						            <input type="checkbox" class="check-required-all" id="agreeMust">
+						            <span>필수 이용약관에 동의합니다</span>
+						        </label>
+						    </div> 
+						    <div class="row">
+						        <label>
+						            <input type="checkbox" class="check-all" id="agreeAll">
+						            <span>전체 이용약관에 동의합니다</span>
+						        </label>
+						    </div> 
+						    <div class="row mt-50">
+		                        <div class="flex-box">
+		                            <div class="w-50 left"></div>
+		                            <div class="w-50 right">
+		                                <button type="button" class="btn btn-my btn-next">
+		                                    다음<i class="fa-solid fa-chevron-right"></i>
+		                                </button>
 		                            </div>
 		                        </div>
                     </div>
@@ -374,20 +345,16 @@
                 </div>
                 <div class="page">
                     <div class="row">
-                        <label>비밀번호
-                         <input type="checkbox" class="field-show">
-					     <span>표시하기</span>
-					      <i class="fa-solid fa-eye"></i>
-					      </label>	
-                        <input type="password" name="adminPw"class="field w-100"
-                            placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함" required>
+                        <label>비밀번호</label>
+                        <input name="adminPw" type="password" class="field w-100"
+                            placeholder="영문 대소문자, 숫자, !@#$중 하나 반드시 포함">
                         <div class="success-feedback">올바른 형식입니다!</div>
                         <div class="fail-feedback">형식에 맞춰 8~16자로 작성하세요</div>
                     </div>
                     <div class="row">
                         <label>비밀번호 확인</label>
                         <input type="password" id="password-check" class="field w-100"
-                            placeholder="확인을 위해 비밀번호 한번 더 입력" required>
+                            placeholder="확인을 위해 비밀번호 한번 더 입력">
                         <div class="success-feedback">비밀번호가 일치합니다</div>
                         <div class="fail-feedback">비밀번호가 일치하지 않습니다</div>
                     </div>
@@ -455,5 +422,4 @@
         </div>
     </form>
 </div>
-
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

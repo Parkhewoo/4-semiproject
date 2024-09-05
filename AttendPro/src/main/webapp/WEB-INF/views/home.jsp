@@ -118,7 +118,7 @@
    .notice-section {
     width: 60%; /* 섹션 너비를 100%로 설정하여 컨테이너에 맞게 조정 */
     max-width: 800px; /* 최대 너비를 설정하여 너무 넓어지지 않도록 조정 */
-    margin-left: 55px; /* 섹션을 중앙에 배치 */
+    margin-left: 370px; /* 섹션을 중앙에 배치 */ 
     padding: 10px; /* 패딩 조정 */
     background-color: #f9f9f9; /* 배경색 조정 */
     border-radius: 5px; /* 모서리 둥글게 */
@@ -317,17 +317,21 @@
 <c:choose>
 	<c:when test="${sessionScope.createdUser != null}">
 		<div class="center">
-			<h1>${sessionScope.createdUser}님홈페이지방문을환영합니다!</h1>
+			<img src="/images/logoVer2.png" style="width: 30%">
 		</div>
 		<!-- 로그인한 경우  -->
 		<c:choose>
 			<c:when test="${sessionScope.createdRank == '시스템 관리자'}">
-				<div class="container w-900 my-50 home">
+				<div class="container w-600 my-50 home">
 					<div class="row center mt-30">
-						<a href="sysadmin/list">유저 현황</a>
+						<a href="sysadmin/list">
+						<img src="/images/userList.png" style="width: 70%">
+						</a>
 					</div>
 					<div class="row center mt-30">
-						<a href="qna/list">Q&A 게시판</a>
+						<a href="qna/list">
+						<img src="/images/qna.png" style="width: 70%">
+						</a>
 					</div>
 				</div>
 			</c:when>
@@ -335,34 +339,43 @@
 			<c:when test="${sessionScope.createdRank == '일반 관리자'}">
 				<div class="container w-900 my-50 home">
 					<!-- 일반 관리자를 위한 콘텐츠 -->
-					<div class="row center mt-30">
-						<a href="admin/worker/list">사원 현황(매핑 미완성)</a>
+					<div class="row  mt-30">
+						<a href="/admin/worker/list">
+						<img src="/images/myWorker.png" style="width: 100%">
+						</a>
 					</div>
-					<div class="row center mt-30">
-						<a href="admin/company/info?companyId=${sessionScope.createdUser}">내
-							업장 정보</a>
+					<div class="row  mt-30">
+						<a href="admin/company/info?companyId=${sessionScope.createdUser}">
+						<img src="/images/myCompany.png" style="width: 100%">
+						</a>
 					</div>
-					<div class="row center mt-30">
-						<a href="admin/company/insert?companyId=${sessionScope.createdUser}">내
-							업장 <br>신규 등록</a>
+					<div class="row  mt-30">
+						<a href="admin/company/insert?companyId=${sessionScope.createdUser}">
+						<img src="/images/newCompany.png" style="width: 100%">
+						</a>
 					</div>
-					<div class="row center mt-30">
-						<a href="admin/company/set?companyId=${sessionScope.createdUser}">내
-							업장  <br>수정하기</a>
+					<div class="row  mt-30">
+						<a href="admin/company/set?companyId=${sessionScope.createdUser}">
+					<img src="/images/editCompany.png" style="width: 100%">
+						</a>
 					</div>
 				</div>
 			</c:when>
 
 			<c:otherwise>
 				<!--사원을 위한 콘텐츠 -->
-				<div class="container w-900 my-50 home">
+				<div class="container w-600 my-50 home">
 
-					<div class="row center mt-30">
-						<a href="/worker/check">출퇴근 하기</a>
+					<div class="row center">
+						<a href="/worker/check">
+						<img src="/images/check.png" style="width: 85%">
+						</a>
 					</div>
 
-					<div class="row center mt-30">
-						<a href="/worker/attendance">내 출근기록보기</a>
+					<div class="row center ">
+						<a href="/worker/attendance">
+						<img src="/images/attendanceBtn.png" style="width: 85%">
+						</a>
 					</div>
 
 				</div>
@@ -373,16 +386,16 @@
 	<c:otherwise>
 		<!-- 비로그인시 -->
 		<div class="center">
-			<h1>홈페이지 방문을 환영합니다 !</h1>
+			<img src="/images/logoVer2.png" style="width: 30%">
 		</div>
 		<div class="container w-350 my-50">
 			<div class="row mt-30">
 				<button class="btn btn-my w-100"
-					onclick="window.location.href='/admin/login'">관리자 로그인</button>
+					onclick="window.location.href='/admin/login'"><i class="fa-solid fa-arrow-right"></i>관리자 로그인</button>
 			</div>
 			<div class="row mt-30">
 				<button class="btn btn-my w-100"
-					onclick="window.location.href='/worker/login'">사원 로그인</button>
+					onclick="window.location.href='/worker/login'"><i class="fa-solid fa-arrow-right"></i>사원 로그인</button>
 			</div>
 		</div>
 	</c:otherwise>

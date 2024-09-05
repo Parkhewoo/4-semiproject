@@ -132,12 +132,7 @@
                             </tr>
                         </c:forEach>
                     </tbody>
-                    <tfoot>
-                        <tr align="right">
-                            <td colspan="3">
-                            </td>
-                        </tr>
-                    </tfoot>
+
                 </table>
             </c:otherwise>
         </c:choose>

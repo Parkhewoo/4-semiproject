@@ -215,6 +215,22 @@
                 passwordShowIcon.classList.add("fa-eye");
             }
         });
+     // 폼 제출 이벤트 리스너 수정
+        $(".check-form").submit(function(event) {
+            // 모든 입력 항목 검증 트리거
+            $("[name], #password-check").trigger("input").trigger("blur");
+
+            // 검증 결과 확인
+            if (!status.ok()) {
+                // 기본 폼 제출 동작 방지
+                event.preventDefault();
+                
+                // 사용자에게 알림 표시
+                alert("필수 입력 사항이 누락되었습니다. 모든 필수 항목을 올바르게 입력해주세요.");
+                return false;
+            }
+            return true;
+        });
     });
 
      
@@ -242,7 +258,7 @@
                         <h2>1단계 : 사원번호 입력</h2>
                     </div>
                     <div class="row">
-                        <label>사원번호</label>
+                        <label>사원번호(필수)</label>
                         <input type="text" name="workerNo" class="field w-100" required>
                         <div class="success-feedback">사용가능한 번호입니다!</div>
                         <div class="fail-feedback">중복된 사원번호입니다</div>
@@ -261,7 +277,7 @@
                 <div class="page">
 					 <div class="row">
 					    <label>
-					        비밀번호
+					        비밀번호(필수)
 					        <label>
 					            <input type="checkbox" class="field-show">
 					            <span>표시하기</span>
@@ -300,7 +316,7 @@
                         <h2>3단계 : 사원 이름 입력</h2>
                     </div>
                     <div class="row">
-                        <label>사원 이름</label>
+                        <label>사원 이름(필수)</label>
                         <input type="text" name="workerName" class="field w-100" required>
                         <div class="success-feedback">멋진 이름입니다!</div>
                         <div class="fail-feedback">잘못된 형식의 이름입니다</div>
@@ -325,7 +341,7 @@
   	      <h2>4단계 : 직급 입력</h2>
   	  </div>
  	   <div class="row">
-  	      <label for="workerRank">직급</label>
+  	      <label for="workerRank">직급(필수)</label>
   	      <select name="workerRank" id="workerRank" class="field w-100" required>
    	      	   <option value="" disabled selected>선택하세요</option>
     	       <option value="인턴">인턴</option>
@@ -356,7 +372,7 @@
 					    <h2>5단계 : 이메일 입력</h2>
 					</div>
 					<div class="row">
-					    <label>이메일</label>
+					    <label>이메일(필수)</label>
 					    <input type="email" name="workerEmail" class="field w-100" placeholder="test@kh.com" required>
 					    <div class="success-feedback" >올바른 이메일 형식입니다!</div>
 					    <div class="fail-feedback" style="display: none;">올바르지 않은 이메일 형식입니다</div>
@@ -381,7 +397,7 @@
                         <h2>6단계 : 선택정보 입력</h2>
                     </div>
                     <div class="row">
-                        <label>연락처(휴대전화번호, - 제외)</label>
+                        <label>연락처(휴대전화번호, - 제외 필수항목)</label>
                         <input type="text" name="workerContact" class="field w-100" placeholder="010XXXXXXXX">
                         <div class="fail-feedback">입력한 번호가 형식에 맞지 않습니다</div>
                         <div class="success-feedback">올바른 전화번호 형식입니다</div>
@@ -390,10 +406,7 @@
                         <label>생년월일</label>
                         <input type="date" name="workerBirth" class="field w-100">
                     </div>
-                    <div class="row">
-                        <label>입사일</label>
-                        <input type="date" name="workerJoin" class="field w-100">
-                    </div>
+                   
                     <div class="row mt-50">
                         <div class="flex-box">
                             <div class="w-50 left">

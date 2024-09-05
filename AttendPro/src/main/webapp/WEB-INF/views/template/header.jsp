@@ -185,7 +185,7 @@
                 (${sessionScope.createdRank})
             </div>
             <div class="row center">
-                <a href="/admin/worker/list?adminId=${sessionScope.createdUser}" class="link link-animation">
+                <a href="/admin/worker/list" class="link link-animation">
                     사원정보보기<i class="fa-solid fa-square-arrow-up-right"></i>
                 </a>
             </div>
@@ -203,7 +203,7 @@
             </div>
                     <div class="row center">
                 <a href="/worker/attendance" class="link link-animation">
-                    출근기록 보기<i class="fa-solid fa-poo"></i>
+                    출근기록 보기<i class="fa-solid fa-square-arrow-up-right"></i>
                 </a>
             </div>   
                 <div class="row center">
