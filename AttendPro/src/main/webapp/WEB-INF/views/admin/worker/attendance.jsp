@@ -167,9 +167,12 @@
             
             const attend = ${attendanceYearly.attend}; 
             const workday = ${attendanceYearly.workday}; 
-            
-         	// Calculate work rate
-            const workRate = (attend / workday) * 100;
+         	
+            let workRate = (attend / workday) * 100;
+
+            if (workRate > 100) {
+                workRate = 100;
+            }
 
             currentYearText.textContent = currentYear+'년 근태 기록';
             lastYearText.textContent = lastYear+'년 근태 기록';

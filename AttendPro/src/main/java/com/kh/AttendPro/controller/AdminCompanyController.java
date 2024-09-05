@@ -23,6 +23,8 @@ import com.kh.AttendPro.dto.CompanyDto;
 import com.kh.AttendPro.dto.HolidayDto;
 import com.kh.AttendPro.error.TargetNotFoundException;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/admin/company")
 public class AdminCompanyController {
@@ -34,7 +36,11 @@ public class AdminCompanyController {
     private HolidayDao holidayDao;
 
     @GetMapping("/insert")
-    public String insert() {
+    public String insert(HttpSession session) {
+        String companyId = (String)session.getAttribute("createdUser");
+        if(companyDao.selectOne(companyId) != null) {
+            throw new TargetNotFoundException("이미 업장이 존재합니다");
+        }
         return "/WEB-INF/views/admin/company/insert.jsp";
     }
 
@@ -42,9 +48,6 @@ public class AdminCompanyController {
     public String insert(@ModelAttribute CompanyDto companyDto) {
         if (companyDto.getCompanyId() == null || companyDto.getCompanyId().isEmpty()) {
             throw new IllegalArgumentException("Company ID is missing");
-        }
-        if(companyDto != null) {
-        	throw new TargetNotFoundException("이미 회사가 존재합니다.");
         }
         companyDao.insert(companyDto);
 
