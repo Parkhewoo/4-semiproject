@@ -99,7 +99,7 @@
 <script>
 $(function() {
     var status = {
-
+		companyNameValid: false,
         companyCeoValid: false,
         companyAddressValid: false,
         ok: function() {
@@ -107,7 +107,14 @@ $(function() {
         }
     };
     
-   
+   	$("[name=companyName]").blur(function(){
+   	    var isValid = $(this).val().trim() !== '';
+   	 $(this).removeClass("success fail")
+     .addClass(isValid ? "success" : "fail");
+	$(this).siblings(".success-feedback, .fail-feedback").hide();
+	$(this).siblings(isValid ? ".success-feedback" : ".fail-feedback").show();
+   		status.companyNameValid = isValid;
+   	});
     
     $("[name=companyCeo]").blur(function() {
         var regex = /^[가-힣a-zA-Z0-9]{1,21}$/;
