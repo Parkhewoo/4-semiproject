@@ -14,7 +14,7 @@
 <form action="write" method="post" autocomplete="off">
 	
 	<div class="container w-800" >
-		<div class="row">
+		<div class="row"> 
 			<h1>게시글 작성</h1>
 		</div>
 		<div class="row">
