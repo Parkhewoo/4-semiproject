@@ -39,8 +39,8 @@
 			<textarea name="qnaContent" rows="10" class="field w-100"></textarea>		
 		</div>
 		<div class="row right">
-			<button type="submit" class="btn btn-positive">작성하기</button>
-			<a class="btn btn-neutral" href="list">목록으로</a>
+			<button type="submit" class="btn">작성하기</button>
+			<a class="btn btn-neutral" href="adminList">목록으로</a>
 		</div>
 	</div>
 	

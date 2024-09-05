@@ -340,7 +340,7 @@
 				<div class="container w-900 my-50 home">
 					<!-- 일반 관리자를 위한 콘텐츠 -->
 					<div class="row  mt-30">
-						<a href="admin/worker/list">
+						<a href="/admin/worker/list">
 						<img src="/images/myWorker.png" style="width: 100%">
 						</a>
 					</div>
@@ -368,13 +368,13 @@
 
 					<div class="row center">
 						<a href="/worker/check">
-						<img src="/images/check.png" style="width: 70%">
+						<img src="/images/check.png" style="width: 85%">
 						</a>
 					</div>
 
 					<div class="row center ">
 						<a href="/worker/attendance">
-						<img src="/images/attendanceBtn.png" style="width: 70%">
+						<img src="/images/attendanceBtn.png" style="width: 85%">
 						</a>
 					</div>
 

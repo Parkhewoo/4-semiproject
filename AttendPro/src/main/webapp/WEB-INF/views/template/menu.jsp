@@ -31,7 +31,7 @@
                             <a href="/admin/mypage">마이페이지</a>
                         </li>
                         <li>
-                            <a href="/admin/worker/list?adminId=${sessionScope.createdUser}">사원 관리</a>
+                            <a href="/admin/worker/list">사원 관리</a>
                         </li>
                         <li>
                             <a href="#">QNA</a>

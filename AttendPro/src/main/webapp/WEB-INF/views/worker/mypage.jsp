@@ -182,7 +182,7 @@
             <tr>
                 <th>주소</th>
                 <td class="left">
-                    [${workerDto.workerPost}]
+                    ${workerDto.workerPost}
                     ${workerDto.workerAddress1} ${workerDto.workerAddress2}
                 </td>
             </tr>
@@ -205,33 +205,6 @@
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css">
 <script>
-    // holidaysJson을 콘솔에 출력
-    const holidaysJson = ${fn:escapeXml(holidaysJson)};
-    console.log("Holidays JSON: ", holidaysJson);
-
-    // holidaysJson을 객체로 변환
-    const holidays = JSON.parse(holidaysJson);
     
-    // FullCalendar 초기화
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            events: holidays.map(holiday => {
-                // 날짜 형식 변환 (시, 분, 초 제거)
-                const date = new Date(holiday.holidayDate);
-                const formattedDate = date.toISOString().split('T')[0];
-                
-                return {
-                    title: '휴일',
-                    start: formattedDate, // '2024-09-11' 형식의 날짜 문자열
-                    color: 'red' // 이벤트 색상 설정
-                };
-            }),
-        });
-        calendar.render();
-    });
 </script>
