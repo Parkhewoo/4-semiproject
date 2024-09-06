@@ -17,9 +17,9 @@
     color: red !important;
   }
   .fc-event {
-    color: red; /* 텍스트 색상을 빨간색으로 변경 */
-    background-color: transparent; /* 배경색을 투명으로 설정 */
-    border: none; /* 테두리 제거 */
+    color: red;
+    background-color: transparent;
+    border: none;
   }
   .fc-event-title {
     text-align: center;
@@ -29,36 +29,30 @@
     background-color: rgba(0, 0, 255, 0.2) !important;
   }
   .btn-my {
-        padding: 8px 15px;
-        font-size: 16px;
-        color: #fff;
-        background-color: #3498db;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    .btn-my:hover {
-    background-color: #2980b9; /* 호버 시 배경색 변경 */
-}
+    padding: 8px 15px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .btn-my:hover {
+    background-color: #2980b9;
+  }
 </style>
 
 <div id="calendar"></div>
 <button class="btn-my" id="addHolidays">휴일 추가</button>
 <button class="btn-my" id="removeHolidays">휴일 삭제</button>
 
-
-
-
 <script>
 $(document).ready(function() {
     var calendarEl = document.getElementById('calendar');
-
     var holidaysJson = '${holidaysJson}';
     var holidays = JSON.parse(holidaysJson);
-
     var selectedDates = [];
-	
-    // Initialize calendar
+
     var calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
             left: 'prev',
@@ -72,18 +66,18 @@ $(document).ready(function() {
             var date = new Date(holiday.holidayDate);
             var formattedDate = date.toISOString().split('T')[0];
             return {
-                id: formattedDate, // Add event id for easy removal
+                id: formattedDate,
                 title: '휴일',
                 start: formattedDate,
-                backgroundColor: 'transparent', // 배경색을 투명으로 설정
-                borderColor: 'transparent', // 테두리 색상도 투명으로 설정
-                textColor: 'red' // 글자 색상을 빨간색으로 설정
+                backgroundColor: 'transparent',
+                borderColor: 'transparent',
+                textColor: 'red'
             };           
         }),
         
         dayCellDidMount: function(info) {
             var date = info.date;
-            var dateStr = formatDateToISO(date); // Format date to ISO string
+            var dateStr = formatDateToISO(date);
 
             if (date.getDay() === 0 || date.getDay() === 6) {
                 info.el.style.color = 'red';
@@ -101,15 +95,13 @@ $(document).ready(function() {
                     $(info.el).removeClass('selected-day');
                 }
 
-                console.log("Selected Dates: ", selectedDates); // Debug log
+                console.log("Selected Dates: ", selectedDates);
             });
         }
     });
 
     calendar.render();
 
-    
-    // Add holidays to the server and calendar
     $('#addHolidays').on('click', function() {
         if (selectedDates.length > 0) {
             $.ajax({
@@ -121,30 +113,29 @@ $(document).ready(function() {
                 },
                 success: function(response) {
                     console.log(response);
-                    // Add events to the calendar
                     selectedDates.forEach(date => {
                         var event = {
-                            id: date, // Use date as event id
+                            id: date,
                             title: '휴일',
                             start: date,
                             color: 'red'
                         };
-                        if (!calendar.getEventById(date)) { // Add event if it does not already exist
+                        if (!calendar.getEventById(date)) {
                             calendar.addEvent(event);
                         }
                     });
-                    selectedDates = []; // Clear selected dates
+                    selectedDates = [];
+                    location.reload();
                 },
                 error: function(xhr, status, error) {
                     console.error('Error:', error);
                 }
             });
         } else {
-            alert('No dates selected.');
+            alert('선택된 날자가 없습니다.');
         }
     });
 
-    // Remove holidays from the server and calendar
     $('#removeHolidays').on('click', function() {
         if (selectedDates.length > 0) {
             $.ajax({
@@ -156,28 +147,26 @@ $(document).ready(function() {
                 },
                 success: function(response) {
                     console.log(response);
-                    // Remove events from the calendar
                     selectedDates.forEach(date => {
                         var event = calendar.getEventById(date);
                         if (event) {
                             event.remove();
                         }
                     });
-                    selectedDates = []; // Clear selected dates
+                    selectedDates = [];
+                    location.reload();
                 },
                 error: function(xhr, status, error) {
                     console.error('Error:', error);
                 }
             });
         } else {
-            alert('No dates selected.');
+            alert('선택된 날자가 없습니다.');
         }
     });
 
     function formatDateToISO(date) {
         return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString().split('T')[0];
     }
-    
-    
 });
 </script>
