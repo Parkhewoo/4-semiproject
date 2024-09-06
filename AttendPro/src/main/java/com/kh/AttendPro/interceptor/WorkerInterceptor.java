@@ -23,8 +23,8 @@ public class WorkerInterceptor implements HandlerInterceptor{
 		String createdRank = (String)session.getAttribute("createdRank");
 		boolean isLogin = session.getAttribute("createdUser") != null;
 		
-		System.out.println("isLogin " + isLogin);
-		System.out.println("사원등급 "+createdRank);
+		//system.out.println("isLogin " + isLogin);
+		//system.out.println("사원등급 "+createdRank);
 		
 		
 		boolean isWorker = false;
@@ -32,7 +32,7 @@ public class WorkerInterceptor implements HandlerInterceptor{
 			isWorker = true;
 		}
 		
-		System.out.println("isWorker = " + isWorker);
+		//system.out.println("isWorker = " + isWorker);
 		
 		if(isWorker) {//일반사원이라면
 			return true;//통과

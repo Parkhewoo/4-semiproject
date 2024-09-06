@@ -178,7 +178,7 @@ public class WorkerController {
 	public String image(@RequestParam int workerNo) {
 	    try {
 	        int attachmentNo = workerDao.findImage(workerNo);
-	        System.out.println("WorkerController - attachmentNo = " + attachmentNo);
+	        //system.out.println("WorkerController - attachmentNo = " + attachmentNo);
 	        if (attachmentNo > 0) {
 	            return "redirect:/attach/download?attachmentNo=" + attachmentNo;
 	        } else {

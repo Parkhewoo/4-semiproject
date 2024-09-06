@@ -404,7 +404,7 @@
 <div class="notice-section">
 <h1>새 소식</h1>
     <div class="notice-header">
-        <a href="${pageContext.request.contextPath}/notice/list" class="more-btn">
+        <a href="/notice/list" class="more-btn">
             공지사항 <i class="fa-solid fa-chevron-right"></i>
         </a>
     </div>

@@ -18,7 +18,7 @@ public class AdminInterceptor implements HandlerInterceptor{
 		HttpSession session = request.getSession();
 		String createdRank = (String)session.getAttribute("createdRank");
 		boolean isAdmin = "일반 관리자".equals(createdRank);
-		System.out.println("isAdmin = " + isAdmin);
+		//system.out.println("isAdmin = " + isAdmin);
 		
 		if(isAdmin) {//관리자라면
 			return true;//통과

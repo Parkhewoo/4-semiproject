@@ -56,8 +56,8 @@ public class AdminWorkerController {
 //		   }
 		 //[1] 회원가입
 	      workerDao.insert(workerDto);
-	      System.out.println("workerDto"+workerDto);
-	      System.out.println(attach);
+	      //system.out.println("workerDto"+workerDto);
+	      //system.out.println(attach);
 	      
 	      if(attach.isEmpty() == false) {
 	    	  //[2] 첨부파일이 있다면 등록 및 저장
@@ -193,7 +193,7 @@ public class AdminWorkerController {
 		public String image(@RequestParam int workerNo) {
 		    try {
 		        int attachmentNo = workerDao.findImage(workerNo);
-		        System.out.println("WorkerController - attachmentNo = " + attachmentNo);
+		        //system.out.println("WorkerController - attachmentNo = " + attachmentNo);
 		        if (attachmentNo > 0) {
 		            return "redirect:/attach/download?attachmentNo=" + attachmentNo;
 		        } else {
