@@ -16,15 +16,16 @@ public class SysAdminInterceptor implements HandlerInterceptor{
 			throws Exception {
 		//관리자 = 현재 사용자의 세션에 들어있는 createdLevel이 관리자인 경우
 		HttpSession session = request.getSession();
-		String createdLevel = (String)session.getAttribute("createdLevel");
-		boolean isSysAdmin = "시스템 관리자".equals(createdLevel);
+		String createdRank = (String)session.getAttribute("createdRank");
+		boolean isSysAdmin = "시스템 관리자".equals(createdRank);
 		System.out.println("isSysAdmin = " + isSysAdmin);
 		
 		if(isSysAdmin) {// 시스템관리자라면
 			return true;//통과
 		}
 		else {// 시스템관리자가 아니라면
-			response.sendError(403);//권한없음(부족), Forbidden
+//			response.sendError(403);//권한없음(부족), Forbidden
+			response.sendRedirect("/admin/login");
 			return false;
 		}
 	}
