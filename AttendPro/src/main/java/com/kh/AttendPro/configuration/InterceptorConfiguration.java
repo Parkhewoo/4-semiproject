@@ -50,8 +50,10 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
           
           registry.addInterceptor(sysAdminInterceptor)
           			.addPathPatterns("/sysadmin/**",
-          					"/qna/list"
-          					);
+          							 "/qna/list",
+          							 "/notice/write",
+          							 "/notice/edit"
+          							);
           			
     }
 }
