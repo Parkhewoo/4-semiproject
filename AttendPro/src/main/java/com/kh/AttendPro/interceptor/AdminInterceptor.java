@@ -16,15 +16,15 @@ public class AdminInterceptor implements HandlerInterceptor{
 			throws Exception {
 		//관리자 = 현재 사용자의 세션에 들어있는 createdLevel이 관리자인 경우
 		HttpSession session = request.getSession();
-		String createdLevel = (String)session.getAttribute("createdLevel");
-		boolean isAdmin = "일반 관리자".equals(createdLevel);
+		String createdRank = (String)session.getAttribute("createdRank");
+		boolean isAdmin = "일반 관리자".equals(createdRank);
 		System.out.println("isAdmin = " + isAdmin);
 		
-		if(isAdmin) {//시스템 관리자라면
+		if(isAdmin) {//관리자라면
 			return true;//통과
 		}
-		else {//시스템 관리자가 아니라면
-			response.sendError(403);//권한없음(부족), Forbidden
+		else {//관리자가 아니라면
+			response.sendRedirect("/admin/login");//권한없음(부족), Forbidden
 			return false;
 		}
 	}

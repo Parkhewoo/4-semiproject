@@ -146,12 +146,7 @@ public class RecordDao {
 				+" AND TO_CHAR(worker_out, 'YYYY-MM') = ?";
 		int leave = jdbcTemplate.queryForObject(sqlForLeave, int.class, data);
 		attendanceVO.setLeave(leave);
-		
-		
-//		String sqlForAbsent = "";
-//		int absent = jdbcTemplate.queryForObject(sqlForAbsent, int.class, data);
-//		attendanceVO.setAbsent(absent);
-//		
+
 		return attendanceVO;
 	}
 
