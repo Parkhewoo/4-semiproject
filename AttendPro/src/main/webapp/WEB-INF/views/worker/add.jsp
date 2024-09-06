@@ -115,7 +115,7 @@
         $("[name=workerNo]").blur(function() {
             var workerNo = $(this).val();
             $.ajax({
-                url: "http://localhost:8080/rest/worker/checkNo",
+                url: "/rest/worker/checkNo",
                 method: "post",
                 data: { workerNo: workerNo },
                 success: function(response) {

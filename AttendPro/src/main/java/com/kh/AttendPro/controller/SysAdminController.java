@@ -140,7 +140,7 @@ public class SysAdminController {
 	    List<HolidayDto> holidays = holidayDao.selectByCompanyId(companyId);
 
 	    // 데이터가 올바르게 조회되었는지 로그로 확인
-	    System.out.println("Holidays List: " + holidays);
+	    //system.out.println("Holidays List: " + holidays);
 
 	    // JSON 변환
 	    Gson gson = new GsonBuilder()

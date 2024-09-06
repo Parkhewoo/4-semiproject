@@ -163,14 +163,14 @@ public class BlockDao {
 	            pageVO.getBeginRow(),
 	            pageVO.getEndRow()
 	        };
-	        System.out.println(Arrays.toString(data));
+	        //system.out.println(Arrays.toString(data));
 	    }
 	    List<BlockDto> result = jdbcTemplate.query(sql, blockmapper, data);
-	    System.out.println("결과 수 : " + result.size());
+	    //system.out.println("결과 수 : " + result.size());
         // Print the result to the console
-        System.out.println("Query Result:");
+        //system.out.println("Query Result:");
         for (BlockDto worker : result) {
-            System.out.println(worker);
+            //system.out.println(worker);
         }
 
         return result;

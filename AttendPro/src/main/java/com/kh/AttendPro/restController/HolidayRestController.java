@@ -46,8 +46,8 @@ public class HolidayRestController {
 	
 	@PostMapping("/addMultiple")
 	public String addMultipleHolidays(@RequestParam String companyId, @RequestParam String holidayDates) {
-	    System.out.println("Received companyId: " + companyId);
-	    System.out.println("Received holidayDates: " + holidayDates);
+	    //system.out.println("Received companyId: " + companyId);
+	    //system.out.println("Received holidayDates: " + holidayDates);
 	    
 	    try {
 	        List<Date> dates = Arrays.stream(holidayDates.split(","))

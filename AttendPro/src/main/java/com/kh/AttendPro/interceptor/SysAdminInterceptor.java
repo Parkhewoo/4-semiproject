@@ -18,7 +18,7 @@ public class SysAdminInterceptor implements HandlerInterceptor{
 		HttpSession session = request.getSession();
 		String createdRank = (String)session.getAttribute("createdRank");
 		boolean isSysAdmin = "시스템 관리자".equals(createdRank);
-		System.out.println("isSysAdmin = " + isSysAdmin);
+		//system.out.println("isSysAdmin = " + isSysAdmin);
 		
 		if(isSysAdmin) {// 시스템관리자라면
 			return true;//통과
