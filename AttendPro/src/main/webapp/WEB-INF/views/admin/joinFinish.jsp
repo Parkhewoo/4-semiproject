@@ -3,7 +3,7 @@
 
 
 <%-- header.jsp에 존재하는 내용을 불러오도록 설정 --%>
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
 	.join-finish{
@@ -30,10 +30,10 @@
 			</p>
 	</div>
 	<div class="row center">
-		<a href="/admin/login" class="btn btn-my">로그인 페이지가기</a>
+		<a href="${pageContext.request.contextPath}/admin/login" class="btn btn-my">로그인 페이지가기</a>
 	</div>
 	
 </div>	
 
 <%-- footer.jsp에 존재하는 내용을 불러오도록 설정 --%>
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

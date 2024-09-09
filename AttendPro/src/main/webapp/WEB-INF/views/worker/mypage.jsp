@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
     /* 기존 스타일 */
@@ -193,7 +193,7 @@
     <div class="row center">
         <h2>
             <a href="password" class="btn btn-my">비밀번호 변경하기</a>
-            <a href="/worker/edit?workerNo=${workerDto.workerNo}" class="btn btn-my ms-10">개인정보 변경하기</a>
+            <a href="${pageContext.request.contextPath}/worker/edit?workerNo=${workerDto.workerNo}" class="btn btn-my ms-10">개인정보 변경하기</a>
         </h2>
     </div>
 
@@ -203,7 +203,7 @@
 
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>
 
 <script>
     

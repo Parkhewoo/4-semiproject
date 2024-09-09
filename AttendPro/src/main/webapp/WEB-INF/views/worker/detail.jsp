@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
     /* 통일된 스타일 */
@@ -147,15 +147,15 @@
 
     <!-- 다른 페이지로 이동할 수 있는 링크 -->
     <div class="links">
-        <a href="add">사원 등록</a>
-        <a href="list?adminId=${workerDto.adminId}">사원 목록</a>
+        <a href="${pageContext.request.contextPath}/add">사원 등록</a>
+        <a href="${pageContext.request.contextPath}/list?adminId=${workerDto.adminId}">사원 목록</a>
 
         <c:if test="${workerDto != null}">
-            <a href="edit?workerNo=${workerDto.workerNo}">정보 수정</a>
-            <a href="delete?workerNo=${workerDto.workerNo}">사원 삭제</a>
-            <a href="attendance?workerNo=${workerDto.workerNo}">출결 현황</a>
+            <a href="${pageContext.request.contextPath}/edit?workerNo=${workerDto.workerNo}">정보 수정</a>
+            <a href="${pageContext.request.contextPath}/delete?workerNo=${workerDto.workerNo}">사원 삭제</a>
+            <a href="${pageContext.request.contextPath}/attendance?workerNo=${workerDto.workerNo}">출결 현황</a>
         </c:if>
     </div>
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

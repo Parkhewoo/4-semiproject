@@ -157,8 +157,8 @@
 	
 	$(function() {
 	    // 차트 생성
-		createChart("/rest/admin/status", ".admin-chart", "관리자 수");
-	    createChart("/rest/worker/status",".worker-chart", "사원 수");
+		createChart("${pageContext.request.contextPath}/rest/admin/status", ".admin-chart", "관리자 수");
+	    createChart("${pageContext.request.contextPath}/rest/worker/status",".worker-chart", "사원 수");
 	});
 	</script>
 
@@ -230,4 +230,4 @@
 
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

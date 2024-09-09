@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%-- header.jsp에 존재하는 내용을 불러오도록 설정 --%>
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
 .btn-my {
@@ -45,7 +45,7 @@
 
 		// 퇴근 여부 확인
 		$.ajax({
-			url : "/rest/worker/getIsGo",
+			url : "${pageContext.request.contextPath}/rest/worker/getIsGo",
 			method : "post",
 			data : {
 				workerNoStr : createdUser
@@ -67,7 +67,7 @@
 		// 출근 여부 확인 함수
 		function checkIsCome() {
 			$.ajax({
-				url : "/rest/worker/getIsCome",
+				url : "${pageContext.request.contextPath}/rest/worker/getIsCome",
 				method : "post",
 				data : {
 					workerNoStr : createdUser
@@ -89,7 +89,7 @@
 		$(".btn-checkIn").click(function(event) {
 			event.preventDefault();
 			$.ajax({
-				url : "/rest/worker/checkIn",
+				url : "${pageContext.request.contextPath}/rest/worker/checkIn",
 				method : "post",
 				data : {
 					workerNo : createdUser
@@ -108,7 +108,7 @@
 		$(".btn-checkOut").click(function(event) {
 			event.preventDefault();
 			$.ajax({
-				url : "/rest/worker/checkOut",
+				url : "${pageContext.request.contextPath}/rest/worker/checkOut",
 				method : "post",
 				data : {
 					workerNo : createdUser
@@ -127,7 +127,7 @@
 	});
 </script>
 <div class="center">
-			<img src="/images/logoVer2.png" style="width: 30%">
+			<img src="${pageContext.request.contextPath}/images/logoVer2.png" style="width: 30%">
 		</div>
 
 <div class="center container w-350 my-50" style="height: 200px">
@@ -151,4 +151,4 @@
 
 
 <%-- footer.jsp에 존재하는 내용을 불러오도록 설정 --%>
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

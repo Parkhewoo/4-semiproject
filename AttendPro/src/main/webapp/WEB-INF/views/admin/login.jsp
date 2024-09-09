@@ -3,7 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- header.jsp에 존재하는 내용을 불러오도록 설정 --%>
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +15,7 @@
 <!--<link rel="stylesheet" type="text/css" href="./test.css">-->
 <link rel="stylesheet" type="text/css"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-<link rel="stylesheet" type="text/css" href="/css/commons.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/commons.css">
 <style>
  .btn-my {
     background-color: #659ad5;
@@ -91,7 +91,7 @@
 			<button type="submit" class="btn btn-my w-100">로그인</button>
 		</div>
 		<div class="between">
-			<a class="blue" href="join">회원가입</a> <a class="blue" href="findPw">비밀번호가 기억나지 않습니다</a>
+			<a class="blue" href="${pageContext.request.contextPath}/join">회원가입</a> <a class="blue" href="${pageContext.request.contextPath}/findPw">비밀번호가 기억나지 않습니다</a>
 		</div>
 		<c:if test="${param.error != null}">
 			<div class="row center">
@@ -104,4 +104,4 @@
 
 
 <%-- footer.jsp에 존재하는 내용을 불러오도록 설정 --%>
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

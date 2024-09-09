@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
     /* 컨테이너 설정 */
@@ -139,17 +139,17 @@
 	
 	<!-- 각종 메뉴를 배치 -->
 	<div class="row center"> 
-       <a href="/admin/password" class="btn btn-my">비밀번호 변경하기</a>       
-       <a href="/admin/change" class="btn btn-my">개인정보 변경하기</a> 
+       <a href="${pageContext.request.contextPath}/admin/password" class="btn btn-my">비밀번호 변경하기</a>       
+       <a href="${pageContext.request.contextPath}/admin/change" class="btn btn-my">개인정보 변경하기</a> 
        <c:if test="${adminDto.adminRank == '일반 관리자'}">
          <c:if test="${companyDto.companyId != null }">
-                   <a href="/admin/company/info?companyId=${sessionScope.createdUser}" class="btn btn-my">회사 상세</a> 
+                   <a href="info?companyId=${sessionScope.createdUser}" class="btn btn-my">회사 상세</a> 
                 </c:if>
                 <c:if test="${companyDto.companyId == null }">
-                   <a href="/admin/company/insert?companyId=${sessionScope.createdUser}" class="btn btn-my">회사 등록</a> 
+                   <a href="${pageContext.request.contextPath}/admin/company/insert?companyId=${sessionScope.createdUser}" class="btn btn-my">회사 등록</a> 
                 </c:if>
        </c:if>
-       <a href="/admin/exit" class="btn btn-my">회원탈퇴</a> 
+       <a href="${pageContext.request.contextPath}/admin/exit" class="btn btn-my">회원탈퇴</a> 
 	 </div>  
       
 </div>
@@ -160,4 +160,4 @@
     }
 </script>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

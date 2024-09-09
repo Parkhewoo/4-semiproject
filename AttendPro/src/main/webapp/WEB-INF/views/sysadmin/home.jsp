@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 
 <style>
@@ -42,17 +42,17 @@
 </style>
 
 <div class="center">
-			<img src="/images/logoVer2.png" style="width: 30%">
+			<img src="${pageContext.request.contextPath}/images/logoVer2.png" style="width: 30%">
 		</div>
 
 <div class="container w-800 my-80">
 
     <div class="row">
-        <h2><a href="list" class="link link-animation">사업주 목록</a></h2>
+        <h2><a href="${pageContext.request.contextPath}/list" class="link link-animation">사업주 목록</a></h2>
     </div>
     <div class="row">
-        <h2><a href="/sysadmin/status" class="link link-animation">데이터베이스 현황</a></h2>
+        <h2><a href="${pageContext.request.contextPath}/sysadmin/status" class="link link-animation">데이터베이스 현황</a></h2>
     </div>
 
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

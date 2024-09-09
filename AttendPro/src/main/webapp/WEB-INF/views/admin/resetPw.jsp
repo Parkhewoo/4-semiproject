@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
 
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
 .row label {
@@ -78,7 +78,7 @@
 		<h1>비밀번호 재설정</h1>
 	</div>
 	
-	<form action="resetPw" method="post" autocomplete="off" class="check-form">
+	<form action="${pageContext.request.contextPath}/resetPw" method="post" autocomplete="off" class="check-form">
 		<input type="hidden" name="certEmail" value="${certDto.certEmail}">
 		<input type="hidden" name="certNumber" value="${certDto.certNumber}">
 		<input type="hidden" name="adminId" value="${adminId}">
@@ -104,4 +104,4 @@
 	</form>
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

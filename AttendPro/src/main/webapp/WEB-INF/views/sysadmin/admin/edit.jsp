@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
     /* 위의 CSS 스타일을 여기에 포함시키세요 */
@@ -119,7 +119,7 @@
             </div>
         </c:when>
         <c:otherwise>
-            <form action="edit" method="post">
+            <form action="${pageContext.request.contextPath}/edit" method="post">
                 <input type="hidden" name="adminId" value="${adminDto.adminId}">
                 <div class="row">
                     <label>사업자 번호*</label>
@@ -149,4 +149,4 @@
     </c:choose>
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

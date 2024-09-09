@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
 .password-finish{
@@ -28,9 +28,9 @@
 	</div>
 	
 	<div class="row center mt-50">
-		<h2><a href="/"  class="btn btn-my">메인페이지로 이동</a></h2>
+		<h2><a href="${pageContext.request.contextPath}/"  class="btn btn-my">메인페이지로 이동</a></h2>
 	</div>
 	
 </div>
 	
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

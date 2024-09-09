@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
     .container {    
@@ -336,13 +336,13 @@
             </c:choose> 
             <div class="row center">
             <h2>휴일</h2>
-            <jsp:include page="/WEB-INF/views/template/calendar.jsp"></jsp:include>
+            <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/calendar.jsp"></jsp:include>
 			</div>
 
        
  			<div class="links">
  				<button class="btn-set">
-              		 <h2><a href="set?companyId=${companyDto.companyId}">회사정보 수정</a></h2>
+              		 <h2><a href="${pageContext.request.contextPath}/set?companyId=${companyDto.companyId}">회사정보 수정</a></h2>
                </button>
     		 </div>
             
@@ -350,4 +350,4 @@
     </c:choose>
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

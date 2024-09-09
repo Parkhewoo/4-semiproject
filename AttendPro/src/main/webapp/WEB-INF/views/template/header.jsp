@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
     <!-- my css -->
-    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/commons.css">
     <!--<link rel="stylesheet" type="text/css" href="/css/test.css">-->
     
     <style>
@@ -89,9 +89,9 @@
     <!-- jquery cdn -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- 내가만든 jQuery 라이브러리 -->
-    <script src="/js/checkbox.js"></script>
-    <script src="/js/confirm-link.js"></script>
-    <script src="/js/multipage.js"></script>
+    <script src="${pageContext.request.contextPath}/js/checkbox.js"></script>
+    <script src="${pageContext.request.contextPath}/js/confirm-link.js"></script>
+    <script src="${pageContext.request.contextPath}/js/multipage.js"></script>
  
  <%--   
      <script type="text/javascript"> -->
@@ -151,7 +151,7 @@
 
         <!-- 헤더 및 메뉴 영역 -->
         <div class="row my-50 flex-box">
-			<jsp:include page="/WEB-INF/views/template/menu.jsp"></jsp:include>
+			<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/menu.jsp"></jsp:include>
         </div>
         
 		<!-- 컨텐츠 영역 -->
@@ -167,12 +167,12 @@
                 (${sessionScope.createdRank})
             </div>
             <div class="row center">
-                <a href="/sysadmin/list" class="link link-animation">
+                <a href="${pageContext.request.contextPath}/sysadmin/list" class="link link-animation">
                     유저 현황 <i class="fa-solid fa-square-arrow-up-right"></i>
                 </a>
             </div>
             <div class="row center">
-                <a href="/admin/logout" class="link link-animation">
+                <a href="${pageContext.request.contextPath}/admin/logout" class="link link-animation">
                     로그아웃 <i class="fa-solid fa-right-from-bracket"></i>
                 </a>
             </div>
@@ -181,16 +181,16 @@
         <c:when test="${sessionScope.createdRank == '일반 관리자'}">
             <!-- 일반관리자인 경우 -->
             <div class="row center">
-                <a href="/admin/mypage">${sessionScope.createdUser} </a><br>
+                <a href="${pageContext.request.contextPath}/admin/mypage">${sessionScope.createdUser} </a><br>
                 (${sessionScope.createdRank})
             </div>
             <div class="row center">
-                <a href="/admin/worker/list" class="link link-animation">
+                <a href="${pageContext.request.contextPath}/admin/worker/list" class="link link-animation">
                     사원정보보기<i class="fa-solid fa-square-arrow-up-right"></i>
                 </a>
             </div>
             <div class="row center">
-                <a href="/admin/logout" class="link link-animation">
+                <a href="${pageContext.request.contextPath}/admin/logout" class="link link-animation">
                     로그아웃<i class="fa-solid fa-right-from-bracket"></i>
                 </a>
             </div>
@@ -198,16 +198,16 @@
         
         <c:otherwise>
         <div class="row center">
-                <a href="/worker/mypage">${sessionScope.createdUser} </a><br>
+                <a href="${pageContext.request.contextPath}/worker/mypage">${sessionScope.createdUser} </a><br>
                 (${sessionScope.createdRank})
             </div>
                     <div class="row center">
-                <a href="/worker/attendance" class="link link-animation">
+                <a href="${pageContext.request.contextPath}/worker/attendance" class="link link-animation">
                     출근기록 보기<i class="fa-solid fa-square-arrow-up-right"></i>
                 </a>
             </div>   
                 <div class="row center">
-                <a href="/worker/logout" class="link link-animation">
+                <a href="${pageContext.request.contextPath}/worker/logout" class="link link-animation">
                     로그아웃<i class="fa-solid fa-right-from-bracket"></i>
                 </a>
             </div>
@@ -219,12 +219,12 @@
         <c:otherwise>
             <!-- 비로그인 시 -->
             <div class="row center">
-                <a href="/admin/login" class="link link-animation">
+                <a href="${pageContext.request.contextPath}/admin/login" class="link link-animation">
                     관리자<i class="fa-solid fa-square-arrow-up-right"></i>
                 </a> 로그인
             </div>
             <div class="row center">
-                <a href="/worker/login" class="link link-animation">
+                <a href="${pageContext.request.contextPath}/worker/login" class="link link-animation">
                     일반회원<i class="fa-solid fa-square-arrow-up-right"></i>
                 </a> 로그인
             </div>

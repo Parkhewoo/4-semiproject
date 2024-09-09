@@ -3,14 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <!-- summernote cdn -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="/editor/editor.css">
-<script src="/editor/editor.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/editor/editor.css">
+<script src="${pageContext.request.contextPath}/editor/editor.js"></script>
 
 <!-- 자바스크립트 코드 작성 영역 -->
 <script type="text/javascript">
@@ -221,7 +221,7 @@
         </c:when>
         <c:otherwise>
             <div class="row reply-section">
-                <form action="write" method="post" autocomplete="off" onsubmit="return validateForm()">
+                <form action="${pageContext.request.contextPath}/qna/write" method="post" autocomplete="off" onsubmit="return validateForm()">
                     <c:if test="${sessionScope.createdRank == '시스템 관리자'}">
                         <!-- qnaNo를 hidden input으로 폼에 포함 -->
                         <input type="hidden" name="qnaTarget" value="${qnaDto.qnaNo}">
@@ -248,18 +248,18 @@
         
         <c:if test="${isLogin}">
             <c:if test="${isOwner && qnaDto.qnaReply == null}">
-                <a class="btn btn-negative" href="edit?qnaNo=${qnaDto.qnaNo}">수정</a>
+                <a class="btn btn-negative" href="${pageContext.request.contextPath}/edit?qnaNo=${qnaDto.qnaNo}">수정</a>
             </c:if>
             <c:if test="${isOwner || isAdmin}">
-                <a class="btn btn-negative" href="delete?qnaNo=${qnaDto.qnaNo}" onclick="return confirmDelete()">삭제</a>
+                <a class="btn btn-negative" href="${pageContext.request.contextPath}/delete?qnaNo=${qnaDto.qnaNo}" onclick="return confirmDelete()">삭제</a>
             </c:if>
         </c:if>
         <c:choose>
         	<c:when test="${sessionScope.createdRank == '일반 관리자'}">
-        	<a class="btn" href="adminList">목록</a>
+        	<a class="btn" href="${pageContext.request.contextPath}/qna/adminList">목록</a>
         	</c:when>
         	<c:otherwise>
-        	<a class="btn" href="list">목록</a>
+        	<a class="btn" href="${pageContext.request.contextPath}/qna/list">목록</a>
         	</c:otherwise>
         </c:choose>
         
@@ -269,7 +269,7 @@
 
 
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>
 
 
 

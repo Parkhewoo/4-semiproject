@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%-- header.jsp에 존재하는 내용을 불러오도록 설정 --%>
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <!--swiper cdn-->
 <link rel="stylesheet"
@@ -260,7 +260,7 @@
 			var btn =this;
 			
 			$.ajax({
-				url:"/rest/cookie/today",
+				url:"${pageContext.request.contextPath}/rest/cookie/today",
 				method:"post",
 				data:{
 					cookieName:"noPopup"
@@ -283,19 +283,19 @@
 				style="display: grid; grid-template-columns: repeat(2, 200px); grid-template-rows: repeat(2, 200px); gap: 5px; justify-content: center;">
 				<!-- 첫 번째 광고 모달 -->
 				<div class="ad-modal1" style="width: 200px; height: 200px;">
-					<img src="/modal/modal1.jpg" style="width: 100%; height: 100%;">
+					<img src="${pageContext.request.contextPath}/modal/modal1.jpg" style="width: 100%; height: 100%;">
 				</div>
 				<!-- 두 번째 광고 모달 -->
 				<div class="ad-modal2" style="width: 200px; height: 200px;">
-					<img src="/modal/modal7.jpg" style="width: 100%; height: 100%;">
+					<img src="${pageContext.request.contextPath}/modal/modal7.jpg" style="width: 100%; height: 100%;">
 				</div>
 				<!-- 세 번째 광고 모달 -->
 				<div class="ad-modal3" style="width: 200px; height: 200px;">
-					<img src="/modal/modal5.jpg" style="width: 100%; height: 100%;">
+					<img src="${pageContext.request.contextPath}/modal/modal5.jpg" style="width: 100%; height: 100%;">
 				</div>
 				<!-- 네 번째 광고 모달 -->
 				<div class="ad-modal4" style="width: 200px; height: 200px;">
-					<img src="/modal/modal6.jpg" style="width: 100%; height: 100%;">
+					<img src="${pageContext.request.contextPath}/modal/modal6.jpg" style="width: 100%; height: 100%;">
 				</div>
 			</div>
 
@@ -317,20 +317,20 @@
 <c:choose>
 	<c:when test="${sessionScope.createdUser != null}">
 		<div class="center">
-			<img src="/images/logoVer2.png" style="width: 30%">
+			<img src="${pageContext.request.contextPath}/images/logoVer2.png" style="width: 30%">
 		</div>
 		<!-- 로그인한 경우  -->
 		<c:choose>
 			<c:when test="${sessionScope.createdRank == '시스템 관리자'}">
 				<div class="container w-600 my-50 home">
 					<div class="row center mt-30">
-						<a href="sysadmin/list">
-						<img src="/images/userList.png" style="width: 85%">
+						<a href="${pageContext.request.contextPath}/sysadmin/list">
+						<img src="${pageContext.request.contextPath}/images/userList.png" style="width: 85%">
 						</a>
 					</div>
 					<div class="row center mt-30">
-						<a href="qna/list">
-						<img src="/images/qna.png" style="width: 85%">
+						<a href="${pageContext.request.contextPath}/qna/list">
+						<img src="${pageContext.request.contextPath}/images/qna.png" style="width: 85%">
 						</a>
 					</div>
 				</div>
@@ -340,23 +340,23 @@
 				<div class="container w-900 my-50 home">
 					<!-- 일반 관리자를 위한 콘텐츠 -->
 					<div class="row  mt-30">
-						<a href="/admin/worker/list">
-						<img src="/images/myWorker.png" style="width: 100%">
+						<a href="${pageContext.request.contextPath}/admin/worker/list">
+						<img src="${pageContext.request.contextPath}/images/myWorker.png" style="width: 100%">
 						</a>
 					</div>
 					<div class="row  mt-30">
-						<a href="admin/company/info?companyId=${sessionScope.createdUser}">
-						<img src="/images/myCompany.png" style="width: 100%">
+						<a href="info?companyId=${sessionScope.createdUser}">
+						<img src="${pageContext.request.contextPath}/images/myCompany.png" style="width: 100%">
 						</a>
 					</div>
 					<div class="row  mt-30">
-						<a href="admin/company/insert?companyId=${sessionScope.createdUser}">
-						<img src="/images/newCompany.png" style="width: 100%">
+						<a href="${pageContext.request.contextPath}/admin/company/insert?companyId=${sessionScope.createdUser}">
+						<img src="${pageContext.request.contextPath}/images/newCompany.png" style="width: 100%">
 						</a>
 					</div>
 					<div class="row  mt-30">
-						<a href="admin/company/set?companyId=${sessionScope.createdUser}">
-					<img src="/images/editCompany.png" style="width: 100%">
+						<a href="${pageContext.request.contextPath}/admin/company/set?companyId=${sessionScope.createdUser}">
+					<img src="${pageContext.request.contextPath}/images/editCompany.png" style="width: 100%">
 						</a>
 					</div>
 				</div>
@@ -367,14 +367,14 @@
 				<div class="container w-600 my-50 home">
 
 					<div class="row center">
-						<a href="/worker/check">
-						<img src="/images/check.png" style="width: 85%">
+						<a href="${pageContext.request.contextPath}/worker/check">
+						<img src="${pageContext.request.contextPath}/images/check.png" style="width: 85%">
 						</a>
 					</div>
 
 					<div class="row center ">
-						<a href="/worker/attendance">
-						<img src="/images/attendanceBtn.png" style="width: 85%">
+						<a href="${pageContext.request.contextPath}/worker/attendance">
+						<img src="${pageContext.request.contextPath}/images/attendanceBtn.png" style="width: 85%">
 						</a>
 					</div>
 
@@ -386,16 +386,16 @@
 	<c:otherwise>
 		<!-- 비로그인시 -->
 		<div class="center">
-			<img src="/images/logoVer2.png" style="width: 30%">
+			<img src="${pageContext.request.contextPath}/images/logoVer2.png" style="width: 30%">
 		</div>
 		<div class="container w-350 my-50">
 			<div class="row mt-30">
 				<button class="btn btn-my w-100"
-					onclick="window.location.href='/admin/login'"><i class="fa-solid fa-arrow-right"></i> 관리자 로그인</button>
+					onclick="window.location.href='${pageContext.request.contextPath}/admin/login'"><i class="fa-solid fa-arrow-right"></i> 관리자 로그인</button>
 			</div>
 			<div class="row mt-30">
 				<button class="btn btn-my w-100"
-					onclick="window.location.href='/worker/login'"><i class="fa-solid fa-arrow-right"></i> 사원 로그인</button>
+					onclick="window.location.href='${pageContext.request.contextPath}/worker/login'"><i class="fa-solid fa-arrow-right"></i> 사원 로그인</button>
 			</div>
 		</div>
 	</c:otherwise>
@@ -404,13 +404,13 @@
 <div class="notice-section">
 <h1>새 소식</h1>
     <div class="notice-header">
-        <a href="/notice/list" class="more-btn">
+        <a href="${pageContext.request.contextPath}/notice/list" class="more-btn">
             공지사항 <i class="fa-solid fa-chevron-right"></i>
         </a>
     </div>
     <c:forEach var="notice" items="${noticeList}">
         <div class="notice-item">
-            <a href="/notice/detail?noticeNo=${notice.noticeNo}">
+            <a href="${pageContext.request.contextPath}/notice/detail?noticeNo=${notice.noticeNo}">
                 <h2><i class="fa-solid fa-caret-right"></i> ${notice.noticeTitle}</h2>
             </a>
             <span class="notice-date">
@@ -438,31 +438,31 @@
 
 				<div class="swiper-slide">
 					<a href="https://www.naver.com"> <img
-						src="images/swipperImage1.jpg"
+						src="${pageContext.request.contextPath}/images/swipperImage1.jpg"
 						style="width: 1120px; height: 220px;">
 					</a>
 				</div>
 				<div class="swiper-slide">
 					<a href="https://www.naver.com"> <img
-						src="images/swipperImage2.jpg"
+						src="${pageContext.request.contextPath}/images/swipperImage2.jpg"
 						style="width: 1120px; height: 220px;">
 					</a>
 				</div>
 				<div class="swiper-slide">
 					<a href="https://www.naver.com"> <img
-						src="images/swipperImage3.jpg"
+						src="${pageContext.request.contextPath}/images/swipperImage3.jpg"
 						style="width: 1120px; height: 220px;">
 					</a>
 				</div>
 				<div class="swiper-slide">
 					<a href="https://www.naver.com"> <img
-						src="images/swipperImage4.jpg"
+						src="${pageContext.request.contextPath}/images/swipperImage4.jpg"
 						style="width: 1120px; height: 220px;">
 					</a>
 				</div>
 				<div class="swiper-slide">
 					<a href="https://www.naver.com"> <img
-						src="images/swipperImage5.jpg"
+						src="${pageContext.request.contextPath}/images/swipperImage5.jpg"
 						style="width: 1120px; height: 220px;">
 					</a>
 				</div>
@@ -482,4 +482,4 @@
 </div>
 
 <%-- footer.jsp에 존재하는 내용을 불러오도록 설정 --%>
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

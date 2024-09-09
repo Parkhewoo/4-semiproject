@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
 .add-finish{
@@ -26,9 +26,9 @@
 			 자유롭게 이용하실 수 있습니다.
 	</div>
 	<div class="row center mt-50">
-		<a href="/admin/worker/list?workerNo=${workerDto.workerNo}"  class="btn btn-my">사원 목록으로 가기</a>
+		<a href="${pageContext.request.contextPath}/admin/worker/list?workerNo=${workerDto.workerNo}"  class="btn btn-my">사원 목록으로 가기</a>
 	</div>
 	
 </div>	
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

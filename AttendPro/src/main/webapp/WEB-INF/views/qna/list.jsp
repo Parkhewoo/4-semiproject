@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
 .field.field-underline, 
@@ -130,7 +130,7 @@
                                 <td>${qnaDto.qnaNo}</td>
                                 <td class="left" style="padding-left:${qnaDto.qnaDepth*15 + 20}px">
                                     <c:if test="${qnaDto.qnaDepth > 0}">
-                                        <img src="/images/reply.png" width="16" height="16">
+                                        <img src="${pageContext.request.contextPath}/images/reply.png" width="16" height="16">
                                     </c:if>
                                     <!-- 제목에 링크를 부여해서 상세 페이지로 이동하도록 구현 -->
                                     <a class="link link-animation" href="detail?qnaNo=${qnaDto.qnaNo}">${qnaDto.qnaTitle}</a>
@@ -161,7 +161,7 @@
     
     <div class="row">
         <!-- 네비게이터 불러오는 코드 -->
-        <jsp:include page="/WEB-INF/views/template/navigator.jsp"/>
+        <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/navigator.jsp"/>
     </div>
 
     <br>
@@ -182,4 +182,4 @@
     
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

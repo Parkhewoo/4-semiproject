@@ -2,14 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <!-- summernote cdn -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="/editor/editor.css">
-<script src="/editor/editor.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/editor/editor.css">
+<script src="${pageContext.request.contextPath}/editor/editor.js"></script>
 
 <!-- 자바스크립트 코드 작성 영역 -->
 <script type="text/javascript">
@@ -48,10 +48,10 @@
         </div>
         <div class="row right">
             <button type="submit" class="btn">작성하기</button>
-            <a class="btn btn-neutral" href="adminList">목록으로</a>
+            <a class="btn btn-neutral" href="${pageContext.request.contextPath}/qna/adminList">목록으로</a>
         </div>
     </div>
     
 </form>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

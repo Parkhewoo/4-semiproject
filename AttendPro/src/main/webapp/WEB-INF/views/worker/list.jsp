@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
     .container {
         width: 100%;
@@ -82,7 +82,7 @@
 </c:choose>
 </div>
 <!-- 검색화면 -->
-<form action="list" method="get" autocomplete="off">
+<form action="${pageContext.request.contextPath}/list" method="get" autocomplete="off">
 <div class="row center">
 	<select name="column">
 		<option value="worker_name">사원명</option>
@@ -129,7 +129,7 @@
 				<c:forEach var="workerDto" items="${list}">
 				<tr>
 					<td>
-						<a href="detail?workerNo=${workerDto.workerNo}">${workerDto.workerName}</a>
+						<a href="${pageContext.request.contextPath}/detail?workerNo=${workerDto.workerNo}">${workerDto.workerName}</a>
 					</td>
 					<td>${workerDto.workerNo}</td>
 					<td>${workerDto.workerRank}</td>
@@ -145,7 +145,7 @@
 			<tfoot>
 				<tr align="right">
 					<td colspan="4">
-						<a href="add">신규등록</a>
+						<a href="${pageContext.request.contextPath}/add">신규등록</a>
 					</td>
 				</tr>
 			</tfoot>
@@ -154,5 +154,5 @@
 </c:choose>
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>
 

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
     .container {
@@ -152,7 +152,7 @@ function showForm(formId) {
 
 function deleteHoliday(companyId, holidayDate) {
     $.ajax({
-        url: '/rest/holi/delete',
+        url: '${pageContext.request.contextPath}/rest/holi/delete',
         type: 'POST',
         data: {
             companyId: companyId,
@@ -171,7 +171,7 @@ function deleteHoliday(companyId, holidayDate) {
 
 function addHoliday(companyId, holidayDate) {
     $.ajax({
-        url: '/rest/holi/add',
+        url: '${pageContext.request.contextPath}/rest/holi/add',
         type: 'POST',
         data: {
             companyId: companyId,
@@ -266,4 +266,4 @@ function addHoliday(companyId, holidayDate) {
     </c:choose>
 
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

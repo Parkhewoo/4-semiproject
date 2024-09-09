@@ -105,7 +105,7 @@ $(document).ready(function() {
     $('#addHolidays').on('click', function() {
         if (selectedDates.length > 0) {
             $.ajax({
-                url: '/rest/holi/addMultiple',
+                url: '${pageContext.request.contextPath}/rest/holi/addMultiple',
                 type: 'POST',
                 data: {
                     companyId: '${companyDto.companyId}',
@@ -139,7 +139,7 @@ $(document).ready(function() {
     $('#removeHolidays').on('click', function() {
         if (selectedDates.length > 0) {
             $.ajax({
-                url: '/rest/holi/deleteMultiple',
+                url: '${pageContext.request.contextPath}/rest/holi/deleteMultiple',
                 type: 'POST',
                 data: {
                     companyId: '${companyDto.companyId}',

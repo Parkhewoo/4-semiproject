@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
 .field.field-underline, .btn.btn-underline {
@@ -106,7 +106,7 @@
 
 	<div class="row right">
 	<c:if test="${sessionScope.createdRank == '시스템 관리자'}">
-		<a href="write" class="btn btn-neutral bounce">글쓰기</a>
+		<a href="${pageContext.request.contextPath}/notice/write" class="btn btn-neutral bounce">글쓰기</a>
 		</c:if>
 	</div>
 
@@ -132,7 +132,7 @@
 						<td>
 							<!-- 제목에 링크를 부여해서 상세 페이지로 이동하도록 구현 --> <a
 							class="link link-animation"
-							href="/notice/detail?noticeNo=${noticeDto.noticeNo}">
+							href="${pageContext.request.contextPath}/notice/detail?noticeNo=${noticeDto.noticeNo}">
 								${noticeDto.noticeTitle} <c:if
 									test="${noticeDto.noticeUtime != null && noticeDto.noticeWtime.before(noticeDto.noticeUtime)}">
 									<span class="modified-tag">(수정됨)</span>
@@ -149,12 +149,12 @@
 
 	<div class="row">
 		<!-- 네비게이터 불러오는 코드 -->
-		<jsp:include page="/WEB-INF/views/template/navigator.jsp" />
+		<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/navigator.jsp" />
 	</div>
 
 	<br>
 	<div class="row center">
-		<form action="list" method="get" autocomplete="off">
+		<form action="${pageContext.request.contextPath}/notice/list" method="get" autocomplete="off">
 			<select name="column" class="field">
 				<option value="notice_title"
 					<c:if test="${param.column == 'notice_title'}">selected</c:if>>제목</option>
@@ -169,4 +169,4 @@
 	</div>
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

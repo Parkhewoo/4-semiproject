@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
     .row {
         margin-bottom: 15px;
@@ -90,7 +90,7 @@
             var isValid = regex.test(adminId);
             if (isValid) {
                 $.ajax({
-                    url: "/rest/admin/checkId",
+                    url: "${pageContext.request.contextPath}/rest/admin/checkId",
                     method: "post",
                     data: { adminId: adminId },
                     success: function(response) {
@@ -450,4 +450,4 @@
         </div>
     </form>
 </div>
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

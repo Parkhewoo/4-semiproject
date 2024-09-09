@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <link rel="stylesheet" type="text/css" href="/css/commons.css">
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
     .container {
@@ -91,7 +91,7 @@
         </c:choose>
     </div>
 
-    <form action="list" method="get" autocomplete="off">
+    <form action="${pageContext.request.contextPath}/list" method="get" autocomplete="off">
         <div class="row center">
             <div class="form-container">
                 <select name="column" class="field w-22">
@@ -125,7 +125,7 @@
                         <c:forEach var="workerDto" items="${list}">
                             <tr>
                                 <td>
-                                    <a href="detail?workerNo=${workerDto.workerNo}" class="link link-animation">${workerDto.workerName}</a>
+                                    <a href="${pageContext.request.contextPath}/detail?workerNo=${workerDto.workerNo}" class="link link-animation">${workerDto.workerName}</a>
                                 </td>
                                 <td>${workerDto.workerNo}</td>
                                 <td>${workerDto.workerRank}</td>
@@ -136,12 +136,12 @@
                 </table>
             </c:otherwise>
         </c:choose>
-    <div class="row center" ><a href="add" class="btn">신규 등록</a> </div>
+    <div class="row center" ><a href="${pageContext.request.contextPath}/add" class="btn">신규 등록</a> </div>
     </div>
 
     <div class="row center">
-        <jsp:include page="/WEB-INF/views/template/navigator.jsp"/>
+        <jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/navigator.jsp"/>
     </div>
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>

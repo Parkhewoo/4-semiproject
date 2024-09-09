@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <!-- summernote cdn -->
 <link
@@ -12,8 +12,8 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="/editor/editor.css">
-<script src="/editor/editor.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/editor/editor.css">
+<script src="${pageContext.request.contextPath}/editor/editor.js"></script>
 
 <!-- 공지글 스타일 -->
 <style>
@@ -208,23 +208,23 @@
 
 		<!-- 공지글 작성 버튼 (시스템 관리자만 가능) -->
 		<c:if test="${isLogin && isAdmin}">
-			<a class="btn btn-positive" href="/notice/write">공지글 작성</a>
+			<a class="btn btn-positive" href="${pageContext.request.contextPath}/notice/write">공지글 작성</a>
 		</c:if>
 
 		<!-- 수정 및 삭제 버튼 (본인 글 또는 시스템 관리자만 가능) -->
 		<c:if test="${isLogin && isOwner}">
 			<a class="btn btn-negative btn-edit"
-				href="edit?noticeNo=${noticeDto.noticeNo}">수정</a>
+				href="${pageContext.request.contextPath}/edit?noticeNo=${noticeDto.noticeNo}">수정</a>
 		</c:if>
 		<c:if test="${isLogin && (isOwner || isAdmin)}">
 			<a class="btn btn-negative btn-delete"
-				href="delete?noticeNo=${noticeDto.noticeNo}">삭제</a>
+				href="${pageContext.request.contextPath}/delete?noticeNo=${noticeDto.noticeNo}">삭제</a>
 		</c:if>
 
 
 		<!-- 목록 버튼 (모든 사용자에게 표시) -->
-		<a class="btn btn-neutral" href="list">목록</a>
+		<a class="btn btn-neutral" href="${pageContext.request.contextPath}/list">목록</a>
 	</div>
 </div>
 
-<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/views/template/footer.jsp"></jsp:include>
