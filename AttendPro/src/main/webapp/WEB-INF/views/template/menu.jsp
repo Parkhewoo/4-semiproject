@@ -16,7 +16,7 @@
         <c:when test="${sessionScope.createdUser != null}">
             <ul class="menu">
             <li>
-            <a href="/">
+            <a href="${pageContext.request.contextPath}/">
             <img src="${pageContext.request.contextPath}/images/mainLogo.png" style="width:75px">
         </a>
             </li>
